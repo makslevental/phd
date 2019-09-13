@@ -29,10 +29,12 @@
 
     \section{Introduction}\label{sec:introduction}
 
-%    what is super resolution?
+    %    what is super resolution?
+    Super resolution (SR) is a collection of methods\footnote{We will often use the verb form "to super resolve"
+    in order to denote the use of one or more such methods.} that augment the resolving power of an imaging system.
     For typical imaging use-cases high resolution images are preferable to low resolution images; higher resolutions are
-    desirable in and of themselves (for purposes of human interpretation or automated analysis) and as inputs to later
-    image processing transformations that can degrage image quality (by virtue of quantization or compression for example).
+    desirable in and of themselves and as inputs to later
+    image processing transformations that can degrade image quality (e.g. by virtue of quantization or compression).
     %
     Here by resolution we mean in particular the ability of the imaging system to distinguish spatial features in
     the image plane rather than the closely related notions of spectral resolution (ability to distinguish frequencies)
@@ -45,31 +47,13 @@
     being distributed $\sim\text{Pois}(\lambda)$ and hence with $\text{SNR} = \sqrt{\lambda}$.}. thwarts that idea.
     Furthermore, while sensor density is primary, secondary effects due to physical optics limit spatial resolution as well;
     the point spread of a lens system, i.e. the impulse response of the system, chromatic aberrations (differing indices of
-    refraction for differing wavelengths of light), and motion blur all function to blur details of the image plane.
-
-    Super resolution (SR) is a collection of methods\footnote{We will often use the verb form "to super resolve"
-    in order to denote the use of one or more such methods.} that augment the resolving power of an imaging system.
+    refraction for differing wavelengths of light), and motion blur all function to erase high frequency details from
+    the image plane.
 
 
-    TherefPractically speaking, there exist hardware and software solutions for increasing the resolution of an imaging
-    system, but owing to a "Ship of Theseus" consideration, we discount such propositions as, for example, increasing
-    the number of pixels per unit area on the imaging sensor, and focus exclusively on software techniques.
-
-%    why is it useful?
-
-%    which domains is it useful in?
-
-%    how is it useful in those domains?
-
-%    not only useful for humans but also machines.
-
-
-    The benefit of enhancing images using super resolution techniques includes not only more pleasing or more readily interpretable images
-    for human consumption but higher quality features for automated learning systems as well.
-    In particular object detection systems trained on super-resolved images outperform those trained on the low
-    resolution originals\cite{effectssuperres}. In domains such as satellite/aerial photography, medical imaging, and facial recognition
-    high-resolution reconstruction of low-resolution samples is eminently useful - in that ab-initio acquisition of
-    high-resolution images is either logistically difficult or impossible due to image apparatus limitations. For example in the
+ In domains such as satellite/aerial photography, medical imaging, and facial recognition
+    high-resolution reconstruction of low-resolution samples is eminently useful, since ab-initio acquisition of
+    high-resolution images is either logistically difficult or impossible due to aforementioned imaging apparatus limitations. For example in the
     instance of satellite imagery, acquisition of high-resolution imagery is primarily hampered by optics and
     physics\footnote{The angular resolution $R$ of a telescope with optical diameter $D = 2.4m$ observing visible light
     ($\sim500nm$) is approximately\cite{doi:10.1080.14786447908639684} \[R  \approx 1.220\frac{\lambda}{D} = 1.220 \frac{500\text{nm}}{2.4\text{m}} \approx 0.06 \text{arcsec}\]
@@ -77,12 +61,20 @@
     exacerbated by diffraction through the atmosphere.}. In contrast, in the cases of medical imaging
     (where procedures are invasive and patient exposure time needs to be minimized\cite{doi:10.1002.cmr.a.21249}) and
     facial recognition (e.g. for purposes of surveillance) the primary challenge is logistics and access to repeat collection
-    opportunities.
+    opportunities. %Therefore techniques that allow for post-facto
 
-    Of particular interest are situations for which imaging sensors
+    The benefit of enhancing images using super resolution techniques includes not only more pleasing or more readily interpretable images
+    for human consumption but higher quality features for automated learning systems as well.
+    In particular object detection systems trained on super-resolved images outperform those trained on the low
+    resolution originals\cite{effectssuperres}. % write more on this
 
-    The typical imaging system today consists of either a semiconductor integrated circuit, of either the
-    charge-coupled device (CCD) or complementary metal-oxide-semiconductor (CMOS) type. The pheno
+    % non sequitur
+
+    Practically speaking, there exist hardware and software solutions for increasing the resolution of an imaging
+    system, but owing to a "Ship of Theseus" consideration, we discount such propositions as, for example, increasing
+    the number of pixels per unit area on the imaging sensor, or replacing the optics, and focus exclusively on software techniques.
+
+
 
 
 
