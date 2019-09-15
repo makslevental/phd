@@ -1,0 +1,48 @@
+%    what is super resolution?
+Super resolution (SR) is a collection of methods\anote{vbsuper} that augment the resolving power of an imaging system.
+%
+Here by resolving power we mean the ability of an imaging device to distinguish distinct but proximal objects in the scene.
+%
+If such objects can be modeled as point sources of light then the resolving power of the imaging system is defined by Rayleigh's criterion: two point sources are considered \textit{resolved} when the first diffraction maximum of one point source (at most) coincides with the first minimum of the other\anote{rayleighscriterion}.
+%
+%
+Such techniques yield high-resolution (HR) images from one or more observed low-resolution (LR) images by restoring omitted fine details and reversing degradations produced by limited resolution imaging systems.
+%
+In the case when a single LR source image is used to construct the HR correspondent the techniques are referred to as single-image-super-resolution (SISR).
+%
+In the case when multiple LR source images are used to construct the HR correspondent the techniques are referred to as multiple-image-super-resolution (MISR).
+%
+For typical imaging use-cases high resolution images are preferable to low resolution images; higher resolutions are
+desirable in and of themselves and as inputs to later image processing transformations that can degrade image quality (e.g.\ by virtue of quantization or compression).
+%
+In theory the resolving power of an imaging system is primarily determined by the number of independent sensor elements that comprise that imaging system (each of which collects a component of the ultimate image).
+%
+Naturally then a way to increase the resolution of such a system is to increase the density of such sensor elements per unit area.
+%
+Unfortunately, and counter-intuitively, since the number of photons incident on each sensor decreases as the sensor shrinks, shot noise thwarts that idea.
+%
+Furthermore, while sensor density is primary, secondary effects due to optics limit spatial resolution as well;
+the point spread of a lens (distortion of a point source due to diffraction and aberrations), chromatic aberrations (distortion due to differing indices of refraction for differing wavelengths of light), and motion blur all function to erase high frequency details from the image.
+
+In domains such as satellite/aerial photography, medical imaging, and facial recognition
+high-resolution reconstruction of low-resolution samples is eminently useful (since ab-initio acquisition of
+high-resolution images is either logistically difficult or impossible due to aforementioned imaging apparatus limitations).
+%
+For example in the instance of satellite imagery, acquisition of high-resolution imagery is primarily hampered by optics and physics\anote{satelliteoptics}.
+%
+In contrast, in the cases of medical imaging (where procedures are invasive and patient exposure time needs to be minimized\cite{doi:10.1002.cmr.a.21249}) and facial recognition (e.g.\ for purposes of surveillance) the primary challenge is logistics and access to repeat collection opportunities.
+%
+The benefit of enhancing images using super resolution techniques includes not only more pleasing or more readily interpretable images for human consumption but higher quality features for automated learning systems as well.
+%
+In particular object detection systems trained on super-resolved images outperform those trained on the low
+resolution originals\cite{effectssuperres}.
+%
+Indeed this our ultimate goal - not super resolution per se but in the service of improved object detection performance.
+%
+Note that practically speaking, there exist hardware and software solutions for increasing the resolution of an imaging
+system, but owing to a "Ship of Theseus" consideration, we discount such propositions.
+%
+Instead taking low resolution images as given we seek techniques that allow for ex post facto imputation of precise details.
+%
+This necessarily constrains our techniques to be algorithmic in principle and software in practice.
+

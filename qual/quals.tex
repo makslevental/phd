@@ -1,8 +1,12 @@
 \documentclass[journal]{IEEEtran}
 %\usepackage[caption=false]{subfig}
+%\usepackage[showframe]{geometry}% http://ctan.org/pkg/geometry
 \usepackage{amssymb}
+\usepackage{sepfootnotes}
+\newfootnotes{a}
+\input{footnotes.tex}
 %\usepackage{textcomp}
-%\usepackage[pdftex]{graphicx}
+\usepackage[pdftex]{graphicx}
 \usepackage[hyperfootnotes=false]{hyperref}\usepackage{amsmath}
 \usepackage[backend=bibtex, style=ieee]{biblatex}
 \addbibresource{quals.bib}
@@ -17,69 +21,28 @@
     \maketitle
 
     \begin{abstract}
-        Super resolution is the process of producing high-resolution images from low-resolution
-        images while preserving ground truth about the subject matter of the images and potentially
-        inferring more such truth. Algorithms that successfully carry out
-        such a process are broadly useful in all circumstances where HR imagery is either difficult or impossible
-        to obtain. In particular we look towards super resolving images collected using longwave infrared (LWIR)
-        cameras; high resolution sensors for such cameras do not currently exist. We present an exposition of
-        motivations and concepts of super resolution in general and current techniques, with a qualitative comparison of
-        such techniques. Finally we suggest directions for future research, in particular with applications to LWIR images.
+        Super resolution is the process of producing high-resolution images from low-resolution images while preserving ground truth about the subject matter of the images and potentially inferring more such truth.
+        %
+        Algorithms that successfully carry out such a process are broadly useful in all circumstances where HR imagery is either difficult or impossible to obtain.
+        %
+        In particular we look towards super resolving images collected using longwave infrared (LWIR) cameras since high resolution sensors for such cameras do not currently exist.
+        %
+        We present an exposition of motivations and concepts of super resolution in general and current techniques, with a qualitative comparison of such techniques.
+        %
+        Finally we suggest directions for future research, in particular with applications to LWIR images.
     \end{abstract}
 
     \section{Introduction}\label{sec:introduction}
-
-    %    what is super resolution?
-    Super resolution (SR) is a collection of methods\footnote{We will often use the verb form "to super resolve"
-    in order to denote the use of one or more such methods.} that augment the resolving power of an imaging system.
-    For typical imaging use-cases high resolution images are preferable to low resolution images; higher resolutions are
-    desirable in and of themselves and as inputs to later
-    image processing transformations that can degrade image quality (e.g. by virtue of quantization or compression).
-    %
-    Here by resolution we mean in particular the ability of the imaging system to distinguish spatial features in
-    the image plane rather than the closely related notions of spectral resolution (ability to distinguish frequencies)
-    or temporal resolution (ability to distinguish motions). In theory the resolving power of an imaging system is
-    primarily determined by the number of independent sensor elements that comprise that imaging system and each of
-    which collects a component of the ultimate image; naturally then a way to increase the resolution of such a system
-    is to increase the density of such sensor elements
-    per unit area. Unfortunately, and counterintuitively, since the number of photons incident on each sensor decreases
-    as the sensor shrinks, Poisson noise\footnote{Otherwise known as shot-noise, this is the result of incoming photons
-    being distributed $\sim\text{Pois}(\lambda)$ and hence with $\text{SNR} = \sqrt{\lambda}$.}. thwarts that idea.
-    Furthermore, while sensor density is primary, secondary effects due to physical optics limit spatial resolution as well;
-    the point spread of a lens system, i.e. the impulse response of the system, chromatic aberrations (differing indices of
-    refraction for differing wavelengths of light), and motion blur all function to erase high frequency details from
-    the image plane.
-
-
- In domains such as satellite/aerial photography, medical imaging, and facial recognition
-    high-resolution reconstruction of low-resolution samples is eminently useful, since ab-initio acquisition of
-    high-resolution images is either logistically difficult or impossible due to aforementioned imaging apparatus limitations. For example in the
-    instance of satellite imagery, acquisition of high-resolution imagery is primarily hampered by optics and
-    physics\footnote{The angular resolution $R$ of a telescope with optical diameter $D = 2.4m$ observing visible light
-    ($\sim500nm$) is approximately\cite{doi:10.1080.14786447908639684} \[R  \approx 1.220\frac{\lambda}{D} = 1.220 \frac{500\text{nm}}{2.4\text{m}} \approx 0.06 \text{arcsec}\]
-    From an altitude of 250 km this corresponds to a ground sample distance of 6cm. This "loss of resolution" is further
-    exacerbated by diffraction through the atmosphere.}. In contrast, in the cases of medical imaging
-    (where procedures are invasive and patient exposure time needs to be minimized\cite{doi:10.1002.cmr.a.21249}) and
-    facial recognition (e.g. for purposes of surveillance) the primary challenge is logistics and access to repeat collection
-    opportunities. %Therefore techniques that allow for post-facto
-
-    The benefit of enhancing images using super resolution techniques includes not only more pleasing or more readily interpretable images
-    for human consumption but higher quality features for automated learning systems as well.
-    In particular object detection systems trained on super-resolved images outperform those trained on the low
-    resolution originals\cite{effectssuperres}. % write more on this
-
-    % non sequitur
-
-    Practically speaking, there exist hardware and software solutions for increasing the resolution of an imaging
-    system, but owing to a "Ship of Theseus" consideration, we discount such propositions as, for example, increasing
-    the number of pixels per unit area on the imaging sensor, or replacing the optics, and focus exclusively on software techniques.
-
-
-
-
-
+    \input{introduction.tex}
 
     \section{Background}\label{sec:background}
+
+    \begin{figure*}
+        \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{images/misr.png}
+        \caption{This is a tiger.}
+    \end{figure*}
+
+
     \section{Classical Algorithms}\label{sec:classical-algorithms}
     \section{Deep Learning Algorithms}\label{sec:deep-learning-algorithms}
     \section{Future Research}\label{sec:future-research}
