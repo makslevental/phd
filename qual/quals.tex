@@ -2,6 +2,7 @@
 %\usepackage[caption=false]{subfig}
 %\usepackage[showframe]{geometry}% http://ctan.org/pkg/geometry
 \usepackage{amssymb}
+\usepackage{wrapfig}
 \usepackage{sepfootnotes}
 \newfootnotes{a}
 \input{footnotes.tex}
@@ -13,6 +14,13 @@
 % Note that the amsmath package sets \interdisplaylinepenalty to 10000
 % thus preventing page breaks from occurring within multiline equations. Use:
 \interdisplaylinepenalty=2500
+
+% fix footnote rule from ieee
+\def\footnoterule{\relax%
+  \kern-5pt
+  \hbox to \columnwidth{\hfill\vrule width 0.5\columnwidth height 0.4pt\hfill}
+  \kern4.6pt}
+
 %\hyphenation{op-tical net-works semi-conduc-tor}
 
 \begin{document}
@@ -37,17 +45,13 @@
 
     \section{Background}\label{sec:background}
 
-    \begin{figure*}
-        \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{images/misr.png}
-        \caption{This is a tiger.}
-    \end{figure*}
-
-
     \section{Classical Algorithms}\label{sec:classical-algorithms}
     \section{Deep Learning Algorithms}\label{sec:deep-learning-algorithms}
     \section{Future Research}\label{sec:future-research}
     \section{Conclusion}\label{sec:conclusion}
-
+    \section{Appendix}\label{sec:appendix}
+    TODO: work out diffraction circular aperture
+    TODO: workout poisson noise
     \section*{Acknowledgments}
     \newpage
     \printbibliography
