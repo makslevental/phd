@@ -1,7 +1,12 @@
 %! Suppress = GatherEquations
+% introduction
 \anotecontent{vbsuper}{We will often use the verb form "to super resolve" in order to denote the use of one or more such methods.}
 \anotecontent{rayleighscriterion}{The amplitude of the diffraction pattern (known as the Airy pattern) of a monochromatic point source through a circular aperture is given by \[I(\theta)=I_{0}\left[{\frac {2J_{1}(ka\sin \theta )}{ka\sin \theta }}\right]^{2}\] where $I_0$ is peak intensity (at the center), $k=\frac{2\pi}{\lambda}$ is the wave number of the light, $\theta$ is the angle of observation, and $J_1$ is the Bessel function of the first kind of order one\cite{goodman2005introduction}. It is maxima/minima of this function that Rayleigh's criterion concerns.}
 \anotecontent{shotnoise}{TODO}
 \anotecontent{satelliteoptics}{Rayleigh's criterion implies that the angular resolution $R$ of a telescope with optical diameter $D = 2.4\text{m}$ observing visible light (${\sim}500\text{nm}$) is approximately\cite{doi:10.1080.14786447908639684} \[R  \approx 1.220\frac{\lambda}{D} = 1.220 \frac{500\text{nm}}{2.4\text{m}} \approx 0.06 \text{arcsec}\] From an altitude of 250 km this corresponds to a ground sample distance of 6cm. This loss of resolving power is further exacerbated by refraction through turbulent atmosphere\cite{Fried:66}.}
 \anotecontent{subpixel}{For example when a point source wholly captured by one sensor element shifts to distributing energy equally amongst the same element and a direct adjacent.}
-
+% background
+\anotecontent{lexico}{Consider an $N$ row $\times$ $M$ column image $x(n, m)$. The lexicographical ordering of the image is the $NM$ length column-wise vectorization of the image: $\bm{X}(Mm + n) = x(n, m)$.}
+\anotecontent{patch}{$k \times k$ pixel window, e.g. $3 \times 3$.}
+\anotecontent{tensor}{A multidimensional array\cite{Goodfellow:2016:DL:3086952}. Not to be confused with the algebraic object.}
+\anotecontent{ccd}{Most consumer digital cameras have charge-coupled device (CCD) sensor elements which, by virtue of the parallel-serial shift register, use pixel-binning. This creates aliasing as a function of the pixel size.}
