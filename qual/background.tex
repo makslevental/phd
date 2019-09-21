@@ -1,5 +1,47 @@
 \subsection{Imaging systems}\label{subsec:imaging-systems}
-TODO: CCD, CMOS, Microbolometer
+\begin{figure}
+    \includegraphics[width=\linewidth,keepaspectratio]{figures/mos_cap.png}
+    \caption{MOS capacitor schematic\cite{semiconductorbook}}
+    \label{fig:mos-cap}
+\end{figure}
+An imaging sensor is a device that converts an optical image into a digital signal.
+%
+Charge-coupled devices (CCD) and complementary metal-oxide-semiconductor (CMOS) devices are the most common imaging sensors; CCDs have better performance while CMOS devices are newer and less expensive.
+%
+Both systems use densely packed two-dimensional arrays of MOS capacitors (see figure~\ref{fig:mos-cap}) with an individual MOS capacitor being the fundamental photon detecting element.
+%
+They differ in how they "read" the arrays and create the correspondent digital signals.
+%
+Both systems read the arrays periodically, one period being called a \textit{frame time}.
+
+Initially MOS capacitors are biased into depletion\anote{depletion}.
+%
+At the beginning of each frame more positive voltage is applied to the gate above the threshold that would invert the Si-SiO$_2$ interface\anote{inversion}.
+%
+Then when light is incident on the depleted region electron-hole pairs, in direct proportion to the intensity of the light, are created and separated by the electric field induced by the applied voltage.
+%
+The so called photo-electrons are collected into a potential well and stored in preparation for counting (see ~\ref{fig:ccd-mos}).
+\begin{figure}
+    \includegraphics[width=\linewidth,keepaspectratio]{figures/potential_well.png}
+    \caption{CCD MOS capacitor\cite{Chun2010AHV}}
+    \label{fig:ccd-mos}
+\end{figure}
+
+%At the beginning of a frame, for each MOS capacitor, a voltage $V_g$ is applied at the gate above the threshold voltage that would ordinarily invert\anote{inversion} the interface between the Si body and the SiO$_2$ (see figure~\ref{fig:inversion}).
+%\begin{figure}
+%    \includegraphics[width=\linewidth,keepaspectratio]{figures/inversion_mos.png}
+%    \caption{MOS capacitor biased into deep-depletion\cite{semiconductorbook}}
+%    \label{fig:inversion}
+%\end{figure}
+%As production of inversion electrons is a slow thermal process this leads to \textit{deep-depletion}\anote{deep-depletion} for some fractions of a second.
+%%
+%If photons are incident on the MOS capacitor during this period photo-generated electron-hole pairs will collect at the interface and the holes will flow through and out of the body.
+%%
+%The number of such holes is proportional to the number of photons (the intensity of the light).
+%
+%
+
+
 \subsection{Mathematical notation}\label{subsec:notation}
 Upper case plain latin $X, Y$ denote channel $\times$ row $\times$ column \textit{tensors}\anote{tensor} representing LR and HR images respectively, with $(0,0)$ corresponding to the top left corner of the image.
 %
@@ -28,7 +70,7 @@ Each such image we call an LR sample.
     \begin{adjustbox}{width=\textwidth}
         \begin{tikzpicture}[auto]
             \tikzstyle{terminal} = [rectangle, draw, text width=5em, text centered, minimum height=4em]
-            \tikzstyle{block} = [rectangle, draw, fill=gray!20, text width=5em, text centered, rounded corners, minimum height=4em]
+            \tikzstyle{block} = [rectangle, draw, fill=gray!20, text width=6em, text centered, rounded corners, minimum height=4em]
             \tikzstyle{line} = [draw, -latex']
             \tikzstyle{sum} = [circle, draw]
 
@@ -57,7 +99,7 @@ Each such image we call an LR sample.
             \node[inner sep=0pt, below = of blur-output, xshift=4mm, yshift=-4mm] {\includegraphics[width=.15\textwidth]{figures/bertrand-blur.png}};
             \node[inner sep=0pt, below = of blur-output, xshift=6mm, yshift=-6mm] {\includegraphics[width=.15\textwidth]{figures/bertrand-blur.png}};
 
-            \node[block, right = of blur-output] (downsample) {Down-sampling with aliasing};
+            \node[block, right = of blur-output] (downsample) {Quantization, Pixel-binning};
             \node [above = of downsample] {Down-sampling};
 
             \node[sum, right = of downsample] (sum2) {$+$};
@@ -91,8 +133,8 @@ Let $Y$ denote an idealized HR image of the scene from some fixed vantage point 
 %
 Formally the $X_k$ are related to $Y$ by
 \begin{equation}
- X_k = (D_k \circ H_k \circ A_k) (Y) + \epsilon
+    X_k = (D_k \circ H_k \circ A_k) (Y) + \epsilon
 \end{equation}
 where for the $k$th sample $A_k$ is the affine transformation representing motion (rigid and perspective shift), $H_k$ represents the composite blur operator (motion and optics blur), $D_k$ represents the down-sampling operator, and $\epsilon$ represents the composite noise (environment and sensor noise).
 %
-In general $A_k, H_k, D_k$ are highly nonlinear functions for which the corresponding inverse problems are ill-posed without regularization and conditioning.
+In general $A_k, H_k, D_k$ are highly degenerate functions for which the corresponding inverse problems are ill-posed without regularization and conditioning.

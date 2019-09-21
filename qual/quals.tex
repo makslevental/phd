@@ -1,4 +1,13 @@
 \documentclass[journal]{IEEEtran}
+
+\renewcommand\thesection{\arabic{section}}
+\renewcommand\thesubsection{\thesection.\arabic{subsection}}
+\renewcommand\thesubsubsection{\thesubsection.\arabic{subsubsection}}
+
+\renewcommand\thesectiondis{\arabic{section}}
+\renewcommand\thesubsectiondis{\thesectiondis.\arabic{subsection}}
+\renewcommand\thesubsubsectiondis{\thesubsectiondis.\arabic{subsubsection}}
+
 \usepackage{amsfonts}
 \usepackage{bm}
 \usepackage{wrapfig}
@@ -19,9 +28,9 @@
 
 % fix footnote rule from ieee
 \def\footnoterule{\relax%
-  \kern-5pt
-  \hbox to \columnwidth{\hfill\vrule width 0.5\columnwidth height 0.4pt\hfill}
-  \kern4.6pt}
+\kern-5pt
+\hbox to \columnwidth{\hfill\vrule width 0.5\columnwidth height 0.4pt\hfill}
+\kern4.6pt}
 
 %\hyphenation{op-tical net-works semi-conduc-tor}
 
