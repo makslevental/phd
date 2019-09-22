@@ -75,6 +75,8 @@ In order to read one row of pixels, a row line is raised high to turn on (close)
 This brings the signals from all the pixels in that row to the shifter register below by way of the column lines.
 %
 The shift register then outputs the values of the pixels.
+%
+This is in fact the source of the "rolling shutter" effect commonly seen in consumer cameras trying to capture high speed scenes.
 \begin{figure}
     \center
     \includegraphics[width=.6\linewidth,keepaspectratio]{figures/cmod.png}
@@ -82,17 +84,31 @@ The shift register then outputs the values of the pixels.
     \label{fig:cmosarray}
 \end{figure}
 
-A microbolometer is a specific type of bolometer used as a detector in a thermal camera.
+A bolometer\anote{bolometer} measures the power of light via a thermistor\anote{thermistor}.
+%
+Microbolometers can be cooled or uncooled.
+%
+Here we consider only uncooled.
+%
 \begin{figure}
     \center
-    \includegraphics[width=\linewidth,keepaspectratio]{figures/microbolometer.png}
-    \caption{Microbolometer\cite{bolometer}}
+    \includegraphics[width=.7\linewidth,keepaspectratio]{figures/microbolometer2.png}
+    \caption{Bridge structure of Honeywell microbolometer\cite{KESIM2014245}}
     \label{fig:microbolometer}
 \end{figure}
 %
-Infrared radiation with wavelengths between 7.5-14 $\mu$m strikes the detector material, heating it, and thus changing its electrical resistance (see figure~\ref{fig:microbolometer}).
+Since microbolometers' resistance changes as a function of their temperature, a key issue in their design is thermal isolation.
 %
-This resistance change is measured and processed into temperatures which can be used to create an image.
+With the maturation of micro-machining techniques (such as for MEMS\anote{mems} devices) over the last some years, two level microbolometers consisting of a thermo-sensitive element suspended above (and insulated from) silicon have been built (see figure~\ref{fig:microbolometer}).
+%
+These pixel packages are evacuated and therefore have good conduction, convection, radiation heat transfer properties.
+%
+The actual thermo-sensitive element in a microbolometer consists of a thermistor, an absorber (which aids in transfer of heat to the thermistor), and a reflector that creates a Fabry–Pérot optical cavity\anote{fabryperot} (typically ${\sim}\lambda/4$\cite{bolometer}) that traps the infrared light.
+%
+Typical materials for the thermistor are vanadium oxide and amorphous silicon owing to their high temperature coefficients of resistance\cite{bolometer} which in effect transform small changes in temperature into large changes in resistance.
+%
+Measurements of the thermistor are performed by a read-out integrated circuit adjacent to the bridge in the silicon substrate.
+
 
 \subsection{Mathematical notation}\label{subsec:notation}
 Upper case plain latin $X, Y$ denote channel $\times$ row $\times$ column \textit{tensors}\anote{tensor} representing LR and HR images respectively, with $(0,0)$ corresponding to the top left corner of the image.
