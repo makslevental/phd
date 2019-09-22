@@ -1,31 +1,54 @@
 \subsection{Imaging systems}\label{subsec:imaging-systems}
 \begin{figure}
-    \includegraphics[width=\linewidth,keepaspectratio]{figures/mos_cap.png}
-    \caption{MOS capacitor schematic\cite{semiconductorbook}}
+    \includegraphics[width=\linewidth,keepaspectratio]{figures/bccd.png}
+    \caption{CCD buried channel MOS capacitor\cite{finaltestguideline}}
     \label{fig:mos-cap}
 \end{figure}
 An imaging sensor is a device that converts an optical image into a digital signal.
 %
 Charge-coupled devices (CCD) and complementary metal-oxide-semiconductor (CMOS) devices are the most common imaging sensors; CCDs have better performance while CMOS devices are newer and less expensive.
-%
-Both systems use densely packed two-dimensional arrays of MOS capacitors (see figure~\ref{fig:mos-cap}) with an individual MOS capacitor being the fundamental photon detecting element.
-%
-They differ in how they "read" the arrays and create the correspondent digital signals.
-%
-Both systems read the arrays periodically, one period being called a \textit{frame time}.
 
-Initially MOS capacitors are biased into depletion\anote{depletion}.
+CCDs use densely packed two-dimensional arrays of buried channel\anote{buriedchannel} MOS capacitors (see figure~\ref{fig:mos-cap}) with an individual MOS capacitor being the fundamental photon detecting element.
 %
-At the beginning of each frame more positive voltage is applied to the gate above the threshold that would invert the Si-SiO$_2$ interface\anote{inversion}.
+Individual MOS capacitors are biased by a gate voltage such that a signal electron trap (potential well) is produced in the n-type silicon (referred to as the n-channel).
 %
-Then when light is incident on the depleted region electron-hole pairs, in direct proportion to the intensity of the light, are created and separated by the electric field induced by the applied voltage.
+When the array is illuminated some of the light is reflected, some is absorbed by the gate, and the rest if transmitted into the silicon.
 %
-The so called photo-electrons are collected into a potential well and stored in preparation for counting (see ~\ref{fig:ccd-mos}).
+While the absorption coefficients of poly-silicon are fairly high ($4\times 10^4\text{cm}^{-1}$ at 450nm and $1.2\times 10^4\text{cm}^{-1}$ at 550nm) alternative electrode materials exist with better transmission coefficients\cite{Bass:2009:HOT:1594759}.
+%
+The photons that are transmitted interact with electrons in the valence band of the silicon and excite them into the conduction band, thereby creating electron-hole pairs that either scatter or recombine.
+%
+For high-quality silicon, the lifetime of such a pair is several milliseconds (before recombination)\cite{scientificccd}.
+%
+Of those that scatter the electrons move by diffusion into the electron trap while the holes migrate to the substrate (i.e. out of the capacitor).
+
+CCD arrays consist of two sub-arrays: and image section and a readout section.
+%
+The image section is arranged with every third stripe of electrode tied electrically to form three sets of equipotentials.
 \begin{figure}
-    \includegraphics[width=\linewidth,keepaspectratio]{figures/potential_well.png}
-    \caption{CCD MOS capacitor\cite{Chun2010AHV}}
-    \label{fig:ccd-mos}
+    \includegraphics[width=\linewidth,keepaspectratio]{figures/ccd_array.png}
+    \caption{CCD array\cite{pawley1995handbook}}
+    \label{fig:ccd-array}
 \end{figure}
+%
+In figure ~\ref{fig:ccd-array} these equipotentials are labeled $\Phi1, \Phi2, \Phi3$, and taken together constitute a vertical register (VR).
+%
+They function to move the collected charge down one line at a time, using charge coupling, while the channel stops function to prevent diffusion of charge across channels.
+%
+The VR mechanism that moves collected charge functions like this:
+\begin{enumerate}
+    \item Suppose initially there's a collection of charge on each channel at $\Phi1$ and only $\Phi1$. Note this means $\Phi2$ is at Ov (again just as in figure ~\ref{fig:mos-cap}).
+    \item $\Phi2$ is positively biased to 10V. This diffuses the collection of charge under both $\Phi1$ and $\Phi2$.
+    \item $\Phi1$ is set to 0v. This concentrates the collection of charge under $\Phi2$.
+    \item The same process is repeated with $\Phi2, \Phi3$ and $\Phi3, \Phi1$.
+    \item Goto step 1.
+\end{enumerate}
+At the bottom of the image section $\Phi3$ transfers all signal charges to the horizontal register (HR) which functions much like the VR except much faster: the HR must transfer every line independently of all other lines to the read-out node. For a given image the first pixel read at the read-out node is the bottom-right pixel and the last pixel read is the top-left pixel.
+
+CMOS sensors use
+CMOS sensors do not shift charges from row to row; in a CMOS sensor the charge collected in one capacitor is converted to voltage by a circuit integrated into that array element.
+
+
 
 %At the beginning of a frame, for each MOS capacitor, a voltage $V_g$ is applied at the gate above the threshold voltage that would ordinarily invert\anote{inversion} the interface between the Si body and the SiO$_2$ (see figure~\ref{fig:inversion}).
 %\begin{figure}
