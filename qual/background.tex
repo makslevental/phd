@@ -4,27 +4,29 @@
     \caption{CCD buried channel MOS capacitor\cite{finaltestguideline}}
     \label{fig:mos-cap}
 \end{figure}
-An imaging sensor is a device that converts an optical image into a digital signal.
+We begin with a practical discussion of imaging systems. An imaging sensor is a device that converts an optical image into a digital signal.
 %
 Charge-coupled devices (CCD) and complementary metal-oxide-semiconductor (CMOS) devices are the most common imaging sensors; CCDs have better performance while CMOS devices are newer and less expensive.
 %
-A third type that's of particular interest to us is the microbolometer, which is used as a detector in thermal cameras.
+A third type that's of particular interest to us is the microbolometer, which is used as a sensor in thermal cameras.
 
 CCDs consist of densely packed two-dimensional arrays of buried channel\anote{buriedchannel} MOS capacitors (see figure~\ref{fig:mos-cap}) with an individual MOS capacitor being the fundamental photon detecting element.
 %
-Individual MOS capacitors are biased by a gate voltage such that a signal electron trap (potential well) is produced in the n-type silicon (referred to as the n-channel).
+Individual MOS capacitors are biased by a gate voltage such that a potential well is produced in the n-type silicon (referred to as the n-channel).
 %
-When the array is illuminated some of the light is reflected, some is absorbed by the gate, and the rest if transmitted into the silicon.
+This potential well acts as a storage system for charge induced by the inner photoelectric effect\anote{innerphotoelectric}.
 %
-While the absorption coefficients of poly-silicon are fairly high ($4\times 10^4\text{cm}^{-1}$ at 450nm and $1.2\times 10^4\text{cm}^{-1}$ at 550nm) alternative electrode materials exist with better transmission coefficients\cite{Bass:2009:HOT:1594759}.
+When photons are incident on a MOS capacitor some of the photons are absorbed, some are scattered, and some are transmitted.
 %
-The photons that are transmitted interact with electrons in the valence band of the silicon and excite them into the conduction band, thereby creating electron-hole pairs that either scatter or recombine.
+Those photons that are transmitted interact with electrons in the valence band of the silicon exciting them into the conduction band, and thereby create electron-hole pairs that either diffuse or recombine.
 %
 For high-quality silicon, the lifetime of such a pair is several milliseconds (before recombination)\cite{scientificccd}.
 %
-Of those that scatter the electrons move by diffusion into the electron trap while the holes migrate to the substrate (i.e. out of the capacitor).
+The electrons of the electron-hole pairs that do not recombine diffuse into the potential well, while the holes migrate to the grounded substrate (i.e. out of the sensor).
+%
+Electrons created in this way are called \textit{photoelectrons}.
 
-CCD arrays consist of two sub-arrays: and image section and a readout section.
+CCD arrays consist of two sub-arrays: an image section and a readout section (see figure~\ref{fig:ccd-array}).
 %
 The image section is arranged with every third stripe of electrode tied electrically to form three sets of equipotentials.
 \begin{figure}
@@ -33,19 +35,27 @@ The image section is arranged with every third stripe of electrode tied electric
     \label{fig:ccd-array}
 \end{figure}
 %
-In figure ~\ref{fig:ccd-array} these equipotentials are labeled $\Phi1, \Phi2, \Phi3$, and taken together constitute a vertical register (VR).
+In figure~\ref{fig:ccd-array} these equipotentials are labeled $\Phi1, \Phi2, \Phi3$, and taken together constitute a vertical register (VR).
 %
-They function to move the collected charge down one line at a time, using charge coupling, while the channel stops function to prevent diffusion of charge across channels.
+They function to move the collected photoelectrons down one electrode line at a time, using charge coupling, while the channel stops function to prevent diffusion of charge across channels.
 %
-The VR mechanism that moves collected charge functions like this:
+The VR mechanism that shifts collected charge operates as such:
 \begin{enumerate}
-    \item Suppose initially there's a collection of charge on each channel at $\Phi1$ and only $\Phi1$. Note this means $\Phi2$ is at $0$v (again just as in figure ~\ref{fig:mos-cap}).
+    \item Suppose initially there's a collection of photoelectrons on each channel at $\Phi1$ and only $\Phi1$. Note this means $\Phi2, \Phi3$ are at $0$v (again just as in figure ~\ref{fig:mos-cap}).
     \item $\Phi2$ is positively biased to $10$V. This diffuses the collection of charge under both $\Phi1$ and $\Phi2$.
     \item $\Phi1$ is set to $0$v. This concentrates the collection of charge under $\Phi2$.
-    \item The same process is repeated with $\Phi2, \Phi3$ and $\Phi3, \Phi1$.
-    \item Goto step 1.
+    \item The same is repeated with $\Phi2, \Phi3$ and $\Phi3, \Phi1$.
+    \item The entire process repeats thereby shifting the charge three lines (or one pixel row) at a time.
 \end{enumerate}
-At the bottom of the image section $\Phi3$ transfers all signal charges to the horizontal register (HR) which functions much like the VR except much faster: the HR must transfer every line independently of all other lines to the read-out node. For a given image the first pixel read at the read-out node is the bottom-right pixel and the last pixel read is the top-left pixel.
+At the bottom of the image section $\Phi3$ transfers all signal charges to the horizontal register (HR) which functions much like the VR except faster: the HR must transfer every line of pixels independently of all other lines to the read-out node.
+%
+An obvious challenge faced by this system is how to prevent errant charge from accumulating out of sync with the shift process i.e. how to prevent new photoelectrons from being produced at intermediate lines while far lines are being shifted.
+%
+The solution is to have interstitial dedicated shift channels in between columns of sensors, with the shift channels being masked off from exposure to light.
+%
+This type of reading is called \textit{interline transfer} because the accumulated charge is first moved one line over, into the shift channels.
+%
+Naturally interline transfer shrinks photosensitive area by half and despite possible solutions (e.g micro-lenses being used to focus most of the light onto the unmasked sensors) this is one of the drawbacks of CCDs that CMOS imaging systems do not share.
 
 CMOS sensors consist of arrays of photodiodes (see figure~\ref{fig:photodiode.png}).
 \begin{figure}
@@ -66,9 +76,9 @@ This establishes a \textit{photocurrent} that can be read by a reading circuit (
     \caption{Three transistor "pixel". M\textsubscript{rst} is the reset transistor (enabling the photodiode to dump charge), M\textsubscript{sf} buffers the charge on the photodiode (so that it can be read without loss), and M\textsubscript{sel} enables a whole row of pixels to be read simultaneously (since all pixels in a physical row are tied to the same row line).}
     \label{fig:3tpixel}
 \end{figure}
-CMOS sensor arrays do not shift the charge from row to row.
+CMOS sensor arrays do not shift the charge from row to row like CCD arrays.
 %
-In a CMOS sensor array, each pixel contains a transistor M\textsubscript{sel} controlled by the voltages applied across a row (see figure~\ref{fig:cmosarray}).
+In a CMOS sensor array, each pixel contains a transistor M\textsubscript{sel} controlled by the voltage applied across a row (see figure~\ref{fig:cmosarray}).
 %
 In order to read one row of pixels, a row line is raised high to turn on (close) all the M\textsubscript{sel} transistors in the row.
 %
@@ -76,7 +86,11 @@ This brings the signals from all the pixels in that row to the shifter register 
 %
 The shift register then outputs the values of the pixels.
 %
-This is in fact the source of the "rolling shutter" effect commonly seen in consumer cameras trying to capture high speed scenes.
+The high number of transistors needed per pixel in CMOS arrays has only recenty been manageable for semiconductor foundries.
+%
+This, along with such artifacts as the "rolling shutter" effect produced by rowline reading, are some of the drawbacks of CMOS arrays relative to CCD arrays.
+%
+Despite this CMOS arrays have become the most common imaging system in consumer goods such as cell phones and digital cameras due to their relatively simple mechanics.
 \begin{figure}
     \center
     \includegraphics[width=.6\linewidth,keepaspectratio]{figures/cmod.png}
@@ -84,11 +98,9 @@ This is in fact the source of the "rolling shutter" effect commonly seen in cons
     \label{fig:cmosarray}
 \end{figure}
 
-A bolometer\anote{bolometer} measures the power of light via a thermistor\anote{thermistor}.
+Both CCD arrays and CMOS arrays only capture visible light.
 %
-Microbolometers can be cooled or uncooled.
-%
-Here we consider only uncooled.
+A microbolometer, on the other hand, measures the power in the infrared by exposing a thermistor\anote{thermistor} to the incident light.
 %
 \begin{figure}
     \center
@@ -97,18 +109,25 @@ Here we consider only uncooled.
     \label{fig:microbolometer}
 \end{figure}
 %
-Since microbolometers' resistance changes as a function of their temperature, a key issue in their design is thermal isolation.
+Since a thermistor's resistance changes as a function of its temperature, a key issue in the design of a microbolometer is the thermal isolation of the thermistor.
 %
-With the maturation of micro-machining techniques (such as for MEMS\anote{mems} devices) over the last some years, two level microbolometers consisting of a thermo-sensitive element suspended above (and insulated from) silicon have been built (see figure~\ref{fig:microbolometer}).
+With the maturation of micro-machining techniques (such as for MEMS\anote{mems} devices) over the last some years, two level microbolometers consisting of a thermo-sensitive component suspended above (and insulated from) silicon have been built (see figure~\ref{fig:microbolometer}).
 %
 These pixel packages are evacuated and therefore have good conduction, convection, radiation heat transfer properties.
 %
-The actual thermo-sensitive element in a microbolometer consists of a thermistor, an absorber (which aids in transfer of heat to the thermistor), and a reflector that creates a Fabry–Pérot optical cavity\anote{fabryperot} (typically ${\sim}\lambda/4$\cite{bolometer}) that traps the infrared light.
+The actual thermo-sensitive component consists of a thermistor, an absorber (which aids in transfer of heat to the thermistor), and a reflector that creates a Fabry–Pérot optical cavity\anote{fabryperot} (typically ${\sim}\lambda/4$\cite{bolometer}) that traps the infrared light.
 %
-Typical materials for the thermistor are vanadium oxide and amorphous silicon owing to their high temperature coefficients of resistance\cite{bolometer} which in effect transform small changes in temperature into large changes in resistance.
+Typical materials for the thermistor are vanadium oxide and amorphous silicon owing to their high temperature coefficients of resistance\cite{bolometer}, which in effect transform small changes in temperature into large changes in resistance.
 %
 Measurements of the thermistor are performed by a read-out integrated circuit adjacent to the bridge in the silicon substrate.
+%
+All told microbolometers are designed much differently from either CCD or CMOS arrays.
+%
+It is as a result of this fact that high-resolution infrared cameras are not available.
 
+Across all of these imaging systems there are ample avenues for the introductions of the kinds of errors that degrade image quality and across all of these imaging systems there are structures that impose limitations on resolving power.
+%
+With that in mind we now proceed to formalizing the problem of super-resolution.
 
 \subsection{Mathematical notation}\label{subsec:notation}
 Upper case plain latin $X, Y$ denote channel $\times$ row $\times$ column \textit{tensors}\anote{tensor} representing LR and HR images respectively, with $(0,0)$ corresponding to the top left corner of the image.
@@ -205,4 +224,8 @@ Formally the $X_k$ are related to $Y$ by
 \end{equation}
 where for the $k$th sample $A_k$ is the affine transformation representing motion (rigid and perspective shift), $H_k$ represents the composite blur operator (motion and optics blur), $D_k$ represents the down-sampling operator, and $\epsilon$ represents the composite noise (environment and sensor noise).
 %
-In general $A_k, H_k, D_k$ are highly degenerate functions for which the corresponding inverse problems are ill-posed without regularization and conditioning.
+The challenge of super-resolution is to solve the inverse problem of finding $Y$ from one or several $X_k$.
+%
+In general, since $A_k, H_k, D_k$ are highly degenerate functions, the corresponding inverse problems are ill-posed without regularization and conditioning.
+%
+The techniques that have been brought to bear on the problem range from interpolation to statistical estimation to example based learning.
