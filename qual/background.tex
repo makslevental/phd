@@ -102,7 +102,7 @@ Both CCD arrays and CMOS arrays only capture visible light.
 %
 A microbolometer, on the other hand, measures the power in the infrared by exposing a thermistor\anote{thermistor} to the incident light.
 %
-\begin{figure}
+\begin{figure}[b]
     \center
     \includegraphics[width=.7\linewidth,keepaspectratio]{figures/microbolometer2.png}
     \caption{Bridge structure of Honeywell microbolometer\cite{KESIM2014245}}
@@ -222,8 +222,99 @@ Formally the $X_k$ are related to $Y$ by
 \begin{equation}
     X_k = (D_k \circ H_k \circ A_k) (Y) + \epsilon
 \end{equation}
-where for the $k$th sample $A_k$ is the affine transformation representing motion (rigid and perspective shift), $H_k$ represents the composite blur operator (motion and optics blur), $D_k$ represents the down-sampling operator, and $\epsilon$ represents the composite noise (environment and sensor noise).
+where for the $k$th sample $A_k$ is the optical flow\anote{opticalflow} operator representing motion (rigid and perspective shift), $H_k$ represents the blur operator, $D_k$ represents the down-sampling operator, and $\epsilon$ represents the composite noise (environment and sensor noise). We now consider the challenges and nuances of estimating motion and optical blur.
+
+In general, for a static 3-D scene and an imaging system with 6 degrees of freedom, the 2-D optical flow caused by motion is dependent on the geometry of the 3-D scene and potentially nonlinear (due to occlusion and motion parallax).
 %
+This pertains to multiple image registration (alignment on a common pixel grid) for MISR where we seek to relate $X_{k+1}$ to $X_k$:
+\begin{equation*}
+    X_{k+1}(x,y) = X_k(x + v_x(x,y), y + v_y(x,y))
+\end{equation*}
+%
+For small motions we can approximate $X_k$ by its first order Taylor series:
+\begin{align}
+    X_{k+1}(x,y) &= X_k(x + v_x(x,y), y + v_y(x,y)) \nonumber \\
+    &\approx X_k(x,y) + v_x(x,y)\frac{\partial X_k}{\partial x} + v_y(x,y)\frac{\partial X_k}{\partial y}\label{eqn:opticalflowtaylor}
+\end{align}
+Evaluating~\ref{eqn:opticalflowtaylor} at every pixel gives a set of linear equations that enable us to fit one of the models in table~\ref{table:flow}.
+%
+We focus on affine flow primarily because it is easy to estimate and secondarily because the composition of multiple affine transformations is an affine transformation (enabling us to register more than 2 images by building up the necessary transformations incrementally).
+%
+Note that for nonstatic scenes the registration problem becomes "exponentially" more difficult (many, many more parameters need to be estiamted).
+%
+Furthermore registration and super resolution are not independent since the data being used to estimate the registration transforms is blurry and noisy; to wit perfectly resolved images could be much more efficiently registered.
+\begin{table*}
+    \begin{center}
+        \begin{tabular}{ llp{5cm} }
+            Flow Type & Model & When Applicable \\
+            \\
+            \hline
+            \\
+            Affine & {$\begin{aligned}
+                           v_x(x,y) &= p_1 x + p_2 y + p_3 \\
+                           v_y(x,y) &= p_4 x + p_5 y + p_6
+            \end{aligned}$} & Planar scene with orthographic projection \\
+            \\
+            Planar Projective & {$\begin{aligned}
+                                      v_x(x,y) &= \frac{p_1+p_2 x + p_3 y}{p_7 + p_8 x + p_9 y} - x\\
+                                      v_y(x,y) &= \frac{p_4+p_5 x + p_6 y}{p_7 + p_8 x + p_9 y} - y\\
+            \end{aligned}$} & Planar scene with full prospective projection \\
+            \\
+            Quadratic & {$\begin{aligned}
+                              v_x(x,y) &= \omega_Z y + \frac{\omega_X xy}{l} - \frac{\omega_Y x^2}{l} - \omega_Y l \\
+                              &\approx p_1 y + p_2 xy + p_3 x^2 + p_4 \\
+                              v_y(x,y) &= -\omega_Z x - \frac{\omega_Y xy}{l} + \frac{\omega_X y^2}{l} + \omega_X l \\
+                              &\approx p_5 y + p_6 xy + p_7 x^2 + p_8 \\
+                              &
+            \end{aligned}$} & Approximate for prospective projection with only $\omega_X, \omega_Y, \omega_Z$ euler angle rotations ($l$ is focal length) \\
+            \\
+            Quadratic & {$\begin{aligned}
+                              v_x(x,y) &\approx p_1 x + p_2 y + p_3 x^2 + p_4 xy + p_5 \\
+                              v_y(x,y) &\approx p_6 x + p_7 y + p_8 y^2 + p_9 xy + p_{10} \\
+                              &
+            \end{aligned}$} & Approximate for planar scene with full prospective projection\\
+            \\
+        \end{tabular}
+    \end{center}
+    \caption{Optical flow models\cite{Trucco:1998:ITC:551277}. Note $x,y$ are pixel coordinates and $p_i$ are parameters that need to be estimated.}
+    \label{table:flow}
+\end{table*}
+
+In general the optical transfer function (OTF) characterizes the blur of an imaging system\anote{otf}.
+%
+We factor the OTF into three components:
+\begin{equation}
+    H(u, v) = H_{\text{diff}}(u,v) H_{\text{abr}}(u,v) H_{\text{int}} (u,v)
+\end{equation}
+where $u,v$ are horizontal and vertical spatial frequencies respectively (measured in cycles/mm), $H_{\text{diff}}$ is blur due to diffraction, $H_{\text{abr}}$ is blur due to lens aberations, and $H_{\text{int}}$ is blur due to imaging sensor integration\anote{sensorintegration} (obtained by taking the Fourier transform of the shape an individual sensor in the imaging array).
+%
+Blur due to diffraction in most imaging systems is due to diffraction through a circular aperture\cite{goodman2005introduction}:
+\begin{equation*}
+    H_{\text{diff}}(u,v) =   \begin{cases}
+                                 \frac{2}{\pi} \left(\frac{1}{\cos(\tau)} - \tau \sqrt{1-\tau^2}\right) & \text{if } \tau < 0 \\
+                                 0 & \text{otherwise}
+    \end{cases}
+\end{equation*}
+where $\tau = \rho/\rho_c$, $\rho=\sqrt{u^2 +v^2}$, $\rho_c = 1/\lambda N$ is the radial cutoff frequency, $N$ is the f-number of the optics, and $\lambda$ is the wavelength of light being diffracted.
+%
+This is in fact the filter that produces the Airy pattern and therefore informs sensor array spacing in order to avoid aliasing.
+%
+Wavelength independent blurring due to aberrations can be caused by various imperfections in the lenses such as spherical aberration, comatic aberration\anote{coma}, or astigmatism. Furthermore dispersion\anote{dispersion} blurs particulars wavelengths of light. A good model for all of these effects is\cite{10.1117.12.946501}:
+\begin{equation*}
+    H_{\text{abr}}(u,v) =   \begin{cases}
+                                 1-\left(\frac{25}{65}\right)^2 \left(1-4\left(\tau - \frac{1}{2}\right)\right)^2& \text{if } \tau < 0 \\
+                                 0 & \text{otherwise}
+    \end{cases}
+\end{equation*}
+Figure~\ref{fig:mtf} shows an example OTF for an imaging system with a sensor spacing of 0.050 mm and therefore sampling frequency of 20 cycles/mm and $\rho_c = 83.3~\text{cyc}/\text{mm}$ ($F=3$ and $\lambda = 4\mu\text{m}$ i.e. near infrared).
+%
+Notice that $\rho_c$ is much greater than the Nyquist rate ($\frac{1}{2} \times 20~\text{cyc}/\text{mm} = 10~\text{cyc}/\text{mm}$) and so many frequencies that are within the cutoff will be aliased. This in particular can be mitigated by effectively increasing sampling rate using MISR. Notice also that like a typical transfer function the OTF is not flat and therefore attenuates high spatial frequencies. Applying gain to the image wouldn't solve the attentuation problems because of aliasing but likewise this can be resolved after the effective sampling rate is increased using MISR.
+\begin{figure}
+    \includegraphics[width=\linewidth,keepaspectratio]{figures/mtf.png}
+    \caption{OTF magnitude cross-section for\cite{milanfar2017super}}
+    \label{fig:mtf}
+\end{figure}
+
 The challenge of super-resolution is to solve the inverse problem of finding $Y$ from one or several $X_k$.
 %
 In general, since $A_k, H_k, D_k$ are highly degenerate functions, the corresponding inverse problems are ill-posed without regularization and conditioning.
