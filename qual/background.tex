@@ -222,11 +222,11 @@ Formally the $X_k$ are related to $Y$ by
 \begin{equation}
     X_k = (D_k \circ H_k \circ A_k) (Y) + \epsilon
 \end{equation}
-where for the $k$th sample $A_k$ is the optical flow\anote{opticalflow} operator representing motion (rigid and perspective shift), $H_k$ represents the blur operator, $D_k$ represents the down-sampling operator, and $\epsilon$ represents the composite noise (environment and sensor noise). We now consider the challenges and nuances of estimating motion and optical blur.
+where for the $k$th sample $A_k$ is the optical flow\anote{opticalflow} operator representing motion (rigid and perspective shift), $H_k$ represents the blur operator, $D_k$ represents the down-sampling operator, and $\epsilon$ represents the composite noise (environment and sensor noise). We now consider the challenges and nuances of estimating motion and blur.
 
 In general, for a static 3-D scene and an imaging system with 6 degrees of freedom, the 2-D optical flow caused by motion is dependent on the geometry of the 3-D scene and potentially nonlinear (due to occlusion and motion parallax).
 %
-This pertains to multiple image registration (alignment on a common pixel grid) for MISR where we seek to relate $X_{k+1}$ to $X_k$:
+This pertains (see figure~\ref{fig:misr}) to multiple image registration (alignment on a common pixel grid) for MISR where we seek to relate $X_{k+1}$ to $X_k$:
 \begin{equation*}
     X_{k+1}(x,y) = X_k(x + v_x(x,y), y + v_y(x,y))
 \end{equation*}
@@ -286,7 +286,7 @@ We factor the OTF into three components:
 \begin{equation}
     H(u, v) = H_{\text{diff}}(u,v) H_{\text{abr}}(u,v) H_{\text{int}} (u,v)
 \end{equation}
-where $u,v$ are horizontal and vertical spatial frequencies respectively (measured in cycles/mm), $H_{\text{diff}}$ is blur due to diffraction, $H_{\text{abr}}$ is blur due to lens aberations, and $H_{\text{int}}$ is blur due to imaging sensor integration\anote{sensorintegration} (obtained by taking the Fourier transform of the shape an individual sensor in the imaging array).
+where $u,v$ are horizontal and vertical spatial frequencies respectively (measured in cycles/mm), $H_{\text{diff}}$ is blur due to diffraction, $H_{\text{abr}}$ is blur due to lens aberations, and $H_{\text{int}}$ is blur due to imaging sensor shape (obtained by taking the Fourier transform of the shape an individual sensor in the imaging array).
 %
 Blur due to diffraction in most imaging systems is due to diffraction through a circular aperture\cite{goodman2005introduction}:
 \begin{equation*}
@@ -299,7 +299,7 @@ where $\tau = \rho/\rho_c$, $\rho=\sqrt{u^2 +v^2}$, $\rho_c = 1/\lambda N$ is th
 %
 This is in fact the filter that produces the Airy pattern and therefore informs sensor array spacing in order to avoid aliasing.
 %
-Wavelength independent blurring due to aberrations can be caused by various imperfections in the lenses such as spherical aberration, comatic aberration\anote{coma}, or astigmatism. Furthermore dispersion\anote{dispersion} blurs particulars wavelengths of light. A good model for all of these effects is\cite{10.1117.12.946501}:
+Wavelength independent blurring due to aberrations can be induced by various imperfections in the lenses such as spherical aberration, comatic aberration\anote{coma}, or astigmatism. Furthermore, dispersion\anote{dispersion} blurs particulars wavelengths of light. A good model for all of these effects is\cite{10.1117.12.946501}:
 \begin{equation*}
     H_{\text{abr}}(u,v) =   \begin{cases}
                                  1-\left(\frac{25}{65}\right)^2 \left(1-4\left(\tau - \frac{1}{2}\right)\right)^2& \text{if } \tau < 0 \\
