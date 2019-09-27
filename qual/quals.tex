@@ -44,6 +44,7 @@
 \usepackage{tikz}
 \usetikzlibrary{positioning}
 \usetikzlibrary{shapes,arrows}
+\usepackage[edges]{forest}
 \usepackage{adjustbox}
 % Note that the amsmath package sets \interdisplaylinepenalty to 10000
 % thus preventing page breaks from occurring within multiline equations. Use:
@@ -74,12 +75,14 @@
     \end{abstract}
 
     \section{Introduction}\label{sec:introduction}
-    \input{introduction.tex}
-
+%    \input{introduction.tex}
+%
     \section{Background}\label{sec:background}
-    \input{background.tex}
+%    \input{background.tex}
 
     \section{Classical Algorithms}\label{sec:classical-algorithms}
+    \input{classical.tex}
+
     \section{Deep Learning Algorithms}\label{sec:deep-learning-algorithms}
     \section{Future Research}\label{sec:future-research}
     \section{Conclusion}\label{sec:conclusion}

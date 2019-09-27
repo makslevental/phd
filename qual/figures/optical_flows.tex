@@ -1,0 +1,36 @@
+\begin{table*}
+    \begin{center}
+        \begin{tabular}{ llp{5cm} }
+            Flow Type & Model & When Applicable \\
+            \\
+            \hline
+            \\
+            Affine & {$\begin{aligned}
+                           v_x(x,y) &= p_1 x + p_2 y + p_3 \\
+                           v_y(x,y) &= p_4 x + p_5 y + p_6
+            \end{aligned}$} & Planar scene with orthographic projection \\
+            \\
+            Planar Projective & {$\begin{aligned}
+                                      v_x(x,y) &= \frac{p_1+p_2 x + p_3 y}{p_7 + p_8 x + p_9 y} - x\\
+                                      v_y(x,y) &= \frac{p_4+p_5 x + p_6 y}{p_7 + p_8 x + p_9 y} - y\\
+            \end{aligned}$} & Planar scene with full prospective projection \\
+            \\
+            Quadratic & {$\begin{aligned}
+                              v_x(x,y) &= \omega_Z y + \frac{\omega_X xy}{l} - \frac{\omega_Y x^2}{l} - \omega_Y l \\
+                              &\approx p_1 y + p_2 xy + p_3 x^2 + p_4 \\
+                              v_y(x,y) &= -\omega_Z x - \frac{\omega_Y xy}{l} + \frac{\omega_X y^2}{l} + \omega_X l \\
+                              &\approx p_5 y + p_6 xy + p_7 x^2 + p_8 \\
+                              &
+            \end{aligned}$} & Approximate for prospective projection with only $\omega_X, \omega_Y, \omega_Z$ euler angle rotations ($l$ is focal length) \\
+            \\
+            Quadratic & {$\begin{aligned}
+                              v_x(x,y) &\approx p_1 x + p_2 y + p_3 x^2 + p_4 xy + p_5 \\
+                              v_y(x,y) &\approx p_6 x + p_7 y + p_8 y^2 + p_9 xy + p_{10} \\
+                              &
+            \end{aligned}$} & Approximate for planar scene with full prospective projection\\
+            \\
+        \end{tabular}
+    \end{center}
+    \caption{Optical flow models\cite{Trucco:1998:ITC:551277}. Note $x,y$ are pixel coordinates and $p_i$ are parameters that need to be estimated.}
+    \label{table:flow}
+\end{table*}

@@ -1,6 +1,6 @@
 Super-resolution (SR) is a collection of methods\anote{vbsuper} that augment the resolving power of an imaging system.
 %
-Here, and in the forthcoming, by resolving power we mean the ability of an imaging device to distinguish distinct but proximal objects in the scene.
+Here, and in the forthcoming, by resolving power we mean the ability of an imaging device to distinguish distinct but proximal objects in a scene.
 %
 If such objects are modeled as point sources of light then the resolving power of the imaging system is defined by Rayleigh's criterion: two point sources are considered \textit{resolved} when the first diffraction maximum\anote{rayleighscriterion} of one point source (at most) coincides with the first minimum of the other (see figure~\ref{fig:rayleigh}).
 \begin{figure}
@@ -12,9 +12,9 @@ If such objects are modeled as point sources of light then the resolving power o
 
 SR techniques yield high-resolution (HR) images from one or more observed low-resolution (LR) images by restoring lost fine details and reversing degradations produced by imperfect imaging systems.
 %
-In the case when a single LR source image is used to construct the HR correspondent, the techniques are referred to as single-image-super-resolution (SISR) techniques.
+In the case where a single LR source image is used to construct the HR correspondent, the techniques are referred to as single-image-super-resolution (SISR) techniques.
 %
-These techniques typically operate by either learning some mapping from low resolution chips (uniform partitions of the image, e.g. $3\times 3$ pixels) to higher resolution chips that are highly similar (according to some metrics) and which obey regularity constraints (e.g. agreement at edges).
+These techniques typically operate by either learning some mapping from low resolution chips (uniform partitions of the image, e.g. $3\times 3$ pixels) to higher resolution chips that are highly similar (according to some metrics) and obey regularity constraints (e.g. agreement at edges).
 %
 In the case when multiple LR source images are used to construct the single HR correspondent, the techniques are referred to as multiple-image-super-resolution (MISR) techniques.
 %
@@ -40,7 +40,6 @@ Unfortunately, and counter-intuitively, since the number of photons incident on 
 Furthermore, while sensor density is primary, secondary effects due to optics limit resolution as well;
 the point spread of a lens (distortion of a point source due to diffraction), chromatic aberrations (distortion due to differing indices of refraction for differing wavelengths of light), and motion blur all function to obscure or erase details from the image.
 
-
 In domains such as satellite/aerial photography, medical imaging, and facial recognition,
 high-resolution reconstruction of low-resolution samples is eminently useful since ab-initio acquisition of high-resolution images is either logistically difficult or impossible due to aforementioned imaging apparatus limitations.
 %
@@ -48,16 +47,15 @@ For example in the instance of satellite imagery, acquisition of high-resolution
 %
 In contrast, in the cases of medical imaging (where procedures are invasive and patient exposure time needs to be minimized\cite{doi:10.1002.cmr.a.21249}) and facial recognition (e.g.\ for purposes of surveillance) the primary challenge is logistics and access to repeat collection opportunities.
 
-
 The benefits of enhancing images using SR techniques include not only more pleasing or more readily interpretable images for human consumption but higher quality inputs for automated learning systems as well.
 %
 In particular object detection systems trained on super-resolved images outperform those trained on the low
 resolution originals\cite{effectssuperres}.
 %
-Indeed this is our ultimate goal - not super-resolution per se but super-resolution in the service of improved object detection performance for longwave-infrared (LWIR) imagery.
+Indeed this is our ultimate goal --- not super-resolution per se but super-resolution in the service of improved object detection performance for longwave-infrared (LWIR) imagery.
 %
-Note that while practically speaking, there exist hardware and software solutions for increasing the resolution of an imaging
-system, we, owing to a "Ship of Theseus" consideration, discount such propositions.
+Note that while practically speaking, there exist hardware solutions for increasing the resolution of an imaging
+system, we discount the value of such propositions.
 %
 We instead take low resolution images as given and seek techniques that allow for ex post facto reconstruction or inference of precise details.
 %
