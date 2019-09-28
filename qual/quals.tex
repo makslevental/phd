@@ -38,14 +38,16 @@
 \usepackage[pdftex]{graphicx}
 \usepackage[hyperfootnotes=false]{hyperref}\usepackage{amsmath}
 
-%\usepackage[backend=biber, bibencoding=utf8, style=ieee]{biblatex}
-\usepackage[backend=bibtex, bibencoding=utf8, style=ieee]{biblatex}
+\usepackage[backend=biber, bibencoding=utf8, style=ieee]{biblatex}
+%\usepackage[backend=bibtex, bibencoding=utf8, style=ieee]{biblatex}
 \addbibresource{quals.bib}
 \usepackage{tikz}
 \usetikzlibrary{positioning}
 \usetikzlibrary{shapes,arrows}
 \usepackage[edges]{forest}
 \usepackage{adjustbox}
+\usepackage{mathtools}
+
 % Note that the amsmath package sets \interdisplaylinepenalty to 10000
 % thus preventing page breaks from occurring within multiline equations. Use:
 \interdisplaylinepenalty=2500
@@ -75,10 +77,10 @@
     \end{abstract}
 
     \section{Introduction}\label{sec:introduction}
-    \input{introduction.tex}
+%    \input{introduction.tex}
 %
     \section{Background}\label{sec:background}
-    \input{background.tex}
+%    \input{background.tex}
 
     \section{Classical Algorithms}\label{sec:classical-algorithms}
     \input{classical.tex}

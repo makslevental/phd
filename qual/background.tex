@@ -138,7 +138,9 @@ Lower case plain latin $x, y$ denote LR and HR \textit{patches}\anote{patch} res
 %
 $D, H, F, G$ variously refer to functions that operate on images.
 %
-Bolded latin $\bm{X}, \bm{Y}$ denotes batches.
+Bolded uppercase latin $\bm{X}, \bm{Y}$ denotes batches.
+
+Bolded lower case denote $\bm{x}, \bm{y}, \bm{z}, \mathellipsis$ denote conventional column or row vectors.
 
 \subsection{Imaging model}\label{subsec:imaging-model}
 Figure~\ref{fig:bertrand} shows a conceptual model of the imaging process as carried out by an imaging system.
@@ -158,6 +160,7 @@ Let $Y$ denote an idealized HR image of the scene from some fixed vantage point 
 Formally the $X_k$ are related to $Y$ by
 \begin{equation}
     X_k = (D_k \circ H_k \circ A_k) (Y) + \epsilon
+    \label{eqn:imagingmodel}
 \end{equation}
 where for the $k$th sample $A_k$ is the operator representing motion (affine and perspective shift) induced by optical flow\anote{opticalflow}, $H_k$ represents the blur operator, $D_k$ represents the down-sampling operator, and $\epsilon$ represents the composite noise (environment and sensor noise). We now consider the challenges and nuances of estimating motion and blur.
 

@@ -1,6 +1,5 @@
 \begin{figure}
     \centering
-    \begin{adjustbox}{width=\linewidth}
         \forestset{
           direction switch/.style={
             where level>=1{folder, grow'=0}{for children=forked edge},
@@ -10,7 +9,9 @@
           direction switch
           [SR
             [MISR
-              [Adapative Filtering]
+              [Interpolation
+                [Adaptive Filtering]
+              ]
               [Statistical
                 [Back Projection]
                 [Markov Random Fields]
@@ -25,7 +26,6 @@
             ]
           ]
         \end{forest}
-    \end{adjustbox}
     \caption{Taxonomy of classical SR techniques}
     \label{fig:taxonomy}
 \end{figure}
