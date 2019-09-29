@@ -69,7 +69,7 @@ $R$ and $\bm{p}$ are both constructed by sampling a parametric model that weight
 %
 $R$ is constructed by sampling from
 \begin{equation}
-     C_1(r) = \sigma_{d}^2 \rho^{r} \ast G(r)
+    C_1(r) = \sigma_{d}^2 \rho^{r} \ast G(r)
 \end{equation}
 where $r$ is distance on the HR grid, $\sigma_d$ is related to the empirical variance of all LR pixels in a given observation window and $G(r)$ is a smoothing kernel (e.g. gaussian).
 %
@@ -81,13 +81,94 @@ Similarly $\bm{p}$ is constructed by sampling from
 \end{equation}
 where here $r = r(m, n)$ is the distance between pixel-to-be-estimated $m$ and LR pixel $n$.
 %
-Note that $R$ is an $N \times N$ matrix where $N = K W_x W_y/D_x D_y$, i.e. how many LR pixels there are in the observation window, and $\bm{p}$ is an $N \times 1$ column vector and unique for each pixel in the estimation window.
+Note that $R$ is an $N \times N$ matrix where $N = K W_x W_y/D_x D_y$, i.e. how many LR pixels there are in the observation window, and $\bm{p}$ is an $N \times 1$ column vector uniquely computed for each pixel in the estimation window.
 %
 The scheme is effective but suffers from issues with the spatial isotropy of the auto-correlation and cross-correlation models.
 
+One the most sophisticated of these non-uniform interpolation schemes employs the kernel regression framework and \textit{steering kernels}\cite{Takeda2007}.
+%
+In this context we start with all $X_k$ registered to a common HR grid and consider pixel values $Y_i = Y(\bm{x}_i)$ at pixel coordinates $\bm{x}_i = (x_{i1},x_{i2})$ as the measured data pairs $(\bm{x}_i, Y_i)$.
+%
+Recall that kernel regression frames the estimation problem as
+\begin{equation}
+    Y_i = Z(\bm{x}_i) + \epsilon
+\end{equation}
+where $Z$ is the to-be-estimated \textit{regression function} that "predicts" $Y$ as a function of $\bm{x}$.
+%
+Then $Z$ is assumed to be locally smooth up to some order $N$, i.e. possesses continuous derivatives up to order $N$ and therefore admits an $N$th order Taylor series expansion at some $\bm{x}$ near each of the $\bm{x}_i$
+\newcommand*{\bx}{\bm{x}}
+\newcommand*{\bxi}{\bm{x}_i}
+\newcommand*{\delx}{\bx - \bxi}
+\newcommand*{\zbx}{Z(\bx)}
+\newcommand*{\zbxi}{Z(\bxi)}
+\newcommand*{\bb}{\bm{\beta}}
+\newcommand*{\hzbx}{\hat{Z}(\bx)}
+\begin{equation}
+    \label{eqn:taylor}
+    \begin{split}
+        \zbxi &= \zbx + \nabla \zbx^T(\delx)\\
+        & \quad + \frac{1}{2}(\delx)^T \nabla^2 \zbx (\delx) \\
+        & \quad + \cdots + o\left(\left\| \delx \right\|^N \right)
+    \end{split}
+\end{equation}
+where $\nabla Z$ and $\nabla^2 Z$ are the 2-D gradient and Hessian of the regression function.
+%
+Vectorizing\anote{vectorize} $(\delx)(\delx)^T$, exploiting the symmetry of $\nabla^2 \zbx$, and defining
+$\beta_0 = \zbx, \bb_1 = \nabla \zbx$
+\begin{align*}
+    \bb_2 &= \frac{1}{2}\left[ \frac{\partial^2 \zbx}{\partial x_1^2}, 2 \frac{\partial^2 \zbx}{\partial x_1 \partial x_2}, \frac{\partial^2 \zbx}{\partial x_2^2} \right] \\
+\end{align*}
+simplifies eqn.~\ref{eqn:taylor} to
+\begin{equation}
+    \label{eqn:betataylor}
+    \begin{split}
+        \zbxi &= \beta_0 + \bb_1^T (\delx) \\
+        &\quad + \bb_2^T \text{vech}\left( (\delx) (\delx)^T \right) \\
+        &\quad + \cdots + o\left(\left\| \delx \right\|^N \right)
+    \end{split}
+\end{equation}
+This suggests using weighted least squares to solve for $\left\{ \bb_n \right\}$ in order to estimate $\hzbx$, i.e.
+\begin{equation}
+    \hzbx = \min_{\left\{ \bb_n \right\}} \sum_{i=1}^{P} \left[ Y_i - \zbxi \right]^2 K(\delx)
+\end{equation}
+where $P$ indexes over all pixels in the HR grid and $K$ is \textit{kernel function} whose purpose is to decay the contribution of $\bxi$ if it's in some sense far from $\bx$.
+%
+In conventional kernel regression $K$ might be any non-negative, symmetric, unimodal\cite{wand1994kernel} function with an additional $H$ parameter that controls the "bandwidth" or "footprint" of the kernel, i.e.
+%
+\[
+    K_H(\delx) = \frac{1}{\det(H)}K\left( H^{-1}(\delx) \right)
+\]
+with $H = hI$.
+\begin{figure}{}
+    \centering
+    \includegraphics[width=.8\linewidth]{figures/footprint.png}
+    \caption{Kernel footprint as a function of sample density\cite{Takeda2007}}
+    \label{fig:footprint}
+\end{figure}
+\begin{figure}{}
+    \centering
+    \includegraphics[width=\linewidth]{figures/steering.png}
+    \caption{Adapting kernel shape as a function of local directed structure\cite{Takeda2007}}
+    \label{fig:steering}
+\end{figure}
+%
+This bandwidth parameter $h$ is useful for enabling kernels to adapt themselves to the local structure of the pixels, e.g. to have larger footprints in sparse sampled regions and have smaller footprints densely sampled regions (see figure~\ref{fig:footprint}).
+%
+Ultimately though it is desirable to have kernels that can adapt to directed structure in the image, i.e. "steer" the kernel to filter strongly along an edge and weakly across an edge.
+%
+This is accomplished by, for example, using a Gaussian as the kernel:
+\begin{equation}
+    K_{H_i}(\delx) \propto \frac{1}{\sqrt{\det{H_i}}}\exp\left\{ -(\delx)^T H^{-1}_i (\delx) \right\}
+\end{equation}
+and identifying $H_i$ with $\nabla^2 \zbxi$ (since gradients capture edge structure).
+%
+An estimate $\hat{H}_i$ of $\nabla^2 \zbxi$ can be obtained by looking at covariances of empirical gradients (i.e. the HR grid sampled image convolved with a difference filter).
+%
+When cast in this light it's obvious that this is essentially a local principal components analysis (PCA) filter.
 
 
 
-Takeda et al.\cite{takeda} approach the problem by leveraging recent advances (at the time) in kernel regression; they
+
+
 \subsection{Estimation}
 \subsection{Example based}
