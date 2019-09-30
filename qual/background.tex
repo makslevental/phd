@@ -159,10 +159,10 @@ Let $Y$ denote an idealized HR image of the scene from some fixed vantage point 
 %
 Formally the $X_k$ are related to $Y$ by
 \begin{equation}
-    X_k = (D_k \circ H_k \circ A_k) (Y) + \epsilon
+    X_k = (D_k \circ H_k \circ A_k) (Y) + \varepsilon
     \label{eqn:imagingmodel}
 \end{equation}
-where for the $k$th sample $A_k$ is the operator representing motion (affine and perspective shift) induced by optical flow\anote{opticalflow}, $H_k$ represents the blur operator, $D_k$ represents the down-sampling operator, and $\epsilon$ represents the composite noise (environment and sensor noise). We now consider the challenges and nuances of estimating motion and blur.
+where for the $k$th sample $A_k$ is the operator representing motion (affine and perspective shift) induced by optical flow\anote{opticalflow}, $H_k$ represents the blur operator, $D_k$ represents the down-sampling operator, and $\varepsilon$ represents the composite noise (environment and sensor noise). We now consider the challenges and nuances of estimating motion and blur.
 
 For a static 3-D scene and an imaging system with 6 degrees of freedom, the optical flow caused by motion is dependent on the geometry of the scene and potentially nonlinear (due to occlusion and motion parallax).
 %

@@ -10,9 +10,9 @@ Suppose further that $A_k$ is affine.
 %
 Then $H \coloneqq H_k$ commutes with $A_k$\cite{meladcommute} and equation~\ref{eqn:commuteimagingmodel} becomes
 \begin{align}
-    X_k &= (D_k \circ A_k \circ H) (Y) + \epsilon \\
-    &= (D_k \circ A_k) (H(Y)) + \epsilon \\
-    &= (D_k \circ A_k) (Z) + \epsilon
+    X_k &= (D_k \circ A_k \circ H) (Y) + \varepsilon \\
+    &= (D_k \circ A_k) (H(Y)) + \varepsilon \\
+    &= (D_k \circ A_k) (Z) + \varepsilon
     \label{eqn:commuteimagingmodel}
 \end{align}
 This naturally suggests interpolation in order to recover $Z$ (since $X_k$, in this manifestation, is simply shifted samples of $Z$).
@@ -27,7 +27,7 @@ Note in this context we use interpolation very broadly, i.e. to connote filling 
 \end{figure}
 This class of techniques proceed by first registering images on a high resolution grid (see figure~\ref{fig:hrgrid}) then interpolating at the "missing" pixels in the HR grid to recover $Z$, and finally denoising and deconvolution (of $H$) to recover $Y$.
 %
-Since in general consecutive $X_k$ have non-uniform shifts (relative to $X_0$) the interpolation is non-uniform and improvisations on this theme use various weighting schemes for the adjacent pixels.
+Since in general consecutive $X_k$ have non-uniform shifts (relative to $X_0$) the interpolation is non-uniform and improvisations on this theme use various weighting schemes for adjacent LR pixels\anote{lrpixel}.
 
 For example Alam et. al\cite{Alam2000} uses weighted nearest neighbors: for every pixel to be interpolated the three nearest pixels are weighted inversely by their distance (according to HR grid distance) and then their weighted sum is assigned to that pixel.
 %
@@ -36,66 +36,60 @@ This non-uniform interpolation is then followed by application of a Wiener filte
 \begin{figure}
     \centering
     \includegraphics[width=.7\linewidth]{figures/delauney.png}
-    \caption{Delaunay triangulation for fitting splines at LR pixels. $v$ is an LR pixel. Note that $v$ is at $z$ equal to the pixel value.}
+    \caption{Delaunay triangulation for fitting splines at LR pixels\cite{Lertrattanapanich}. $v$ is an LR pixel. Note that $v$ is at $z$ equal to the pixel value}
     \label{fig:delauney}
 \end{figure}
-Lertrattanapanich et. al\cite{Lertrattanapanich} base their algorithm on interpolants which require knowledge of gradients (e.g. splines) and mediate the non-uniform sampling by using a weighted average (by area) of those gradients in adjacent Delaunay cells; to be precise they produce a Delaunay triangulation of all LR pixels\anote{lrpixel} and compute the gradients (see figure~\ref{fig:delauney}) according to
+Lertrattanapanich et. al\cite{Lertrattanapanich} base their algorithm on interpolants which require knowledge of gradients (e.g. splines) and mediate the non-uniform sampling by using a weighted average (by area) of those gradients in adjacent Delaunay cells; to be precise they produce a Delaunay triangulation of all LR pixels and compute the gradients (see figure~\ref{fig:delauney}) according to
 \begin{align*}
     \vec{n} = \sum_{j=1}^k \frac{A_j \vec{n_j}}{A} &\text{ where } A=\sum_{i=1}^k A_i\\
-    \frac{\partial z}{\partial x} = -\frac{n_x}{n_z} &\text{ and }  \frac{\partial z}{\partial y} = -\frac{n_y}{n_z} \\
+    \frac{\partial z}{\partial x} = -\frac{n_x}{n_z} &\text{ and }  \frac{\partial z}{\partial y} = -\frac{n_y}{n_z}
 \end{align*}
 Unfortunately this intricate solution is not robust to noise in real images.
 
-A more sophisticated method for non-uniform interpolation uses parametric models for the auto-correlation between LR pixels and the cross-correlation between LR pixels and interpolated pixels to estimate wiener filter weights.
+A more sophisticated method for non-uniform interpolation uses parametric models for the auto-correlation between LR pixels and the cross-correlation between LR pixels and interpolated pixels to estimate wiener filter weights\cite{wiener}.
 %
 These weights are then used to average nearby pixel values.
 %
-The algorithm operates on a sliding window called the estimation window whose dimensions $D_x, D_y$ are chosen such that the effective sampling rate exceeds the Nyquist rate for a given $\rho_c$.
+The algorithm operates on a sliding \textit{estimation window} whose dimensions $D_x, D_y$ are chosen such that the effective sampling rate exceeds the Nyquist rate for a given $\rho_c$.
 \begin{figure}
     \centering
     \includegraphics[width=.7\linewidth]{figures/wiener.png}
     \caption{Wiener filter super resolution estimation window of dimension $D_x \times D_y$ and observation window of dimension $W_x \times W_y$\cite{wiener}}
     \label{fig:wiener}
 \end{figure}
-The pixel values for the estimation window are a function of the wiener filter weights of nearby LR pixels within an observation window whose dimension $W_x, W_y$ are an integer multiple of $D_x, D_y$ (see figure~\ref{fig:wiener}).
+The pixel values for the estimation window are a function of the wiener filter weights of nearby LR pixels within an \textit{observation window} whose dimensions $W_x, W_y$ are an integer multiple of $D_x, D_y$ (see figure~\ref{fig:wiener}).
 %
-The weights $\bm{w}$ are defined as the solution to the minimum mean squared error filter problem, i.e. the finite impulse response (FIR) wiener filter:
+The weights $\bm{w}$ are defined as the solution to the minimum mean squared error (MMSE) filter problem, i.e. the finite impulse response (FIR) wiener filter:
 \begin{equation}
     \bm{w} = R^{-1}\bm{p}
 \end{equation}
 where $R$ is the auto-correlation of the LR pixels in the observation window and $\bm{p}$ is the cross-correlation between the pixels to be estimated and the LR pixels.
 %
-$R$ and $\bm{p}$ are both constructed by sampling a parametric model that weights pixels in the observation window according to distance.
+Then $R$ and $\bm{p}$ are both constructed by sampling a parametric model that weights pixels in the observation window according to distance:
 %
 $R$ is constructed by sampling from
 \begin{equation}
     C_1(r) = \sigma_{d}^2 \rho^{r} \ast G(r)
 \end{equation}
-where $r$ is distance on the HR grid, $\sigma_d$ is related to the empirical variance of all LR pixels in a given observation window and $G(r)$ is a smoothing kernel (e.g. gaussian).
-%
-Thus by evaluating $C_1$ for all $r = r(n_1, n_2)$ distances between LR pixels $n_1$, $n_2$ we can construct $R$.
-%
-Similarly $\bm{p}$ is constructed by sampling from
+and $\bm{p}$ is constructed by sampling from
 \begin{equation}
     C_2(r) = \sigma_d^2 \rho^{r} \ast G(r) \ast G(-r)
 \end{equation}
-where here $r = r(m, n)$ is the distance between pixel-to-be-estimated $m$ and LR pixel $n$.
+In the case of $R$, $r$ is distance on the HR grid, $\sigma_d$ is related to the empirical variance of all LR pixels in a given observation window and $G(r)$ is a smoothing kernel (e.g. gaussian).
+%
+Thus by evaluating $C_1$ for all $r = r(n_1, n_2)$ distances between LR pixels $n_1$, $n_2$ we can construct $R$.
+%
+Similarly for $\bm{p}$, $r = r(m, n)$ is the distance between pixel-to-be-estimated $m$ and LR pixel $n$.
 %
 Note that $R$ is an $N \times N$ matrix where $N = K W_x W_y/D_x D_y$, i.e. how many LR pixels there are in the observation window, and $\bm{p}$ is an $N \times 1$ column vector uniquely computed for each pixel in the estimation window.
 %
 The scheme is effective but suffers from issues with the spatial isotropy of the auto-correlation and cross-correlation models.
 
-One the most sophisticated of these non-uniform interpolation schemes employs the kernel regression framework and \textit{steering kernels}\cite{Takeda2007}.
+One of the most sophisticated of these non-uniform interpolation schemes employs the kernel regression framework and \textit{steering kernels}\cite{Takeda2007}.
 %
 In this context we start with all $X_k$ registered to a common HR grid and consider pixel values $Y_i = Y(\bm{x}_i)$ at pixel coordinates $\bm{x}_i = (x_{i1},x_{i2})$ as the measured data pairs $(\bm{x}_i, Y_i)$.
 %
 Recall that kernel regression frames the estimation problem as
-\begin{equation}
-    Y_i = Z(\bm{x}_i) + \epsilon
-\end{equation}
-where $Z$ is the to-be-estimated \textit{regression function} that "predicts" $Y$ as a function of $\bm{x}$.
-%
-Then $Z$ is assumed to be locally smooth up to some order $N$, i.e. possesses continuous derivatives up to order $N$ and therefore admits an $N$th order Taylor series expansion at some $\bm{x}$ near each of the $\bm{x}_i$
 \newcommand*{\bx}{\bm{x}}
 \newcommand*{\bxi}{\bm{x}_i}
 \newcommand*{\delx}{\bx - \bxi}
@@ -104,71 +98,130 @@ Then $Z$ is assumed to be locally smooth up to some order $N$, i.e. possesses co
 \newcommand*{\bb}{\bm{\beta}}
 \newcommand*{\hzbx}{\hat{Z}(\bx)}
 \begin{equation}
-    \label{eqn:taylor}
-    \begin{split}
-        \zbxi &= \zbx + \nabla \zbx^T(\delx)\\
-        & \quad + \frac{1}{2}(\delx)^T \nabla^2 \zbx (\delx) \\
-        & \quad + \cdots + o\left(\left\| \delx \right\|^N \right)
-    \end{split}
+    Y_i = Z(\bx_i) + \varepsilon
 \end{equation}
-where $\nabla Z$ and $\nabla^2 Z$ are the 2-D gradient and Hessian of the regression function.
-%
-Vectorizing\anote{vectorize} $(\delx)(\delx)^T$, exploiting the symmetry of $\nabla^2 \zbx$, and defining
-$\beta_0 = \zbx, \bb_1 = \nabla \zbx$
-\begin{align*}
-    \bb_2 &= \frac{1}{2}\left[ \frac{\partial^2 \zbx}{\partial x_1^2}, 2 \frac{\partial^2 \zbx}{\partial x_1 \partial x_2}, \frac{\partial^2 \zbx}{\partial x_2^2} \right] \\
-\end{align*}
-simplifies eqn.~\ref{eqn:taylor} to
+where $Z$ is the to-be-estimated \textit{regression function} that "predicts" $Y$ as a function of $\bx$.
+Then the Nadaraya–Watson estimator (NWE)\cite{Nadaraya} $\hat{Z}$ for $Z$ is
 \begin{equation}
-    \label{eqn:betataylor}
-    \begin{split}
-        \zbxi &= \beta_0 + \bb_1^T (\delx) \\
-        &\quad + \bb_2^T \text{vech}\left( (\delx) (\delx)^T \right) \\
-        &\quad + \cdots + o\left(\left\| \delx \right\|^N \right)
-    \end{split}
+    \hat{Z}(\bx) = \frac{\sum_{i=1}^{P}K(\delx)Y_i}{\sum_{i=1}^{P}K(\delx)}
 \end{equation}
-This suggests using weighted least squares to solve for $\left\{ \bb_n \right\}$ in order to estimate $\hzbx$, i.e.
-\begin{equation}
-    \hzbx = \min_{\left\{ \bb_n \right\}} \sum_{i=1}^{P} \left[ Y_i - \zbxi \right]^2 K(\delx)
-\end{equation}
-where $P$ indexes over all pixels in the HR grid and $K$ is \textit{kernel function} whose purpose is to decay the contribution of $\bxi$ if it's in some sense far from $\bx$.
+where $P$ indexes over all pixels in the HR grid and $K$ is a \textit{kernel function} whose purpose is to decay the contribution of $\bxi$ if it's in some sense far from $\bx$.
 %
-In conventional kernel regression $K$ might be any non-negative, symmetric, unimodal\cite{wand1994kernel} function with an additional $H$ parameter that controls the "bandwidth" or "footprint" of the kernel, i.e.
-%
-\[
-    K_H(\delx) = \frac{1}{\det(H)}K\left( H^{-1}(\delx) \right)
-\]
-with $H = hI$.
-\begin{figure}{}
+\begin{figure}
     \centering
     \includegraphics[width=.8\linewidth]{figures/footprint.png}
     \caption{Kernel footprint as a function of sample density\cite{Takeda2007}}
     \label{fig:footprint}
 \end{figure}
-\begin{figure}{}
+\begin{figure}
     \centering
     \includegraphics[width=\linewidth]{figures/steering.png}
     \caption{Adapting kernel shape as a function of local directed structure\cite{Takeda2007}}
     \label{fig:steering}
 \end{figure}
+In conventional kernel regression $K$ might be any non-negative, symmetric, unimodal\cite{wand1994kernel} function with augmented with an additional $h$ parameter that controls the "bandwidth" or "footprint" of the kernel, i.e.
+\begin{equation}
+    K_h(\delx) = \frac{1}{h}K\left( h^{-1}(\delx) \right)
+\end{equation}
+This bandwidth parameter $h$ can be generalized to a \textit{smoothing kernel} $H$ in order to make $K = K_H$ adaptive to the local structure of the pixels, e.g. to have larger footprints in sparsely sampled regions and have smaller footprints in densely sampled regions (see figure~\ref{fig:footprint}).
 %
-This bandwidth parameter $h$ is useful for enabling kernels to adapt themselves to the local structure of the pixels, e.g. to have larger footprints in sparse sampled regions and have smaller footprints densely sampled regions (see figure~\ref{fig:footprint}).
-%
-Ultimately though it is desirable to have kernels that can adapt to directed structure in the image, i.e. "steer" the kernel to filter strongly along an edge and weakly across an edge.
+Ultimately though it is desirable to have kernels that can adapt to directed structure in the image, i.e. "steerable" kernels that filter strongly along an edge and weakly across an edge.
 %
 This is accomplished by, for example, using a Gaussian as the kernel:
 \begin{equation}
-    K_{H_i}(\delx) \propto \frac{1}{\sqrt{\det{H_i}}}\exp\left\{ -(\delx)^T H^{-1}_i (\delx) \right\}
+    K_{H_i}(\delx) \propto \frac{\exp\left\{ -(\delx)^T H^{-1}_i (\delx) \right\}}{\sqrt{\det{H_i}}}
 \end{equation}
 and identifying $H_i$ with $\nabla^2 \zbxi$ (since gradients capture edge structure).
 %
-An estimate $\hat{H}_i$ of $\nabla^2 \zbxi$ can be obtained by looking at covariances of empirical gradients (i.e. the HR grid sampled image convolved with a difference filter).
+An estimate $\hat{H}_i$ of $\nabla^2 \zbxi$ can be obtained by looking at covariances of empirical gradients (i.e. the HR grid registered image convolved with a difference filter).
 %
-When cast in this light it's obvious that this is essentially a local principal components analysis (PCA) filter.
+Unfortunately this is a naive estimate that is often rank deficient or unstable (both leading to instances where $\hat{H}_i$ isn't invertible).
+%
+One solution is to parameterize $H_i$:
+\[
+    H_i = \gamma_i U_{\theta_i} \Lambda_{\sigma_i} U_{\theta_i}^T
+\]
+where $U_{\theta_i}$ is a rotation matrix, $\Lambda_{\sigma_i} = \text{diag}\left( \sigma_i, \sigma_i^{-1} \right)$ is an "elongation" matrix, and $\gamma_i$ is a scaling parameter, with each of $\gamma_i, \theta_i, \sigma_i$ estimated from the data in a more robust way.
+%
+Another solution is to use a multi-scale Kalman filter to estimate $H_i$\cite{XiaoGuang}.
 
-
-
-
-
+In general non-uniform interpolation techniques are intuitive and typically (relatively) computationally efficient but they assume an unrealistic observation model (namely that affine flow).
 \subsection{Estimation}
+Statistical estimation methods cast SR as an inference problem.
+%
+For example a full Bayesian treatment would construct an estimate $\hat{Y}$ of $Y$ as
+\begin{align}
+    \hat{Y} &= \underset{Z}{\text{argmax}}~P\left( Y | X_0, X_1, \mathellipsis, X_k \right) \nonumber \\
+    &= \underset{Y}{\text{argmax}} \int_{H, A} P\left( Y, H, A | \bm{X}\right) \nonumber \\
+    &= \underset{Y}{\text{argmax}} \int_{H, A} \frac{P\left(\bm{X} | Y, H, A \right)P(Y) P(H, A)}{P(\bm{X})}\label{eqn:indepym} \\
+    &= \underset{Y}{\text{argmax}} \int_{H, A} P\left(\bm{X} | Y, H, A \right)P(Y) P(H, A) \label{eqn:maxx}
+\end{align}
+where in eqn.~\ref{eqn:indepym} we've used the independence of $Y$ and $H,A$\cite{Hardie1997} and in eqn.~\ref{eqn:maxx} we've used that $\bm{X}$ is a constant with respect to the maximization.
+%
+While there exist reasonable priors for $Y$, marginalizing over $H, A$ is still difficult due to the high-dimensionality of each.
+%
+Therefore assuming $H, A$ can be estimated independently as $\hat{H}, \hat{A}$, eqn.~\ref{eqn:maxx} becomes
+\begin{equation}
+    \hat{Y} = \underset{Y}{\text{argmax}}~P\left(\bm{X} | Y; \hat{H}, \hat{A} \right) P(Y)
+    \label{eqn:map}
+\end{equation}
+which casts $\hat{Y}$ the standard maximum a posteriori (MAP) of $Y$.
+%
+If we further assume a uniform prior over $Y$ eqn.~\ref{eqn:map} reduces to
+\begin{equation}
+    \hat{Y} = \underset{Y}{\text{argmax}}~P\left(\bm{X} | Y; \hat{H}, \hat{A}\right)
+    \label{eqn:mle}
+\end{equation}
+i.e. $\hat{Y}$ is the maximum likelihood estimate of $Y$.
+%
+Note that an equivalent formulation of both MLE and MAP minimize the negative log-likelihood instead of maximizing the likelihood:
+\begin{align}
+    \hat{Y} &= \underset{Y}{\text{argmax}}~P\left(\bm{X} | Y; \hat{H}, \hat{A}\right) P(Y) \nonumber \\
+    &=  \underset{Y}{\text{argmin}}\left[ -\log{P\left(\bm{X} | Y; \hat{H}, \hat{A} \right)} -\log{P(Y)} \right]
+    \label{eqn:logmap}
+\end{align}
+%
+In either case (MLE or MAP) various choices for the conditional distribution $P\left(\bm{X} | Y; \hat{H}, \hat{A}\right)$ and the prior distribution $P(Y)$ (and consequent choice of maximization strategies) characterize this class of SR techniques.
+%
+Typically $\varepsilon$ in eqn.~\ref{eqn:imagingmodel} is distributed $N(0, \sigma)$, i.e. zero-mean unit variance Gaussian, which constrains the conditional distribution to be Gaussian.
+%
+Therefore eqn.~\ref{eqn:mle} becomes
+\begin{equation}
+    \hat{Y} = \underset{Y}{\text{argmin}}\left\| X-\hat{H}\hat{A}Y \right\|^2
+    \label{eqn:minmle}
+\end{equation}
+and after a suitable choice for $P(Y)$, (e.g. Gibbs\cite{Hardie1997}):
+\[
+    P(Y) = \frac{1}{Z}e^{-\alpha B(Y)}
+\]
+eqn.~\ref{eqn:logmap} becomes
+\begin{equation}
+    \hat{Y} = \underset{Y}{\text{argmin}}\left[ \left\| X-\hat{H}\hat{A}Y \right\|^2 +\lambda B(Y)\right]
+    \label{eqn:minmap}
+\end{equation}
+where $\lambda$ absorbs $\alpha$ from $P(Y)$ and $\sigma$ from $\varepsilon$.
+%Alternatively
+%In preparation for fixing a conditional density we reformulate eqn.~\ref{eqn:map} in terms of the log-likelihood:
+%\begin{equation}
+%    \hat{Y} = \underset{Y}{\text{argmin}}\left[ -\log{P\left(\bm{X} | Y, H, A \right)} -\log{P(Y)} \right]
+%    \label{eqn:logmap}
+%\end{equation}
+%%
+%Typically $\varepsilon$ is distributed $N(0, \sigma)$, i.e. zero-mean unit variance Gaussian.
+%%
+%If we further assume a uniform prior over $Y$ eqn.~\ref{eqn:logmap} reduces to
+%\begin{equation}
+%    \hat{Y} = \underset{Y}{\text{argmin}}\left[ \left\| X-HAY \right\|^2 \right]
+%    \label{eqn:minmle}
+%\end{equation}
+
+
+
+
+%
+%\begin{equation}
+%    \hat{Y} = \underset{Y}{\text{argmin}}\left[ \left\| X-HAY \right\|^2 + \lambda B(Y) \right]
+%    \label{eqn:minmap}
+%\end{equation}
+
 \subsection{Example based}
