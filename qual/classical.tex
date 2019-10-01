@@ -9,13 +9,15 @@ Suppose that $H_k$ is linear spatial\anote{lsi} and time invariant.
 Suppose further that $A_k$ is affine.
 %
 Then $H \coloneqq H_k$ commutes with $A_k$\cite{meladcommute} and equation~\ref{eqn:commuteimagingmodel} becomes
-\begin{align}
-    X_k &= (D_k \circ A_k \circ H) (Y) + \varepsilon \\
-    &= (D_k \circ A_k) (H(Y)) + \varepsilon \\
-    &= (D_k \circ A_k) (Z) + \varepsilon
+\begin{equation}
     \label{eqn:commuteimagingmodel}
-\end{align}
-This naturally suggests interpolation in order to recover $Z$ (since $X_k$, in this manifestation, is simply shifted samples of $Z$).
+    \begin{split}
+        X_k &= (D_k \circ A_k \circ H) (Y) + \varepsilon \\
+        &= (D_k \circ A_k) (H(Y)) + \varepsilon \\
+        &= (D_k \circ A_k) (V) + \varepsilon
+    \end{split}
+\end{equation}
+This naturally suggests interpolation in order to recover $V$ (since $X_k$, in this framing, is simply shifted samples of $V$).
 %
 Note in this context we use interpolation very broadly, i.e. to connote filling in missing values using neighboring (in some sense --- not necessarily geometrically) values.
 %
@@ -25,7 +27,7 @@ Note in this context we use interpolation very broadly, i.e. to connote filling 
     \caption{LR image registration on an HR grid\cite{Lin}}
     \label{fig:hrgrid}
 \end{figure}
-This class of techniques proceed by first registering images on a high resolution grid (see figure~\ref{fig:hrgrid}) then interpolating at the "missing" pixels in the HR grid to recover $Z$, and finally denoising and deconvolution (of $H$) to recover $Y$.
+This class of techniques proceed by first registering images on a high resolution grid (see figure~\ref{fig:hrgrid}) then interpolating at the "missing" pixels in the HR grid to recover $V$, and finally denoising and deconvolution (of $H$) to recover $Y$.
 %
 Since in general consecutive $X_k$ have non-uniform shifts (relative to $X_0$) the interpolation is non-uniform and improvisations on this theme use various weighting schemes for adjacent LR pixels\anote{lrpixel}.
 
@@ -147,75 +149,73 @@ Another solution is to use a multi-scale Kalman filter to estimate $H_i$\cite{Xi
 
 In general non-uniform interpolation techniques are intuitive and typically (relatively) computationally efficient but they assume an unrealistic observation model (namely that affine flow).
 \subsection{Estimation}
-Statistical estimation methods cast SR as an inference problem.
 %
-For example a full Bayesian treatment would construct an estimate $\hat{Y}$ of $Y$ as
-\begin{align}
-    \hat{Y} &= \underset{Z}{\text{argmax}}~P\left( Y | X_0, X_1, \mathellipsis, X_k \right) \nonumber \\
-    &= \underset{Y}{\text{argmax}} \int_{H, A} P\left( Y, H, A | \bm{X}\right) \nonumber \\
-    &= \underset{Y}{\text{argmax}} \int_{H, A} \frac{P\left(\bm{X} | Y, H, A \right)P(Y) P(H, A)}{P(\bm{X})}\label{eqn:indepym} \\
-    &= \underset{Y}{\text{argmax}} \int_{H, A} P\left(\bm{X} | Y, H, A \right)P(Y) P(H, A) \label{eqn:maxx}
-\end{align}
-where in eqn.~\ref{eqn:indepym} we've used the independence of $Y$ and $H,A$\cite{Hardie1997} and in eqn.~\ref{eqn:maxx} we've used that $\bm{X}$ is a constant with respect to the maximization.
-%
-While there exist reasonable priors for $Y$, marginalizing over $H, A$ is still difficult due to the high-dimensionality of each.
-%
-Therefore assuming $H, A$ can be estimated independently as $\hat{H}, \hat{A}$, eqn.~\ref{eqn:maxx} becomes
-\begin{equation}
-    \hat{Y} = \underset{Y}{\text{argmax}}~P\left(\bm{X} | Y; \hat{H}, \hat{A} \right) P(Y)
-    \label{eqn:map}
-\end{equation}
-which casts $\hat{Y}$ the standard maximum a posteriori (MAP) of $Y$.
-%
-If we further assume a uniform prior over $Y$ eqn.~\ref{eqn:map} reduces to
-\begin{equation}
-    \hat{Y} = \underset{Y}{\text{argmax}}~P\left(\bm{X} | Y; \hat{H}, \hat{A}\right)
-    \label{eqn:mle}
-\end{equation}
-i.e. $\hat{Y}$ is the maximum likelihood estimate of $Y$.
-%
-Note that an equivalent formulation of both MLE and MAP minimize the negative log-likelihood instead of maximizing the likelihood:
-\begin{align}
-    \hat{Y} &= \underset{Y}{\text{argmax}}~P\left(\bm{X} | Y; \hat{H}, \hat{A}\right) P(Y) \nonumber \\
-    &=  \underset{Y}{\text{argmin}}\left[ -\log{P\left(\bm{X} | Y; \hat{H}, \hat{A} \right)} -\log{P(Y)} \right]
-    \label{eqn:logmap}
-\end{align}
-%
-In either case (MLE or MAP) various choices for the conditional distribution $P\left(\bm{X} | Y; \hat{H}, \hat{A}\right)$ and the prior distribution $P(Y)$ (and consequent choice of maximization strategies) characterize this class of SR techniques.
-%
-Typically $\varepsilon$ in eqn.~\ref{eqn:imagingmodel} is distributed $N(0, \sigma)$, i.e. zero-mean unit variance Gaussian, which constrains the conditional distribution to be Gaussian.
-%
-Therefore eqn.~\ref{eqn:mle} becomes
-\begin{equation}
-    \hat{Y} = \underset{Y}{\text{argmin}}\left\| X-\hat{H}\hat{A}Y \right\|^2
-    \label{eqn:minmle}
-\end{equation}
-and after a suitable choice for $P(Y)$, (e.g. Gibbs\cite{Hardie1997}):
-\[
-    P(Y) = \frac{1}{Z}e^{-\alpha B(Y)}
-\]
-eqn.~\ref{eqn:logmap} becomes
-\begin{equation}
-    \hat{Y} = \underset{Y}{\text{argmin}}\left[ \left\| X-\hat{H}\hat{A}Y \right\|^2 +\lambda B(Y)\right]
-    \label{eqn:minmap}
-\end{equation}
-where $\lambda$ absorbs $\alpha$ from $P(Y)$ and $\sigma$ from $\varepsilon$.
-%Alternatively
-%In preparation for fixing a conditional density we reformulate eqn.~\ref{eqn:map} in terms of the log-likelihood:
+%For example a full Bayesian treatment would construct an estimate $\hat{Y}$ of $Y$ as
+%\begin{align}
+%    \hat{Y} &= \underset{Z}{\text{argmax}}~P\left( Y | X_0, X_1, \mathellipsis, X_k \right) \nonumber \\
+%    &= \underset{Y}{\text{argmax}} \int_{H, A} P\left( Y, H, A | \bm{X}\right) \nonumber \\
+%    &= \underset{Y}{\text{argmax}} \int_{H, A} \frac{P\left(\bm{X} | Y, H, A \right)P(Y) P(H, A)}{P(\bm{X})}\label{eqn:indepym} \\
+%    &= \underset{Y}{\text{argmax}} \int_{H, A} P\left(\bm{X} | Y, H, A \right)P(Y) P(H, A) \label{eqn:maxx}
+%\end{align}
+%where in eqn.~\ref{eqn:indepym} we've used the independence of $Y$ and $H,A$\cite{Hardie1997} and in eqn.~\ref{eqn:maxx} we've used that $\bm{X}$ is a constant with respect to the maximization.
+%%
+%While there exist reasonable priors for $Y$, marginalizing over $H, A$ is still difficult due to the high-dimensionality of each.
+%%
+%Therefore assuming $H, A$ can be estimated independently as $\hat{H}, \hat{A}$, eqn.~\ref{eqn:maxx} becomes
 %\begin{equation}
-%    \hat{Y} = \underset{Y}{\text{argmin}}\left[ -\log{P\left(\bm{X} | Y, H, A \right)} -\log{P(Y)} \right]
-%    \label{eqn:logmap}
+%    \hat{Y} = \underset{Y}{\text{argmax}}~P\left(\bm{X} | Y; \hat{H}, \hat{A} \right) P(Y)
+%    \label{eqn:map}
 %\end{equation}
+%which casts $\hat{Y}$ the standard maximum a posteriori (MAP) of $Y$.
 %%
-%Typically $\varepsilon$ is distributed $N(0, \sigma)$, i.e. zero-mean unit variance Gaussian.
-%%
-%If we further assume a uniform prior over $Y$ eqn.~\ref{eqn:logmap} reduces to
+%If we further assume a uniform prior over $Y$ eqn.~\ref{eqn:map} reduces to
 %\begin{equation}
-%    \hat{Y} = \underset{Y}{\text{argmin}}\left[ \left\| X-HAY \right\|^2 \right]
+%    \hat{Y} = \underset{Y}{\text{argmax}}~P\left(\bm{X} | Y; \hat{H}, \hat{A}\right)
+%    \label{eqn:mle}
+%\end{equation}
+%i.e. $\hat{Y}$ is the maximum likelihood estimate of $Y$.
+%%
+%Note that an equivalent formulation of both MLE and MAP minimize the negative log-likelihood instead of maximizing the likelihood:
+%\begin{align}
+%    \hat{Y} &= \underset{Y}{\text{argmax}}~P\left(\bm{X} | Y; \hat{H}, \hat{A}\right) P(Y) \nonumber \\
+%    &=  \underset{Y}{\text{argmin}}\left[ -\log{P\left(\bm{X} | Y; \hat{H}, \hat{A} \right)} -\log{P(Y)} \right]
+%    \label{eqn:logmap}
+%\end{align}
+%%
+%In either case (MLE or MAP) various choices for the conditional distribution $P\left(\bm{X} | Y; \hat{H}, \hat{A}\right)$ and the prior distribution $P(Y)$ (and consequent choice of maximization strategies) characterize this class of SR techniques.
+%%
+%Typically $\varepsilon$ in eqn.~\ref{eqn:imagingmodel} is distributed $N(0, \sigma)$, i.e. zero-mean unit variance Gaussian, which constrains the conditional distribution to be Gaussian.
+%%
+%Therefore eqn.~\ref{eqn:mle} becomes
+%\begin{equation}
+%    \hat{Y} = \underset{Y}{\text{argmin}}\left\| X-\hat{H}\hat{A}Y \right\|^2
 %    \label{eqn:minmle}
 %\end{equation}
-
-
+%and after a suitable choice for $P(Y)$, (e.g. Gibbs\cite{Hardie1997}):
+%\[
+%    P(Y) = \frac{1}{Z}e^{-\alpha B(Y)}
+%\]
+%eqn.~\ref{eqn:logmap} becomes
+%\begin{equation}
+%    \hat{Y} = \underset{Y}{\text{argmin}}\left[ \left\| X-\hat{H}\hat{A}Y \right\|^2 +\lambda B(Y)\right]
+%    \label{eqn:minmap}
+%\end{equation}
+%where $\lambda$ absorbs $\alpha$ from $P(Y)$ and $\sigma$ from $\varepsilon$.
+Statistical estimation methods cast SR as an inference problem.
+%
+One of the earliest successful SR algorithm\cite{Irani1991ImprovingRB} proposed an iterative algorithm inspired by the back-projection method commonly used to reconstruct 2-D objects from 1-D projections in computer-aided tomography.
+%
+Recall that we assumed that motion and blur commute (see eqn.~\ref{eqn:commuteimagingmodel}).
+%
+Then the idea is to take the current estimate of the HR image $\hat{V}^{i}$, see if after motion and down-sampling it is near the LR samples $X_k$, and add a correction when it is not:
+\begin{equation}
+    \hat{V}^{i+1} = \hat{V}^i + \sum_k (D_k \circ A_k)^{-1}\left( (D_k \circ A_k)(\hat{V}^i) - X_k \right)
+\end{equation}
+where $\hat{V}^i$ is the current estimate of the blurred HR image, $(D_k \circ A_k)(\hat{V}^i)$ is the projection of the current estimate to low resolution, and $(D_k \circ A_k)^{-1}\left( (D_k \circ A_k)(\hat{V}^i) - X_k \right)$ is the \textit{back-projection}.
+%
+Irani et al.\cite{Irani1991ImprovingRB} also convolve the back-projection with a smoothing kernel as a form of regularization since the estimation problem is in general ill-posed (there are many $\hat{V}^{i}$ that will project down to a pixel-distance neighbor of $X_k$)
+%
+It can be shown\cite{Elad1996} that $\hat{V}$ is none other than the maximum likelihood estimate for $V$.
 
 
 %
