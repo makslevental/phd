@@ -8,13 +8,13 @@ Suppose that $H_k$ is linear spatial\anote{lsi} and time invariant.
 %
 Suppose further that $A_k$ is affine.
 %
-Then $H \coloneqq H_k$ commutes with $A_k$\cite{meladcommute} and equation~\ref{eqn:commuteimagingmodel} becomes
+Then $H \coloneqq H_k$ commutes with $A_k$\cite{meladcommute} and eqn.~\ref{eqn:commuteimagingmodel} becomes
 \begin{equation}
     \label{eqn:commuteimagingmodel}
     \begin{split}
-        X_k &= (D_k \circ A_k \circ H) (Y) + \varepsilon \\
-        &= (D_k \circ A_k) (H(Y)) + \varepsilon \\
-        &= (D_k \circ A_k) (V) + \varepsilon
+        X_k &= (D \circ A_k \circ H) (Y) + \varepsilon \\
+        &= (D \circ A_k) (H(Y)) + \varepsilon \\
+        &= (D \circ A_k) (V) + \varepsilon
     \end{split}
 \end{equation}
 %
@@ -46,9 +46,11 @@ This non-uniform interpolation is then followed by application of a Wiener filte
 \end{figure}
 Lertrattanapanich et. al\cite{Lertrattanapanich} base their algorithm on interpolants which require knowledge of gradients (e.g. splines) and mediate the non-uniform sampling by using a weighted average (by area) of those gradients in adjacent Delaunay cells; to be precise they produce a Delaunay triangulation of all LR pixels and compute the gradients (see figure~\ref{fig:delauney}) according to
 \begin{align*}
-    \vec{n} = \sum_{j=1}^k \frac{A_j \vec{n_j}}{A} &\text{ where } A=\sum_{i=1}^k A_i\\
+    \vec{n} = \sum_{i=1}^m \frac{B_j \vec{n_j}}{B} &\text{ where } B=\sum_{i=1}^m B_i\\
     \frac{\partial z}{\partial x} = -\frac{n_x}{n_z} &\text{ and }  \frac{\partial z}{\partial y} = -\frac{n_y}{n_z}
 \end{align*}
+where $B_i$ is the area of the $i$th Delaunay cell.
+%
 Unfortunately this intricate solution is not robust to noise in real images.
 
 A more sophisticated method for non-uniform interpolation uses parametric models for the auto-correlation between LR pixels and the cross-correlation between LR pixels and interpolated pixels to estimate wiener filter weights\cite{wiener}.
@@ -80,7 +82,7 @@ and $\bm{p}$ is constructed by sampling from
 \begin{equation}
     C_2(r) = \sigma_d^2 \rho^{r} \ast G(r) \ast G(-r)
 \end{equation}
-In the case of $R$, $r$ is distance on the HR grid, $\sigma_d$ is related to the empirical variance of all LR pixels in a given observation window and $G(r)$ is a smoothing kernel (e.g. gaussian).
+In the case of $R$, $r$ is distance on the HR grid, $\sigma_d$ is related to the empirical variance of all LR pixels in a given observation window and $G(r)$ is a smoothing kernel (e.g. Gaussian).
 %
 Thus by evaluating $C_1$ for all $r = r(n_1, n_2)$ distances between LR pixels $n_1$, $n_2$ we can construct $R$.
 %
@@ -98,6 +100,9 @@ Recall that kernel regression frames the estimation problem as
 \newcommand*{\bx}{\bm{x}}
 \newcommand*{\bxi}{\bm{x}_i}
 \newcommand*{\delx}{\bx - \bxi}
+\newcommand*{\by}{\bm{y}}
+\newcommand*{\byi}{\bm{y}_i}
+\newcommand*{\dely}{\by - \byi}
 \newcommand*{\zbx}{Z(\bx)}
 \newcommand*{\zbxi}{Z(\bxi)}
 \newcommand*{\bb}{\bm{\beta}}
@@ -148,85 +153,108 @@ One solution is to parameterize $H_i$:
 \]
 where $U_{\theta_i}$ is a rotation matrix, $\Lambda_{\sigma_i} = \text{diag}\left( \sigma_i, \sigma_i^{-1} \right)$ is an "elongation" matrix, and $\gamma_i$ is a scaling parameter, with each of $\gamma_i, \theta_i, \sigma_i$ estimated from the data in a more robust way.
 %
-Another solution is to use a multi-scale Kalman filter to estimate $H_i$\cite{XiaoGuang}.
 
-In general non-uniform interpolation techniques are intuitive and typically (relatively) computationally efficient but they assume an unrealistic observation model (namely that affine flow).
+In general non-uniform interpolation techniques are intuitive and typically (relatively) computationally efficient but they assume an unrealistic observation model (namely that of affine flow).
+
 \subsection{Estimation}
-%
-%For example a full Bayesian treatment would construct an estimate $\hat{Y}$ of $Y$ as
-%\begin{align}
-%    \hat{Y} &= \underset{Z}{\text{argmax}}~P\left( Y | X_0, X_1, \mathellipsis, X_k \right) \nonumber \\
-%    &= \underset{Y}{\text{argmax}} \int_{H, A} P\left( Y, H, A | \bm{X}\right) \nonumber \\
-%    &= \underset{Y}{\text{argmax}} \int_{H, A} \frac{P\left(\bm{X} | Y, H, A \right)P(Y) P(H, A)}{P(\bm{X})}\label{eqn:indepym} \\
-%    &= \underset{Y}{\text{argmax}} \int_{H, A} P\left(\bm{X} | Y, H, A \right)P(Y) P(H, A) \label{eqn:maxx}
-%\end{align}
-%where in eqn.~\ref{eqn:indepym} we've used the independence of $Y$ and $H,A$\cite{Hardie1997} and in eqn.~\ref{eqn:maxx} we've used that $\bm{X}$ is a constant with respect to the maximization.
-%%
-%While there exist reasonable priors for $Y$, marginalizing over $H, A$ is still difficult due to the high-dimensionality of each.
-%%
-%Therefore assuming $H, A$ can be estimated independently as $\hat{H}, \hat{A}$, eqn.~\ref{eqn:maxx} becomes
-%\begin{equation}
-%    \hat{Y} = \underset{Y}{\text{argmax}}~P\left(\bm{X} | Y; \hat{H}, \hat{A} \right) P(Y)
-%    \label{eqn:map}
-%\end{equation}
-%which casts $\hat{Y}$ the standard maximum a posteriori (MAP) of $Y$.
-%%
-%If we further assume a uniform prior over $Y$ eqn.~\ref{eqn:map} reduces to
-%\begin{equation}
-%    \hat{Y} = \underset{Y}{\text{argmax}}~P\left(\bm{X} | Y; \hat{H}, \hat{A}\right)
-%    \label{eqn:mle}
-%\end{equation}
-%i.e. $\hat{Y}$ is the maximum likelihood estimate of $Y$.
-%%
-%Note that an equivalent formulation of both MLE and MAP minimize the negative log-likelihood instead of maximizing the likelihood:
-%\begin{align}
-%    \hat{Y} &= \underset{Y}{\text{argmax}}~P\left(\bm{X} | Y; \hat{H}, \hat{A}\right) P(Y) \nonumber \\
-%    &=  \underset{Y}{\text{argmin}}\left[ -\log{P\left(\bm{X} | Y; \hat{H}, \hat{A} \right)} -\log{P(Y)} \right]
-%    \label{eqn:logmap}
-%\end{align}
-%%
-%In either case (MLE or MAP) various choices for the conditional distribution $P\left(\bm{X} | Y; \hat{H}, \hat{A}\right)$ and the prior distribution $P(Y)$ (and consequent choice of maximization strategies) characterize this class of SR techniques.
-%%
-%Typically $\varepsilon$ in eqn.~\ref{eqn:imagingmodel} is distributed $N(0, \sigma)$, i.e. zero-mean unit variance Gaussian, which constrains the conditional distribution to be Gaussian.
-%%
-%Therefore eqn.~\ref{eqn:mle} becomes
-%\begin{equation}
-%    \hat{Y} = \underset{Y}{\text{argmin}}\left\| X-\hat{H}\hat{A}Y \right\|^2
-%    \label{eqn:minmle}
-%\end{equation}
-%and after a suitable choice for $P(Y)$, (e.g. Gibbs\cite{Hardie1997}):
-%\[
-%    P(Y) = \frac{1}{Z}e^{-\alpha B(Y)}
-%\]
-%eqn.~\ref{eqn:logmap} becomes
-%\begin{equation}
-%    \hat{Y} = \underset{Y}{\text{argmin}}\left[ \left\| X-\hat{H}\hat{A}Y \right\|^2 +\lambda B(Y)\right]
-%    \label{eqn:minmap}
-%\end{equation}
-%where $\lambda$ absorbs $\alpha$ from $P(Y)$ and $\sigma$ from $\varepsilon$.
+
 Statistical estimation methods cast SR as an inference problem.
 %
-One of the earliest successful SR algorithm\cite{Irani1991ImprovingRB} proposed an iterative algorithm inspired by the back-projection method commonly used to reconstruct 2-D objects from 1-D projections in computer-aided tomography.
+One of the earliest successful SR algorithms\cite{Irani1991ImprovingRB} proposed an iterative scheme inspired by the back-projection method commonly used to reconstruct 2-D objects from 1-D projections in computer-aided tomography.
 %
-Recall that we assumed that motion and blur commute (see eqn.~\ref{eqn:commuteimagingmodel}).
+Recall eqn.~\ref{eqn:imagingmodel}.
 %
-Then the idea is to take the current estimate of the HR image $\hat{V}^{i}$, see if after motion and down-sampling it is near the LR samples $X_k$, and add a correction when it is not:
+Then the idea is to take the current estimate of the HR image $\hat{Y}^{i}$, see if after motion and down-sampling $(D \circ A_k)(\hat{Y}^i)$ it is near the LR samples $X_k$, and add a correction when it is not:
 \begin{equation}
-    \hat{V}^{i+1} = \hat{V}^i + \sum_k (D_k \circ A_k)^{-1}\left( (D_k \circ A_k)(\hat{V}^i) - X_k \right)
+    \hat{Y}^{i+1} = \hat{Y}^i + \sum_{k=1}^K (D \circ A_k)^{-1}\left( (D \circ A_k)(\hat{Y}^i) - X_k \right)
+    \label{eqn:ibp}
 \end{equation}
-where $\hat{V}^i$ is the current estimate of the blurred HR image, $(D_k \circ A_k)(\hat{V}^i)$ is the projection of the current estimate to low resolution, and $(D_k \circ A_k)^{-1}\left( (D_k \circ A_k)(\hat{V}^i) - X_k \right)$ is the \textit{back-projection}.
+where $\hat{Y}^i$ is the current estimate of the blurred HR image, $(D \circ A_k)(\hat{Y}^i)$ is the projection of the current estimate to low resolution, and $(D \circ A_k)^{-1}\left( (D \circ A_k)(\hat{Y}^i) - X_k \right)$ is the \textit{back-projection}.
 %
-Irani et al.\cite{Irani1991ImprovingRB} also convolve the back-projection with a smoothing kernel as a form of regularization since the estimation problem is in general ill-posed (there are many $\hat{V}^{i}$ that will project down to a pixel-distance neighbor of $X_k$)
+This process iterates until convergence i.e. $\lvert (D \circ A_k)(\hat{Y}^i) - X_k \rvert < \delta$ for some $\delta$.
 %
-It can be shown\cite{Elad1996} that $\hat{V}$ is none other than the maximum likelihood estimate for $V$.
+Irani et al.\cite{Irani1991ImprovingRB} also convolve the back-projection with a smoothing kernel as a form of regularization since the estimation problem is in general ill-posed (there are many $\hat{Y}^{i}$ that will project down to a pixel-distance neighbor of $X_k$).
+%
+It can be shown\cite{Elad1996} that for $\varepsilon_k$ distributed $(0, R_k)$ Normal, $\hat{Y}$ is none other than the maximum likelihood estimate (MLE) for $Y$.
+%
+We can see this by recognizing that eqn.~\ref{eqn:ibp} is just the Richardson iterative\cite{Anderssen:1972:RNM:891962} solution to
+\begin{equation}
+    L(Y) = \frac{1}{2} \left\| \bm{X} -  \begin{bmatrix}
+                                             D_1 \circ A_1 \\
+                                             D_2 \circ A_2 \\
+                                             \vdots \\
+                                             D_K \circ A_K \\
+                                         \end{bmatrix}  Y  \right\|^2
+\end{equation}
+since
+\begin{gather*}
+        \nabla_{Y} L = 0 \\
+        \iff \\
+        \sum_{k=1}^K (D \circ A_k)^{-1}\left( (D \circ A_k)(Y) - X_k \right) = 0
+\end{gather*}
+and therefore $\hat{Y}_i \rightarrow \hat{Y}$ is the MLE (since MLE is the solution to least squares\cite{CaseBerg:01}).
 %
 Though this is one of the oldest SR algorithms it's recently been revisited and re-imagined as a deep neural network architecture (DNN)\cite{DBLP:journals.corr.abs-1803-02735}.
 
-
+Another iterative technique employs a Kalman filter\cite{elad1999} to estimate $Y$.
 %
-%\begin{equation}
-%    \hat{Y} = \underset{Y}{\text{argmin}}\left[ \left\| X-HAY \right\|^2 + \lambda B(Y) \right]
-%    \label{eqn:minmap}
-%\end{equation}
+Let $\bm{x}_k = \text{vec}(X_k)$ be the vectorization\anote{vectorize} of $X_k$ and $\bm{y} = \text{vec}(Y)$ likewise.
+%
+If we assume linear models for each of $D, A_k, H_k$ (i.e. all representable as matrices) and a well-behaved optical flow model (most pixels in image $\bm{x}_k$ appear in image $\bm{x}_{k-1}$) then we can define a sequence of images $\bm{y}_k$ related in time by
+\begin{equation}
+    \bm{y}_k = A'_k \bm{y}_{k-1} + \eta_k
+    \label{eqn:kalmanprocess}
+\end{equation}
+%
+where $A'_k$ is the \textit{relative} motion operator, $A'_k\bm{y}_{k-1}$ is conventional matrix-vector multiplication, and $\eta_k$ is the only source of new pixels (noise distributed $(0, Q_k)$ Normal).
+%
+Consequently eqn.~\ref{eqn:imagingmodel} becomes
+\begin{equation}
+    \bm{x}_k = DH_k\bm{y}_k + \varepsilon
+    \label{eqn:kalmanobs}
+\end{equation}
+and the pair of eqns.~\ref{eqn:kalmanprocess},~\ref{eqn:kalmanobs} can be seen to constitute a linear dynamical system with $\bm{y}_k$ the state of the system, $A'_k$ the state transition, $\eta_k$ the state noise, $\bm{x}_k$ the measurement, $DH_k$ the measurement model, and $\varepsilon_k$ the measurement noise.
+%
+Note that the HR image conditioned on all previous LR images (measurements)
+\begin{equation}
+    \bm{y}_{k|s} \coloneqq \bm{y}_k|\bm{x}_1, \mathellipsis, \bm{x}_s
+\end{equation}
+is a Gaussian stochastic process, with mean $\bar{\bm{y}}_{k|s} = E\left[\bm{y}_{k|s}\right]$
+and covariance
+\begin{equation}
+    C_{k|s} \coloneqq E\left[ (\bm{y}_k - \bar{\bm{y}}_{k|s})(\bm{y}_k - \bar{\bm{y}}_{k|s})^T  \right]
+\end{equation}
+%
+By definition the MMSE $\hat{\bm{y}}_{k|s}$ of $\bm{y}_{k|s}$ is $\bar{\bm{y}}_{k|s}$ and therefore $C_{k|s}$ is the covariance of the error of the estimate $\hat{\bm{y}}_{k|s}$.
+%
+The Kalman filter proceeds in two steps: an \textit{a priori} (before measurement) prediction step and an \textit{a posteriori} (after measurement) update step.
+%
+The prediction step iterates on the estimate (and its covariance) given all previous measurements:
+\begin{align}
+    \hat{\bm{y}}_{k|k-1} &= A'_k \hat{\bm{y}}_{k-1|k-1} \\
+    C_{k|k-1} &= A'_k C_{k-1|k-1} (A'_k)^T + Q_k
+\end{align}
+Then the update step incorporates new information from a measurement:
+\begin{align}
+    \hat{\bm{y}}_{k|k} &= \hat{\bm{y}}_{k|k-1} + K_k(\bm{x}_k - DH_k\hat{\bm{y}}_{k|k-1} ) \\
+    C_{k|k} &= (I - K_k DH_k)C_{k|k-1}
+\end{align}
+where
+\begin{equation}
+    K_k = \frac{C_{k|k-1}(DH_k)^T}{DH_k C_{k|k-1} (DH_k)^T + R_k }
+\end{equation}
+is the Kalman gain.
+%
+Note that in the Kalman framework $D, H_k, A'_k, R_k, Q_k$ are all assumed to known. In Elad et al.\cite{elad1999} the assumption is $D, H_k, R_k$ are known camera parameters, $A'_k$ can be estimated by an image registration algorithm and $Q_k$ can be approximated:
+\begin{equation}
+    Q_k \approx \alpha_k A'_k C_{k|k} (A'_k)^T
+\end{equation}
+where $\alpha_k$ is chosen such that the approximation upper-bounds the true $Q_k$.
+%
+They comment that this stronger auto-correlation for $\bm{y}_k$ adds "pseudo-noise" to the system and biases the Kalman filter to "rely" more on the measurements than the state transition model.
+
+%completely linear model for of $D, A_k, H$ (i.e. matrix operators) then eqn.~\ref{eqn:commuteimagingmodel} then
+
+
 
 \subsection{Example based}

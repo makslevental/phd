@@ -130,17 +130,17 @@ Across all of these imaging systems there are ample avenues for the introduction
 With that in mind we now proceed to formalizing the problem of super-resolution.
 
 \subsection{Mathematical notation}\label{subsec:notation}
-Upper case plain latin $X, Y$ each denote channel $\times$ row $\times$ column \textit{tensors}\anote{tensor} representing LR and HR images respectively, with $(0,0)$ corresponding to the top left corner of the image.
+Upper case plain latin $X, Y$ each denote channel $\times$ row $\times$ column \textit{tensors}\anote{tensor} representing LR and HR images respectively, with $(0, 0,0)$ corresponding to the top left corner of the first channel of image.
 %
-Often for the sake of simplicity we consider greyscale images in which case we omit the channel dimension.
+Often for the sake of simplicity we consider greyscale images, in which case we omit the channel dimension.
 %
 Lower case plain latin $x, y$ denote LR and HR \textit{patches}\anote{patch} respectively.
 %
 $D, H, F, G$ variously refer to functions that operate on images.
 %
-Bolded uppercase latin $\bm{X}, \bm{Y}$ denotes batches.
-
-Bolded lower case denote $\bm{x}, \bm{y}, \bm{z}, \mathellipsis$ denote conventional column or row vectors.
+Bolded uppercase latin $\bm{X}, \bm{Y}$ are reserved for batches of images, i.e. batch size $\times$ channel $\times$ row $\times$ column tensors with $(0, 0, 0,0)$ corresponding to the top left corner of the first channel of first image in the batch.
+%
+Bolded lower case denote $\bm{x}, \bm{y}, \bm{z}$ etc. denote conventional column or row vectors.
 
 \subsection{Imaging model}\label{subsec:imaging-model}
 Figure~\ref{fig:bertrand} shows a conceptual model of the imaging process as carried out by an imaging system.
@@ -159,10 +159,12 @@ Let $Y$ denote an idealized HR image of the scene from some fixed vantage point 
 %
 Formally the $X_k$ are related to $Y$ by
 \begin{equation}
-    X_k = (D_k \circ H_k \circ A_k) (Y) + \varepsilon
+    X_k = (D_k \circ H_k \circ A_k) (Y) + \varepsilon_k
     \label{eqn:imagingmodel}
 \end{equation}
-where for the $k$th sample $A_k$ is the operator representing motion (affine and perspective shift) induced by optical flow\anote{opticalflow}, $H_k$ represents the blur operator, $D_k$ represents the down-sampling operator, and $\varepsilon$ represents the composite noise (environment and sensor noise). We now consider the challenges and nuances of estimating motion and blur.
+where for the $k$th sample $A_k$ (of $K$) is the operator representing motion (affine and perspective shift) induced by optical flow\anote{opticalflow}, $H_k$ represents the blur operator, $D$ represents the down-sampling operator (constant in time since it's typically a digital component of the imaging system), and $\varepsilon_k$ represents the composite noise (environment and sensor noise).
+
+We now consider the challenges and nuances of estimating motion and blur.
 
 For a static 3-D scene and an imaging system with 6 degrees of freedom, the optical flow caused by motion is dependent on the geometry of the scene and potentially nonlinear (due to occlusion and motion parallax).
 %
