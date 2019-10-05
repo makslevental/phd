@@ -1,3 +1,15 @@
+\newcommand*{\bx}{\bm{x}}
+\newcommand*{\bX}{\bm{X}}
+\newcommand*{\bxi}{\bm{x}_i}
+\newcommand*{\delx}{\bx - \bxi}
+\newcommand*{\by}{\bm{y}}
+\newcommand*{\byi}{\bm{y}_i}
+\newcommand*{\dely}{\by - \byi}
+\newcommand*{\zbx}{Z(\bx)}
+\newcommand*{\zbxi}{Z(\bxi)}
+\newcommand*{\bb}{\bm{\beta}}
+\newcommand*{\hzbx}{\hat{Z}(\bx)}
+%
 \subsection{Registration}
 \input{figures/taxonomy.tex}
 Figure~\ref{fig:taxonomy} lays out a rough taxonomy of classical SR algorithms.
@@ -76,11 +88,11 @@ Then $R$ and $\bm{p}$ are both constructed by sampling a parametric model that w
 %
 $R$ is constructed by sampling from
 \begin{equation}
-    C_1(r) = \sigma_{d}^2 \rho^{r} \ast G(r)
+    C_1(r) \coloneqq \sigma_{d}^2 \rho^{r} \ast G(r)
 \end{equation}
 and $\bm{p}$ is constructed by sampling from
 \begin{equation}
-    C_2(r) = \sigma_d^2 \rho^{r} \ast G(r) \ast G(-r)
+    C_2(r) \coloneqq \sigma_d^2 \rho^{r} \ast G(r) \ast G(-r)
 \end{equation}
 In the case of $R$, $r$ is distance on the HR grid, $\sigma_d$ is related to the empirical variance of all LR pixels in a given observation window and $G(r)$ is a smoothing kernel (e.g. Gaussian).
 %
@@ -94,28 +106,21 @@ The scheme is effective but suffers from issues with the spatial isotropy of the
 
 One of the most sophisticated of these non-uniform interpolation schemes employs the kernel regression framework and \textit{steering kernels}\cite{Takeda2007}.
 %
-In this context we start with all $X_k$ registered to a common HR grid and consider pixel values $Y_i = Y(\bm{x}_i)$ at pixel coordinates $\bm{x}_i = (x_{i1},x_{i2})$ as the measured data pairs $(\bm{x}_i, Y_i)$.
+In this context we start with all $X_k$ registered to a common HR grid and consider pixel values $Y(\bxi)$ at pixel coordinates $\bxi \coloneqq (x_{i1},x_{i2})$ as the measured data pairs $(\bxi, Y(\bxi)$.
 %
 Recall that kernel regression frames the estimation problem as
-\newcommand*{\bx}{\bm{x}}
-\newcommand*{\bxi}{\bm{x}_i}
-\newcommand*{\delx}{\bx - \bxi}
-\newcommand*{\by}{\bm{y}}
-\newcommand*{\byi}{\bm{y}_i}
-\newcommand*{\dely}{\by - \byi}
-\newcommand*{\zbx}{Z(\bx)}
-\newcommand*{\zbxi}{Z(\bxi)}
-\newcommand*{\bb}{\bm{\beta}}
-\newcommand*{\hzbx}{\hat{Z}(\bx)}
 \begin{equation}
-    Y_i = Z(\bx_i) + \varepsilon
+    Y(\bxi) = Z(\bxi) + \varepsilon
 \end{equation}
 where $Z$ is the to-be-estimated \textit{regression function} that "predicts" $Y$ as a function of $\bx$.
 Then the Nadaraya–Watson estimator (NWE)\cite{Nadaraya} $\hat{Z}$ for $Z$ is
 \begin{equation}
-    \hat{Z}(\bx) = \frac{\sum_{i=1}^{P}K(\delx)Y_i}{\sum_{i=1}^{P}K(\delx)}
+    \hat{Z}(\bx) = \frac{\sum_{i=1}^{P}K(\delx)Y(\bxi)}{\sum_{i=1}^{P}K(\delx)}
+    \label{eqn:kernelregression}
 \end{equation}
 where $P$ indexes over all pixels in the HR grid and $K$ is a \textit{kernel function} whose purpose is to decay the contribution of $\bxi$ if it's in some sense far from $\bx$.
+%
+Note that $\hat{Z}(\bx)$ can also be seen as a weighted filtering of $Y$.
 %
 \begin{figure}
     \centering
@@ -131,7 +136,7 @@ where $P$ indexes over all pixels in the HR grid and $K$ is a \textit{kernel fun
 \end{figure}
 In conventional kernel regression $K$ might be any non-negative, symmetric, unimodal\cite{wand1994kernel} function with augmented with an additional $h$ parameter that controls the "bandwidth" or "footprint" of the kernel, i.e.
 \begin{equation}
-    K_h(\delx) = \frac{1}{h}K\left( h^{-1}(\delx) \right)
+    K_h(\delx) \coloneqq \frac{1}{h}K\left( h^{-1}(\delx) \right)
 \end{equation}
 This bandwidth parameter $h$ can be generalized to a \textit{smoothing kernel} $H$ in order to make $K = K_H$ adaptive to the local structure of the pixels, e.g. to have larger footprints in sparsely sampled regions and have smaller footprints in densely sampled regions (see figure~\ref{fig:footprint}).
 %
@@ -153,6 +158,16 @@ One solution is to parameterize $H_i$:
 \]
 where $U_{\theta_i}$ is a rotation matrix, $\Lambda_{\sigma_i} = \text{diag}\left( \sigma_i, \sigma_i^{-1} \right)$ is an "elongation" matrix, and $\gamma_i$ is a scaling parameter, with each of $\gamma_i, \theta_i, \sigma_i$ estimated from the data in a more robust way.
 %
+An alternative kernel is the bilateral kernel\cite{Tomasi:1998:BFG:938978.939190} that defines closeness according to geometric and radiometric distance:
+\begin{equation}
+    \begin{split}
+        K_S(\delx) &\coloneqq \exp \left\{ \frac{\left\| \delx \right\|^2}{2 \sigma_S^2}  \right\} \\
+        K_R(\delx) &\coloneqq \exp \left\{  \frac{\left\| Y(\bx) - Y(\bxi) \right\|^2}{2 \sigma_R^2} \right\} \\
+        K_B(\delx) &\coloneqq K_S(\delx)K_R(\delx)
+    \end{split}
+    \label{eqn:bilateralkernel}
+\end{equation}
+where $\sigma_S$ parameterizes spatial distance weight and $\sigma_R$ parameterizes "radiometric" distance weight.
 
 In general non-uniform interpolation techniques are intuitive and typically (relatively) computationally efficient but they assume an unrealistic observation model (namely that of affine flow).
 
@@ -244,7 +259,7 @@ Then the update step incorporates new information from a measurement:
 \end{align}
 where the \text{Kalman gain}
 \begin{equation}
-    K_k = \frac{C_{k|k-1}(DH_k)^T}{DH_k C_{k|k-1} (DH_k)^T + R_k }
+    K_k \coloneqq \frac{C_{k|k-1}(DH_k)^T}{DH_k C_{k|k-1} (DH_k)^T + R_k }
 \end{equation}
 weights the contribution of the prediction and the measurement\anote{kalmanprediction}.
 %
@@ -296,55 +311,100 @@ Again assume $D, H_k, A_k$ linear and given $\varepsilon_k$ in eqn.~\ref{eqn:ima
 where here $\bm{X} = \left( \text{vec}(X_1), \mathellipsis, \text{vec}(X_k) \right)$ and
 \begin{equation}
     \hat{D} \hat{\bm{H}} \hat{\bm{A}} \coloneqq \begin{bmatrix}
-                                             \hat{D} \hat{\bm{H}}_1 \hat{\bm{A}}_1 \\
-                                             \hat{D} \hat{\bm{H}}_2 \hat{\bm{A}}_2 \\
-                                             \vdots \\
-                                             \hat{D} \hat{\bm{H}}_K \hat{\bm{A}}_K \\
+                                                    \hat{D} \hat{\bm{H}}_1 \hat{\bm{A}}_1 \\
+                                                    \hat{D} \hat{\bm{H}}_2 \hat{\bm{A}}_2 \\
+                                                    \vdots \\
+                                                    \hat{D} \hat{\bm{H}}_K \hat{\bm{A}}_K \\
     \end{bmatrix}
 \end{equation}
 %
 After a suitable choice for the prior it can be seen that eqn.~\ref{eqn:logmap} is just regularized regression.
 %
 For example when choosing a Gibbs\cite{Hardie1997} distribution as the prior, i.e.
-\[
-    P(\bm{y}) \propto e^{-\alpha B(\bm{y})}
-\]
-where $B(\bm{y})$ is called the \textit{potential}, eqn.~\ref{eqn:logmap} becomes
 \begin{equation}
-    \hat{\bm{y}} = \underset{\bm{y}}{\text{argmin}}\left[ \left\| \bm{X} - \hat{D} \hat{\bm{H}} \hat{\bm{A}} \bm{y} \right\|^2 +\lambda B(\bm{y})\right]
+    P(Y) \propto e^{-\alpha B(Y)}
+    \label{eqn:gibbs}
+\end{equation}
+where $B(Y)$ is called the \textit{potential}, eqn.~\ref{eqn:logmap} becomes
+\begin{equation}
+    \hat{\bm{y}} = \underset{\bm{y}}{\text{argmin}}\left[ \left\| \bm{X} - \hat{D} \hat{\bm{H}} \hat{\bm{A}} \bm{y} \right\|^2 +\lambda B(Y)\right]
     \label{eqn:minmap}
 \end{equation}
-where $\lambda$ absorbs $\alpha$ from $P(\bm{y})$ and $r$ from $\varepsilon_k$.
-
+where the aggregate regularization parameter $\lambda$ absorbs $\alpha$ from $P(Y)$ and $r$ from $\varepsilon_k$.
+%
 There are many other choices for the prior in eqn.~\ref{eqn:logmap}, whose effect is to bias the estimator $\hat{\bm{y}}$ towards "natural" images.
 %
-Alternatively we can (and will) start with eqn.~\ref{eqn:minmap} and choose the regularizer $B(\bm{y})$.
+Alternatively we can (and will) take eqn.~\ref{eqn:minmap} as our starting point and explicitly choose the regularizer $B(Y)$.
+
+One of the simplest priors is a $(0, Q)$-Normal, where $Q$ is symmetric positive definite\anote{positivedef} (PD) and captures the covariance.
 %
-Probably the simplest prior is the Gaussian Markov random field\anote{gmrf}.
-%
-This corresponds to the regularlizer taking the form
+This corresponds to the regularizer taking the form
 \begin{equation}
-    B(\bm{y}) = \bm{y}^T Q \bm{y}
+    B(Y) = \by ^T Q \by
 \end{equation}
-where $Q$ is symmetric positive definite\anote{positivedef} (PD) and captures the covariance of adjacent pixels by its off-diagonal elements.
+where $\by = \text{vec}(Y)$.
 %
-Since $Q$ is symmetric PD we can write the Cholesky decomposition $Q = U^T U$, where $U$ is upper triangular, and then eqn.~\ref{eqn:minmap} becomes
+Since $Q$ is symmetric PD eqn.~\ref{eqn:minmap} becomes
 \begin{equation}
-    \hat{\bm{y}} = \underset{\bm{y}}{\text{argmin}}\left[ \left\| \bm{X} - \hat{D} \hat{\bm{H}} \hat{\bm{A}} \bm{y} \right\|^2 +\lambda \left\| U\bm{y} \right\|^2 \right]
+    \hat{\bm{y}} = \underset{\bm{y}}{\text{argmin}}\left[ \left\| \bm{X} - \hat{D} \hat{\bm{H}} \hat{\bm{A}} \bm{y} \right\|^2 +\lambda \left\| \sqrt{Q}\bm{y} \right\|^2 \right]
     \label{eqn:tikminmap}
 \end{equation}
-which is a Tikhonov regularized under-determined least squares problem.
+where $\sqrt{Q}$ is $U$ of the Cholesky decomposition $Q = U^T U$.
 %
-Letting $G = \hat{D} \hat{\bm{H}} \hat{\bm{A}}$ the solution to eqn.~\ref{eqn:tikminmap} is
+Equation~\ref{eqn:tikminmap} is Tikhonov regularized regression.
+%
+Letting $G = \hat{D} \hat{\bm{H}} \hat{\bm{A}}$ the closed-form solution to eqn.~\ref{eqn:tikminmap} is
 \begin{equation}
-    \hat{\bm{y}} = Q^{-1} G^T \left( G Q^{-1} G^T + \lambda I \right)^{-1}\bm{X}
+    \hat{\by} = \left( G^T G + \lambda Q \right)^{-1} G^T\bX
     \label{eqn:closedform}
 \end{equation}
-Nguyen et al.\cite{milanfar2001} use generalized cross-validation to determine the regularization parameter $\lambda$.
+Nguyen et al.\cite{milanfar2001} use cross-validation to determine the regularization parameter $\lambda$ (by partitioning the pixels into a "fit" and "validate" set).
 %
-Rather than explicitly computing inverses in eqn.~\ref{eqn:closedform}, in practice $\hat{\bm{y}}$ is found by solving the the least squares problem via optimization  (due to the size of the matrices involved optimization is faster than inversion).
+In general, rather than explicitly computing inverses in eqn.~\ref{eqn:closedform}, in practice $\hat{\bm{y}}$ is found by solving the regression problem via optimization (for high-dimensional matrices optimization is faster than inversion).
 %
 Nguyen et al. use conjugate gradient descent\anote{conjugategradients} to optimize eqn.~\ref{eqn:tikminmap}.
 %
 They argue that $\hat{D} \hat{\bm{H}} \hat{\bm{A}}$ is ill-conditioned\anote{illcondition} and to that end, since the convergence rate of conjugate gradients is dependent on the condition number\cite{vanderSluis1986}, propose pre-conditioners\anote{precondition} to improve the converge rate.
+
+An issue with the multivariate Normal prior is that it strongly enforces global smoothness, penalizing sharp edges.
+%
+One solution is to use Huber loss\cite{huber1964}
+\begin{equation}
+    L_{\delta }(a)\coloneqq {
+    \begin{cases}
+        a^2 & \text{for }\lvert a \rvert \leq \delta \\
+        2 \delta \lvert a \rvert - \delta^2 &{\text{otherwise}}
+    \end{cases}
+    }
+\end{equation}
+to explicitly parameterize the penalty for gradients (i.e. high-frequency features).
+%
+Huber loss enforces local smoothness (since it's quadratic for $\lvert a \rvert \leq \delta$) but permits edges (since it's linear for $\lvert a \rvert > \delta$).
+%
+Capel et al.\cite{capel2000} implement this by composing $L_{\delta }(a)$ with a first-order gradient operator\anote{gradientoperator} as the potential in eqn.~\ref{eqn:gibbs}.
+%
+Another gradient penalty that encourages sparse gradients (i.e. local smoothness and steep edges) is Total Variation (TV) norm\cite{RUDIN1992259}:
+\begin{equation}
+    \|u\|_{\operatorname {TV}}\,\coloneqq\int _{\Omega }\|\nabla u\|\,d\Omega
+\end{equation}
+where $u$ is a smooth image of bounded variation (i.e. such that the integral converges) over domain $\Omega$.
+%
+In the context of SR this amounts to setting
+\begin{equation}
+    B(Y) = TV(Y) \coloneqq \lVert \nabla Y \rVert_1
+\end{equation}
+%
+Farsiu et al.\cite{farsiu} introduce a \textit{bilateral} TV norm
+\begin{equation}
+    BTV(Y) \coloneqq \sum_{k=0}^{P} \sum_{l=0}^{P} \alpha^{k + l} \lVert Y - S_x^k S_y^l Y \rVert_1
+\end{equation}
+where $S_x^k, S_y^l$ are shift operators (i.e. $S_x^k$ shifts $Y$ by $k$ pixels in the horizontal).
+%
+The bilateral TV norm factors in gradients at several scales ($Y - S_x^2 Y$ is an approximation of the horizontal gradient at twice the scale of $Y - S_x^1 Y$) and decays their contribution according to their spatial distance ($\alpha^{k+l}$ decays as a function of shift distance).
+%
+It can also be shown to be equivalent\cite{elad2002} to filtering $\bX$ by the bilateral kernel (see eqn.~\ref{eqn:bilateralkernel}).
+
+Though there are many priors (or regularizers) that have been studied none really capture natural images in all of their variation.
+%
+For that we need to actually learn from real data i.e. examples images.
 \subsection{Example based}
