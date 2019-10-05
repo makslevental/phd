@@ -159,7 +159,7 @@ Let $Y$ denote an idealized HR image of the scene from some fixed vantage point 
 %
 Formally the $X_k$ are related to $Y$ by
 \begin{equation}
-    X_k = (D_k \circ H_k \circ A_k) (Y) + \varepsilon_k
+    X_k = (D \circ H_k \circ A_k) (Y) + \varepsilon_k
     \label{eqn:imagingmodel}
 \end{equation}
 where for the $k$th sample $A_k$ (of $K$) is the operator representing motion (affine and perspective shift) induced by optical flow\anote{opticalflow}, $H_k$ represents the blur operator, $D$ represents the down-sampling operator (constant in time since it's typically a digital component of the imaging system), and $\varepsilon_k$ represents the composite noise (environment and sensor noise).

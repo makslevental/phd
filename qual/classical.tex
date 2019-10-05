@@ -32,7 +32,7 @@ Note in this context we use interpolation very broadly, i.e. to connote filling 
 \end{figure}
 This class of techniques proceed by first registering images on a high resolution grid (see figure~\ref{fig:hrgrid}) then interpolating at the "missing" pixels in the HR grid to recover $V$, and finally denoising and deconvolution (of $H$) to recover $Y$.
 %
-Since in general consecutive $X_k$ have non-uniform shifts (relative to $X_0$) the interpolation is non-uniform and improvisations on this theme use various weighting schemes for adjacent LR pixels\anote{lrpixel}.
+Since in general consecutive $X_k$ have non-uniform shifts (relative to $X_1$) the interpolation is non-uniform and improvisations on this theme use various weighting schemes for adjacent LR pixels\anote{lrpixel}.
 
 For example Alam et. al\cite{Alam2000} uses weighted nearest neighbors: for every pixel to be interpolated the three nearest pixels are weighted inversely by their distance (according to HR grid distance) and then their weighted sum is assigned to that pixel.
 %
@@ -175,7 +175,7 @@ This process iterates until convergence i.e. $\lvert (D \circ A_k)(\hat{Y}^i) - 
 %
 Irani et al.\cite{Irani1991ImprovingRB} also convolve the back-projection with a smoothing kernel as a form of regularization since the estimation problem is in general ill-posed (there are many $\hat{Y}^{i}$ that will project down to a pixel-distance neighbor of $X_k$).
 %
-It can be shown\cite{Elad1996} that for $\varepsilon_k$ distributed $(0, R_k)$ Normal, $\hat{Y}$ is none other than the maximum likelihood estimate (MLE) for $Y$.
+It can be shown\cite{Elad1996} that for $\varepsilon_k$ distributed $(0, R_k)$-Normal, $\hat{Y}$ is none other than the maximum likelihood estimate (MLE) for $Y$.
 %
 We can see this by recognizing that eqn.~\ref{eqn:ibp} is just the Richardson iterative\cite{Anderssen:1972:RNM:891962} solution to
 \begin{equation}
@@ -184,33 +184,34 @@ We can see this by recognizing that eqn.~\ref{eqn:ibp} is just the Richardson it
                                              D_2 \circ A_2 \\
                                              \vdots \\
                                              D_K \circ A_K \\
-                                         \end{bmatrix}  Y  \right\|^2
+    \end{bmatrix}  Y  \right\|^2
+    \label{eqn:l2regression}
 \end{equation}
 since
 \begin{gather*}
-        \nabla_{Y} L = 0 \\
-        \iff \\
-        \sum_{k=1}^K (D \circ A_k)^{-1}\left( (D \circ A_k)(Y) - X_k \right) = 0
+    \nabla_{Y} L = 0 \\
+    \iff \\
+    \sum_{k=1}^K (D \circ A_k)^{-1}\left( (D \circ A_k)(Y) - X_k \right) = 0
 \end{gather*}
 and therefore $\hat{Y}_i \rightarrow \hat{Y}$ is the MLE (since MLE is the solution to least squares\cite{CaseBerg:01}).
 %
 Though this is one of the oldest SR algorithms it's recently been revisited and re-imagined as a deep neural network architecture (DNN)\cite{DBLP:journals.corr.abs-1803-02735}.
 
-Another iterative technique employs a Kalman filter\cite{elad1999} to estimate $Y$.
+Another estimation technique employs a Kalman filter\cite{elad1999} to estimate $Y$.
 %
 Let $\bm{x}_k = \text{vec}(X_k)$ be the vectorization\anote{vectorize} of $X_k$ and $\bm{y} = \text{vec}(Y)$ likewise.
 %
-If we assume linear models for each of $D, A_k, H_k$ (i.e. all representable as matrices) and a well-behaved optical flow model (most pixels in image $\bm{x}_k$ appear in image $\bm{x}_{k-1}$) then we can define a sequence of images $\bm{y}_k$ related in time by
+If we assume linear models for each of $D, A_k, H_k$ (i.e. all representable as matrices) and a well-behaved optical flow model (most pixels in image $\bm{x}_k$ appear in image $\bm{x}_{k-1}$) then we can image $\bm{y}$ as a sequence of images $\bm{y}_k$ related in time by
 \begin{equation}
     \bm{y}_k = A'_k \bm{y}_{k-1} + \eta_k
     \label{eqn:kalmanprocess}
 \end{equation}
 %
-where $A'_k$ is the \textit{relative} motion operator, $A'_k\bm{y}_{k-1}$ is conventional matrix-vector multiplication, and $\eta_k$ is the only source of new pixels (noise distributed $(0, Q_k)$ Normal).
+where $A'_k$ is the \textit{relative} motion operator, $A'_k\bm{y}_{k-1}$ is conventional matrix-vector multiplication, and $\eta_k$ is the only source of new pixels (noise\anote{noise} distributed $(0, Q_k)$-Normal).
 %
 Consequently eqn.~\ref{eqn:imagingmodel} becomes
 \begin{equation}
-    \bm{x}_k = DH_k\bm{y}_k + \varepsilon
+    \bm{x}_k = DH_k\bm{y}_k + \varepsilon_k
     \label{eqn:kalmanobs}
 \end{equation}
 and the pair of eqns.~\ref{eqn:kalmanprocess},~\ref{eqn:kalmanobs} can be seen to constitute a linear dynamical system with $\bm{y}_k$ the state of the system, $A'_k$ the state transition, $\eta_k$ the state noise, $\bm{x}_k$ the measurement, $DH_k$ the measurement model, and $\varepsilon_k$ the measurement noise.
@@ -219,7 +220,7 @@ Note that the HR image conditioned on all previous LR images (measurements)
 \begin{equation}
     \bm{y}_{k|s} \coloneqq \bm{y}_k|\bm{x}_1, \mathellipsis, \bm{x}_s
 \end{equation}
-is a Gaussian stochastic process, with mean $\bar{\bm{y}}_{k|s} = E\left[\bm{y}_{k|s}\right]$
+with $s \leq k$, is a Gaussian process (GP), with mean $\bar{\bm{y}}_{k|s} = E\left[\bm{y}_{k|s}\right]$
 and covariance
 \begin{equation}
     C_{k|s} \coloneqq E\left[ (\bm{y}_k - \bar{\bm{y}}_{k|s})(\bm{y}_k - \bar{\bm{y}}_{k|s})^T  \right]
@@ -234,18 +235,22 @@ The prediction step iterates on the estimate (and its covariance) given all prev
     \hat{\bm{y}}_{k|k-1} &= A'_k \hat{\bm{y}}_{k-1|k-1} \\
     C_{k|k-1} &= A'_k C_{k-1|k-1} (A'_k)^T + Q_k
 \end{align}
+This can be seen as a one-step propagation of the estimate "in the direction" of the previous measurement.
+%
 Then the update step incorporates new information from a measurement:
 \begin{align}
     \hat{\bm{y}}_{k|k} &= \hat{\bm{y}}_{k|k-1} + K_k(\bm{x}_k - DH_k\hat{\bm{y}}_{k|k-1} ) \\
     C_{k|k} &= (I - K_k DH_k)C_{k|k-1}
 \end{align}
-where
+where the \text{Kalman gain}
 \begin{equation}
     K_k = \frac{C_{k|k-1}(DH_k)^T}{DH_k C_{k|k-1} (DH_k)^T + R_k }
 \end{equation}
-is the Kalman gain.
+weights the contribution of the prediction and the measurement\anote{kalmanprediction}.
 %
-Note that in the Kalman framework $D, H_k, A'_k, R_k, Q_k$ are all assumed to known. In Elad et al.\cite{elad1999} the assumption is $D, H_k, R_k$ are known camera parameters, $A'_k$ can be estimated by an image registration algorithm and $Q_k$ can be approximated:
+Note that in the Kalman framework $D, H_k, A'_k, R_k, Q_k$ are all assumed to be known.
+%
+In Elad et al.\cite{elad1999} the assumption is $D, H_k, R_k$ are known functions of camera parameters, $A'_k$ can be estimated by an image registration algorithm and $Q_k$ can be approximated:
 \begin{equation}
     Q_k \approx \alpha_k A'_k C_{k|k} (A'_k)^T
 \end{equation}
@@ -253,8 +258,93 @@ where $\alpha_k$ is chosen such that the approximation upper-bounds the true $Q_
 %
 They comment that this stronger auto-correlation for $\bm{y}_k$ adds "pseudo-noise" to the system and biases the Kalman filter to "rely" more on the measurements than the state transition model.
 
-%completely linear model for of $D, A_k, H$ (i.e. matrix operators) then eqn.~\ref{eqn:commuteimagingmodel} then
+SR can also be posed as a Bayesian maximum a posterior (MAP) estimation problem.
+%
+Let $\bm{H} \coloneqq \left( H_1, \mathellipsis, H_k \right)$ be the vector of blur operators applied to $Y$ in order to produce $\bm{X}$ and similarly $\bm{A}$ then
+\begin{align}
+    \hat{Y} &= \underset{Y}{\text{argmax}}~P\left( Y | \bm{X} \right) \nonumber \\
+    &= \underset{Y}{\text{argmax}} \int_{D, \bm{H}, \bm{A}} P\left( Y, D, \bm{H}, \bm{A} | \bm{X}\right) \nonumber \\
+    &= \underset{Y}{\text{argmax}} \int_{D, \bm{H}, \bm{A}} \frac{P\left(\bm{X} | Y, D, \bm{H}, \bm{A} \right)P(Y) P(D, \bm{H}, \bm{A})}{P(\bm{X})}\label{eqn:indepym} \\
+    \hat{Y} &= \underset{Y}{\text{argmax}} \int_{D, \bm{H}, \bm{A}} P\left(\bm{X} | Y, D, \bm{H}, \bm{A} \right)P(Y) P(D, \bm{H}, \bm{A}) \label{eqn:maxx}
+\end{align}
+where in eqn.~\ref{eqn:indepym} we've used the independence of $Y$ and $D, \bm{H}, \bm{A}$\cite{Hardie1997} and in eqn.~\ref{eqn:maxx} we've used that $\bm{X}$ is a constant with respect to the maximization.
+%
+While there exist reasonable priors for $Y$, marginalizing over $D, \bm{H}, \bm{A}$ is still difficult due to the high-dimensionality of each.
+%
+Therefore assuming $D, \bm{H}, \bm{A}$ can be estimated independently as $\hat{D}, \hat{\bm{H}}, \hat{\bm{A}}$, eqn.~\ref{eqn:maxx} becomes
+\begin{equation}
+    \hat{Y} = \underset{Y}{\text{argmax}}~P\left(\bm{X} | Y; \hat{D}, \hat{\bm{H}}, \hat{\bm{A}} \right) P(Y)
+    \label{eqn:map}
+\end{equation}
+where the semicolon indicates $\hat{D}, \hat{\bm{H}}, \hat{\bm{A}}$ are known parameters of the conditional distribution.
+%
+This casts $\hat{Y}$ the standard MAP estimate of $Y$.
+%
+Note that an equivalent formulation of MAP maximizes the log-likelihood instead of maximizing the likelihood:
+\begin{align}
+    \hat{Y} &= \underset{Y}{\text{argmax}}~P\left(\bm{X} | Y; \hat{D},  \hat{\bm{H}}, \hat{\bm{A}}\right) P(Y) \nonumber \\
+    &=  \underset{Y}{\text{argmax}}\left[ \log{P\left(\bm{X} | Y; \hat{D},  \hat{\bm{H}}, \hat{\bm{A}} \right)} + \log{P(Y)} \right]
+    \label{eqn:logmap}
+\end{align}
+%
+Various choices for $P\left(\bm{X} | Y; \hat{D},  \hat{\bm{H}}, \hat{\bm{A}} \right)$ and the prior $P(Y)$ (and consequent choice of optimization strategies) characterize this class of SR techniques.
+%
+Again assume $D, H_k, A_k$ linear and given $\varepsilon_k$ in eqn.~\ref{eqn:imagingmodel} distributed $(0, rI)$-Normal
+\begin{equation}
+    P\left(\bm{X} | Y; \hat{D},  \hat{\bm{H}}, \hat{\bm{A}} \right) \propto \exp \left\{ -\frac{\left\| \bm{X} - \hat{D} \hat{\bm{H}} \hat{\bm{A}} \bm{y} \right\|^2}{2r^2} \right\}
+\end{equation}
+where here $\bm{X} = \left( \text{vec}(X_1), \mathellipsis, \text{vec}(X_k) \right)$ and
+\begin{equation}
+    \hat{D} \hat{\bm{H}} \hat{\bm{A}} \coloneqq \begin{bmatrix}
+                                             \hat{D} \hat{\bm{H}}_1 \hat{\bm{A}}_1 \\
+                                             \hat{D} \hat{\bm{H}}_2 \hat{\bm{A}}_2 \\
+                                             \vdots \\
+                                             \hat{D} \hat{\bm{H}}_K \hat{\bm{A}}_K \\
+    \end{bmatrix}
+\end{equation}
+%
+After a suitable choice for the prior it can be seen that eqn.~\ref{eqn:logmap} is just regularized regression.
+%
+For example when choosing a Gibbs\cite{Hardie1997} distribution as the prior, i.e.
+\[
+    P(\bm{y}) \propto e^{-\alpha B(\bm{y})}
+\]
+where $B(\bm{y})$ is called the \textit{potential}, eqn.~\ref{eqn:logmap} becomes
+\begin{equation}
+    \hat{\bm{y}} = \underset{\bm{y}}{\text{argmin}}\left[ \left\| \bm{X} - \hat{D} \hat{\bm{H}} \hat{\bm{A}} \bm{y} \right\|^2 +\lambda B(\bm{y})\right]
+    \label{eqn:minmap}
+\end{equation}
+where $\lambda$ absorbs $\alpha$ from $P(\bm{y})$ and $r$ from $\varepsilon_k$.
 
-
-
+There are many other choices for the prior in eqn.~\ref{eqn:logmap}, whose effect is to bias the estimator $\hat{\bm{y}}$ towards "natural" images.
+%
+Alternatively we can (and will) start with eqn.~\ref{eqn:minmap} and choose the regularizer $B(\bm{y})$.
+%
+Probably the simplest prior is the Gaussian Markov random field\anote{gmrf}.
+%
+This corresponds to the regularlizer taking the form
+\begin{equation}
+    B(\bm{y}) = \bm{y}^T Q \bm{y}
+\end{equation}
+where $Q$ is symmetric positive definite\anote{positivedef} (PD) and captures the covariance of adjacent pixels by its off-diagonal elements.
+%
+Since $Q$ is symmetric PD we can write the Cholesky decomposition $Q = U^T U$, where $U$ is upper triangular, and then eqn.~\ref{eqn:minmap} becomes
+\begin{equation}
+    \hat{\bm{y}} = \underset{\bm{y}}{\text{argmin}}\left[ \left\| \bm{X} - \hat{D} \hat{\bm{H}} \hat{\bm{A}} \bm{y} \right\|^2 +\lambda \left\| U\bm{y} \right\|^2 \right]
+    \label{eqn:tikminmap}
+\end{equation}
+which is a Tikhonov regularized under-determined least squares problem.
+%
+Letting $G = \hat{D} \hat{\bm{H}} \hat{\bm{A}}$ the solution to eqn.~\ref{eqn:tikminmap} is
+\begin{equation}
+    \hat{\bm{y}} = Q^{-1} G^T \left( G Q^{-1} G^T + \lambda I \right)^{-1}\bm{X}
+    \label{eqn:closedform}
+\end{equation}
+Nguyen et al.\cite{milanfar2001} use generalized cross-validation to determine the regularization parameter $\lambda$.
+%
+Rather than explicitly computing inverses in eqn.~\ref{eqn:closedform}, in practice $\hat{\bm{y}}$ is found by solving the the least squares problem via optimization  (due to the size of the matrices involved optimization is faster than inversion).
+%
+Nguyen et al. use conjugate gradient descent\anote{conjugategradients} to optimize eqn.~\ref{eqn:tikminmap}.
+%
+They argue that $\hat{D} \hat{\bm{H}} \hat{\bm{A}}$ is ill-conditioned\anote{illcondition} and to that end, since the convergence rate of conjugate gradients is dependent on the condition number\cite{vanderSluis1986}, propose pre-conditioners\anote{precondition} to improve the converge rate.
 \subsection{Example based}

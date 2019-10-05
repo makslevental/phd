@@ -16,12 +16,16 @@
 \anotecontent{buriedchannel}{Buried channel as distinct from surface channel. In surface channel MOS capacitors signal charge is stored at the Si-SiO$_2$ interface, which can lead to charge trapping during the charge transfer process\cite{Bass:2009:HOT:1594759}.}
 \anotecontent{ccd}{CCD arrays, for example, employ $2\times 2$ or $3\times 3$ pixel binning, which is the practice of collapsing windows of pixels down to one pixel.}
 \anotecontent{pnjunction}{The interface between a p-type semiconductor (excess holes, i.e. positive charge carriers) and an n-type (excess electrons, i.e. negative charge carriers) semiconductor.}
-\anotecontent{reversebias}{With the p-type material at a lower voltage than the n-type. This causes both the holes and the electrons to flow away from the junction creating a depletion zone.}
+\anotecontent{reversebias}{With the p-type material at a lower voltage than the n-type.
+%
+This causes both the holes and the electrons to flow away from the junction creating a depletion zone.}
 \anotecontent{bolometer}{Late 19th century: from Greek bolē 'ray of light' + -meter.}
 \anotecontent{mems}{Micro-electro-mechanical systems.}
 \anotecontent{fabryperot}{An optical cavity made from two parallel reflecting surfaces that passes light only when it is in resonance with the cavity.}
 \anotecontent{thermistor}{An element with an electrical resistance that's a function of its temperature.}
-\anotecontent{innerphotoelectric}{The photoelectric effect is the emission of electrons when light hits a material. The inner photoelectric effect is that phenomenon in the bulk matter of semiconductors.}
+\anotecontent{innerphotoelectric}{The photoelectric effect is the emission of electrons when light hits a material.
+%
+The inner photoelectric effect is that phenomenon in the bulk matter of semiconductors.}
 \anotecontent{opticalflow}{"Optical flow can also be defined as the distribution of apparent velocities of movement of [patterns] in an image."\cite{HORN1981185}}
 \anotecontent{otf}{The optical transfer function is the spatial Fourier transform of the point spread function (the impulse response) of the optics. Spatial here means periodic in space rather than in time.}
 \anotecontent{coma}{Off-axis point sources appearing to have a tail (coma), due to variation in magnification in the image of the aperture stop.}
@@ -30,7 +34,9 @@
 
 %classical
 \anotecontent{lsi}{In analogy with Linear Time Invariant (i.e. linear and constant in space).}
-\anotecontent{lrpixel}{An LR pixel is one sampled from an LR image and embedded in an HR grid. An HR pixel is a pixel in an HR grid.}
+\anotecontent{lrpixel}{An LR pixel is one sampled from an LR image and embedded in an HR grid.
+%
+An HR pixel is a pixel in an HR grid.}
 \anotecontent{vectorize}{
 \begin{multline*}
     \text{vec}\left(
@@ -44,4 +50,25 @@
     \left[a_{11}, \mathellipsis, a_{m1}, a_{12}, \mathellipsis, a_{m2}, \mathellipsis, a_{1n} \mathellipsis a_{mn}\right]
 \end{multline*}
 }
-
+\anotecontent{noise}{Noise here doesn't necessarily mean unwanted high frequency variation but simply a source of randomness.
+%
+This is in close affinity with how generative machines such as variational auto-encoders and generative adversarial networks are understood.}
+%
+\anotecontent{gpassumptions}{Namely $\bm{y}_1$ is distributed $(0, W)$-Normal and independent of $\eta_1$.}
+\anotecontent{kalmanprediction}{This is better understood in the more general linear dynamic systems case where $\bm{y}_k = A_k\bm{y}_k + B_k \bm{u}_k + \varepsilon_k$ and $B_k \bm{u}_k$ is known "controlled" input.
+%
+Then the prediction includes a $B_k \bm{u}_{k-1}$ term and the Kalman gain effectively mediates between controlled and uncontrolled inputs.
+}
+\anotecontent{gmrf}{A Markov random field is a collection of random variables $X_u, X_v, \mathellipsis$ with conditional dependence represented by pairings and satisfying the \textit{pairwise Markov} property: any two random variables that aren't paired are conditionally independent of each other given (conditioned on) all other variables.
+%
+A Gaussian Markov random field is just the Markov random field induced by the covariance of a multivariate normal distribution (since covariance encodes conditional dependence of the coordinates of the multivariate normal).
+}
+\anotecontent{positivedef}{A symmetric real matrix $Q$ is positive definite if $\bm{x}^T Q \bm{x} > 0 $ for all non-zero $\bm{x}$.}
+\anotecontent{conjugategradients}{Two vectors $\bm{u}, \bm{v}$ are conjugate with respect to $G$ if $\bm{u}^T G \bm{v} = 0$.
+%
+Conjugate gradient descent is like gradient descent but the gradients are projected onto a conjugate basis.
+}
+\anotecontent{illcondition}{The condition number $\kappa$ of a function is a measure of how sensitive it is to small perturbations; for a matrix $G$ it is the case that $\kappa (G)=\sigma_{\max}(G)/\sigma_{\min} (G)$ where $\sigma_{\max}(G), \sigma_{\min} (G)$ are the maximum and minimum singular values of $G$ respectively.}
+\anotecontent{precondition}{A pre-conditioner of a matrix $G$ is an approximation of $G$ that has a better condition number.
+%
+Nguyen et al. propose a pre-conditioner with singular values clustered around 1 in order that $\kappa(G) \approx 1$.}
