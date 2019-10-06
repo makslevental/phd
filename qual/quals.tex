@@ -2,16 +2,16 @@
 \usepackage{etoolbox}
 \makeatletter
 \patchcmd{\@makecaption}
-  {\scshape}
-  {}
-  {}
-  {}
+{\scshape}
+{}
+{}
+{}
 \makeatletter
 \patchcmd{\@makecaption}
-  {\\}
-  {.\ }
-  {}
-  {}
+{\\}
+{.\ }
+{}
+{}
 \makeatother
 \def\tablename{Table}
 \renewcommand{\thetable}{\arabic{table}}
@@ -25,7 +25,14 @@
 \renewcommand\thesectiondis{\arabic{section}}
 \renewcommand\thesubsectiondis{\thesectiondis.\arabic{subsection}}
 \renewcommand\thesubsubsectiondis{\thesubsectiondis.\arabic{subsubsection}}
-
+\newcommand{\ue}[1]{%
+\begin{tikzpicture}[#1]%
+    \draw[fill = black] (.25ex,.25ex) circle (.3ex);
+    \draw[thick] (.55ex,.25ex) -- (1.55ex,.25ex);%
+    \draw[fill = black] (1.85ex, .25ex) circle (.3ex);
+    %
+\end{tikzpicture}%
+}
 \usepackage{amsfonts}
 
 \usepackage{bm}
@@ -80,7 +87,7 @@
 
     \section{Introduction}\label{sec:introduction}
     \input{introduction.tex}
-%
+    %
     \section{Background}\label{sec:background}
     \input{background.tex}
 

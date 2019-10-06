@@ -141,6 +141,8 @@ $D, H, F, G$ variously refer to functions that operate on images.
 Bolded uppercase latin $\bm{X}, \bm{Y}$ are reserved for batches of images, i.e. batch size $\times$ channel $\times$ row $\times$ column tensors with $(0, 0, 0,0)$ corresponding to the top left corner of the first channel of first image in the batch.
 %
 Bolded lower case denote $\bm{x}, \bm{y}, \bm{z}$ etc. denote conventional column or row vectors.
+%
+Unless otherwise specified $\left\| \cdot \right\|$ is the $L_2$ norm.
 
 \subsection{Imaging model}\label{subsec:imaging-model}
 Figure~\ref{fig:bertrand} shows a conceptual model of the imaging process as carried out by an imaging system.
@@ -224,7 +226,7 @@ Notice also that like a typical transfer function the OTF is not flat and theref
 %
 Simply applying gain to the image wouldn't solve the attenuation problems because of aliasing, but likewise this can be resolved after the effective sampling rate is increased using MISR.
 \begin{figure}
-    \includegraphics[width=.7\linewidth,keepaspectratio]{figures/mtf.png}
+    \includegraphics[width=\linewidth,keepaspectratio]{figures/mtf.png}
     \caption{OTF magnitude cross-section for\cite{milanfar2017super}}
     \label{fig:mtf}
 \end{figure}

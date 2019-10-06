@@ -59,9 +59,9 @@ This is in close affinity with how generative machines such as variational auto-
 %
 Then the prediction includes a $B_k \bm{u}_{k-1}$ term and the Kalman gain effectively mediates between controlled and uncontrolled inputs.
 }
-\anotecontent{gmrf}{A Markov random field is a collection of random variables $X_u, X_v, \mathellipsis$ with conditional dependence represented by pairings and satisfying the \textit{pairwise Markov} property: any two random variables that aren't paired are conditionally independent of each other given (conditioned on) all other variables.
+\anotecontent{hmrf}{A Markov random field (MRF) is a collection of random variables $x_i, y_j, \mathellipsis$ with conditional dependence represented by pairings and satisfying the \textit{pairwise Markov} property: any two random variables that aren't paired are conditionally independent of each other given (conditioned on) all other variables.
 %
-A Gaussian Markov random field is the Markov random field induced by the covariance of a multivariate normal distribution (since covariance encodes conditional dependence of the coordinates of the multivariate normal).
+A \textit{hidden} Markov random field is simply a MRF where some of the random variables aren't observed.
 }
 \anotecontent{positivedef}{A symmetric real matrix $Q$ is positive definite if $\bm{y}^T Q \bm{y} > 0 $ for all non-zero $\bm{y}$.}
 \anotecontent{conjugategradients}{Two vectors $\bm{u}, \bm{v}$ are conjugate with respect to $G$ if $\bm{u}^T G \bm{v} = 0$.
@@ -71,10 +71,13 @@ Conjugate gradient descent is gradient descent but with conjugate gradients (it 
 \anotecontent{illcondition}{The condition number $\kappa$ of a function is a measure of how sensitive it is to small perturbations; for a matrix $G$ it is defined $\kappa (G) \coloneqq \sigma_{\max}(G)/\sigma_{\min} (G)$ where $\sigma_{\max}(G), \sigma_{\min} (G)$ are the maximum and minimum singular values of $G$ respectively.}
 \anotecontent{precondition}{A pre-conditioner of a matrix $G$ is an approximation of $G$ that has a better condition number.
 %
-Nguyen et al. propose a pre-conditioner with singular values clustered around 1 in order that $\kappa(G) \approx 1$.}
+Nguyen \textit{et al.} propose a pre-conditioner with singular values clustered around 1 in order that $\kappa(G) \approx 1$.}
 \anotecontent{gradientoperator}{Let $u = (1,2,1)$ and $v = (1,0,-1)$ then $h = uv^T$ is the first order Sobel filter and $\nabla Y = \left( h \ast Y, h^T \ast Y \right)$.}
 \anotecontent{boundedvariation}{$f(x)$ is of bounded variation on interval $\left[ a,b \right]$ if over all partitions $\mathcal{P}$ of $\left[ a,b \right]$
 \[
     \sup_{P \in \mathcal{P}}\sum_{i=0}^{n_P-1} \lvert f(x_{i+1})-f(x_i) \rvert\, <\infty
 \]
 }
+\anotecontent{beliefpropagation}{An efficient way to compute marginals of joint probabilities that have structure by reusing partial sums (i.e. passing messages)\cite{Yedidia2003jan1}.}
+\anotecontent{manifold}{A collection of points that locally resembles Euclidean space.}
+\anotecontent{manifoldlearning}{Dimensionality reduction.}
