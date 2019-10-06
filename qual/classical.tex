@@ -461,14 +461,14 @@ The main problem with the direct LR-HR patch pair technique is that it necessita
 \end{figure}
 Chang \etal remedy this problem by using ideas from a manifold\anote{manifold} learning\anote{manifoldlearning} technique called locally linear embedding\cite{saul2000introduction} (LLE) that they call nearest neighbor embedding (NNE).
 %
-First they characterize both the space of LR patches and HR patches as manifolds.
+First they imagine both the space of LR patches and HR patches as manifolds.
 %
-NNE (and LLE) is based on the intuition that a well-sampled smooth manifold is locally linear: a LR patch $x_i$ on the LR manifold and its neighbors $x_j, x_k, \mathellipsis$ lie in a locally linear subspace of the manifold.
+Then based on the intuition that a well-sampled smooth manifold is locally linear (a LR patch $x_i$ on the LR manifold and its neighbors $x_j, x_k, \mathellipsis$ lie in a locally linear subspace of the manifold) they characterize the local geometry.
 %
-Given this assumption, one can characterize the local geometry of that subspace by finding convex reconstruction weights $W_{ij}$ of any $x_i$ from only its neighbors: by minimizing
+One can characterize the local geometry of that subspace by finding convex reconstruction weights $W_{ij}$ of any $x_i$ from only its neighbors: by minimizing
 \begin{equation}
     \begin{split}
-        \hat{W} = \underset{W}{\text{argmin}} \sum_i \left\| x_i - \sum_{x_j \in N(x_i)} W_{ij} x_j  \right\|^2 \\
+        \hat{W} = \underset{W_{ij}}{\text{argmin}} \sum_i \left\| x_i - \sum_{x_j \in N(x_i)} W_{ij} x_j  \right\|^2 \\
         \text{s.t.} \\
         \sum_{x_j \in N(x_i)} W_{ij} = 1 \text{ for all }i
     \end{split}
@@ -477,10 +477,10 @@ where $N(x_i)$ is the neighborhood of $x_i$.
 %
 These weights $W_{ij}$ are invariant with respect to rotation, rescaling, and translation of the LR patch and its neighborhood\cite{saul2000introduction} and therefore should remain valid in an embedding space (i.e. the HR manifold) coordinate system (see figure~\ref{fig:lle}).
 %
-The patches $y_i$ in the HR manifold are then linear functions of the same reconstructions weights, i.e.
+The patches $y_i$ in the HR manifold are then linear functions of the same reconstruction weights, i.e.
 \begin{equation}
     y_i = \sum_{x_j \in N(x_i)} W_{ij} y_j
 \end{equation}
 %
-Note that neighboring patches in HR space are constrained to overlap and in fact the neighborhoods are computed using gradient features of the LR and HR patches rather than the raw patches (they argue this allows for better generalization i.e. smaller example sets).
+Note that neighboring patches in HR space are constrained to overlap and in fact the neighborhoods are computed using gradient features of the LR and HR patches rather than the raw patches (they argue that this is what allows for better generalization i.e. much smaller patch databases).
 
