@@ -3,6 +3,7 @@
 \newcommand*{\bxi}{\bm{x}_i}
 \newcommand*{\delx}{\bx - \bxi}
 \newcommand*{\by}{\bm{y}}
+\newcommand*{\bY}{\bm{Y}}
 \newcommand*{\byi}{\bm{y}_i}
 \newcommand*{\dely}{\by - \byi}
 \newcommand*{\zbx}{Z(\bx)}
@@ -357,7 +358,7 @@ Since $Q$ is symmetric PD eqn.~\ref{eqn:minmap} becomes
 \end{equation}
 where $\sqrt{Q}$ is $U$ of the Cholesky decomposition $Q = U^T U$.
 %
-Equation~\ref{eqn:tikminmap} is Tikhonov regularized regression.
+Equation~\ref{eqn:tikminmap} is Tikhonov regularized regression, or Ridge regression if $\sqrt{Q} = I$.
 %
 Letting $G = \hat{D} \hat{\bm{H}} \hat{\bm{A}}$ the closed-form solution to eqn.~\ref{eqn:tikminmap} is
 \begin{equation}
@@ -445,13 +446,15 @@ Note $P(\bx)$ is a normalization constant, $i\ue{} j$ indicates the product is o
 \begin{equation}
     \psi(y_i, y_j) = \exp \left\{ -  \frac{\left\| y_i - y_j \right\|}{2\sigma^2} \right\}
 \end{equation}
-where $\left\| y_i - y_j \right\|$ is only computed on the overlapping pixels, and $\phi(x_i, y_i^{LR})$ similarly encodes the compatibility between the observed LR patch $x_i$ and the example LR patch $y_i^{LR}$ corresponding to the estimated HR patch $y_i$.
+where $\left\| y_i - y_j \right\|$ is only computed on the overlapping pixels.
+%
+Similarly $\phi(x_i, y_i^{LR})$ encodes the compatibility between the observed LR patch $x_i$ and the example LR patch $y_i^{LR}$ corresponding to the estimated HR patch $y_i$.
 %
 To make the MAP computation tractable they choose only 16 candidate example LR patches $y_i^{LR}$.
 %
 They compute the MAP estimate using belief propagation\anote{beliefpropagation}.
 
-The main problem with the direct LR-HR patch pair technique is that it necessitates an enormous database of patches in order for it to generalize.
+The main problem with the direct LR-HR patch pair technique is that it requires an enormous database of patches in order for it to generalize.
 %
 \begin{figure}
     \centering
@@ -463,24 +466,203 @@ Chang \etal remedy this problem by using ideas from a manifold\anote{manifold} l
 %
 First they imagine both the space of LR patches and HR patches as manifolds.
 %
-Then based on the intuition that a well-sampled smooth manifold is locally linear (a LR patch $x_i$ on the LR manifold and its neighbors $x_j, x_k, \mathellipsis$ lie in a locally linear subspace of the manifold) they characterize the local geometry.
+Then based on the intuition that a well-sampled smooth manifold is locally linear (i.e. an LR patch $x_i$ on the LR manifold and its neighbors $x_j, x_k, \mathellipsis$ lie in a locally linear subspace of the manifold) they characterize the local geometry.
 %
-One can characterize the local geometry of that subspace by finding convex reconstruction weights $W_{ij}$ of any $x_i$ from only its neighbors: by minimizing
-\begin{equation}
-    \begin{split}
-        \hat{W} = \underset{W_{ij}}{\text{argmin}} \sum_i \left\| x_i - \sum_{x_j \in N(x_i)} W_{ij} x_j  \right\|^2 \\
-        \text{s.t.} \\
-        \sum_{x_j \in N(x_i)} W_{ij} = 1 \text{ for all }i
-    \end{split}
-\end{equation}
+One can characterize local geometry by finding convex reconstruction weights $W_{ij}$ of any $x_i$ from only its neighbors by minimizing reconstruction error, i.e.
+\begin{gather}
+    \hat{W} = \underset{W_{ij}}{\text{argmin}} \sum_i \left\| x_i - \sum_{x_j \in N(x_i)} W_{ij} x_j  \right\|^2 \nonumber \\
+    \text{s.t.} \\
+    \sum_{x_j \in N(x_i)} W_{ij} = 1 \text{ for all }i \nonumber
+\end{gather}
 where $N(x_i)$ is the neighborhood of $x_i$.
 %
 These weights $W_{ij}$ are invariant with respect to rotation, rescaling, and translation of the LR patch and its neighborhood\cite{saul2000introduction} and therefore should remain valid in an embedding space (i.e. the HR manifold) coordinate system (see figure~\ref{fig:lle}).
 %
-The patches $y_i$ in the HR manifold are then linear functions of the same reconstruction weights, i.e.
+The HR patches $y_i$ in the HR manifold are then reconstructed using the same weights, i.e.
 \begin{equation}
     y_i = \sum_{x_j \in N(x_i)} W_{ij} y_j
 \end{equation}
 %
 Note that neighboring patches in HR space are constrained to overlap and in fact the neighborhoods are computed using gradient features of the LR and HR patches rather than the raw patches (they argue that this is what allows for better generalization i.e. much smaller patch databases).
 
+The NNE approach suffers from its own issues; using a fixed number of nearest neighbors results in blurring (due to over-fitting or under-fitting).
+%
+Yang \etal\cite{yang2008} resolve this issue by using sparse coding (SC) as a framework for learning a sparse mapping from LR patches to HR patches (see figure~\ref{fig:hrpatchdict}).
+%
+This enables them to essentially leave the number of nearest numbers unspecified (or, alternatively, learn the correct number of neighbors on a patch by patch basis\anote{pun}).
+%
+To be precise, let $D \in \mathbb{R}^{n \times K}$ be an \textit{over-complete dictionary}\anote{overcompletedictionary} of $K$ atoms $\bm{d}_i \in \mathbb{R}^n$, and suppose a "signal" $\by \in \mathbb{R}^n$ can be represented as a sparse linear combination of these atoms i.e.
+\begin{equation}
+    \by = D\bm{\alpha}
+\end{equation}
+such that $\left\| \bm{\alpha} \right\|_0 \ll K$ (few non-zero entries).
+%
+The sparse vector $\bm{\alpha}$ is variously called the code, reconstruction, or sparse representation of $\by$.
+%
+Yang \etal construct two dictionaries $D_{LR}, D_{HR}$ consisting corresponding LR and HR patches $\bxi, \byi$.
+%
+Then given a new input LR patch $\bx$ they compute the code for a "featurized" representation of $\bx$ in $D_{LR}$ by minimizing the code subject to reconstruction error tolerance:
+\begin{equation}
+    \hat{\bm{\alpha}} = \underset{\bm{\alpha}}{\text{argmin}} \left\| \bm{\alpha} \right\|_0 \text{ s.t. } \left\| F\bx - FD_{LR}\bm{\alpha} \right\|^2 \leq \epsilon
+    \label{eqn:constrainedrepr}
+\end{equation}
+where $\epsilon$ is the reconstruction error tolerance and $F$ is the feature extraction operator (first and second order gradients), and construct the HR image using the same sparsely represented HR patch (i.e. $\hat{\by} = D_{HR} \hat{\bm{\alpha}}$).
+%
+As stated the optimization in eqn.~\ref{eqn:constrainedrepr} is non-convex (due to $\left\| \bm{\alpha} \right\|_0$) and is in fact NP-hard\anote{nphard}\cite{tilman2015}.
+%
+Fortunately the $L_1$ (i.e. $\left\| \bm{\alpha} \right\|_1$) relaxation is often good enough\cite{Donoho9446}:
+\begin{equation}
+    \hat{\bm{\alpha}} = \underset{\bm{\alpha}}{\text{argmin}} \left[ \lambda\left\| \bm{\alpha} \right\|_1 + \frac{1}{2}\left\| F\bx - FD_{LR}\bm{\alpha} \right\|^2 \right]
+    \label{eqn:lagrangerepr}
+\end{equation}
+where we've also transformed to the unconstrained optimization using the Lagrange multiplier $\lambda$.
+%
+Solving eqn.~\ref{eqn:lagrangerepr} input-patch by input-patch does not enforce consistency between adjacent patches.
+%
+They use a raster-scan technique discussed in Freeman \etal\cite{freeman2002example} to enforce consistency.
+%
+They further comment that since eqn.~\ref{eqn:constrainedrepr} doesn't demand equality between the LR patch $\bx$ and its reconstruction $D_{LR}\bm{\alpha}$ the reconstructed image $Y$ might not satisfy the imaging model (see eqn.~\ref{eqn:imagingmodel}).
+%
+They resolve this by using iterative back projection (see eqn.~\ref{eqn:ibp}) as a final step in the algorithm.
+%
+While the sparse representation approach mitigates issues having to do with local bias (fixed number $K$ patch neighbors) it still requires a large database of raw image patches.
+%
+The same group's follow-on paper\cite{yang2010} addresses this issue directly by learning the LR, HR dictionaries with a fixed number of atoms $K$.
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth,keepaspectratio]{figures/dictpatches.png}
+    \caption{512 entry $9 \times 9$ atom HR image patch dictionary trained using 100,000 HR and LR image patch pairs\cite{yang2010}}
+    \label{fig:hrpatchdict}
+\end{figure}
+%
+In general dictionary learning minimizes the reconstruction error of the codes across all $J$ example inputs $\bm{Z} \coloneqq \left( \bm{z}_1, \mathellipsis, \bm{z}_J \right)$:
+\begin{equation}
+    \hat{D} = \underset{D, \bm{A}}{\text{argmin}} \left\| \bm{Z} - D\bm{A} \right\|^2 + \lambda \left\| \bm{A} \right\|_1
+\end{equation}
+where $\bm{A} \coloneqq \left( \bm{\alpha}_1, \mathellipsis, \bm{\alpha}_J  \right)$.
+%
+Yang \etal "jointly" learn $D_{LR}, D_{HR}$ by making the identifications
+\begin{equation*}
+    \bm{Z} = \begin{bmatrix}
+                 \frac{1}{\sqrt{N}}\bY \\ \frac{1}{\sqrt{M}} \bX
+    \end{bmatrix} \text{ and }
+    D = \begin{bmatrix}
+            \frac{1}{\sqrt{N}} D_{HR} \\ \frac{1}{\sqrt{M}} D_{LR}
+    \end{bmatrix}
+\end{equation*}
+where $\bY = \left( \by_1, \mathellipsis, \by_P \right)$ are the example HR patches, $\bX$ similarly the example LR patches, and $N, M$ are the number of HR and LR pixels respectively in each example patch pair $\byi, \bxi$ (in order to normalize the error between $\byi, \bxi$).
+
+Though SC achieves good results for reasonably sized example sets and dictionary sizes it suffers from the inherent computational complexity of solving the optimization problem (see figure~\ref{fig:dictspeedspize}).
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth,keepaspectratio]{figures/dictsizespeed.png}
+    \caption{Dictionary inference time as a function of dictionary size\cite{yang2010}}
+    \label{fig:dictspeedspize}
+\end{figure}
+%
+Timofte \etal\cite{Timofte} argues that the chief inefficiency is the $L_1$ norm on the code.
+%
+By relaxing the $L_1$ norm in eqn.~\ref{eqn:lagrangerepr} to the $L_2$ norm they recover the Ridge regression form of the problem (see eqn.~\ref{eqn:closedform}) and get a closed form solution for the code:
+\begin{equation}
+    \hat{\bm{\alpha}} = \left( D_{LR}^T D_{LR} + \lambda I\right)^{-1}D_{LR}^T \bx
+\end{equation}
+The code can then be used to compute the HR patch:
+\begin{align}
+    \by &= D_{HR} \hat{\bm{\alpha}} \\
+    &= D_{HR} \left( D_{LR}^T D_{LR} + \lambda I\right)^{-1}D_{LR}^T \label{eqn:mappinglr}\bx
+\end{align}
+Factoring out
+\begin{equation}
+    P = D_{HR} \left( D_{LR}^T D_{LR} + \lambda I\right)^{-1}D_{LR}^T
+\end{equation}
+we see that $P$ can be pre-computed, thereby turning inference into simply a matrix multiplication.
+%
+They then go on to argue, reasoning by analogy with NNE, that the projection should be locally sensitive to input patches, i.e. instead of using the entire dictionary to construct the projection only the atoms nearest to the input LR patch should be used.
+%
+Thus for every atom in the dictionary, they find its $K' < K$ nearest neighbors, and using only those $K'$ atoms they pre-compute $K$ distinct projection operators $P_k \in \mathbb{R}^{n \times K'}$:
+\begin{equation}
+    P_k = D_{HR}^k \left( (D_{LR}^k)^T D_{LR}^k + \lambda I\right)^{-1}(D_{LR}^k)^T
+    \label{eqn:datadependentmapping}
+\end{equation}
+where $D_{LR}^k, D_{HR}^k$ are the neighborhood of the LR atom and the neighborhood of its corresponding HR atom.
+%
+They call these $P_k$ \textit{anchored regressions} because they effectively weight the contributions of LR and HR dictionary atoms.
+%
+For a new input LR patch $x$ they find the nearest atom in the $D_{LR}$ and recover the HR patch $\by = P_k \bx$.
+%
+Note that ANR, just as in SC, does not operate on the raw image patches themselves but rather "featurized" image patches: they apply Principle Components Analysis (PCA) to the first and seconder gradients of the patches and, as in Zeyde \etal\cite{Zeyde2012}, and keep only keep only components explaining 99.9\% of the variance.
+%
+This reduces the dimensions of their atoms to about 30.
+
+Inspired by the anchored regressions of ANR Schulter \etal\cite{Schulter2015} propose a technique called Super-Resolution Forests: their point of departure is a "data-dependent" function $W(\cdot)$ such that
+\begin{equation}
+    \hat{\by} = W(\bx) \cdot \bx
+\end{equation}
+This is similar to eqn.~\ref{eqn:datadependentmapping}.
+%
+They model $W(\cdot)$ as an $n$-tree regression tree forest.
+%
+Putting aside for the moment how the trees are trained, each tree $T_t$ independently splits LR patch space into disjoint subspaces by routing patches down the tree (see figure~\ref{fig:firf}).
+%
+For each tree $t$ each subspace associated with a leaf $l$ is then used to fit a linear basis-regression model defined by
+\begin{gather}
+    \prescript{l}{t}{W(\bx)} = \sum_{i=1}^I \prescript{l}{t}{\hat{w}_i}\phi_i(\bx) \\
+    \prescript{l}{t}{\hat{\bm{w}}} = \underset{\prescript{l}{t}{\bm{w}}}{\text{argmin}} \sum_{j=1}^J \left\| \by_j - \sum_{i=1}^I \prescript{l}{t}{w_i}\phi_i(\bx_j) \right\|^2
+    \label{eqn:linearbasisregression}
+\end{gather}
+where $\prescript{l}{t}{\bm{w}} \coloneqq \left( \prescript{l}{t}{w}_1, \mathellipsis, \prescript{l}{t}{w}_I \right)$ and $\phi_i(\bx_j)$ are basis functions such as the radial basis function
+\begin{equation}
+    \phi_i(\bx_j) = \exp \left\{ \frac{\left\| \bm{x}_j - \bm{\mu}_i \right\|^2}{\sigma_i} \right\}
+\end{equation}
+Since the objective in eqn.~\ref{eqn:linearbasisregression} is linear in $\prescript{l}{t}{w}_i$ the leaf models are fit using the closed form solution to least squares:
+\begin{equation}
+    \prescript{l}{t}{\hat{\bm{w}}} = \left( \Phi(\bX_t^l)^T \Phi(\bX_t^l) + \lambda I \right)^{-1} \Phi(\bX_t^l)^T \bY_t^l
+\end{equation}
+where $\bX_t^l$ are only those LR patches that get routed to leaf $l$ in tree $t$, similarly $\bY_t^l$, and $\Phi(\bX_t^l)$ is matrix $\left( \phi_i(\bx_j) \right)$ with $\bx_j$ being one of $\bX_t^l$.
+%
+\begin{figure*}
+    \centering
+    \includegraphics[width=\linewidth,keepaspectratio]{figures/FIRF.png}
+    \caption{A random forests which consists of a set of decision trees. Each decision tree recursively classifies the input LR patch into left or right child node, until a leaf node is reached. By using the linear regression models stored in the reach leaf node, the input LR patch can be projected to the HR patch space\cite{Huang}}
+    \label{fig:firf}
+\end{figure*}
+%
+Finally the inferred HR patch $\by$ is the average of patches $\prescript{l}{t}{W(\bx)}$ inferred by all $n$ trees in the forest:
+\begin{equation}
+    \hat{\by} = \frac{1}{n} \sum_{t=1}^{n} \prescript{l}{t}{W(\bx)} =  \frac{1}{n} \sum_{t=1}^{n} \sum_{i=1}^I \prescript{l}{t}{\hat{w}_i}\phi_i(\bx)
+\end{equation}
+where $l = l(t)$ is the leaf that sample $\bx$ is routed to for each tree $t$.
+%
+Schulter \etal train the trees on example LR-HR patch pairs $\bx, \by$ by recursively splitting the data using parameterized splitting functions
+\begin{equation}
+    \sigma(\bx, i, j, \tau)\coloneqq {
+    \begin{cases}
+        \text{left} & \text{if } \text{vec}(\bx)\left[ i \right] - \text{vec}(\bx)\left[ j \right] - \tau < 0  \\
+        \text{right} & \text{otherwise}
+    \end{cases}
+    }
+\end{equation}
+where $\text{vec}(\bx)\left[ i \right]$ is the $i$th pixel of $\text{vec}(\bx)$ and similarly $\text{vec}(\bx)\left[ j \right]$.
+%
+The tree is grown as a function of the splitting function, current depth, and current goodness of fit.
+%
+At each node they select the splitting function parameters $i, j, \tau$ by evaluating all such possible pixel pairs and thresholds according to a "quality measure" whose purpose is to cluster similar LR patches:
+\begin{equation}
+    Q(\bX, \bY) = \sum_k \left( \left\| \by_k - \hat{\by}_k \right\|^2 + \kappa\left\| \bx_k - \bar{\bx} \right\|^2 \right)
+    \label{eqn:qualitymeasure}
+\end{equation}
+where $\hat{\by}_k$ is the estimate produced by the linear regression fit using data that's arrived at that node.
+%
+The first term in eqn.~\ref{eqn:qualitymeasure} measures fitting error and the second term is the clustering regularizer.
+%
+They decide whether to actually split according to the \textit{error reduction} in performing the split:
+\begin{multline*}
+    R\left(i, j, \tau, \bX, \bY \right) = \\ Q(\bX, \bY) - \sum_{c\in\left\{L, R\right\}} \frac{|\bX^c|}{|\bX|} Q(\bX^c, \bY^c)
+\end{multline*}
+where $\bX^L$ are all of the $\bx_k$ such that $\sigma(\bx_k, i, j, \tau) = \text{ left }$ and $\bY^L$ are all the corresponding $\by_k$ (and similarly for $\bX^R, \bY^R$).
+%
+The best set of parameters $\hat{i}, \hat{j}, \hat{\tau}$ are those that maximize $R\left(i, j, \tau, \bX, \bY \right)$.
+%
+Then if $R\left(\hat{i}, \hat{j}, \hat{\tau}, \bX, \bY \right)$ is greater than zero (there's an error reduction gained from performing the split) the data is split amongst the left child and right child.
+%
+Each non-leaf node stores its best set of parameters and each leaf node stores its learned linear regression.
