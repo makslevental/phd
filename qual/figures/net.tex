@@ -1,16 +1,11 @@
-\documentclass[tikz]{standalone}
+%\documentclass[tikz]{standalone}
+%
+%%% Language and font encodings
+%\usepackage[english]{babel}
+%\usepackage[utf8x]{inputenc}
+%\usepackage[T1]{fontenc}
+%
 
-%% Language and font encodings
-\usepackage[english]{babel}
-\usepackage[utf8x]{inputenc}
-\usepackage[T1]{fontenc}
-
-\usepackage{xcolor}
-\definecolor{darkblue}{HTML}{1f4e79}
-\definecolor{lightblue}{HTML}{00b0f0}
-\definecolor{salmon}{HTML}{ff9c6b}
-
-\usetikzlibrary{backgrounds,calc,shadings,shapes.arrows,arrows,shapes.symbols,shadows,positioning,decorations.markings,backgrounds,arrows.meta}
 
 % Define parallelepiped shape:
 \makeatletter
@@ -112,7 +107,6 @@
   },
 }
 
-\begin{document}
 
 \begin{tikzpicture}
   % The order of blocks matters since some are partially hidden behind subsequent blocks.
@@ -133,4 +127,3 @@
   \draw [-triangle 60,link] ([xshift=0.2cm,yshift=0.2cm]conv2.east) -- ([xshift=1.5cm,yshift=0.2cm]conv2.east);
 \end{tikzpicture}
 
-\end{document}
