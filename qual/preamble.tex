@@ -1,0 +1,106 @@
+\usepackage{etoolbox}
+\usepackage{tabularx,booktabs}
+\makeatletter
+\patchcmd{\@makecaption}
+{\scshape}
+{}
+{}
+{}
+\makeatletter
+\patchcmd{\@makecaption}
+{\\}
+{.\ }
+{}
+{}
+\makeatother
+\def\tablename{Table}
+\renewcommand{\thetable}{\arabic{table}}
+\usepackage{etoc}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\renewcommand\thesection{\arabic{section}}
+\renewcommand\thesubsection{\thesection.\arabic{subsection}}
+\renewcommand\thesubsubsection{\thesubsection.\arabic{subsubsection}}
+
+\renewcommand\thesectiondis{\arabic{section}}
+\renewcommand\thesubsectiondis{\thesectiondis.\arabic{subsection}}
+\renewcommand\thesubsubsectiondis{\thesubsectiondis.\arabic{subsubsection}}
+\newcommand{\ue}[1]{%
+\begin{tikzpicture}[#1]%
+    \draw[fill = black] (.25ex,.25ex) circle (.3ex);
+    \draw[thick] (.55ex,.25ex) -- (1.55ex,.25ex);%
+    \draw[fill = black] (1.85ex, .25ex) circle (.3ex);
+    %
+\end{tikzpicture}%
+}
+\usepackage{amsfonts}
+
+\usepackage{bm}
+\usepackage{wrapfig}
+\usepackage{multicol}
+\usepackage{sepfootnotes}
+\usepackage[bottom]{footmisc}
+\newfootnotes{a}
+\input{footnotes.tex}
+\usepackage[pdftex]{graphicx}
+\usepackage{amsmath}
+
+\usepackage[backend=biber, bibencoding=utf8, style=ieee, backref=true]{biblatex}
+\usepackage[hyperfootnotes=false,hyperindex=true]{hyperref}
+\hypersetup{
+    colorlinks,
+    linkcolor={red!50!black},
+    citecolor={blue!50!black},
+    urlcolor={blue!80!black}
+}
+%\usepackage[backend=bibtex, bibencoding=utf8, style=ieee]{biblatex}
+\addbibresource{quals.bib}
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shapes,arrows}
+\usepackage[edges]{forest}
+\usepackage{adjustbox}
+\usepackage{mathtools}
+\usepackage{breqn}
+\usepackage{subcaption}
+
+% Note that the amsmath package sets \interdisplaylinepenalty to 10000
+% thus preventing page breaks from occurring within multiline equations. Use:
+\interdisplaylinepenalty=0
+
+% fix footnote rule from ieee
+\def\footnoterule{\relax%
+\kern-5pt
+\hbox to \columnwidth{\hfill\vrule width 0.5\columnwidth height 0.4pt\hfill}
+\kern4.6pt}
+
+\newcommand{\Xk}{X_k}
+\newcommand{\Xkone}{X_{k+1}}
+\newcommand{\bx}{\bm{x}}
+\newcommand{\bX}{\bm{X}}
+\newcommand{\bxi}{\bm{x}_i}
+\newcommand{\delx}{\bx - \bxi}
+\newcommand{\by}{\bm{y}}
+\newcommand{\bY}{\bm{Y}}
+\newcommand{\byi}{\bm{y}_i}
+\newcommand{\dely}{\by - \byi}
+\newcommand{\zbx}{Z(\bx)}
+\newcommand{\zbxi}{Z(\bxi)}
+\newcommand{\bb}{\bm{\beta}}
+\newcommand{\hzbx}{\hat{Z}(\bx)}
+\newcommand{\etal}{\textit{et al.}}
+
+\def\thesubsubsectiondis{\thesubsectiondis\arabic{subsubsection}}
+
+\makeatletter
+\def\subsubsection{%
+\@startsection
+{subsubsection}                 % type
+{3}                             % level
+{\z@}                    % indent
+%{3.5ex plus 1.5ex minus 1.5ex}  % beforeskip {0ex plus 0.1ex minus 0.1ex}
+{0.7ex plus .5ex minus 0ex}     % afterskip {0ex}
+{0.7ex plus .5ex minus 0ex}     % afterskip {0ex}
+{\normalfont\normalsize\itshape}% style
+}
+\makeatother

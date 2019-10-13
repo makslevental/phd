@@ -1,29 +1,219 @@
-\newcommand*{\bx}{\bm{x}}
-\newcommand*{\bX}{\bm{X}}
-\newcommand*{\bxi}{\bm{x}_i}
-\newcommand*{\delx}{\bx - \bxi}
-\newcommand*{\by}{\bm{y}}
-\newcommand*{\bY}{\bm{Y}}
-\newcommand*{\byi}{\bm{y}_i}
-\newcommand*{\dely}{\by - \byi}
-\newcommand*{\zbx}{Z(\bx)}
-\newcommand*{\zbxi}{Z(\bxi)}
-\newcommand*{\bb}{\bm{\beta}}
-\newcommand*{\hzbx}{\hat{Z}(\bx)}
-\newcommand*{\etal}{\textit{et al. }}
+\subsection{Image Registration}\label{subsec:registration}
+Images obtained from multiple vantage points, or at different times, of the same scene, become distorted with respect
+to each other.
+%
+Since in MISR the aim is to exploit new information across multiple LR samples we need to first rectify these distortions and reconcile the images.
+%
+Effectively this means finding one or more pixel transformations that enable mapping all LR images to a common pixel grid.
+%
+When the transformations cannot be deduced from first principles (e.g. precise knowledge of the relative motion of the scene and the imaging system) they must be estimated from the LR images.
+%
+
+Most image registration algorithms consist of a featurization step (also called Control Point (CP) detection and selection), a feature matching step, and a transform estimation step.
+%
+Note that here by features we mean either image artifacts (e.g. edges, contours, line intersections, or corners) or transformations thereof (e.g. SIFT\cite{lowe2004sift}, SURF\cite{bay2006surf}, or ORB\cite{rublee2011orb} descriptors).
+%
+The features are the data that will be used to estimate the transformation $f$ (see eqn.~\eqref{eqn:registration}).
+%
+Therefore, in order that the estimated transformation is accurate, features should be robust to noise and image degradation, sufficiently distributed throughout the image, and readily matched in the matching step.
+%
+Furthermore, the transformation to be estimated should incorporate prior knowledge about the motion model but simultaneously lead to a tractable estimation problem (i.e. reasonable number of parameters).
+%
+We cover each aspect of the registration process, discussing in turn some of the choices available for each step.
+
+\subsubsection{Harris Corner Detection}
+Bentoutou \etal\cite{bentoutou2005automatic} use a Harris detector\cite{harris1988combined} to find corners in a reference image, arguing that this feature is robust and stable.
+%
+The Harris detector improves on the Moravec\cite{moravec1980obstacle} detector.
+%
+The Moravec detector starts from the error function $E_{x,y}(u,v)$ which computes the sum of the squared differences (SSD) between an $m \times m$ weighted window around a pixel $X(x, y)$ and weighted windows shifted by $u,v$ pixels:
+\begin{equation}
+    \begin{split}
+        E_{x,y}(u,v) \coloneqq \sum_{i,j=-m/2}^{m/2} w_{ij}\left[ X(x_i+ u,y_j+v) - X(x_i, y_j)\right]^2
+    \end{split}
+    \label{moravecerrorfunction}
+\end{equation}
+where $x_i \coloneqq x + i$ and $y_j \coloneqq y+j$.
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth,keepaspectratio]{figures/corners.png}
+    \caption{Moravec Corner Detector}
+    \label{fig:corners}
+\end{figure}
+Moravec assigns a "corner score" according to the following reasoning (see figure~\ref{fig:corners}):
+\begin{enumerate}
+    \item If a pixel is in a region of uniform intensity then $E_{x,y}(u,v)$ is small for all $u,v$ (since neighboring windows are similar).
+    \item If a pixel is on an edge, then $E_{x,y}(u,v)$ for either $u > 0$ or $v > 0$, but not both, is high.
+    \item If a pixel is on a corner, then $E_{x,y}(u,v)$ for $u > 0$ and $v > 0$ is high.
+\end{enumerate}
+Therefore the corner score at pixel coordinate $(x,y)$ is $\min_{u,v} E_{x,y}(u,v)$ in order to select for the third case.
+%
+Moravec comments that this corner score is not isotropic, i.e. if edges aren't aligned with either the pixel axes or diagonals then $E_{x,y}(u,v)$ will incorrectly be low.
+%
+Harris' insight was to linearize $E_{x,y}(u,v)$ in order to compute a quantity more closely related to the intensity variation in a local
+neighborhood of a pixel:
+\begin{equation}
+    X(x_i + u,y_j + v) \approx  X(x_i,y_j) + \frac{\partial X}{\partial u}u + \frac{\partial X }{\partial v} v
+\end{equation}
+where the partial derivatives are taken at $(x,y)$.
+%
+This implies
+\begin{align}
+    E_{x,y}(u,v) &\approx \sum_{i,j=-m/2}^{m/2} w_{ij} \left[ X_u u + X_v v\right]^2 \\
+    &= \sum_{i,j=-m/2}^{m/2} w_{ij} \left[ X_u^2 u^2 + X_v^2 v^2 + 2 X_u X_v u v\right] \\
+    &= \left[ u,v \right] \begin{bmatrix}
+                              \sum w_{ij}X_u^2 & \sum w_{ij}X_u X_v \\
+                              \sum w_{ij}X_u X_v & \sum w_{ij}X_v^2\\
+    \end{bmatrix}  \begin{bmatrix}
+                       u \\
+                       v
+    \end{bmatrix} \\
+    &= \left[ u,v \right] M  \begin{bmatrix}
+                                 u \\
+                                 v
+    \end{bmatrix} \label{eqn:structurematrix}
+\end{align}
+where $X_u = \partial X/\partial u$ and similarly $X_v$.
+%
+The matrix in eqn.~\eqref{eqn:structurematrix}, called the \textit{structor tensor} or \textit{second-moment matrix} $M$, is the quantity Harris investigated.
+%
+Harris reasoned that the cases of Moravec correspond to conditions on the eigenvalues $\lambda_1, \lambda_2$ of $M$:
+\begin{enumerate}
+    \item If $\lambda_1 \approx \lambda_2 \approx 0$ then $X(x,y)$ is in a region of uniform intensity.
+    \item If $\lambda_1 \gg \lambda_2$ or $\lambda_2 \gg \lambda_1$ then $X(x,y)$ is on an edge.
+    \item $\lambda_1 \approx \lambda_2 > 0$ then $X(x,y)$ is on a corner.
+\end{enumerate}
+Notice that if $w_{ij} = 1$ then this is just the gradient covariance of the image and the Harris detector is essentially a local Principle Components Analysis (PCA).
+%
+In fact Harris doesn't actually compute the eigenvalues but instead a related quantity called the "strength":
+\begin{align}
+    S &= \lambda_1 \lambda_2 - \kappa (\lambda_1 + \lambda_2)^2 \\
+    &= \operatorname{det}(M) - \kappa \operatorname{trace}^2(M)
+    \label{eqn:strength}
+\end{align}
+%
+Hence Bentoutou \etal~ first compute a gradient map of the image using a first order Gaussian derivative filter.
+%
+They then threshold\anote{threshold} the gradient map at the average gradient value, thereby extracting only sufficiently "interesting" regions, and compute the strength $S$ for all pixels.
+%
+They also apply Non-maximum Suppression\anote{nms} (NMS) using a $3 \times 3$ window and further threshold the remaining non-zero strength values at a threshold of 1\% of maximum observed strength.
+%
+Finally only the "strongest" $n$ corners are kept.
+
+\subsubsection{SIFT}
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth,keepaspectratio]{figures/sift_scale_invariant.jpeg}
+    \caption{Harris Detector failing to recognize the right image as a corner.}
+    \label{fig:sift_harris}
+\end{figure}
+One issue with Harris detectors is that they're not invariant to scale (see figure~\ref{fig:sift_harris}).
+%
+Zahra \etal\cite{zahrasift} resolves this issue by using the Scale Invariant Feature Transform\cite{sift} (SIFT) to produce features that, as the name implies, are invariant across multiple scales.
+%
+SIFT constructs robust features by proceeding in five majors steps:
+\begin{enumerate}
+    \item Pyramid construction: a dual sequence of filtered and differenced images is constructed.
+    \item Scale-space extrema detection: candidate \textit{keypoints} are extrema along dimensions of scale and space.
+    \item Keypoints selection: localization of good points and rejection of points of low-contrast (therefore sensitive to noise) or those on edges of low curvature.
+    \item Orientation assignment: orientation is assigned to each keypoint in order that the feature is orientation invariant.
+    \item Descriptor computation: featurization for each keypoint based the gradient vectors of its neighborhood.
+\end{enumerate}
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth,keepaspectratio]{figures/pyramid.png}
+    \caption{Smoothed $L(x,y, \sigma)$ and differenced $DoG(x,y,\sigma)$ pyramid of progressive feature scales\cite{younescomprehensive}.}
+    \label{fig:sift_pyramid}
+\end{figure}
+\begin{figure}
+    \centering
+    \includegraphics[width=.8\linewidth,keepaspectratio]{figures/sift_extrema.png}
+    \caption{SIFT local extrema in scale and space.}
+    \label{fig:sift_scale}
+\end{figure}
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth,keepaspectratio]{figures/sift_feature.png}
+    \caption{SIFT keypoint feature vector\cite{phamsift}.}
+    \label{fig:sift_feature}
+\end{figure}
+In order to compute scale invariant features a multi-tier pyramid of images at progressively smaller resolutions is constructed.
+%
+Each tier has images at half the resolution of the previous, with the first tier in fact being a 2x upscaling of the original image.
+%
+Gaussian smoothing, at uniformly increasing $\sigma_0, k \sigma_0, k^2 \sigma_0, \mathellipsis$ scale factors, is then applied to the images (see figure~\ref{fig:sift_pyramid}):
+\begin{equation}
+    L(x,y,k^n\sigma_0) = G(x,y,k^n\sigma_0) \ast X(x,y)
+\end{equation}
+where $G(x,y,k^n\sigma)$ is a Gaussian filter.
+
+With the aim being to compute image curvature extrema, the Difference of Gaussian is computed as an approximation of Laplace of Gaussians\anote{log}:
+\begin{equation}
+    DoG(x,y,k^{n+1}\sigma_0) = L(x,y,k^{n+1}\sigma_0) - L(x,y,k^n\sigma_0)
+\end{equation}
+This "$DoG$" pyramid is what is used to identify extrema; an extremum is a maximum or minimum in its 26-pixel scale-space neighborhood.
+%
+The intensity of the point in the $DoG$ image is compared to its neighbors in $3 \times 3$ windows above and below in scale, and adjacent in space (see figure~\ref{fig:sift_scale}).
+%
+Unfortunately this produces too many candidate keypoints; the next step in the algorithm is to fit a quadratic to the $DoG$ in the neighborhood of a candidate keypoint $\bm{c} = (x_c, y_c, k^c\sigma_0)$:
+\begin{equation}
+    D(\bx) \approx D(\bm{c}) + \nabla D(\bm{c})^T \bx + \frac{1}{2}\bx^T H_{D}(\bm{c}) \bx
+    \label{eqn:dogapprox}
+\end{equation}
+where we define $D \coloneqq DoG$ for notational convenience and $H_D$ is the Hessian of $D$.
+%
+Then the true local extremum is the point $\hat{\bm{x}}$ for which the derivative of eqn.~\eqref{eqn:dogapprox} is zero, i.e.
+\begin{equation}
+    \hat{\bm{x}} = -H_{D}^{-1}(\bm{c}) \nabla D(\bm{c})
+\end{equation}
+Low contrast points are rejected if $|D(\hat{\bx})| < \tau$ a cut-off threshold.
+%
+Finally keypoints on edges of small principle curvature\anote{smallcurvature} are rejected.
+
+Once stable keypoints are identified, characterized by their coordinates and scale, an orientation is assigned to them in order that they function as rotation invariant features.
+%
+
+\subsubsection{Canny edge detector}
 
 %
-\subsection{Registration}\label{subsec:registration}
+%For a static scene and an imaging system with 6 degrees of freedom, motion is dependent on the geometry of the scene and potentially complex (due to occlusion and parallax).
+%%
+%This pertains to image registration where we seek to relate $\Xkone$ to $\Xk$:
+%\begin{equation*}
+%    \Xkone(x,y) = \Xk(x + v_x(x,y), y + v_y(x,y))
+%\end{equation*}
+%%
+%For small motions we can approximate $\Xk$ by its first order Taylor series:
+%\begin{align}
+%    \Xkone(x,y) &= \Xk(x + v_x(x,y), y + v_y(x,y)) \\
+%    &\approx \Xk(x,y) + v_x(x,y)\frac{\partial \Xk}{\partial x} + v_y(x,y)\frac{\partial \Xk}{\partial y}\label{eqn:motiontaylor}
+%\end{align}
+%Evaluating equation~\ref{eqn:motiontaylor} at every pixel gives a set of linear equations that enable us to fit one of the models in table~\ref{table:transformations}.
+%%
+%We focus on affine motion primarily because it is easy to estimate and secondarily because the composition of multiple affine transformations is an affine transformation (enabling us to register more than 2 images by building up the necessary transformations incrementally).
+%%
+%In this instance it can be seen that at $\bx' \coloneqq (x', y') = (x + v_x(x,y), y + v_y(x,y))$ in $\Xkone$ are related to pixels at $\bx \coloneqq (x,y)$ in $\Xk$ by a translation and a rotation:
+%\begin{equation}
+%    \bx' = R \bx + \bm{t}
+%\end{equation}
+%%
+%Note that for nonstatic scenes the registration problem becomes "exponentially" more difficult as many more parameters need to be estimated.
+%%
+%Furthermore registration and super resolution are not independent since the data being used to estimate the registration transforms is blurry and noisy; to wit perfectly resolved images could be much more effectively registered.
+%
+\subsubsection{Gaussian Process}\label{subsubsec:gaussianprocess}
+\input{figures/motion_transformations.tex}
 \subsection{Interpolation}\label{subsec:interpolation}
+
 Suppose that $H_k$ is linear spatial\anote{lsi} and time invariant.
 %
 Suppose further that $A_k$ is affine.
 %
-Then $H \coloneqq H_k$ commutes with $A_k$\cite{meladcommute} and eqn.~\ref{eqn:commuteimagingmodel} becomes
+Then $H \coloneqq H_k$ commutes with $A_k$\cite{meladcommute} and eqn.~\eqref{eqn:commuteimagingmodel} becomes
 \begin{equation}
     \label{eqn:commuteimagingmodel}
     \begin{split}
-        X_k &= (D \circ A_k \circ H) (Y) + \varepsilon \\
+        \Xk &= (D \circ A_k \circ H) (Y) + \varepsilon \\
         &= (D \circ A_k) (H(Y)) + \varepsilon \\
         &= (D \circ A_k) (V) + \varepsilon
     \end{split}
@@ -31,7 +221,7 @@ Then $H \coloneqq H_k$ commutes with $A_k$\cite{meladcommute} and eqn.~\ref{eqn:
 %
 where $V \coloneqq H(Y)$.
 %
-This naturally suggests interpolation in order to recover $V$ (since $X_k$, in this framing, is simply shifted samples of $V$).
+This naturally suggests interpolation in order to recover $V$ (since $\Xk$, in this framing, is simply shifted samples of $V$).
 %
 Note in this context we use interpolation very broadly, i.e. to connote filling in missing values using neighboring (in some sense --- not necessarily geometrically) values.
 %
@@ -43,12 +233,14 @@ Note in this context we use interpolation very broadly, i.e. to connote filling 
 \end{figure}
 This class of techniques proceed by first registering images on a high resolution grid (see figure~\ref{fig:hrgrid}) then interpolating at the "missing" pixels in the HR grid to recover $V$, and finally denoising and deconvolution (of $H$) to recover $Y$.
 %
-Since in general consecutive $X_k$ have non-uniform shifts (relative to $X_1$) the interpolation is non-uniform and improvisations on this theme use various weighting schemes for adjacent LR pixels\anote{lrpixel}.
+Since in general consecutive $\Xk$ have non-uniform shifts (relative to $X_1$) the interpolation is non-uniform and improvisations on this theme use various weighting schemes for adjacent LR pixels\anote{lrpixel}.
 
 For example Alam \text{et al.}\cite{Alam2000} uses weighted nearest neighbors: for every pixel to be interpolated the three nearest pixels are weighted inversely by their distance (according to HR grid distance) and then their weighted sum is assigned to that pixel.
 %
 This non-uniform interpolation is then followed by application of a Wiener filter whose design is informed by the OTF of the particular imaging system they study (which they do not estimate i.e. they assume they can model accurately).
 %
+\subsubsection{Delaunay Triangulation}
+
 \begin{figure}
     \centering
     \includegraphics[width=.7\linewidth]{figures/delauney.png}
@@ -63,7 +255,7 @@ Lertrattanapanich \text{et al.}\cite{Lertrattanapanich} base their algorithm on 
 where $B_i$ is the area of the $i$th Delaunay cell.
 %
 Unfortunately this intricate solution is not robust to noise in real images.
-
+\subsubsection{Wiener Filter}
 A more sophisticated method for non-uniform interpolation uses parametric models for the auto-correlation between LR pixels and the cross-correlation between LR pixels and interpolated pixels to estimate wiener filter weights\cite{wiener}.
 %
 These weights are then used to average nearby pixel values.
@@ -102,10 +294,10 @@ Similarly for $\bm{p}$, $r = r(m, n)$ is the distance between pixel-to-be-estima
 Note that $R$ is an $N \times N$ matrix where $N = K W_x W_y/D_x D_y$, i.e. how many LR pixels there are in the observation window, and $\bm{p}$ is an $N \times 1$ column vector uniquely computed for each pixel in the estimation window.
 %
 The scheme is effective but suffers from issues with the spatial isotropy of the auto-correlation and cross-correlation models.
-
+\subsubsection{Steering Kernels}
 One of the most sophisticated of these non-uniform interpolation schemes employs the kernel regression framework and \textit{steering kernels} (see~\ref{fig:steering}).
 %
-In this context we start with all $X_k$ registered to a common HR grid and consider pixel values $Y(\bxi)$ at pixel coordinates $\bxi \coloneqq (x_{i1},x_{i2})$ as the measured data pairs $(\bxi, Y(\bxi)$.
+In this context we start with all $\Xk$ registered to a common HR grid and consider pixel values $Y(\bxi)$ at pixel coordinates $\bxi \coloneqq (x_{i1},x_{i2})$ as the measured data pairs $(\bxi, Y(\bxi)$.
 %
 Recall that kernel regression frames the estimation problem as
 \begin{equation}
@@ -157,6 +349,7 @@ One solution is to parameterize $H_i$:
 \]
 where $U_{\theta_i}$ is a rotation matrix, $\Lambda_{\sigma_i} = \text{diag}\left( \sigma_i, \sigma_i^{-1} \right)$ is an "elongation" matrix, and $\gamma_i$ is a scaling parameter, with each of $\gamma_i, \theta_i, \sigma_i$ estimated from the data in a more robust way.
 %
+\subsubsection{Bilateral Kernel}
 An alternative kernel is the bilateral kernel\cite{Tomasi:1998:BFG:938978.939190} that defines closeness according to geometric and radiometric distance:
 \begin{equation}
     \begin{split}
@@ -168,15 +361,16 @@ An alternative kernel is the bilateral kernel\cite{Tomasi:1998:BFG:938978.939190
 \end{equation}
 where $\sigma_S$ parameterizes spatial distance weight and $\sigma_R$ parameterizes "radiometric" distance weight.
 
-In general non-uniform interpolation techniques are intuitive and typically (relatively) computationally efficient but they assume an unrealistic observation model (namely that of affine flow).
+In general non-uniform interpolation techniques are intuitive and typically (relatively) computationally efficient but they assume an unrealistic observation model (namely that of affine motion).
 
 \subsection{Estimation}\label{subsec:estimation}
 
 Statistical estimation methods cast SR as an inference problem.
 %
+\subsubsection{Iterative Back-Projection}
 One of the earliest successful SR algorithms\cite{Irani1991ImprovingRB} proposed an iterative scheme inspired by the back-projection method commonly used to reconstruct 2-D objects from 1-D projections in computer-aided tomography.
 %
-Recall eqn.~\ref{eqn:imagingmodel}.
+Recall eqn.~\eqref{eqn:imagingmodel}.
 \begin{figure}
     \centering
     \includegraphics[width=\linewidth,keepaspectratio]{figures/3-Figure1-1.png}
@@ -184,20 +378,20 @@ Recall eqn.~\ref{eqn:imagingmodel}.
     \label{fig:iterbackproj}
 \end{figure}
 %
-Then the idea is to take the current estimate of the HR image $\hat{Y}^{i}$, see if after motion and down-sampling $(D \circ A_k)(\hat{Y}^i)$ it is near the LR samples $X_k$, and add a correction when it is not (see figure~\ref{fig:iterbackproj}):
+Then the idea is to take the current estimate of the HR image $\hat{Y}^{i}$, see if after motion and down-sampling $(D \circ A_k)(\hat{Y}^i)$ it is near the LR samples $\Xk$, and add a correction when it is not (see figure~\ref{fig:iterbackproj}):
 \begin{equation}
-    \hat{Y}^{i+1} = \hat{Y}^i + \sum_{k=1}^K (D \circ A_k)^{-1}\left( (D \circ A_k)(\hat{Y}^i) - X_k \right)
+    \hat{Y}^{i+1} = \hat{Y}^i + \sum_{k=1}^K (D \circ A_k)^{-1}\left( (D \circ A_k)(\hat{Y}^i) - \Xk \right)
     \label{eqn:ibp}
 \end{equation}
-where $\hat{Y}^i$ is the current estimate of the blurred HR image, $(D \circ A_k)(\hat{Y}^i)$ is the projection of the current estimate to low resolution, and $(D \circ A_k)^{-1}\left( (D \circ A_k)(\hat{Y}^i) - X_k \right)$ is the \textit{back-projection}.
+where $\hat{Y}^i$ is the current estimate of the blurred HR image, $(D \circ A_k)(\hat{Y}^i)$ is the projection of the current estimate to low resolution, and $(D \circ A_k)^{-1}\left( (D \circ A_k)(\hat{Y}^i) - \Xk \right)$ is the \textit{back-projection}.
 %
-This process iterates until convergence i.e. $\lvert (D \circ A_k)(\hat{Y}^i) - X_k \rvert < \delta$ for some $\delta$.
+This process iterates until convergence i.e. $\lvert (D \circ A_k)(\hat{Y}^i) - \Xk \rvert < \delta$ for some $\delta$.
 %
-Irani \etal\cite{Irani1991ImprovingRB} also convolve the back-projection with a smoothing kernel as a form of regularization since the estimation problem is in general ill-posed (there are many $\hat{Y}^{i}$ that will project down to a pixel-distance neighbor of $X_k$).
+Irani \etal\cite{Irani1991ImprovingRB} also convolve the back-projection with a smoothing kernel as a form of regularization since the estimation problem is in general ill-posed (there are many $\hat{Y}^{i}$ that will project down to a pixel-distance neighbor of $\Xk$).
 %
-It can be shown\cite{Elad1996} that for $\varepsilon_k$ distributed $(0, R_k)$-Normal, $\hat{Y}$ is none other than the maximum likelihood estimate (MLE) for $Y$.
+It can be shown\cite{Elad1996} that for $\varepsilon_k$ distributed $(0, R_k)$-Normal, $\hat{Y}$ is none other than the maximum likelihood MLE for $Y$.
 %
-We can see this by recognizing that eqn.~\ref{eqn:ibp} is just the Richardson iterative\cite{Anderssen:1972:RNM:891962} solution to
+We can see this by recognizing that eqn.~\eqref{eqn:ibp} is just the Richardson iterative\cite{Anderssen:1972:RNM:891962} solution to
 \begin{equation}
     L(Y) = \frac{1}{2} \left\| \bm{X} -  \begin{bmatrix}
                                              D_1 \circ A_1 \\
@@ -211,17 +405,17 @@ since
 \begin{equation*}
     \nabla_{Y} L = 0
     \iff
-    \sum_{k=1}^K (D \circ A_k)^{-1}\left( (D \circ A_k)(Y) - X_k \right) = 0
+    \sum_{k=1}^K (D \circ A_k)^{-1}\left( (D \circ A_k)(Y) - \Xk \right) = 0
 \end{equation*}
 and therefore $\hat{Y}_i \rightarrow \hat{Y}$ is the MLE (since MLE is the solution to least squares\cite{CaseBerg:01}).
 %
 Though this is one of the oldest SR algorithms it's recently been revisited and re-imagined as a deep neural network architecture (DNN)\cite{DBLP:journals.corr.abs-1803-02735}.
-
+\subsubsection{Kalman Filter}
 Another estimation technique employs a Kalman filter\cite{elad1999} to estimate $Y$.
 %
-Let $\bm{x}_k = \text{vec}(X_k)$ be the vectorization\anote{vectorize} of $X_k$ and $\bm{y} = \text{vec}(Y)$ likewise.
+Let $\bm{x}_k = \text{vec}(\Xk)$ be the vectorization\anote{vectorize} of $\Xk$ and $\bm{y} = \text{vec}(Y)$ likewise.
 %
-If we assume linear models for each of $D, A_k, H_k$ (i.e. all representable as matrices) and a well-behaved optical flow model (most pixels in image $\bm{x}_k$ appear in image $\bm{x}_{k-1}$) then we can image $\bm{y}$ as a sequence of images $\bm{y}_k$ related in time by
+If we assume linear models for each of $D, A_k, H_k$ (i.e. all representable as matrices) and a well-behaved motion model (most pixels in image $\bm{x}_k$ appear in image $\bm{x}_{k-1}$) then we can image $\bm{y}$ as a sequence of images $\bm{y}_k$ related in time by
 \begin{equation}
     \bm{y}_k = A'_k \bm{y}_{k-1} + \eta_k
     \label{eqn:kalmanprocess}
@@ -229,7 +423,7 @@ If we assume linear models for each of $D, A_k, H_k$ (i.e. all representable as 
 %
 where $A'_k$ is the \textit{relative} motion operator, $A'_k\bm{y}_{k-1}$ is conventional matrix-vector multiplication, and $\eta_k$ is the only source of new pixels (noise\anote{noise} distributed $(0, Q_k)$-Normal).
 %
-Consequently eqn.~\ref{eqn:imagingmodel} becomes
+Consequently eqn.~\eqref{eqn:imagingmodel} becomes
 \begin{equation}
     \bm{x}_k = DH_k\bm{y}_k + \varepsilon_k
     \label{eqn:kalmanobs}
@@ -240,7 +434,7 @@ Note that the HR image conditioned on all previous LR images (measurements)
 \begin{equation}
     \bm{y}_{k|s} \coloneqq \bm{y}_k|\bm{x}_1, \mathellipsis, \bm{x}_s
 \end{equation}
-with $s \leq k$, is a Gaussian process (GP), with mean $\bar{\bm{y}}_{k|s} = E\left[\bm{y}_{k|s}\right]$
+where $s \leq k$, is a GP, with mean $\bar{\bm{y}}_{k|s} = E\left[\bm{y}_{k|s}\right]$
 and covariance
 \begin{equation}
     C_{k|s} \coloneqq E\left[ (\bm{y}_k - \bar{\bm{y}}_{k|s})(\bm{y}_k - \bar{\bm{y}}_{k|s})^T  \right]
@@ -277,7 +471,7 @@ In Elad \etal\cite{elad1999} the assumption is $D, H_k, R_k$ are known functions
 where $\alpha_k$ is chosen such that the approximation upper-bounds the true $Q_k$.
 %
 They comment that this stronger auto-correlation for $\bm{y}_k$ adds "pseudo-noise" to the system and biases the Kalman filter to "rely" more on the measurements than the state transition model.
-
+\subsubsection{MAP Estimation}
 SR can also be posed as a Bayesian maximum a posterior (MAP) estimation problem.
 %
 Let $\bm{H} \coloneqq \left( H_1, \mathellipsis, H_k \right)$ be the vector of blur operators applied to $Y$ in order to produce $\bm{X}$ and similarly $\bm{A}$.
@@ -289,11 +483,11 @@ Then
     &= \underset{Y}{\text{argmax}} \int_{D, \bm{H}, \bm{A}} \frac{P\left(\bm{X} \middle| Y, D, \bm{H}, \bm{A} \right)P(Y) P(D, \bm{H}, \bm{A})}{P(\bm{X})}\label{eqn:indepym} \\
     &= \underset{Y}{\text{argmax}} \int_{D, \bm{H}, \bm{A}} P\left(\bm{X} \middle| Y, D, \bm{H}, \bm{A} \right)P(Y) P(D, \bm{H}, \bm{A}) \label{eqn:maxx}
 \end{align}
-where in eqn.~\ref{eqn:indepym} we've used the independence of $Y$ and $D, \bm{H}, \bm{A}$\cite{Hardie1997} and in eqn.~\ref{eqn:maxx} we've used that $\bm{X}$ is a constant with respect to the maximization.
+where in eqn.~\eqref{eqn:indepym} we've used the independence of $Y$ and $D, \bm{H}, \bm{A}$\cite{Hardie1997} and in eqn.~\eqref{eqn:maxx} we've used that $\bm{X}$ is a constant with respect to the maximization.
 %
 While there exist reasonable priors for $Y$, marginalizing over $D, \bm{H}, \bm{A}$ is still difficult due to the high-dimensionality of each.
 %
-Therefore assuming $D, \bm{H}, \bm{A}$ can be estimated independently as $\hat{D}, \hat{\bm{H}}, \hat{\bm{A}}$, eqn.~\ref{eqn:maxx} becomes
+Therefore assuming $D, \bm{H}, \bm{A}$ can be estimated independently as $\hat{D}, \hat{\bm{H}}, \hat{\bm{A}}$, eqn.~\eqref{eqn:maxx} becomes
 \begin{equation}
     \hat{Y} = \underset{Y}{\text{argmax}}~P\left(\bm{X} \middle| Y; \hat{D}, \hat{\bm{H}}, \hat{\bm{A}} \right) P(Y)
     \label{eqn:map}
@@ -311,11 +505,11 @@ Note that an equivalent formulation of MAP maximizes the log-likelihood instead 
 %
 Various choices for $P\left(\bm{X} \middle| Y; \hat{D},  \hat{\bm{H}}, \hat{\bm{A}} \right)$ and the prior $P(Y)$ (and consequent choice of optimization strategies) characterize this class of SR techniques.
 %
-Again assume $D, H_k, A_k$ linear and given $\varepsilon_k$ in eqn.~\ref{eqn:imagingmodel} distributed $(0, rI)$-Normal
+Again assume $D, H_k, A_k$ linear and given $\varepsilon_k$ in eqn.~\eqref{eqn:imagingmodel} distributed $(0, rI)$-Normal
 \begin{equation}
     P\left(\bm{X} \middle| Y; \hat{D},  \hat{\bm{H}}, \hat{\bm{A}} \right) \propto \exp \left\{ -\frac{\left\| \bm{X} - \hat{D} \hat{\bm{H}} \hat{\bm{A}} \bm{y} \right\|^2}{2r^2} \right\}
 \end{equation}
-where here $\bm{X} = \left( \text{vec}(X_1), \mathellipsis, \text{vec}(X_k) \right)$ and
+where here $\bm{X} = \left( \text{vec}(X_1), \mathellipsis, \text{vec}(\Xk) \right)$ and
 \begin{equation}
     \hat{D} \hat{\bm{H}} \hat{\bm{A}} \coloneqq \begin{bmatrix}
                                                     \hat{D} \hat{\bm{H}}_1 \hat{\bm{A}}_1 \\
@@ -325,23 +519,25 @@ where here $\bm{X} = \left( \text{vec}(X_1), \mathellipsis, \text{vec}(X_k) \rig
     \end{bmatrix}
 \end{equation}
 %
-After a suitable choice for the prior it can be seen that eqn.~\ref{eqn:logmap} is just regularized regression.
+After a suitable choice for the prior it can be seen that eqn.~\eqref{eqn:logmap} is just regularized regression.
 %
 For example when choosing a Gibbs\cite{Hardie1997} distribution as the prior, i.e.
 \begin{equation}
     P(Y) \propto e^{-\alpha B(Y)}
     \label{eqn:gibbs}
 \end{equation}
-where $B(Y)$ is called the \textit{potential}, eqn.~\ref{eqn:logmap} becomes
+where $B(Y)$ is called the \textit{potential}, eqn.~\eqref{eqn:logmap} becomes
 \begin{equation}
     \hat{\bm{y}} = \underset{\bm{y}}{\text{argmin}}\left[ \left\| \bm{X} - \hat{D} \hat{\bm{H}} \hat{\bm{A}} \bm{y} \right\|^2 +\lambda B(Y)\right]
     \label{eqn:minmap}
 \end{equation}
 where the aggregate regularization parameter $\lambda$ absorbs $\alpha$ from $P(Y)$ and $r$ from $\varepsilon_k$.
 %
-There are many other choices for the prior in eqn.~\ref{eqn:logmap}, whose effect is to bias the estimator $\hat{\bm{y}}$ towards "natural" images.
+There are many other choices for the prior in eqn.~\eqref{eqn:logmap}, whose effect is to bias the estimator $\hat{\bm{y}}$ towards "natural" images.
 %
-Alternatively we can (and will) take eqn.~\ref{eqn:minmap} as our starting point and explicitly choose the regularizer $B(Y)$.
+Alternatively we can (and will) take eqn.~\eqref{eqn:minmap} as our starting point and explicitly choose the regularizer $B(Y)$.
+
+\subsubsection{Tikhonov Regularization}
 
 One of the simplest priors is a $(0, Q)$-Normal, where $Q$ is symmetric positive definite\anote{positivedef} (PD) and captures the covariance.
 %
@@ -351,7 +547,7 @@ This corresponds to the regularizer taking the form
 \end{equation}
 where $\by = \text{vec}(Y)$.
 %
-Since $Q$ is symmetric PD eqn.~\ref{eqn:minmap} becomes
+Since $Q$ is symmetric PD eqn.~\eqref{eqn:minmap} becomes
 \begin{equation}
     \hat{\bm{y}} = \underset{\bm{y}}{\text{argmin}}\left[ \left\| \bm{X} - \hat{D} \hat{\bm{H}} \hat{\bm{A}} \bm{y} \right\|^2 +\lambda \left\| \sqrt{Q}\bm{y} \right\|^2 \right]
     \label{eqn:tikminmap}
@@ -360,18 +556,20 @@ where $\sqrt{Q}$ is $U$ of the Cholesky decomposition $Q = U^T U$.
 %
 Equation~\ref{eqn:tikminmap} is Tikhonov regularized regression, or Ridge regression if $\sqrt{Q} = I$.
 %
-Letting $G = \hat{D} \hat{\bm{H}} \hat{\bm{A}}$ the closed-form solution to eqn.~\ref{eqn:tikminmap} is
+Letting $G = \hat{D} \hat{\bm{H}} \hat{\bm{A}}$ the closed-form solution to eqn.~\eqref{eqn:tikminmap} is
 \begin{equation}
     \hat{\by} = \left( G^T G + \lambda Q \right)^{-1} G^T\bX
     \label{eqn:closedform}
 \end{equation}
 Nguyen \etal\cite{milanfar2001} use cross-validation to determine the regularization parameter $\lambda$ (by partitioning the pixels into a "fit" and "validate" set).
 %
-In general, rather than explicitly computing inverses in eqn.~\ref{eqn:closedform}, in practice $\hat{\bm{y}}$ is found by solving the regression problem via optimization (for high-dimensional matrices optimization is faster than inversion).
+In general, rather than explicitly computing inverses in eqn.~\eqref{eqn:closedform}, in practice $\hat{\bm{y}}$ is found by solving the regression problem via optimization (for high-dimensional matrices optimization is faster than inversion).
 %
-Nguyen \etal use conjugate gradient descent\anote{conjugategradients} to optimize eqn.~\ref{eqn:tikminmap}.
+Nguyen \etal~ use conjugate gradient descent\anote{conjugategradients} to optimize eqn.~\eqref{eqn:tikminmap}.
 %
 They argue that $\hat{D} \hat{\bm{H}} \hat{\bm{A}}$ is ill-conditioned\anote{illcondition} and to that end, since the convergence rate of conjugate gradients is dependent on the condition number\cite{vanderSluis1986}, propose pre-conditioners\anote{precondition} to improve the converge rate.
+
+\subsubsection{Huber Loss and TV Loss}
 
 An issue with the multivariate Normal prior is that it strongly enforces global smoothness, penalizing sharp edges.
 %
@@ -388,7 +586,7 @@ to explicitly parameterize the penalty for gradients (i.e. high-frequency featur
 %
 Huber loss enforces local smoothness (since it's quadratic for $\lvert a \rvert \leq \delta$) but permits edges (since it's linear for $\lvert a \rvert > \delta$).
 %
-Capel \etal\cite{capel2000} implement this by composing $L_{\delta }(a)$ with a first-order gradient operator\anote{gradientoperator} as the potential in eqn.~\ref{eqn:gibbs}.
+Capel \etal\cite{capel2000} implement this by composing $L_{\delta }(a)$ with a first-order gradient operator\anote{gradientoperator} as the potential in eqn.~\eqref{eqn:gibbs}.
 %
 Another gradient penalty that encourages sparse gradients (i.e. local smoothness and steep edges) is Total Variation (TV) norm\cite{RUDIN1992259}:
 \begin{equation}
@@ -409,7 +607,7 @@ where $S_x^k, S_y^l$ are shift operators (i.e. $S_x^k$ shifts $Y$ by $k$ pixels 
 %
 The bilateral TV norm factors in gradients at several scales ($Y - S_x^2 Y$ is an approximation of the horizontal gradient at twice the scale of $Y - S_x^1 Y$) and decays their contribution according to their spatial distance ($\alpha^{k+l}$ decays as a function of shift distance).
 %
-It can also be shown to be equivalent\cite{elad2002} to filtering $\bX$ by the bilateral kernel (see eqn.~\ref{eqn:bilateralkernel}).
+It can also be shown to be equivalent\cite{elad2002} to filtering $\bX$ by the bilateral kernel (see eqn.~\eqref{eqn:bilateralkernel}).
 
 Though there are many priors (or regularizers) that have been studied none really capture natural images in all of their variation.
 %
@@ -419,7 +617,9 @@ For that we need to actually learn from real data i.e. examples images.
 
 Example based techniques \textit{learn} a mapping from
 LR patches to HR patches based on a training set and then use that mapping to predict details in new (unseen) images.
-%
+
+\subsubsection{Hidden Markov Random Field}
+
 Freeman \etal\cite{freeman2002example} argues that the most important features to reconstruct are the high-frequency features.
 %
 Therefore they store only the correspondence between high-pass filtered, contrast-normalized versions of example LR patches and HR patches.
@@ -453,7 +653,7 @@ Similarly $\phi(x_i, y_i^{LR})$ encodes the compatibility between the observed L
 To make the MAP computation tractable they choose only 16 candidate example LR patches $y_i^{LR}$.
 %
 They compute the MAP estimate using belief propagation\anote{beliefpropagation}.
-
+\subsubsection{Nearest Neighbor Embedding}
 The main problem with the direct LR-HR patch pair technique is that it requires an enormous database of patches in order for it to generalize.
 %
 \begin{figure}
@@ -462,7 +662,7 @@ The main problem with the direct LR-HR patch pair technique is that it requires 
     \caption{NNE algorithm from LR patches $x_i$ to HR patches $y_i$\cite{Guillermophdthesis}}
     \label{fig:lle}
 \end{figure}
-Chang \etal remedy this problem by using ideas from a manifold\anote{manifold} learning\anote{manifoldlearning} technique called locally linear embedding\cite{saul2000introduction} (LLE) that they call nearest neighbor embedding (NNE).
+Chang \etal~ remedy this problem by using ideas from a manifold\anote{manifold} learning\anote{manifoldlearning} technique called locally linear embedding\cite{saul2000introduction} (LLE) that they call nearest neighbor embedding (NNE).
 %
 First they imagine both the space of LR patches and HR patches as manifolds.
 %
@@ -484,7 +684,7 @@ The HR patches $y_i$ in the HR manifold are then reconstructed using the same we
 \end{equation}
 %
 Note that neighboring patches in HR space are constrained to overlap and in fact the neighborhoods are computed using gradient features of the LR and HR patches rather than the raw patches (they argue that this is what allows for better generalization i.e. much smaller patch databases).
-
+\subsubsection{Sparse Coading}
 The NNE approach suffers from its own issues; using a fixed number of nearest neighbors results in blurring (due to over-fitting or under-fitting).
 %
 Yang \etal\cite{yang2008} resolve this issue by using sparse coding (SC) as a framework for learning a sparse mapping from LR patches to HR patches (see figure~\ref{fig:hrpatchdict}).
@@ -499,7 +699,7 @@ such that $\left\| \bm{\alpha} \right\|_0 \ll K$ (few non-zero entries).
 %
 The sparse vector $\bm{\alpha}$ is variously called the code, reconstruction, or sparse representation of $\by$.
 %
-Yang \etal construct two dictionaries $D_{LR}, D_{HR}$ consisting corresponding LR and HR patches $\bxi, \byi$.
+Yang \etal~ construct two dictionaries $D_{LR}, D_{HR}$ consisting corresponding LR and HR patches $\bxi, \byi$.
 %
 Then given a new input LR patch $\bx$ they compute the code for a "featurized" representation of $\bx$ in $D_{LR}$ by minimizing the code subject to reconstruction error tolerance:
 \begin{equation}
@@ -508,7 +708,7 @@ Then given a new input LR patch $\bx$ they compute the code for a "featurized" r
 \end{equation}
 where $\epsilon$ is the reconstruction error tolerance and $F$ is the feature extraction operator (first and second order gradients), and construct the HR image using the same sparsely represented HR patch (i.e. $\hat{\by} = D_{HR} \hat{\bm{\alpha}}$).
 %
-As stated the optimization in eqn.~\ref{eqn:constrainedrepr} is non-convex (due to $\left\| \bm{\alpha} \right\|_0$) and is in fact NP-hard\anote{nphard}\cite{tilman2015}.
+As stated the optimization in eqn.~\eqref{eqn:constrainedrepr} is non-convex (due to $\left\| \bm{\alpha} \right\|_0$) and is in fact NP-hard\anote{nphard}\cite{tilman2015}.
 %
 Fortunately the $L_1$ (i.e. $\left\| \bm{\alpha} \right\|_1$) relaxation is often good enough\cite{Donoho9446}:
 \begin{equation}
@@ -517,13 +717,13 @@ Fortunately the $L_1$ (i.e. $\left\| \bm{\alpha} \right\|_1$) relaxation is ofte
 \end{equation}
 where we've also transformed to the unconstrained optimization using the Lagrange multiplier $\lambda$.
 %
-Solving eqn.~\ref{eqn:lagrangerepr} input-patch by input-patch does not enforce consistency between adjacent patches.
+Solving eqn.~\eqref{eqn:lagrangerepr} input-patch by input-patch does not enforce consistency between adjacent patches.
 %
 They use a raster-scan technique discussed in Freeman \etal\cite{freeman2002example} to enforce consistency.
 %
-They further comment that since eqn.~\ref{eqn:constrainedrepr} doesn't demand equality between the LR patch $\bx$ and its reconstruction $D_{LR}\bm{\alpha}$ the reconstructed image $Y$ might not satisfy the imaging model (see eqn.~\ref{eqn:imagingmodel}).
+They further comment that since eqn.~\eqref{eqn:constrainedrepr} doesn't demand equality between the LR patch $\bx$ and its reconstruction $D_{LR}\bm{\alpha}$ the reconstructed image $Y$ might not satisfy the imaging model (see eqn.~\eqref{eqn:imagingmodel}).
 %
-They resolve this by using iterative back projection (see eqn.~\ref{eqn:ibp}) as a final step in the algorithm.
+They resolve this by using iterative back projection (see eqn.~\eqref{eqn:ibp}) as a final step in the algorithm.
 %
 While the sparse representation approach mitigates issues having to do with local bias (fixed number $K$ patch neighbors) it still requires a large database of raw image patches.
 %
@@ -541,7 +741,7 @@ In general dictionary learning minimizes the reconstruction error of the codes a
 \end{equation}
 where $\bm{A} \coloneqq \left( \bm{\alpha}_1, \mathellipsis, \bm{\alpha}_J  \right)$.
 %
-Yang \etal "jointly" learn $D_{LR}, D_{HR}$ by making the identifications
+Yang \etal~ "jointly" learn $D_{LR}, D_{HR}$ by making the identifications
 \begin{equation*}
     \bm{Z} = \begin{bmatrix}
                  \frac{1}{\sqrt{N}}\bY \\ \frac{1}{\sqrt{M}} \bX
@@ -551,7 +751,7 @@ Yang \etal "jointly" learn $D_{LR}, D_{HR}$ by making the identifications
     \end{bmatrix}
 \end{equation*}
 where $\bY = \left( \by_1, \mathellipsis, \by_P \right)$ are the example HR patches, $\bX$ similarly the example LR patches, and $N, M$ are the number of HR and LR pixels respectively in each example patch pair $\byi, \bxi$ (in order to normalize the error between $\byi, \bxi$).
-
+\subsubsection{Anchored Neigbhorhood Regression}
 Though SC achieves good results for reasonably sized example sets and dictionary sizes it suffers from the inherent computational complexity of solving the optimization problem (see figure~\ref{fig:dictspeedspize}).
 \begin{figure}
     \centering
@@ -562,7 +762,7 @@ Though SC achieves good results for reasonably sized example sets and dictionary
 %
 Timofte \etal\cite{Timofte} argues that the chief inefficiency is the $L_1$ norm on the code.
 %
-By relaxing the $L_1$ norm in eqn.~\ref{eqn:lagrangerepr} to the $L_2$ norm they recover the Ridge regression form of the problem (see eqn.~\ref{eqn:closedform}) and get a closed form solution for the code:
+By relaxing the $L_1$ norm in eqn.~\eqref{eqn:lagrangerepr} to the $L_2$ norm they recover the Ridge regression form of the problem (see eqn.~\eqref{eqn:closedform}) and get a closed form solution for the code:
 \begin{equation}
     \hat{\bm{\alpha}} = \left( D_{LR}^T D_{LR} + \lambda I\right)^{-1}D_{LR}^T \bx
 \end{equation}
@@ -590,15 +790,15 @@ They call these $P_k$ \textit{anchored regressions} because they effectively wei
 %
 For a new input LR patch $x$ they find the nearest atom in the $D_{LR}$ and recover the HR patch $\by = P_k \bx$.
 %
-Note that ANR, just as in SC, does not operate on the raw image patches themselves but rather "featurized" image patches: they apply Principle Components Analysis (PCA) to the first and seconder gradients of the patches and, as in Zeyde \etal\cite{Zeyde2012}, and keep only keep only components explaining 99.9\% of the variance.
+Note that ANR, just as in SC, does not operate on the raw image patches themselves but rather "featurized" image patches: they apply PCA to the first and seconder gradients of the patches and, as in Zeyde \etal\cite{Zeyde2012}, and keep only keep only components explaining 99.9\% of the variance.
 %
 This reduces the dimensions of their atoms to about 30.
-
+\subsubsection{SR Forests}
 Inspired by the anchored regressions of ANR Schulter \etal\cite{Schulter2015} propose a technique called Super-Resolution Forests: their point of departure is a "data-dependent" function $W(\cdot)$ such that
 \begin{equation}
     \hat{\by} = W(\bx) \cdot \bx
 \end{equation}
-This is similar to eqn.~\ref{eqn:datadependentmapping}.
+This is similar to eqn.~\eqref{eqn:datadependentmapping}.
 %
 They model $W(\cdot)$ as an $n$-tree regression tree forest.
 %
@@ -614,7 +814,7 @@ where $\prescript{l}{t}{\bm{w}} \coloneqq \left( \prescript{l}{t}{w}_1, \mathell
 \begin{equation}
     \phi_i(\bx_j) = \exp \left\{ \frac{\left\| \bm{x}_j - \bm{\mu}_i \right\|^2}{\sigma_i} \right\}
 \end{equation}
-Since the objective in eqn.~\ref{eqn:linearbasisregression} is linear in $\prescript{l}{t}{w}_i$ the leaf models are fit using the closed form solution to least squares:
+Since the objective in eqn.~\eqref{eqn:linearbasisregression} is linear in $\prescript{l}{t}{w}_i$ the leaf models are fit using the closed form solution to least squares:
 \begin{equation}
     \prescript{l}{t}{\hat{\bm{w}}} = \left( \Phi(\bX_t^l)^T \Phi(\bX_t^l) + \lambda I \right)^{-1} \Phi(\bX_t^l)^T \bY_t^l
 \end{equation}
@@ -623,7 +823,7 @@ where $\bX_t^l$ are only those LR patches that get routed to leaf $l$ in tree $t
 \begin{figure*}
     \centering
     \includegraphics[width=\linewidth,keepaspectratio]{figures/FIRF.png}
-    \caption{A random forests which consists of a set of decision trees. Each decision tree recursively classifies the input LR patch into left or right child node, until a leaf node is reached. By using the linear regression models stored in the reach leaf node, the input LR patch can be projected to the HR patch space\cite{Huang}}
+    \caption{A set of decision trees. Each decision tree recursively classifies the input LR patch into left or right child node, until a leaf node is reached. By using the linear regression models stored in the each leaf node, the input LR patch can be projected to the HR patch space\cite{Huang}}
     \label{fig:firf}
 \end{figure*}
 %
@@ -633,7 +833,7 @@ Finally the inferred HR patch $\by$ is the average of patches $\prescript{l}{t}{
 \end{equation}
 where $l = l(t)$ is the leaf that sample $\bx$ is routed to for each tree $t$.
 %
-Schulter \etal train the trees on example LR-HR patch pairs $\bx, \by$ by recursively splitting the data using parameterized splitting functions
+Schulter \etal~ train the trees on example LR-HR patch pairs $\bx, \by$ by recursively splitting the data using parameterized splitting functions
 \begin{equation}
     \sigma(\bx, i, j, \tau)\coloneqq {
     \begin{cases}
@@ -653,7 +853,7 @@ At each node they select the splitting function parameters $i, j, \tau$ by evalu
 \end{equation}
 where $\hat{\by}_k$ is the estimate produced by the linear regression fit using data that's arrived at that node.
 %
-The first term in eqn.~\ref{eqn:qualitymeasure} measures fitting error and the second term is the clustering regularizer.
+The first term in eqn.~\eqref{eqn:qualitymeasure} measures fitting error and the second term is the clustering regularizer.
 %
 They decide whether to actually split according to the \textit{error reduction} in performing the split:
 \begin{multline*}

@@ -31,7 +31,7 @@ The inner photoelectric effect is that phenomenon in the bulk matter of semicond
 \anotecontent{coma}{Off-axis point sources appearing to have a tail (coma), due to variation in magnification in the image of the aperture stop.}
 \anotecontent{dispersion}{E.g. the cover of Pink Floyd's The Dark Side of the Moon.}
 \anotecontent{fnumber}{The ratio of the system's focal length to the diameter of the aperture.}
-
+\anotecontent{registration}{The process of aligning two or more images of the scene on a common pixel grid.}
 %classical
 \anotecontent{lsi}{In analogy with Linear Time Invariant (i.e. linear and constant in space).}
 \anotecontent{lrpixel}{An LR pixel is one sampled from an LR image and embedded in an HR grid.
@@ -86,3 +86,9 @@ Nguyen \textit{et al.} propose a pre-conditioner with singular values clustered 
 \anotecontent{nphard}{Problems in NP are those which are unknown to have a deterministic polynomial time solutions.
 %
 NP-hard admit a polynomial time reduction from any problem in NP (colloquially they are as hard as any problem in NP).}
+\anotecontent{firstordergaussian}{The first derivative of the Gaussian expressed as a filter: $\left[ -2,-1,0,1,2 \right]$.}
+\anotecontent{threshold}{Set everything below a threshold to zero.}
+\anotecontent{nms}{Pick the maximum in a neighborhood and set all other values to zero.}
+\anotecontent{log}{The Laplacian of an image $X$ is $L(x,y) = \partial_x^2 X + \partial_y^2 X$. Since in practice this approximates a noisy signal (second derivative), smoothing by a Gaussian is a necessary prerequisite. Therefore the Laplace of Gaussians ($LoG$) filter is the Laplacian composed with the Gaussian: \begin{equation*} LoG(x,y, \sigma) = -\frac{1}{\pi \sigma^4}\left[ 1 - \frac{x^2+y^2}{2\sigma^2} \exp \left\{ - \frac{x^2+y^2}{2\sigma^2} \right\} \right]
+\end{equation*}}
+\anotecontent{smallcurvature}{The ratio of the eigenvalues of the spatial Hessian (i.e. only along dimensions $x,y$). In fact a quantity not unlike eqn.~\eqref{eqn:strength} is computed in order to save having to explicitly find eigenvalues.}

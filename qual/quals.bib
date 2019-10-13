@@ -299,7 +299,6 @@
     title = {{ Reconstructing Vehicle License Plate Image from Low Resolution Images using Nonuniform Interpolation Method }}
 }
 @techreport{Alam2000,
-    abstract = {Forward looking infrared (FLIR) detector arrays generally produce spatially undersampled images because the FLIR arrays cannot be made dense enough to yield a sufficiently high spatial sampling frequency. Multi-frame techniques, such as microscanning, are an effective means of reducing aliasing and increasing resolution in images produced by staring imaging systems. These techniques involve interlacing a set of image frames that have been shifted with respect to each other during acquisition. The FLIR system is mounted on a moving platform, such as an aircraft, and the vibrations associated with the platform are used to generate the shifts. Since a fixed number of image frames is required, and the shifts are random, the acquired frames will not fall on a uniformly spaced grid. Furthermore, some of the acquired frames may have almost similar shifts thus making them unusable for high-resolution image reconstruction. In this paper, we utilize a gradient-based registration algorithm to estimate the shifts between the acquired frames and then use a weighted nearest-neighbor approach for placing the frames onto a uniform grid to form a final high-resolution image. Blurring by the detector and optics of the imaging system limits the increase in image resolution when microscanning is attempted at sub-pixel movements of less than half the detector width. We resolve this difficulty by the application of the Wiener filter, designed using the modulation transfer function (MTF) of the imaging system, to the high-resolution image. Simulation and experimental results are presented to verify the effectiveness of the proposed technique. The techniques proposed herein are significantly faster than alternate techniques, and are found to be especially suitable for real-time applications.},
     author = {Alam, Mohammad S and Bognar, John G and Hardie, Russell C and Yasuda, Brian J},
     booktitle = {IEEE TRANSACTIONS ON INSTRUMENTATION AND MEASUREMENT},
     isbn = {00189456/00 { \$ } 10.0},
@@ -735,3 +734,94 @@
     keywords = {autoregressive processes;decision trees;image classification;image denoising;interpolation;regression analysis;computational time;NARM method;nonlocal autoregressive modeling method;peak signal-to-noise ratio;decision trees;aliasing artifact removal;ringing artifact removal;high-resolution image patch;low-resolution image patch mapping;linear regression model;natural image patch space classification;FIRF method;random forests;fast image interpolation;Interpolation;Training data;Image edge detection;Training;Decision trees;Linear regression;Fitting;Image processing;image interpolation;random forests;scalable interpolation;decision trees;classification;training and linear regression;Image processing;image interpolation;random forests;scalable interpolation;decision trees;classification;training and linear regression},
     doi = {10.1109/TIP.2015.2440751},
     month = {Oct}, }
+@inproceedings{tipping2003bayesian,
+    title = {Bayesian image super-resolution},
+    author = {Tipping, Michael E and Bishop, Christopher M},
+    booktitle = {Advances in neural information processing systems},
+    pages = {1303--1310},
+    year = {2003}
+}
+@article{lowe2004sift,
+    title = {SIFT-The Scale Invariant Feature Transform},
+    author = {Lowe, G},
+    journal = {Int. J},
+    volume = {2},
+    pages = {91--110},
+    year = {2004}
+}
+@inproceedings{bay2006surf,
+    title = {Surf: Speeded up robust features},
+    author = {Bay, Herbert and Tuytelaars, Tinne and Van Gool, Luc},
+    booktitle = {European conference on computer vision},
+    pages = {404--417},
+    year = {2006},
+    organization = {Springer}
+}
+@inproceedings{rublee2011orb,
+    title = {ORB: An efficient alternative to SIFT or SURF.},
+    author = {Rublee, Ethan and Rabaud, Vincent and Konolige, Kurt and Bradski, Gary R},
+    booktitle = {ICCV},
+    volume = {11},
+    number = {1},
+    pages = {2},
+    year = {2011},
+    organization = {Citeseer}
+}
+@article{bentoutou2005automatic,
+    title = {An automatic image registration for applications in remote sensing},
+    author = {Bentoutou, Youcef and Taleb, Nasreddine and Kpalma, Kidiyo and Ronsin, Joseph},
+    journal = {IEEE transactions on geoscience and remote sensing},
+    volume = {43},
+    number = {9},
+    pages = {2127--2137},
+    year = {2005},
+    publisher = {IEEE}
+}
+@inproceedings{harris1988combined,
+    title = {A combined corner and edge detector.},
+    author = {Harris, Christopher G and Stephens, Mike and others},
+    booktitle = {Alvey vision conference},
+    volume = {15},
+    number = {50},
+    pages = {10--5244},
+    year = {1988},
+    organization = {Citeseer}
+}
+@techreport{moravec1980obstacle,
+    title = {Obstacle avoidance and navigation in the real world by a seeing robot rover.},
+    author = {Moravec, Hans P},
+    year = {1980},
+    institution = {Stanford Univ CA Dept of Computer Science}
+}
+@INPROCEEDINGS{sift,
+    author = {D. G. { Lowe }},
+    booktitle = {Proceedings of the Seventh IEEE International Conference on Computer Vision},
+    title = {Object recognition from local scale-invariant features},
+    year = {1999},
+    volume = {2},
+    pages = {1150-1157 vol.2},
+    keywords = {object recognition;feature extraction;computational geometry;image matching;least squares approximations;local scale-invariant features;local image features;3D projection;inferior temporal cortex;primate vision;staged filtering approach;local geometric deformations;blurred image gradients;multiple orientation planes;nearest neighbor indexing method;candidate object matches;low residual least squares solution;unknown model parameters;robust object recognition;cluttered partially occluded images;computation time;Object recognition;Electrical capacitance tomography;Image recognition;Lighting;Neurons;Computer science;Reactive power;Filters;Programmable logic arrays;Layout},
+    doi = {10.1109/ICCV.1999.790410},
+    month = {Sep.}, }
+@INPROCEEDINGS{zahrasift,
+    author = {Z. { Hossein-nejad } and M. { Nasri }},
+    booktitle = {2016 International Conference on Communication and Signal Processing (ICCSP)},
+    title = {Image registration based on SIFT features and adaptive RANSAC transform},
+    year = {2016},
+    pages = {1087-1091},
+    keywords = {image matching;image registration;transforms;image registration;SIFT features;adaptive RANSAC transform;scale invariant feature transform;feature matching;feature extraction;random sample consensus;CMR;FMR;Mathematical model;Image registration;Transforms;Feature extraction;Algorithm design and analysis;Signal processing algorithms;Simulation;Image registration;SIFT features;RANSAC transform},
+    doi = {10.1109/ICCSP.2016.7754318},
+    month = {April}, }
+@article{younescomprehensive,
+    title = {A COMPREHENSIVE AND COMPARATIVE SURVEY OF THE SIFT ALGORITHM},
+    author = {Younes, L and Romaniuk, B and Bittar, E}
+}
+@inproceedings{phamsift,
+    author = {Pham, Nguyen-Khang and Morin, Annie and Gros, Patrick},
+    year = {2008},
+    month = {07},
+    pages = {224 - 229},
+    title = {Boosting of factorial correspondence analysis for image retrieval},
+    isbn = {978-1-4244-2043-8},
+    doi = {10.1109/CBMI.2008.4564950}
+}

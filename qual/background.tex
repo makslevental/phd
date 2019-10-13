@@ -4,12 +4,16 @@
     \caption{CCD buried channel MOS capacitor\cite{finaltestguideline}}
     \label{fig:mos-cap}
 \end{figure}
-We begin with a practical discussion of imaging systems. An imaging sensor is a device that converts an optical image into a digital signal.
+We begin with a practical discussion of imaging systems.
 %
-Charge-coupled devices (CCD) and complementary metal-oxide-semiconductor (CMOS) devices are the most common imaging sensors; CCDs have better performance while CMOS devices are newer and less expensive.
+An imaging sensor is a device that converts an optical image into a digital signal.
+%
+Charge-coupled devices (CCD) and complementary metal-oxide-semiconductor (CMOS) devices are the most common imaging sensors;
+%
+CCDs have better performance while CMOS devices are newer and less expensive.
 %
 A third type that's of particular interest to us is the microbolometer, which is used as a sensor in thermal cameras.
-
+\subsubsection{CCD Devices}
 CCDs consist of densely packed two-dimensional arrays of buried channel\anote{buriedchannel} MOS capacitors (see figure~\ref{fig:mos-cap}) with an individual MOS capacitor being the fundamental photon detecting element.
 %
 Individual MOS capacitors are biased by a gate voltage such that a potential well is produced in the n-type silicon (referred to as the n-channel).
@@ -35,13 +39,13 @@ The image section is arranged with every third stripe of electrode tied electric
     \label{fig:ccd-array}
 \end{figure}
 %
-In figure~\ref{fig:ccd-array} these equipotentials are labeled $\Phi1, \Phi2, \Phi3$, and taken together constitute a vertical register (VR).
+In figure~\ref{fig:ccd-array} these equi-potentials are labeled $\Phi1, \Phi2, \Phi3$, and taken together constitute a vertical register (VR).
 %
-They function to move the collected photoelectrons down one electrode line at a time, using charge coupling, while the channel stops function to prevent diffusion of charge across channels.
+They function to move the collected photo-electrons down one electrode line at a time, using charge coupling, while the channel stops function to prevent diffusion of charge across channels.
 %
 The VR mechanism that shifts collected charge operates as follows:
 \begin{enumerate}
-    \item Suppose initially there's a collection of photoelectrons on each channel at $\Phi1$ and only $\Phi1$. Note this means $\Phi2, \Phi3$ are at $0$v (again just as in figure ~\ref{fig:mos-cap}).
+    \item Suppose initially there's a collection of photo-electrons on each channel at $\Phi1$ and only $\Phi1$. Note this means $\Phi2, \Phi3$ are at $0$v (again just as in figure~\ref{fig:mos-cap}).
     \item $\Phi2$ is positively biased to $10$V. This diffuses the collection of charge under both $\Phi1$ and $\Phi2$.
     \item $\Phi1$ is set to $0$v. This concentrates the collection of charge under $\Phi2$.
     \item The same is repeated with $\Phi2, \Phi3$ and $\Phi3, \Phi1$.
@@ -56,7 +60,7 @@ The solution is to have interstitial dedicated shift channels in between columns
 This type of reading is called \textit{interline transfer} because the accumulated charge is first moved one line over, into the shift channels.
 %
 Naturally interline transfer shrinks photosensitive area by half and despite possible solutions (e.g micro-lenses being used to focus most of the light onto the unmasked sensors) this is one of the drawbacks of CCDs that CMOS imaging systems do not share.
-
+\subsubsection{CMOS Devices}
 CMOS sensors consist of arrays of photodiodes (see figure~\ref{fig:photodiode.png}).
 \begin{figure}
     \includegraphics[width=\linewidth,keepaspectratio]{figures/photodiode.png}
@@ -97,7 +101,7 @@ Despite this CMOS arrays have become the most common imaging system in consumer 
     \caption{CMOS array}
     \label{fig:cmosarray}
 \end{figure}
-
+\subsubsection{Microbolometers}
 Both CCD arrays and CMOS arrays only capture visible light.
 %
 A microbolometer, on the other hand, measures the power in the infrared by exposing a thermistor\anote{thermistor} to the incident light.
@@ -145,6 +149,7 @@ Bolded lower case denote $\bm{x}, \bm{y}, \bm{z}$ etc. denote conventional colum
 Unless otherwise specified $\left\| \cdot \right\|$ is the $L_2$ norm.
 
 \subsection{Imaging model}\label{subsec:imaging-model}
+
 Figure~\ref{fig:bertrand} shows a conceptual model of the imaging process as carried out by an imaging system.
 %
 The input to the system is a natural scene that is in effect sampled by the imaging system.
@@ -157,39 +162,44 @@ The noisy, blurry, down-sampled images are then further degraded by sensor noise
 %
 Each such image we call an LR sample.
 \input{figures/bertrand}
-Let $Y$ denote an idealized HR image of the scene from some fixed vantage point and assume the imaging system collects $K$ LR samples $X_k$ of $Y$.
+Let $Y$ denote an idealized HR image of the scene from some fixed vantage point and assume the imaging system collects $K$ LR samples $\Xk$ of $Y$.
 %
-Formally the $X_k$ are related to $Y$ by
+Formally the $\Xk$ are related to $Y$ by
 \begin{equation}
-    X_k = (D \circ H_k \circ A_k) (Y) + \varepsilon_k
+    \Xk = (D \circ H_k \circ A_k) (Y) + \varepsilon_k
     \label{eqn:imagingmodel}
 \end{equation}
-where for the $k$th sample $A_k$ (of $K$) is the operator representing motion (affine and perspective shift) induced by optical flow\anote{opticalflow}, $H_k$ represents the blur operator, $D$ represents the down-sampling operator (constant in time since it's typically a digital component of the imaging system), and $\varepsilon_k$ represents the composite noise (environment and sensor noise).
+where for the $k$th LR sample, $A_k$ (of $K$) is the operator representing motion, $H_k$ represents the blur operator, $D$ represents the down-sampling operator (constant in time since it's typically a digital component of the imaging system), and $\varepsilon_k$ represents the composite noise (environment and sensor noise).
 
-We now consider the challenges and nuances of estimating motion and blur.
+\subsubsection{Motion}
 
-For a static 3-D scene and an imaging system with 6 degrees of freedom, the optical flow caused by motion is dependent on the geometry of the scene and potentially nonlinear (due to occlusion and motion parallax).
+In the case of MISR, high-resolution images are constructed by exploiting distinct scene data among multiple low-resolution images.
 %
-This pertains to multiple image registration for MISR where we seek to relate $X_{k+1}$ to $X_k$:
-\begin{equation*}
-    X_{k+1}(x,y) = X_k(x + v_x(x,y), y + v_y(x,y))
-\end{equation*}
+Such distinct data are produced by the relative motion of the imaging system and the scene and therefore precise and accurate image \textit{registration}\anote{registration} is paramount.
 %
-For small motions we can approximate $X_k$ by its first order Taylor series:
-\begin{align}
-    X_{k+1}(x,y) &= X_k(x + v_x(x,y), y + v_y(x,y)) \\
-    &\approx X_k(x,y) + v_x(x,y)\frac{\partial X_k}{\partial x} + v_y(x,y)\frac{\partial X_k}{\partial y}\label{eqn:opticalflowtaylor}
-\end{align}
-Evaluating equation~\ref{eqn:opticalflowtaylor} at every pixel gives a set of linear equations that enable us to fit one of the models in table~\ref{table:flow}.
+Successful registration is effected by producing a transformation $f$ that maps pixels at coordinates $(x',y')$ in sample $\Xkone$ to coordinates $(x,y)$ in sample $X_j$
+\begin{equation}
+    \Xkone(f(x', y')) = X_j(x,y)
+    \label{eqn:registration}
+\end{equation}
+where we use index $j$ to indicate the possibility of registering all samples relative to a fixed referenced image (e.g. $j=0$ the first sample) or successive/relative registration (i.e. with $j=k$).
 %
-We focus on affine flow primarily because it is easy to estimate and secondarily because the composition of multiple affine transformations is an affine transformation (enabling us to register more than 2 images by building up the necessary transformations incrementally).
+There are broadly two perspectives on constructing the transformation $f$: the geometric perspective which aims to model motion as a map of the image as a whole and the morphological perspective which aims to model motion as a deformation of individual pixels.
 %
-Note that for nonstatic scenes the registration problem becomes "exponentially" more difficult as many more parameters need to be estimated.
-%
-Furthermore registration and super resolution are not independent since the data being used to estimate the registration transforms is blurry and noisy; to wit perfectly resolved images could be much more effectively registered.
+These two perspectives roughly correspond to a globally or locally defined transformation    $f$.
 
-\input{figures/optical_flows.tex}
+While image registration is already challenging in the various domains where samples are treated as canonical, such as remote sensing and medical imaging, in SR it is further complicated by the fact that the images to be registered are assumed uncertain.
+%
+Therefore, in principle, image registration and super-resolution cannot be decoupled, since image registration accuracy would be improved by operating on the estimated HR images;
+%
+Hardie \etal~\cite{Hardie1997} use a Bayesian framework to jointly estimate image registration parameters and the high-resolution image\cite{Hardie1997}.
+%
+Alternatively one can marginalize over the HR image and estimate the registration parameters using maximum-likelihood estimation (MLE) (see section~\ref{subsubsec:gaussianprocess}).
 
+\subsubsection{Blur}
+
+We now consider the challenges and nuances of estimating blur.
+%
 In general the optical transfer function (OTF) characterizes the blur of an imaging system\anote{otf}.
 %
 We factor the OTF into three components:
@@ -231,7 +241,7 @@ Simply applying gain to the image wouldn't solve the attenuation problems becaus
     \label{fig:mtf}
 \end{figure}
 
-The challenge of super-resolution is to solve the inverse problem of finding $Y$ from one or several $X_k$.
+The challenge of super-resolution is to solve the inverse problem of finding $Y$ from one or several $\Xk$.
 %
 In general, since $A_k, H_k, D_k$ are highly degenerate functions, the corresponding inverse problems are ill-posed without regularization and conditioning.
 %

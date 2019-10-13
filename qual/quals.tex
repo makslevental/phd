@@ -1,77 +1,13 @@
 \documentclass[journal]{IEEEtran}
-\usepackage{etoolbox}
-\makeatletter
-\patchcmd{\@makecaption}
-{\scshape}
-{}
-{}
-{}
-\makeatletter
-\patchcmd{\@makecaption}
-{\\}
-{.\ }
-{}
-{}
-\makeatother
-\def\tablename{Table}
-\renewcommand{\thetable}{\arabic{table}}
-
-\usepackage[T1]{fontenc}
-\usepackage[utf8]{inputenc}
-\renewcommand\thesection{\arabic{section}}
-\renewcommand\thesubsection{\thesection.\arabic{subsection}}
-\renewcommand\thesubsubsection{\thesubsection.\arabic{subsubsection}}
-
-\renewcommand\thesectiondis{\arabic{section}}
-\renewcommand\thesubsectiondis{\thesectiondis.\arabic{subsection}}
-\renewcommand\thesubsubsectiondis{\thesubsectiondis.\arabic{subsubsection}}
-\newcommand{\ue}[1]{%
-\begin{tikzpicture}[#1]%
-    \draw[fill = black] (.25ex,.25ex) circle (.3ex);
-    \draw[thick] (.55ex,.25ex) -- (1.55ex,.25ex);%
-    \draw[fill = black] (1.85ex, .25ex) circle (.3ex);
-    %
-\end{tikzpicture}%
-}
-\usepackage{amsfonts}
-
-\usepackage{bm}
-\usepackage{wrapfig}
-\usepackage{multicol}
-\usepackage{sepfootnotes}
-\usepackage[bottom]{footmisc}
-\newfootnotes{a}
-\input{footnotes.tex}
-\usepackage[pdftex]{graphicx}
-\usepackage[hyperfootnotes=false]{hyperref}\usepackage{amsmath}
-
-\usepackage[backend=biber, bibencoding=utf8, style=ieee]{biblatex}
-%\usepackage[backend=bibtex, bibencoding=utf8, style=ieee]{biblatex}
-\addbibresource{quals.bib}
-\usepackage{tikz}
-\usetikzlibrary{positioning}
-\usetikzlibrary{shapes,arrows}
-\usepackage[edges]{forest}
-\usepackage{adjustbox}
-\usepackage{mathtools}
-\usepackage{breqn}
-\usepackage{subcaption}
-
-% Note that the amsmath package sets \interdisplaylinepenalty to 10000
-% thus preventing page breaks from occurring within multiline equations. Use:
-\interdisplaylinepenalty=0
-
-% fix footnote rule from ieee
-\def\footnoterule{\relax%
-\kern-5pt
-\hbox to \columnwidth{\hfill\vrule width 0.5\columnwidth height 0.4pt\hfill}
-\kern4.6pt}
-
+\include{preamble}
 
 \begin{document}
     \title{Super Resolution for Automated Target Recognition}
     \author{Maksim Levental}
     \maketitle
+    \etocruledstyle[1]{}
+    %    \etocsettocstyle{\rule{\linewidth}{\tocrulewidth}\vskip0.5\baselineskip}{\rule{\linewidth}{\tocrulewidth}}
+
 
     \begin{abstract}
         Super resolution is the process of producing high-resolution images from low-resolution images while preserving ground truth about the subject matter of the images and potentially inferring more such truth.
@@ -86,12 +22,15 @@
     \end{abstract}
 
     \section{Introduction}\label{sec:introduction}
-%    \input{introduction.tex}
-    %
+    \localtableofcontents
+    \input{introduction.tex}
+
     \section{Background}\label{sec:background}
-%    \input{background.tex}
+    \localtableofcontents
+    \input{background.tex}
 
     \section{Classical Algorithms}\label{sec:classical-algorithms}
+    \localtableofcontents
     \input{classical.tex}
 
     \section{Deep Learning Algorithms}\label{sec:deep-learning-algorithms}
@@ -99,9 +38,13 @@
     \section{Conclusion}\label{sec:conclusion}
     \section{Appendix}\label{sec:appendix}
     TODO: work out diffraction circular aperture
+
     TODO: workout poisson noise
+
     TODO: workout conjugate gradients
+
     TODO: workout belief propagation
+
     \section*{Acknowledgments}
     \newpage
     \printbibliography
