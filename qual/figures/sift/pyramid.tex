@@ -1,0 +1,114 @@
+\begin{figure*}
+    \begin{tikzpicture}[scale=1,every node/.style={minimum size=1cm},on grid]
+        \tikzstyle{diff} = [draw, circle, scale=0.5]
+        \foreach \Sigma in {0,...,4} {
+            \node[yshift=-350+\Sigma*30, yslant=0.5, xslant=-1.5, scale=1] (bertrand-blur-\Sigma-1) {
+                \includegraphics[width=.15\textwidth]{figures/sift/bertrand_sigma_1_\Sigma.png}
+            };
+
+        }
+        \foreach \Sigma in {0,...,4} {
+            \node[yshift=-150+\Sigma*20, xshift=30, yslant=0.5, xslant=-1.5, scale=0.5] (bertrand-blur-\Sigma-2) {
+                \includegraphics[width=.15\textwidth]{figures/sift/bertrand_sigma_1_\Sigma.png}
+            };
+        }
+        \foreach \Sigma in {0,...,4} {
+            \node[yshift=-10+\Sigma*20, yslant=0.5, xshift=30, xslant=-1.5, scale=0.25] (bertrand-blur-\Sigma-3) {
+                \includegraphics[width=.15\textwidth]{figures/sift/bertrand_sigma_1_\Sigma.png}
+            };
+        }
+
+        \foreach \Sigma in {1,...,4} {
+            \begin{scope}[
+               yshift=-365+\Sigma*30, xshift=280,every node/.append style={
+               yslant=0.5, xslant=-1.5},yslant=0.5, xslant=-1.5
+           ]
+               \node[] (bertrand-dog-\Sigma-1) {
+                    \includegraphics[width=.15\textwidth]{figures/sift/dog_bertrand_sigma_1_\Sigma.png}
+                };
+               \fill[green] (2.05,2.05) rectangle (2.35,2.35); % center pixel
+               \fill[green] (1.65,2.05) rectangle (1.95,2.35); %left
+               \fill[green] (2.45,2.05) rectangle (2.75,2.35); %right
+               \fill[green] (2.05,2.45) rectangle (2.35,2.75); %top
+               \fill[green] (2.05,1.95) rectangle (2.35,1.65); %bottom
+            \end{scope}
+
+%            \node[] (bertrand-dog-\Sigma-1) {
+%                \includegraphics[width=.15\textwidth]{figures/sift/dog_bertrand_sigma_1_\Sigma.png}
+%            };
+           \draw[yshift=-365+\Sigma*30, xshift=280, step=1mm, black, yslant=0.5, xslant=-1.5] (-1,-1) grid (0,0);
+           \draw[yshift=-365+\Sigma*30, xshift=280, black,thick, yslant=0.5, xslant=-1.5] (-1,-1) rectangle (0,0);
+        }
+        \foreach \Sigma in {1,...,4} {
+            \node[yshift=-365+\Sigma*30, xshift=140, diff] (diff-\Sigma-1){\Large$-$};
+        }
+
+
+
+        \foreach \Sigma in {1,...,4} {
+            \node[yshift=-160+\Sigma*20, xshift=250, yslant=0.5, xslant=-1.5, scale=0.5] (bertrand-dog-\Sigma-2) {
+                \includegraphics[width=.15\textwidth]{figures/sift/dog_bertrand_sigma_1_\Sigma.png}
+            };
+        }
+        \foreach \Sigma in {1,...,4} {
+            \node[yshift=-160+\Sigma*20, xshift=140, diff] (diff-\Sigma-2){\Large$-$};
+        }
+
+
+
+        \foreach \Sigma in {1,...,4} {
+            \node[yshift=-5+\Sigma*20, xshift=250, yslant=0.5, xslant=-1.5, scale=0.25] (bertrand-dog-\Sigma-3) {
+                \includegraphics[width=.15\textwidth]{figures/sift/dog_bertrand_sigma_1_\Sigma.png}
+            };
+        }
+        \foreach \Sigma in {1,...,4} {
+            \node[yshift=-5+\Sigma*20, xshift=140, diff] (diff-\Sigma-3){\Large$-$};
+        }
+
+        % draw annotations
+        \foreach \x in {1,2,3} {
+            \foreach \Sigma in {1,...,4} {
+                \draw[-] (bertrand-blur-\Sigma-\x) edge (diff-\Sigma-\x);
+            }
+            \foreach \Sigma in {0,...,3} {
+                \pgfmathtruncatemacro{\nodelabel}{1+\Sigma}
+            \draw[-] (bertrand-blur-\Sigma-\x) edge (diff-\nodelabel-\x);
+            }
+            \foreach \Sigma in {1,...,4} {
+                \draw[->] (diff-\Sigma-\x) edge (bertrand-dog-\Sigma-\x);
+            }
+        }
+
+
+%           \fill[green] (2.05,2.05) rectangle (2.35,2.35); % center pixel
+%           \fill[green] (1.65,2.05) rectangle (1.95,2.35); %left
+%           \fill[green] (2.45,2.05) rectangle (2.75,2.35); %right
+%           \fill[green] (2.05,2.45) rectangle (2.35,2.75); %top
+%           \fill[green] (2.05,1.95) rectangle (2.35,1.65); %bottom
+%    % 8 -pixel setting
+%           \fill[green] (1.65,2.45) rectangle (1.95,2.75); %top-left
+%           \fill[green] (2.45,2.45) rectangle (2.75,2.75); %top-right
+%           \fill[green] (2.75,1.95) rectangle (2.45,1.65); %bottom-right
+%           \fill[green] (1.65,1.95) rectangle (1.95,1.65); %bottom-left
+%    % 2. ring
+%           \fill[green] (1.25,1.55) rectangle (1.55,1.25); %bottom-left
+%           \fill[green] (0.85,1.55) rectangle (1.15,1.25); %bottom-left
+%           \fill[green] (0.85,1.15) rectangle (1.15,0.85); %bottom-left
+%           \fill[green] (1.25,0.75) rectangle (1.55,0.45); %bottom-left
+
+
+%    \draw[-latex,thick,blue](-3,5)node[left]{ }
+%    to[out=0,in=90] (0.8,1.15);
+%    \draw[-latex,thick,green](-3,5)node[left]{3 patches}
+%    to[out=0,in=90] (0,2.8);
+%    %
+%    \draw[-latex,thick,green](-3,-2)node[left]{1 patch}
+%    to[out=0,in=200] (-1,-.9);
+%    \draw[thick,gray!70!black](6,4) node {4 neighbourhood rule};
+%    \draw[thick,gray!70!black](6,-2) node {8 neighbourhood rule};
+    %
+    \end{tikzpicture}
+%\end{adjustbox}
+\caption{The imaging model illustrating the relationship between a scene and final low-resolution images due to noise, motion, blur, and sampling.}
+\label{fig:bertrand}
+\end{figure*}

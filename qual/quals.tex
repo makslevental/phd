@@ -1,13 +1,11 @@
 \documentclass[journal]{IEEEtran}
 \include{preamble}
+\input{footnotes.tex}
 
 \begin{document}
     \title{Super Resolution for Automated Target Recognition}
     \author{Maksim Levental}
     \maketitle
-    \etocruledstyle[1]{}
-    %    \etocsettocstyle{\rule{\linewidth}{\tocrulewidth}\vskip0.5\baselineskip}{\rule{\linewidth}{\tocrulewidth}}
-
 
     \begin{abstract}
         Super resolution is the process of producing high-resolution images from low-resolution images while preserving ground truth about the subject matter of the images and potentially inferring more such truth.
@@ -21,35 +19,41 @@
         Finally we suggest directions for future research.
     \end{abstract}
 
-    \section{Introduction}\label{sec:introduction}
+    %    \section{Introduction}\label{sec:introduction}
+    %    \localtableofcontents
+    %    \input{introduction.tex}
+    %
+    %    \section{Background}\label{sec:background}
+    %    \localtableofcontents
+    %    \input{background.tex}
+    \section{Image Registration}\label{sec:image-registration}
     \localtableofcontents
-    \input{introduction.tex}
+    \input{registration.tex}
+%    \clearpage
 
-    \section{Background}\label{sec:background}
-    \localtableofcontents
-    \input{background.tex}
+%    \section{Classical Algorithms}\label{sec:classical-algorithms}
+%    \localtableofcontents
+%    \input{classical.tex}
+%    \clearpage
 
-    \section{Classical Algorithms}\label{sec:classical-algorithms}
-    \localtableofcontents
-    \input{classical.tex}
 
-    \section{Deep Learning Algorithms}\label{sec:deep-learning-algorithms}
-    \localtableofcontents
-    \input{deep.tex}
-    \section{Future Research}\label{sec:future-research}
-    \section{Conclusion}\label{sec:conclusion}
-    \section{Appendix}\label{sec:appendix}
-    TODO: work out diffraction circular aperture
-
-    TODO: workout poisson noise
-
-    TODO: workout conjugate gradients
-
-    TODO: workout belief propagation
-
-    \section*{Acknowledgments}
-    \newpage
-    \printbibliography
+%    \section{Deep Learning Algorithms}\label{sec:deep-learning-algorithms}
+%    \localtableofcontents
+%    \input{deep.tex}
+%    \section{Future Research}\label{sec:future-research}
+%    \section{Conclusion}\label{sec:conclusion}
+%    \section{Appendix}\label{sec:appendix}
+%    TODO: work out diffraction circular aperture
+%
+%    TODO: workout poisson noise
+%
+%    TODO: workout conjugate gradients
+%
+%    TODO: workout belief propagation
+%
+%    \section*{Acknowledgments}
+%    \newpage
+%    \printbibliography
 
 \end{document}
 

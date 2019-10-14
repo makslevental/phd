@@ -182,12 +182,8 @@ Successful registration is effected by producing a transformation $f$ that maps 
     \Xkone(f(x', y')) = X_j(x,y)
     \label{eqn:registration}
 \end{equation}
-where we use index $j$ to indicate the possibility of registering all samples relative to a fixed referenced image (e.g. $j=0$ the first sample) or successive/relative registration (i.e. with $j=k$).
+where we use index $j$ to indicate the possibility of registering all samples relative to a fixed reference image (e.g. $j=0$ the first sample) or successive/relative registration (i.e. with $j=k$).
 %
-There are broadly two perspectives on constructing the transformation $f$: the geometric perspective which aims to model motion as a map of the image as a whole and the morphological perspective which aims to model motion as a deformation of individual pixels.
-%
-These two perspectives roughly correspond to a globally or locally defined transformation    $f$.
-
 While image registration is already challenging in the various domains where samples are treated as canonical, such as remote sensing and medical imaging, in SR it is further complicated by the fact that the images to be registered are assumed uncertain.
 %
 Therefore, in principle, image registration and super-resolution cannot be decoupled, since image registration accuracy would be improved by operating on the estimated HR images;
