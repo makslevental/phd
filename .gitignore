@@ -275,3 +275,8 @@ TSWLatexianTemp*
 .idea
 out
 code/venv
+
+**/**/*.bak*
+**/**/.bak*
+**/**/*.mtc
+**/**/bibexport.bib

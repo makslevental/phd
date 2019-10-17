@@ -17,66 +17,68 @@
 \anotecontent{ccd}{CCD arrays, for example, employ $2\times 2$ or $3\times 3$ pixel binning, which is the practice of collapsing windows of pixels down to one pixel.}
 \anotecontent{pnjunction}{The interface between a p-type semiconductor (excess holes, i.e. positive charge carriers) and an n-type (excess electrons, i.e. negative charge carriers) semiconductor.}
 \anotecontent{reversebias}{With the p-type material at a lower voltage than the n-type.
-%
-This causes both the holes and the electrons to flow away from the junction creating a depletion zone.}
+	%
+	This causes both the holes and the electrons to flow away from the junction creating a depletion zone.}
 \anotecontent{bolometer}{Late 19th century: from Greek bolē 'ray of light' + -meter.}
 \anotecontent{mems}{Micro-electro-mechanical systems.}
 \anotecontent{fabryperot}{An optical cavity made from two parallel reflecting surfaces that passes light only when it is in resonance with the cavity.}
 \anotecontent{thermistor}{An element with an electrical resistance that's a function of its temperature.}
 \anotecontent{innerphotoelectric}{The photoelectric effect is the emission of electrons when light hits a material.
-%
-The inner photoelectric effect is that phenomenon in the bulk matter of semiconductors.}
+	%
+	The inner photoelectric effect is that phenomenon in the bulk matter of semiconductors.}
 \anotecontent{opticalflow}{"Optical flow can also be defined as the distribution of apparent velocities of movement of [patterns] in an image."\cite{HORN1981185}}
 \anotecontent{otf}{The optical transfer function is the spatial Fourier transform of the point spread function (the impulse response) of the optics. Spatial here means periodic in space rather than in time.}
 \anotecontent{coma}{Off-axis point sources appearing to have a tail (coma), due to variation in magnification in the image of the aperture stop.}
 \anotecontent{dispersion}{E.g. the cover of Pink Floyd's The Dark Side of the Moon.}
 \anotecontent{fnumber}{The ratio of the system's focal length to the diameter of the aperture.}
 \anotecontent{registration}{The process of aligning two or more images of the scene on a common pixel grid.}
+%registration
+\anotecontent{scalepyramid}{No pun intended.}
 %classical
 \anotecontent{lsi}{In analogy with Linear Time Invariant (i.e. linear and constant in space).}
 \anotecontent{lrpixel}{An LR pixel is one sampled from an LR image and embedded in an HR grid.
-%
-An HR pixel is a pixel in an HR grid.}
+	%
+	An HR pixel is a pixel in an HR grid.}
 \anotecontent{vectorize}{
-\begin{multline*}
-    \text{vec}\left(
-    \begin{bmatrix}
-        a_{11}&a_{12}&\cdots &a_{1n}\\
-        a_{21}&a_{22}&\cdots &a_{2n}\\
-        \vdots &\vdots &\ddots &\vdots \\
-        a_{m1}&a_{m2}&\cdots &a_{mn}
-    \end{bmatrix}
-    \right) = \\
-    \left[a_{11}, \mathellipsis, a_{m1}, a_{12}, \mathellipsis, a_{m2}, \mathellipsis, a_{1n} \mathellipsis a_{mn}\right]
-\end{multline*}
+	\begin{multline*}
+		\text{vec}\left(
+		\begin{bmatrix}
+				a_{11} & a_{12} & \cdots & a_{1n} \\
+				a_{21} & a_{22} & \cdots & a_{2n} \\
+				\vdots & \vdots & \ddots & \vdots \\
+				a_{m1} & a_{m2} & \cdots & a_{mn}
+			\end{bmatrix}
+		\right) = \\
+		\left[a_{11}, \mathellipsis, a_{m1}, a_{12}, \mathellipsis, a_{m2}, \mathellipsis, a_{1n} \mathellipsis a_{mn}\right]
+	\end{multline*}
 }
 \anotecontent{noise}{Noise here doesn't necessarily mean unwanted high frequency variation but simply a source of randomness.
-%
-This is in close affinity with how generative machines such as variational auto-encoders and generative adversarial networks are understood.}
+	%
+	This is in close affinity with how generative machines such as variational auto-encoders and generative adversarial networks are understood.}
 %
 \anotecontent{gpassumptions}{Namely $\bm{y}_1$ is distributed $(0, W)$-Normal and independent of $\eta_1$.}
 \anotecontent{kalmanprediction}{This is better understood in the more general linear dynamic systems case where $\bm{y}_k = A_k\bm{y}_k + B_k \bm{u}_k + \varepsilon_k$ and $B_k \bm{u}_k$ is known "controlled" input.
-%
-Then the prediction includes a $B_k \bm{u}_{k-1}$ term and the Kalman gain effectively mediates between controlled and uncontrolled inputs.
+	%
+	Then the prediction includes a $B_k \bm{u}_{k-1}$ term and the Kalman gain effectively mediates between controlled and uncontrolled inputs.
 }
 \anotecontent{hmrf}{A Markov random field (MRF) is a collection of random variables $x_i, y_j, \mathellipsis$ with conditional dependence represented by pairings and satisfying the \textit{pairwise Markov} property: any two random variables that aren't paired are conditionally independent of each other given (conditioned on) all other variables.
-%
-A \textit{hidden} Markov random field is simply a MRF where some of the random variables aren't observed.
+	%
+	A \textit{hidden} Markov random field is simply a MRF where some of the random variables aren't observed.
 }
 \anotecontent{positivedef}{A symmetric real matrix $Q$ is positive definite if $\bm{y}^T Q \bm{y} > 0 $ for all non-zero $\bm{y}$.}
 \anotecontent{conjugategradients}{Two vectors $\bm{u}, \bm{v}$ are conjugate with respect to $G$ if $\bm{u}^T G \bm{v} = 0$.
-%
-Conjugate gradient descent is gradient descent but with conjugate gradients (it has better convergence properties).
+	%
+	Conjugate gradient descent is gradient descent but with conjugate gradients (it has better convergence properties).
 }
 \anotecontent{illcondition}{The condition number $\kappa$ of a function is a measure of how sensitive it is to small perturbations; for a matrix $G$ it is defined $\kappa (G) \coloneqq \sigma_{\max}(G)/\sigma_{\min} (G)$ where $\sigma_{\max}(G), \sigma_{\min} (G)$ are the maximum and minimum singular values of $G$ respectively.}
 \anotecontent{precondition}{A pre-conditioner of a matrix $G$ is an approximation of $G$ that has a better condition number.
-%
-Nguyen \textit{et al.} propose a pre-conditioner with singular values clustered around 1 in order that $\kappa(G) \approx 1$.}
+	%
+	Nguyen \textit{et al.} propose a pre-conditioner with singular values clustered around 1 in order that $\kappa(G) \approx 1$.}
 \anotecontent{gradientoperator}{Let $u = (1,2,1)$ and $v = (1,0,-1)$ then $h = uv^T$ is the first order Sobel filter and $\nabla Y = \left( h \ast Y, h^T \ast Y \right)$.}
 \anotecontent{boundedvariation}{$f(x)$ is of bounded variation on interval $\left[ a,b \right]$ if over all partitions $\mathcal{P}$ of $\left[ a,b \right]$
-\[
-    \sup_{P \in \mathcal{P}}\sum_{i=0}^{n_P-1} \lvert f(x_{i+1})-f(x_i) \rvert\, <\infty
-\]
+	\[
+		\sup_{P \in \mathcal{P}}\sum_{i=0}^{n_P-1} \lvert f(x_{i+1})-f(x_i) \rvert\, <\infty
+	\]
 }
 \anotecontent{beliefpropagation}{An efficient way to compute marginals of joint probabilities that have structure by reusing partial sums (i.e. passing messages)\cite{Yedidia2003jan1}.}
 \anotecontent{manifold}{A collection of points that locally resembles Euclidean space.}
@@ -84,13 +86,13 @@ Nguyen \textit{et al.} propose a pre-conditioner with singular values clustered 
 \anotecontent{pun}{No pun intended.}
 \anotecontent{overcompletedictionary}{A collection of vectors (known as \textit{atoms}) that spans a space but is also linearly dependent.}
 \anotecontent{nphard}{Problems in NP are those which are unknown to have a deterministic polynomial time solutions.
-%
-NP-hard admit a polynomial time reduction from any problem in NP (colloquially they are as hard as any problem in NP).}
+	%
+	NP-hard admit a polynomial time reduction from any problem in NP (colloquially they are as hard as any problem in NP).}
 \anotecontent{firstordergaussian}{The first derivative of the Gaussian expressed as a filter: $\left[ -2,-1,0,1,2 \right]$.}
 \anotecontent{threshold}{Set everything below a threshold to zero.}
 \anotecontent{nms}{Pick the maximum in a neighborhood and set all other values to zero.}
 \anotecontent{log}{The Laplacian of an image $X$ is $L(x,y) = \partial_x^2 X + \partial_y^2 X$. Since in practice this approximates a noisy signal (second derivative), smoothing by a Gaussian is a necessary prerequisite. Therefore the Laplace of Gaussians ($LoG$) filter is the Laplacian composed with the Gaussian: \begin{equation*} LoG(x,y, \sigma) = -\frac{1}{\pi \sigma^4}\left[ 1 - \frac{x^2+y^2}{2\sigma^2} \exp \left\{ - \frac{x^2+y^2}{2\sigma^2} \right\} \right]
-\end{equation*}}
+	\end{equation*}}
 \anotecontent{smallcurvature}{The ratio of the eigenvalues of the spatial Hessian of $D$ (i.e. only along dimensions $x,y$). In fact a quantity not unlike eqn.~\eqref{eqn:strength} is computed in order to save having to explicitly find eigenvalues.}
 \anotecontent{hog}{Simply the histogram of gradient orientations (polar angle) in a pixel window.}
 \anotecontent{kdtree}{$k$-d trees\cite{Bentley:1975:MBS:361002.361007}, short for $k$-dimensional trees, are data structures that partition space efficiently in order that searching the tree, insertion into the tree, and deletion from the tree are all, on average, $O(\log n)$ time operations (where $n$ is the number of nodes in the tree at the time of the operation).}

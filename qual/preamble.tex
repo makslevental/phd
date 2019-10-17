@@ -14,6 +14,8 @@
 \usepackage{tikz}
 \usepackage{xcolor}
 \usetikzlibrary{backgrounds,calc,shadings,shapes.arrows,arrows,shapes.symbols,shadows,positioning,decorations.markings,backgrounds,arrows.meta}
+\usetikzlibrary{fit}
+\usetikzlibrary{shapes.geometric}
 \usepackage[edges]{forest}
 \usepackage{adjustbox}
 \usepackage{mathtools}
@@ -68,19 +70,19 @@
 \def\tablename{Table}
 \renewcommand{\thetable}{\arabic{table}}
 \newcommand{\ue}[1]{
-    \begin{tikzpicture}[#1]
-        \draw[fill = black] (.25ex,.25ex) circle (.3ex);
-        \draw[thick] (.55ex,.25ex) -- (1.55ex,.25ex);
-        \draw[fill = black] (1.85ex, .25ex) circle (.3ex);
-    \end{tikzpicture}%
+	\begin{tikzpicture}[#1]
+		\draw[fill = black] (.25ex,.25ex) circle (.3ex);
+		\draw[thick] (.55ex,.25ex) -- (1.55ex,.25ex);
+		\draw[fill = black] (1.85ex, .25ex) circle (.3ex);
+	\end{tikzpicture}%
 }
 
 \newfootnotes{a}
 \hypersetup{
-    colorlinks,
-    linkcolor={red!50!black},
-    citecolor={blue!50!black},
-    urlcolor={blue!80!black}
+	colorlinks,
+	linkcolor={red!50!black},
+	citecolor={blue!50!black},
+	urlcolor={blue!80!black}
 }
 \addbibresource{quals.bib}
 \definecolor{darkblue}{HTML}{1f4e79}
@@ -93,10 +95,10 @@
 
 % fix footnote rule from ieee
 \def\footnoterule{
-    \relax
-    \kern-5pt
-    \hbox to \columnwidth{\hfill\vrule width 0.5\columnwidth height 0.4pt\hfill}
-    \kern4.6pt
+	\relax
+	\kern-5pt
+	\hbox to \columnwidth{\hfill\vrule width 0.5\columnwidth height 0.4pt\hfill}
+	\kern4.6pt
 }
 
 \newcommand{\Xk}{X_k}
@@ -118,25 +120,25 @@
 
 \makeatletter
 \renewcommand\subsubsection{%
-    \@startsection
-    {subsubsection}                 % type
-    {3}                             % level
-    {\z@}                    % indent
-    %{3.5ex plus 1.5ex minus 1.5ex}  % beforeskip {0ex plus 0.1ex minus 0.1ex}
-    {0.7ex plus .5ex minus 0ex}     % afterskip {0ex}
-    {0.7ex plus .5ex minus 0ex}     % afterskip {0ex}
-    {\normalfont\normalsize\itshape}% style
+	\@startsection
+	{subsubsection}                 % type
+	{3}                             % level
+	{\z@}                    % indent
+	%{3.5ex plus 1.5ex minus 1.5ex}  % beforeskip {0ex plus 0.1ex minus 0.1ex}
+	{0.7ex plus .5ex minus 0ex}     % afterskip {0ex}
+	{0.7ex plus .5ex minus 0ex}     % afterskip {0ex}
+	{\normalfont\normalsize\itshape}% style
 }
 \makeatother
 \makeatletter
 \renewcommand\paragraph{%
-    \@startsection
-    {paragraph}                 % type
-    {4}                             % level
-    {\z@}                    % indent
-    {0.7ex plus .5ex minus 0ex}     % afterskip {0ex}
-    {0.7ex plus .5ex minus 0ex}     % afterskip {0ex}
-    {\normalfont\normalsize\itshape}% style
+	\@startsection
+	{paragraph}                 % type
+	{4}                             % level
+	{\z@}                    % indent
+	{0.7ex plus .5ex minus 0ex}     % afterskip {0ex}
+	{0.7ex plus .5ex minus 0ex}     % afterskip {0ex}
+	{\normalfont\normalsize\itshape}% style
 }
 \makeatother
 
