@@ -615,12 +615,12 @@ Since the objective in eqn.~\eqref{eqn:linearbasisregression} is linear in $\pre
 \end{equation}
 where $\bX_t^l$ are only those LR patches that get routed to leaf $l$ in tree $t$, similarly $\bY_t^l$, and $\Phi(\bX_t^l)$ is matrix $\left( \phi_i(\bx_j) \right)$ with $\bx_j$ being one of $\bX_t^l$.
 %
-\begin{figure*}
+\begin{figure}
 	\centering
 	\includegraphics[width=\linewidth,keepaspectratio]{figures/classical/FIRF.png}
 	\caption{A set of decision trees. Each decision tree recursively classifies the input LR patch into left or right child node, until a leaf node is reached. By using the linear regression models stored in the each leaf node, the input LR patch can be projected to the HR patch space\cite{Huang}}
 	\label{fig:firf}
-\end{figure*}
+\end{figure}
 %
 Finally the inferred HR patch $\by$ is the average of patches $\prescript{l}{t}{W(\bx)}$ inferred by all $n$ trees in the forest:
 \begin{equation}
