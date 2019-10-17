@@ -1,4 +1,4 @@
-\input{figures/sift/pyramid.tex}
+\input{figures/registration/sift/pyramid.tex}
 Images obtained from multiple vantage points, or at different times, of the same scene, become distorted with respect
 to each other.
 %
@@ -44,7 +44,7 @@ The Moravec detector starts from the error function $E_{x,y}(u,v)$ which compute
 where $x_i \coloneqq x + i$ and $y_j \coloneqq y+j$.
 \begin{figure}
     \centering
-    \includegraphics[width=\linewidth,keepaspectratio]{figures/corners.png}
+    \includegraphics[width=\linewidth,keepaspectratio]{figures/registration/corners.png}
     \caption{Moravec Corner Detector}
     \label{fig:corners}
 \end{figure}
@@ -112,7 +112,7 @@ Finally only the "strongest" $n$ corners are kept.
 
 \begin{figure}
     \centering
-    \includegraphics[width=\linewidth,keepaspectratio]{figures/sift/sift_scale_invariant.png}
+    \includegraphics[width=\linewidth,keepaspectratio]{figures/registration/sift/sift_scale_invariant.png}
     \caption{Harris Detector failing to recognize the right image as a corner.}
     \label{fig:sift_harris}
 \end{figure}
@@ -123,19 +123,19 @@ Zahra \etal\cite{zahrasift} resolves this issue by using the Scale Invariant Fea
 SIFT identifies scale invariant and noise robust features of an image, called \textit{keypoints}, by first finding candidate points with high local curvature at multiple scales and then culling according to some heuristics.
 \begin{figure}
     \centering
-    \includegraphics[width=\linewidth,keepaspectratio]{figures/sift/pyramid.png}
+    \includegraphics[width=\linewidth,keepaspectratio]{figures/registration/sift/pyramid.png}
     \caption{Smoothed $L(x,y, \sigma)$ and differenced $D(x,y,\sigma)$ pyramid of progressive feature scales\cite{lowe2004distinctive}.}
     \label{fig:sift_pyramid}
 \end{figure}
 \begin{figure}
     \centering
-    \includegraphics[width=.5\linewidth,keepaspectratio]{figures/sift/sift_extrema.png}
+    \includegraphics[width=.5\linewidth,keepaspectratio]{figures/registration/sift/sift_extrema.png}
     \caption{SIFT local extrema in scale and space.}
     \label{fig:sift_extrema}
 \end{figure}
 \begin{figure*}
     \centering
-    \includegraphics[width=\linewidth,keepaspectratio]{figures/sift/sift_descriptor.png}
+    \includegraphics[width=\linewidth,keepaspectratio]{figures/registration/sift/sift_descriptor.png}
     \caption{SIFT keypoint orientation and descriptor computation: (a) dominant orientation (circle indicates Gaussian smoothed neighborhood) (b) $2 \times 2 = 4$ sub-neighborhood HOG descriptor\cite{lowe2004distinctive}.}
     \label{fig:sift_descriptor}
 \end{figure*}

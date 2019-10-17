@@ -1,6 +1,6 @@
 \subsection{Imaging systems}\label{subsec:imaging-systems}
 \begin{figure}
-	\includegraphics[width=\linewidth,keepaspectratio]{figures/bccd.png}
+	\includegraphics[width=\linewidth,keepaspectratio]{figures/background/bccd.png}
 	\caption{CCD buried channel MOS capacitor\cite{finaltestguideline}}
 	\label{fig:mos-cap}
 \end{figure}
@@ -34,7 +34,7 @@ CCD arrays consist of two sub-arrays: an image section and a readout section (se
 %
 The image section is arranged with every third stripe of electrode tied electrically to form three sets of equipotentials.
 \begin{figure}
-	\includegraphics[width=\linewidth,keepaspectratio]{figures/ccd_array.png}
+	\includegraphics[width=\linewidth,keepaspectratio]{figures/background/ccd_array.png}
 	\caption{CCD array\cite{pawley1995handbook}}
 	\label{fig:ccd-array}
 \end{figure}
@@ -63,7 +63,7 @@ Naturally interline transfer shrinks photosensitive area by half and despite pos
 \subsubsection{CMOS Devices}
 CMOS sensors consist of arrays of photodiodes (see figure~\ref{fig:photodiode.png}).
 \begin{figure}
-	\includegraphics[width=\linewidth,keepaspectratio]{figures/photodiode.png}
+	\includegraphics[width=\linewidth,keepaspectratio]{figures/background/photodiode.png}
 	\caption{Photodiode schematic. L\textsubscript{e}, L\textsubscript{h} are electron, hole diffusion lengths respectively\cite{Xu2015FundamentalCO}}
 	\label{fig:photodiode.png}
 \end{figure}
@@ -76,7 +76,7 @@ If the creation event happens within the active region then the hole moves out t
 This establishes a \textit{photocurrent} that can be read by a reading circuit (see figure ~\ref{fig:3tpixel}).
 \begin{figure}
 	\center
-	\includegraphics[width=.5\linewidth,keepaspectratio]{figures/3t_pixel.png}
+	\includegraphics[width=.5\linewidth,keepaspectratio]{figures/background/3t_pixel.png}
 	\caption{Three transistor "pixel". M\textsubscript{rst} is the reset transistor (enabling the photodiode to dump charge), M\textsubscript{sf} buffers the charge on the photodiode (so that it can be read without loss), and M\textsubscript{sel} enables a whole row of pixels to be read simultaneously (since all pixels in a physical row are tied to the same row line).}
 	\label{fig:3tpixel}
 \end{figure}
@@ -97,7 +97,7 @@ This, along with such artifacts as the "rolling shutter" effect produced by rowl
 Despite this CMOS arrays have become the most common imaging system in consumer goods such as cell phones and digital cameras due to their relatively simple mechanics.
 \begin{figure}
 	\center
-	\includegraphics[width=.6\linewidth,keepaspectratio]{figures/cmod.png}
+	\includegraphics[width=.6\linewidth,keepaspectratio]{figures/background/cmos.png}
 	\caption{CMOS array}
 	\label{fig:cmosarray}
 \end{figure}
@@ -108,7 +108,7 @@ A microbolometer, on the other hand, measures the power in the infrared by expos
 %
 \begin{figure}[b]
 	\center
-	\includegraphics[width=.7\linewidth,keepaspectratio]{figures/microbolometer2.png}
+	\includegraphics[width=.7\linewidth,keepaspectratio]{figures/background/microbolometer2.png}
 	\caption{Bridge structure of Honeywell microbolometer\cite{KESIM2014245}}
 	\label{fig:microbolometer}
 \end{figure}
@@ -161,7 +161,7 @@ In practice there is noise and loss introduced at every step of the process: atm
 The noisy, blurry, down-sampled images are then further degraded by sensor noise.
 %
 Each such image we call an LR sample.
-\input{figures/bertrand/bertrand.tex}
+\input{figures/background/bertrand/bertrand.tex}
 Let $Y$ denote an idealized HR image of the scene from some fixed vantage point and assume the imaging system collects $K$ LR samples $\Xk$ of $Y$.
 %
 Formally the $\Xk$ are related to $Y$ by
@@ -232,7 +232,7 @@ Notice also that like a typical transfer function the OTF is not flat and theref
 %
 Simply applying gain to the image wouldn't solve the attenuation problems because of aliasing, but likewise this can be resolved after the effective sampling rate is increased using MISR.
 \begin{figure}
-	\includegraphics[width=\linewidth,keepaspectratio]{figures/mtf.png}
+	\includegraphics[width=\linewidth,keepaspectratio]{figures/background/mtf.png}
 	\caption{OTF magnitude cross-section for\cite{milanfar2017super}}
 	\label{fig:mtf}
 \end{figure}
