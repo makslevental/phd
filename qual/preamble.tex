@@ -16,11 +16,21 @@
 \usetikzlibrary{backgrounds,calc,shadings,shapes.arrows,arrows,shapes.symbols,shadows,positioning,decorations.markings,backgrounds,arrows.meta}
 \usetikzlibrary{fit}
 \usetikzlibrary{shapes.geometric}
+\usepackage{pgfplots}
+\pgfplotsset{compat=newest}
 \usepackage[edges]{forest}
+
 \usepackage{adjustbox}
 \usepackage{mathtools}
 \usepackage{breqn}
+\usepackage{caption}
 \usepackage{subcaption}
+
+\DeclareCaptionFormat{subfig}{\figurename~#1#2#3}
+\DeclareCaptionSubType*{figure}
+\captionsetup[subfigure]{format=subfig,labelsep=colon,labelformat=simple}
+
+
 %\usepackage[backend=bibtex, bibencoding=utf8, style=ieee]{biblatex}
 \usepackage[backend=biber, bibencoding=utf8, style=ieee, backref=true]{biblatex}
 \usepackage[hyperfootnotes=false,hyperindex=true]{hyperref}

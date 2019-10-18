@@ -133,12 +133,13 @@ SIFT identifies scale invariant and noise robust features of an image, called \t
     \caption{SIFT local extrema in scale and space.}
     \label{fig:sift_extrema}
 \end{figure}
-\begin{figure*}
-    \centering
-    \includegraphics[width=\linewidth,keepaspectratio]{figures/registration/sift/sift_descriptor.png}
-    \caption{SIFT keypoint orientation and descriptor computation: (a) dominant orientation (circle indicates Gaussian smoothed neighborhood) (b) $2 \times 2 = 4$ sub-neighborhood HOG descriptor\cite{lowe2004distinctive}.}
-    \label{fig:sift_descriptor}
-\end{figure*}
+%\begin{figure*}
+%    \centering
+%    \includegraphics[width=\linewidth,keepaspectratio]{figures/registration/sift/sift_descriptor.png}
+%    \caption{SIFT keypoint orientation and descriptor computation: (a) dominant orientation (circle indicates Gaussian smoothed neighborhood) (b) $2 \times 2 = 4$ sub-neighborhood HOG descriptor\cite{lowe2004distinctive}.}
+%    \label{fig:sift_descriptor}
+%\end{figure*}
+\input{figures/registration/sift/orientation_featurization.tex}
 %
 It then "describes" these keypoints by a rotation invariant and noise robust representation.
 %
