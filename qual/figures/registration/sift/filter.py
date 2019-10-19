@@ -22,14 +22,14 @@ def compute_grad_orientations(c_row, c_col, orientations, orientation_histogram,
     x = numpy.linspace(1/half_bins, (half_bins-1)/half_bins, bins)
     y = numpy.linspace(1/half_bins, (half_bins-1)/half_bins, bins)
     xv, yv = numpy.meshgrid(x, y)
-    grads = numpy.vstack([xv.flatten(), yv.flatten(), grads_x.flatten(), grads_y.flatten()]).T
+    grads_stack = numpy.vstack([xv.flatten(), yv.flatten(), grads_x.flatten(), grads_y.flatten()]).T
     domin_grad =  numpy.degrees(numpy.arctan(numpy.sin(domin_grad)/ numpy.cos(domin_grad)))
 
-    subgrad_hists = skimage.measure.block_reduce(orientation_histogram, (4,4,1), numpy.max)
-    return grads, domin_grad, subgrad_hists.reshape(subgrad_hists.shape[0]*subgrad_hists.shape[1],8)
+    subgrad_hists = numpy.ceil(skimage.measure.block_reduce(orientation_histogram, (bins//4,bins//4,1), numpy.max))
+    return grads_stack, domin_grad, subgrad_hists.reshape(subgrad_hists.shape[0]*subgrad_hists.shape[1],8)
 
 def compute_hog():
-    img = skimage.io.imread("bert_keypoint.png")
+    img = skimage.io.imread("bert_keypoint_window.png")
     h, w, _ = img.shape
     # img = rgb2gray(img)
     #
@@ -46,9 +46,10 @@ def compute_hog():
     )
     plt.imshow(hog_image); plt.show()
     grads, domin_grad, subgrad_hists = compute_grad_orientations(*pixels_per_cell, n_orientations, orient_hist, bins)
-    print(domin_grad)
-    numpy.savetxt('grads.csv', grads, delimiter=' ',fmt='%1.4f', header="x y u v", comments="")
-    numpy.savetxt('subgrad_hists.csv', subgrad_hists, delimiter=' ',fmt='%1.4f', header="x y u v", comments="")
+    # print(domin_grad)
+    # numpy.savetxt('grads.csv', grads, delimiter=' ',fmt='%1.4f', header="x y u v", comments="")
+    # subhist = numpy.around(orient_hist).reshape(16, 8)
+    numpy.savetxt('subgrad_hists.csv', subgrad_hists, delimiter=' ',fmt='%1.0f')
     # fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(8, 4), sharex=True, sharey=True)
     #
     # ax1.axis('off')
