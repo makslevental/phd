@@ -1,4 +1,5 @@
 \begin{figure*}
+	\pgfplotstableread[]{figures/registration/sift/subgrad_hists.csv}\subgradhists
 	\tikzstyle{every picture}+=[remember picture]
 	\tikzset{
 		pics/greensquare/.style args={#1/#2/#3}{
@@ -41,14 +42,23 @@
 		pics/randomedgehistogram/.style args={#1/#2}{
 				code={
 						\begin{axis}[area style, width=2.5cm,height=2.5cm, hide axis, at={(#1cm,#2cm)}]
-							\pgfmathrandominteger{\na}{3}{4}
-							\pgfmathrandominteger{\nb}{3}{4};
-							\pgfmathrandominteger{\nc}{3}{8};
-							\pgfmathrandominteger{\nd}{3}{8};
-							\pgfmathrandominteger{\ne}{3}{4};
-							\pgfmathrandominteger{\nf}{3}{4};
-							\pgfmathrandominteger{\ng}{3}{4};
-							\pgfmathrandominteger{\nh}{3}{4};
+							%							\pgfmathrandominteger{\na}{3}{4}
+							%							\pgfmathrandominteger{\nb}{3}{4};
+							%							\pgfmathrandominteger{\nc}{3}{8};
+							%							\pgfmathrandominteger{\nd}{3}{8};
+							%							\pgfmathrandominteger{\ne}{3}{4};
+							%							\pgfmathrandominteger{\nf}{3}{4};
+							%							\pgfmathrandominteger{\ng}{3}{4};
+							%							\pgfmathrandominteger{\nh}{3}{4};
+							\pgfmathtruncatemacro{\rowindex}{#1*4+#2}
+							\pgfplotstablegetelem{\rowindex}{[index]0}\of{\subgradhists}\pgfmathtruncatemacro{\na}{\pgfplotsretval};
+							\pgfplotstablegetelem{\rowindex}{[index]1}\of{\subgradhists}\pgfmathtruncatemacro{\nb}{\pgfplotsretval};
+							\pgfplotstablegetelem{\rowindex}{[index]2}\of{\subgradhists}\pgfmathtruncatemacro{\nc}{\pgfplotsretval};
+							\pgfplotstablegetelem{\rowindex}{[index]3}\of{\subgradhists}\pgfmathtruncatemacro{\nd}{\pgfplotsretval};
+							\pgfplotstablegetelem{\rowindex}{[index]4}\of{\subgradhists}\pgfmathtruncatemacro{\ne}{\pgfplotsretval};
+							\pgfplotstablegetelem{\rowindex}{[index]5}\of{\subgradhists}\pgfmathtruncatemacro{\nf}{\pgfplotsretval};
+							\pgfplotstablegetelem{\rowindex}{[index]6}\of{\subgradhists}\pgfmathtruncatemacro{\ng}{\pgfplotsretval};
+							\pgfplotstablegetelem{\rowindex}{[index]7}\of{\subgradhists}\pgfmathtruncatemacro{\nh}{\pgfplotsretval};
 							\addplot+[ybar interval] plot coordinates {
 									(-0.50, \na)
 									(0.5, \nb)
@@ -161,9 +171,9 @@
 			\begin{scope}[rotate=\rot,transform shape,local bounding box=scope1]
 				\clip[](1.95,1.99) rectangle (6.0,6.03);
 				\begin{axis}[dominantorientationaxis, rotate around={-\rot:(.5,.5)}, grid=none]
-%					\addplot3[dominantorientationvectors] {0};
+					%					\addplot3[dominantorientationvectors] {0};
 					\addplot[on layer=axis background] graphics[xmin=0, xmax=1, ymin=0, ymax=1]
-					{figures/registration/sift/bert_keypoint.png};
+						{figures/registration/sift/bert_keypoint.png};
 					\addplot[redarrow,quiver={u=\thisrow{u},v=\thisrow{v}}] table {figures/registration/sift/grads.csv};
 					\node[dot=5pt](keypoint) at (0.5,0.5) {};
 
@@ -179,11 +189,13 @@
 		\end{tikzpicture}
 		\caption{16 Keypoint neigbhorhood gradient bins} \label{fig:1c}
 	\end{subfigure}
+	\readdef{figures/registration/sift/subgrad_hists.csv}\namedata
+	\readarray\namedata\names[-,\ncols]
 	\begin{subfigure}{\siftwidth}
 		\centering
 		\begin{tikzpicture}
 			\pgfmathtruncatemacro{\kmax}{div(3.0,1.0)}
-			\begin{scope}[rotate=\rot,transform shape,local bounding box=scope1]
+			\begin{scope}[rotate=\rot-90,transform shape,local bounding box=scope1]
 				\foreach \i [evaluate=\i as \x using \i*1.0] in {0,...,\kmax}{
 						\foreach \j [evaluate=\j as \x using \j*1.0] in {0,...,\kmax}{
 								\pic {greensquare=\i/\j/1.0};
