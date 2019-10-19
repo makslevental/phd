@@ -104,15 +104,6 @@
 				axis equal image,
 				samples=16
 			},
-		dominantorientationvectors/.style={
-				domain=1/32:31/32,
-				black,
-				quiver={
-						u={(2.*x^2+2.*y^2)/(2*\length)},
-						v={8.*x^2*y^2/(2*\length)},
-						scale arrows=0.2},
-				-latex
-			}
 	}
 	\pgfplotsset{ticks=none}
 	\begin{subfigure}{\siftwidth}
@@ -164,7 +155,6 @@
 			\begin{scope}[rotate=\rot,transform shape,local bounding box=scope1]
 				\clip[](1.95,1.99) rectangle (6.0,6.03);
 				\begin{axis}[dominantorientationaxis, rotate around={-\rot:(.5,.5)}, grid=none]
-					%					\addplot3[dominantorientationvectors] {0};
 					\addplot[on layer=axis background] graphics[xmin=0, xmax=1, ymin=0, ymax=1]
 						{figures/registration/sift/bert_keypoint.png};
 					\addplot[redarrow,quiver={u=\thisrow{u},v=\thisrow{v}}] table {figures/registration/sift/grads.csv};
