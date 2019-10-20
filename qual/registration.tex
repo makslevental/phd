@@ -8,9 +8,9 @@ Effectively this means finding one or more pixel transformations that enable map
 %
 When the transformations cannot be deduced from first principles (e.g. precise knowledge of the relative motion of the scene and the imaging system) they must be estimated from the LR images.
 %
-There are broadly two perspectives on constructing the transformation $f$ (see eqn.~\eqref{eqn:registration}): the global perspective which aims to model motion as a map of the image as a whole and the local perspective which aims to model motion as a deformation of individual pixels.
+There are broadly two perspectives on constructing the transformation \(f\) (see eqn.~\eqref{eqn:registration}): the global perspective which aims to model motion as a map of the image as a whole and the local perspective which aims to model motion as a deformation of individual pixels.
 %
-These two perspectives naturally correspond to a globally or locally defined transformation $f$.
+These two perspectives naturally correspond to a globally or locally defined transformation \(f\).
 %
 We first cover global algorithms, examining the different techniques available for each step, and then move on to local algorithms.
 
@@ -25,7 +25,7 @@ Feature detection and selection is the process of identifying features of the im
 %
 Note that here by features we mean image artifacts (e.g. edges, contours, line intersections, or corners); in this context encodings or transformations of these image artifacts are called \textit{descriptors}.
 %
-The CPs are the data that will be used to estimate the transformation $f$.
+The CPs are the data that will be used to estimate the transformation \(f\).
 %
 Therefore, in order that the estimated transformation is accurate, CPs should be robust to noise and image degradation, sufficiently distributed throughout the image, and readily matched in the matching step.
 
@@ -34,12 +34,12 @@ Bentoutou \etal\cite{bentoutou2005automatic} use a Harris detector\cite{harris19
 %
 The Harris detector improves on the Moravec\cite{moravec1980obstacle} detector.
 %
-The Moravec detector starts from the error function $E_{x,y}(u,v)$ which computes the sum of the squared differences (SSD) between an $m \times m$ weighted window around a pixel $X(x, y)$ and weighted windows shifted by $u,v$ pixels:
-    \begin{multline}
-        \quad E_{x,y}(u,v) \coloneqq \\ \sum_{i,j=-m/2}^{m/2} w_{ij}\left[ X(x_i+ u,y_j+v) - X(x_i, y_j)\right]^2
+The Moravec detector starts from the error function \(E_{x,y}(u,v)\) which computes the sum of the squared differences (SSD) between an \(m \times m\) weighted window around a pixel \(X(x, y)\) and weighted windows shifted by \(u,v\) pixels:
+\begin{multline}
+    \quad E_{x,y}(u,v) \coloneqq \\ \sum_{i,j=-m/2}^{m/2} w_{ij}\left[ X(x_i+ u,y_j+v) - X(x_i, y_j)\right]^2
     \label{moravecerrorfunction}
 \end{multline}
-where $x_i \coloneqq x + i$ and $y_j \coloneqq y+j$.
+where \(x_i \coloneqq x + i\) and \(y_j \coloneqq y+j\).
 \begin{figure}
     \centering
     \includegraphics[width=\linewidth,keepaspectratio]{figures/registration/corners.png}
@@ -48,20 +48,20 @@ where $x_i \coloneqq x + i$ and $y_j \coloneqq y+j$.
 \end{figure}
 Moravec assigns a "corner score" according to the following reasoning (see figure~\ref{fig:corners}):
 \begin{enumerate}
-    \item If a pixel is in a region of uniform intensity then $E_{x,y}(u,v)$ is small for all $u,v$ (since neighboring windows are similar).
-    \item If a pixel is on an edge, then $E_{x,y}(u,v)$ for either $u > 0$ or $v > 0$, but not both, is high.
-    \item If a pixel is on a corner, then $E_{x,y}(u,v)$ for $u > 0$ and $v > 0$ is high.
+    \item If a pixel is in a region of uniform intensity then \(E_{x,y}(u,v)\) is small for all \(u,v\) (since neighboring windows are similar).
+    \item If a pixel is on an edge, then \(E_{x,y}(u,v)\) for either \(u > 0\) or \(v > 0\), but not both, is high.
+    \item If a pixel is on a corner, then \(E_{x,y}(u,v)\) for \(u > 0\) and \(v > 0\) is high.
 \end{enumerate}
-Therefore the corner score at pixel coordinate $(x,y)$ is $\min_{u,v} E_{x,y}(u,v)$ in order to select for the third case.
+Therefore the corner score at pixel coordinate \((x,y)\) is \(\min_{u,v} E_{x,y}(u,v)\) in order to select for the third case.
 %
-Moravec comments that this corner score is not isotropic, i.e. if edges aren't aligned with either the pixel axes or diagonals then $E_{x,y}(u,v)$ will incorrectly be low.
+Moravec comments that this corner score is not isotropic, i.e. if edges aren't aligned with either the pixel axes or diagonals then \(E_{x,y}(u,v)\) will incorrectly be low.
 %
-Harris' insight was to linearize $E_{x,y}(u,v)$ in order to compute a quantity more closely related to the intensity variation in a local
+Harris' insight was to linearize \(E_{x,y}(u,v)\) in order to compute a quantity more closely related to the intensity variation in a local
 neighborhood of a pixel:
 \begin{equation}
     X(x_i + u,y_j + v) \approx  X(x_i,y_j) + \frac{\partial X}{\partial u}u + \frac{\partial X }{\partial v} v
 \end{equation}
-where the partial derivatives are taken at $(x,y)$.
+where the partial derivatives are taken at \((x,y)\).
 %
 This implies
 \begin{align}
@@ -79,32 +79,32 @@ This implies
         v
     \end{bmatrix} \label{eqn:structurematrix}
 \end{align}
-where $X_u = \partial X/\partial u$ and similarly $X_v$.
+where \(X_u = \partial X/\partial u\) and similarly \(X_v\).
 %
-The matrix in eqn.~\eqref{eqn:structurematrix}, called the \textit{structor tensor} or \textit{second-moment matrix} $M$, is the quantity Harris investigated.
+The matrix in eqn.~\eqref{eqn:structurematrix}, called the \textit{structor tensor} or \textit{second-moment matrix} \(M\), is the quantity Harris investigated.
 %
-Harris reasoned that the cases of Moravec correspond to conditions on the eigenvalues $\lambda_1, \lambda_2$ of $M$:
+Harris reasoned that the cases of Moravec correspond to conditions on the eigenvalues \(\lambda_1, \lambda_2\) of \(M\):
 \begin{enumerate}
-    \item If $\lambda_1 \approx \lambda_2 \approx 0$ then $X(x,y)$ is in a region of uniform intensity.
-    \item If $\lambda_1 \gg \lambda_2$ or $\lambda_2 \gg \lambda_1$ then $X(x,y)$ is on an edge.
-    \item $\lambda_1 \approx \lambda_2 > 0$ then $X(x,y)$ is on a corner.
+    \item If \(\lambda_1 \approx \lambda_2 \approx 0\) then \(X(x,y)\) is in a region of uniform intensity.
+    \item If \(\lambda_1 \gg \lambda_2\) or \(\lambda_2 \gg \lambda_1\) then \(X(x,y)\) is on an edge.
+    \item \(\lambda_1 \approx \lambda_2 > 0\) then \(X(x,y)\) is on a corner.
 \end{enumerate}
-Notice that if $w_{ij} = 1$ then this is just the gradient covariance of the image and the Harris detector is essentially a local Principle Components Analysis (PCA).
+Notice that if \(w_{ij} = 1\) then this is just the gradient covariance of the image and the Harris detector is essentially a local Principle Components Analysis (PCA).
 %
 In fact Harris doesn't actually compute the eigenvalues but instead a related quantity called the "strength":
 \begin{align}
-    S & = \lambda_1 \lambda_2 - \kappa (\lambda_1 + \lambda_2)^2   \\
-      & = \operatorname{det}(M) - \kappa \operatorname{trace}^2(M)
+    S & = \lambda_1 \lambda_2 - \kappa (\lambda_1 + \lambda_2)^2 \\
+      & = \det(M) - \kappa \operatorname{trace}^2(M)
     \label{eqn:strength}
 \end{align}
 %
-Hence Bentoutou \etal~ first compute a gradient map of the image using a first order Gaussian derivative filter.
+Hence Bentoutou \etal~first compute a gradient map of the image using a first order Gaussian derivative filter.
 %
-They then threshold\anote{threshold} the gradient map at the average gradient value, thereby extracting only sufficiently "interesting" regions, and compute the strength $S$ for all pixels.
+They then threshold\anote{threshold} the gradient map at the average gradient value, thereby extracting only sufficiently "interesting" regions, and compute the strength \(S\) for all pixels.
 %
-They also apply Non-maximum Suppression\anote{nms} (NMS) using a $3 \times 3$ window and further threshold the remaining non-zero strength values at a threshold of 1\% of maximum observed strength.
+They also apply Non-maximum Suppression\anote{nms} (NMS) using a \(3 \times 3\) window and further threshold the remaining non-zero strength values at a threshold of 1\% of maximum observed strength.
 %
-Finally only the "strongest" $n$ corners are kept.
+Finally only the "strongest" \(n\) corners are kept.
 
 \paragraph{SIFT}
 
@@ -129,7 +129,7 @@ The algorithm consists of five steps:
     \item Keypoint detection: candidate keypoints are points on edges with curvature, i.e. extrema along scale and space dimensions in the LoG pyramid (see figure~\ref{fig:siftpyramid}).
     \item Keypoint selection: candidate keypoints are more precisely localized using an iterative process. Keypoints of low-contrast (therefore sensitive to noise) or on edges of low curvature\anote{smallcurvature} are culled.
     \item Keypoint orientation assignment: orientation is assigned to each keypoint by taking a weighted majority vote of all gradient orientations in a neighborhood of the keypoint (see figure~\ref{fig:siftdescriptorb}). Large minority votes (80\% of majority) are used to create more keypoints at the same pixel point.
-    \item Keypoint descriptor computation: for each keypoint the descriptor is computed by partitioning the keypoint's neighborhood into $2^k$ sub-neighborhoods, computing an 8-bin histogram of oriented gradients\anote{hog} (HOG) in each sub-neighborhood, and concatenating (see figure~\ref{fig:siftdescriptord}). In Lowe \etal\cite{lowe2004distinctive} $2^4=16$ sub-neighborhoods are used to produce an $8\times16 = 128$ entry length descriptor. The descriptor is also normalized to unit length in order to make it invariant to luminance (intensity).
+    \item Keypoint descriptor computation: for each keypoint the descriptor is computed by partitioning the keypoint's neighborhood into \(2^k\) sub-neighborhoods, computing an 8-bin histogram of oriented gradients\anote{hog} (HOG) in each sub-neighborhood, and concatenating (see figure~\ref{fig:siftdescriptord}). In Lowe \etal\cite{lowe2004distinctive} \(2^4=16\) sub-neighborhoods are used to produce an \(8\times16 = 128\) entry length descriptor. The descriptor is also normalized to unit length in order to make it invariant to luminance (intensity).
 \end{enumerate}
 SIFT is indeed effective as a CP detector but unfortunately it is patented.
 %
@@ -139,51 +139,51 @@ Alternatives include Binary Robust Invariant Scalable Keypoints\cite{leutenegger
 
 After robust features are identified in the reference image and the displaced images, they need to be matched.
 %
-For example for SIFT, where the descriptors are designed to be invariant across images, Euclidean distance using a $k$-d tree\anote{kdtree} can be used to efficiently match keypoint descriptors.
+For example for SIFT, where the descriptors are designed to be invariant across images, Euclidean distance using a \(k\)-d tree\anote{kdtree} can be used to efficiently match keypoint descriptors.
 %
-Although this often leads to false-positive matches (Zahra \etal~ resolve this by using Random Sample Consensus (RANSAC)\anote{ransac}) it's a natural feature matching method.
+Although this often leads to false-positive matches (Zahra \etal~resolve this by using Random Sample Consensus (RANSAC)\anote{ransac}) it's a natural feature matching method.
 %
 In other cases the matching mechanism is not so straightforward; for a class of algorithms called area-based or intensity-based algorithms, that in fact combine the feature detection and matching step into one, matching involves comparing summaries of patches in the reference image and the displaced image.
 
 \paragraph{Normalized Cross-correlation}
-The simplest strategy for matching by region is to grid-search\anote{gridsearch} the space of possible translational shifts $\Delta x, \Delta y$ and assess the quality of the registration for a given shift using a similarity metric.
+The simplest strategy for matching by region is to grid-search\anote{gridsearch} the space of possible translational shifts \(\Delta x, \Delta y\) and assess the quality of the registration for a given shift using a similarity metric.
 %
-One such similarity metric is Normalized Cross-correlation (NCC); for two image patches $X, Y$ (with the same width, height) NCC is defined in a straightforward way
+One such similarity metric is Normalized Cross-correlation (NCC); for two image patches \(X, Y\) (with the same width, height) NCC is defined in a straightforward way
 \begin{multline}
     NCC(X, Y) = \\ \frac{\sum_{x,y} \left(X(x,y) - \hat{X}\right) \left(Y(x,y) - \hat{Y}\right)}{\sqrt{\sum_{x,y} \left(X(x,y) - \hat{X}\right)^2} \sqrt{ \sum_{x,y} \left(Y(x,y) - \hat{Y}\right)^2 }}
 \end{multline}
-where $\hat{X}, \hat{Y}$ are mean patch values.
+where \(\hat{X}, \hat{Y}\) are mean patch values.
 
 \input{figures/registration/cross-correlation/overlap.tex}
 %
 The NCC image registration technique performs a grid-search over possible shifts and compute the cross-correlation of the shifted images (see figure~\ref{fig:shiftedcat}) (usually over a fixed cross-correlation window rather than the entire image for the sake of computational efficiency).
 %
-The maximum response as a function $\Delta x, \Delta y$ is the imputed translation between the images (see figure~\ref{fig:crosscorr}).
+The maximum response as a function \(\Delta x, \Delta y\) is the imputed translation between the images (see figure~\ref{fig:crosscorr}).
 %
 An alternative but closely related method is \textit{phase correlation}, based on the Fourier shift theorem\anote{fouriershift}  (the value of going to Fourier space is availability of highly optimized algorithms for computing the Fourier transform).
 %
-Let $\mathcal{X}(u,v) = \mathcal{F}\{X(x,y)\}, \; \mathcal{Y}(u,v) = \mathcal{F}\{Y(x,y)\}$ be the Fourier transforms of the displaced images.
+Let \(\mathcal{X}(u,v) = \mathcal{F}\{X(x,y)\}, \; \mathcal{Y}(u,v) = \mathcal{F}\{Y(x,y)\}\) be the Fourier transforms of the displaced images.
 %
 Then
 \[
     \mathcal{X} = \mathcal{Y}  e^{-2 \pi i (\frac{u \Delta x}{M} + \frac{v \Delta y}{N})}
 \]
-where $N,M$ are the dimensions of the images
+where \(N,M\) are the dimensions of the images
 %
 and the \textit{normalized cross-power spectrum}
 \begin{align}
-    R(u,v) &= \frac{\mathcal{X}\circ \mathcal{Y}^{*}}{|\mathcal{X} ||\mathcal{Y}^{*} |} \nonumber\\
-    &= \frac{\mathcal{X}\circ \mathcal{X}^{*} \, e^{2 \pi i (\frac{u \Delta x}{M} + \frac{v \Delta y}{N})}}{|\mathcal{X} ||\mathcal{X}^{*} \, e^{-2 \pi i (\frac{u \Delta x}{M} + \frac{v \Delta y}{N})} |} \nonumber \\
-    &= \frac{\mathcal{X}\circ \mathcal{X}^{*} \, e^{2 \pi i (\frac{u \Delta x}{M} + \frac{v \Delta y}{N})}}{|\mathcal{X} ||\mathcal{X}^{*} |} \nonumber \\
-    &= e^{2 \pi i (\frac{u \Delta x}{M} + \frac{v \Delta y}{N})} \label{eqn:singleexp}
+    R(u,v) & = \frac{\mathcal{X}\circ \mathcal{Y}^{*}}{|\mathcal{X} ||\mathcal{Y}^{*} |} \nonumber                                                                                                                            \\
+           & = \frac{\mathcal{X}\circ \mathcal{X}^{*} \, e^{2 \pi i (\frac{u \Delta x}{M} + \frac{v \Delta y}{N})}}{|\mathcal{X} ||\mathcal{X}^{*} \, e^{-2 \pi i (\frac{u \Delta x}{M} + \frac{v \Delta y}{N})} |} \nonumber \\
+           & = \frac{\mathcal{X}\circ \mathcal{X}^{*} \, e^{2 \pi i (\frac{u \Delta x}{M} + \frac{v \Delta y}{N})}}{|\mathcal{X} ||\mathcal{X}^{*} |} \nonumber                                                               \\
+           & = e^{2 \pi i (\frac{u \Delta x}{M} + \frac{v \Delta y}{N})} \label{eqn:singleexp}
 \end{align}
-where $\circ$ is Hadamard product\anote{hadamard}, $|\mathcal{X}|$ is the magnitude of $\mathcal{X}$, $\mathcal{X}^*$ is the complex conjugate of $\mathcal{X}$ and we've used the fact that $|e^{iz}|=1$ for all $z$.
+where \(\circ\) is Hadamard product\anote{hadamard}, \(|\mathcal{X}|\) is the magnitude of \(\mathcal{X}\), \(\mathcal{X}^*\) is the complex conjugate of \(\mathcal{X}\) and we've used the fact that \(|e^{iz}|=1\) for all \(z\).
 %
 Then the inverse Fourier transform of eqn.~\eqref{eqn:singleexp}
 \[
-  \mathcal{F}^{-1}\left\{ R(u,v) \right\} = r(x,y) = \delta(x + \Delta x, y + \Delta y)
+    \mathcal{F}^{-1}\left\{ R(u,v) \right\} = r(x,y) = \delta(x + \Delta x, y + \Delta y)
 \]
-is a single peak (see figure~\ref{fig:phasecorr}) at $(\Delta x, \Delta y)$.
+is a single peak (see figure~\ref{fig:phasecorr}) at \((\Delta x, \Delta y)\).
 %
 The simplest implementation of NCC only identifies translations but it can be extended to affine transforms\cite{berthilsson1998}.
 
@@ -193,11 +193,11 @@ Furthermore, the transformation to be estimated should incorporate prior knowled
 %%
 %Each tier has images at half the resolution of the previous, with the first tier in fact being a 2x upscaling of the original image.
 %%
-%Gaussian smoothing, at uniformly increasing $\sigma_0, k \sigma_0, k^2 \sigma_0, \mathellipsis$ scale factors, is then applied to the images (see figure~\ref{fig:sift_pyramid}):
+%Gaussian smoothing, at uniformly increasing \(\sigma_0, k \sigma_0, k^2 \sigma_0, \mathellipsis\) scale factors, is then applied to the images (see figure~\ref{fig:sift_pyramid}):
 %\begin{equation}
 %    L(x,y,k^n\sigma_0) = G(x,y,k^n\sigma_0) \ast X(x,y)
 %\end{equation}
-%where $G(x,y,k^n\sigma)$ is a Gaussian filter.
+%where \(G(x,y,k^n\sigma)\) is a Gaussian filter.
 %
 %With the aim being to compute image curvature extrema, the Difference of Gaussian is computed as an approximation of Laplace of Gaussians\anote{log}:
 %\begin{equation}
@@ -205,20 +205,20 @@ Furthermore, the transformation to be estimated should incorporate prior knowled
 %\end{equation}
 %This pyramid is what is used to identify extrema; an extremum is a maximum or minimum in its 26-pixel scale-space neighborhood.
 %%
-%The intensity of the point in the differenced image is compared to its neighbors in $3 \times 3$ windows above and below in scale, and adjacent in space (see figure~\ref{fig:sift_scale}).
+%The intensity of the point in the differenced image is compared to its neighbors in \(3 \times 3\) windows above and below in scale, and adjacent in space (see figure~\ref{fig:sift_scale}).
 %%
-%Unfortunately this produces too many candidate keypoints; the next step in the algorithm is to fit a quadratic in the neighborhood of a candidate keypoint $\bm{c} = (x_c, y_c, k^c\sigma_0)$:
+%Unfortunately this produces too many candidate keypoints; the next step in the algorithm is to fit a quadratic in the neighborhood of a candidate keypoint \(\bm{c} = (x_c, y_c, k^c\sigma_0)\):
 %\begin{equation}
 %    D(\bx) \approx D(\bm{c}) + \nabla D(\bm{c})^T \bx + \frac{1}{2}\bx^T H_{D}(\bm{c}) \bx
 %    \label{eqn:dogapprox}
 %\end{equation}
-%where $H_D$ is the Hessian of $D$.
+%where \(H_D\) is the Hessian of \(D\).
 %%
-%Then the true local extremum is the point $\hat{\bm{x}}$ for which the derivative of eqn.~\eqref{eqn:dogapprox} is zero, i.e.
+%Then the true local extremum is the point \(\hat{\bm{x}}\) for which the derivative of eqn.~\eqref{eqn:dogapprox} is zero, i.e.
 %\begin{equation}
 %    \hat{\bm{x}} = -H_{D}^{-1}(\bm{c}) \nabla D(\bm{c})
 %\end{equation}
-%Low contrast points are rejected if $|D(\hat{\bx})| < \tau$ a cut-off threshold.
+%Low contrast points are rejected if \(|D(\hat{\bx})| < \tau\) a cut-off threshold.
 %%
 %Finally keypoints on edges of small principle curvature\anote{smallcurvature} are rejected.
 %
@@ -229,12 +229,12 @@ Furthermore, the transformation to be estimated should incorporate prior knowled
 %
 %For a static scene and an imaging system with 6 degrees of freedom, motion is dependent on the geometry of the scene and potentially complex (due to occlusion and parallax).
 %%
-%This pertains to image registration where we seek to relate $\Xkone$ to $\Xk$:
+%This pertains to image registration where we seek to relate \(\Xkone\) to \(\Xk\):
 %\begin{equation*}
 %    \Xkone(x,y) = \Xk(x + v_x(x,y), y + v_y(x,y))
 %\end{equation*}
 %%
-%For small motions we can approximate $\Xk$ by its first order Taylor series:
+%For small motions we can approximate \(\Xk\) by its first order Taylor series:
 %\begin{align}
 %    \Xkone(x,y) &= \Xk(x + v_x(x,y), y + v_y(x,y)) \\
 %    &\approx \Xk(x,y) + v_x(x,y)\frac{\partial \Xk}{\partial x} + v_y(x,y)\frac{\partial \Xk}{\partial y}\label{eqn:motiontaylor}
@@ -243,7 +243,7 @@ Furthermore, the transformation to be estimated should incorporate prior knowled
 %%
 %We focus on affine motion primarily because it is easy to estimate and secondarily because the composition of multiple affine transformations is an affine transformation (enabling us to register more than 2 images by building up the necessary transformations incrementally).
 %%
-%In this instance it can be seen that at $\bx' \coloneqq (x', y') = (x + v_x(x,y), y + v_y(x,y))$ in $\Xkone$ are related to pixels at $\bx \coloneqq (x,y)$ in $\Xk$ by a translation and a rotation:
+%In this instance it can be seen that at \(\bx' \coloneqq (x', y') = (x + v_x(x,y), y + v_y(x,y))\) in \(\Xkone\) are related to pixels at \(\bx \coloneqq (x,y)\) in \(\Xk\) by a translation and a rotation:
 %\begin{equation}
 %    \bx' = R \bx + \bm{t}
 %\end{equation}

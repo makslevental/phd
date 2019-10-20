@@ -1,32 +1,32 @@
 %! Suppress = GatherEquations
 % introduction
-\anotecontent{vbsuper}{We will often use the verb form "to super resolve" in order to denote the use of one or more such methods.}
-\anotecontent{rayleighscriterion}{The amplitude of the diffraction pattern (known as the Airy pattern) of a monochromatic point source through a circular aperture is given by \[I(\theta)=I_{0}\left[{\frac {2J_{1}(ka\sin \theta )}{ka\sin \theta }}\right]^{2}\] where $I_0$ is peak intensity (at the center), $k=\frac{2\pi}{\lambda}$ is the wave number of the light, $\theta$ is the angle of observation, and $J_1$ is the Bessel function of the first kind of order one\cite{goodman2005introduction}. It is maxima/minima of this function that Rayleigh's criterion concerns.}
+\anotecontent{vbsuper}{We will often use the verb form ``to super resolve'' in order to denote the use of one or more such methods.}
+\anotecontent{rayleighscriterion}{The amplitude of the diffraction pattern (known as the Airy pattern) of a monochromatic point source through a circular aperture is given by \[I(\theta)=I_{0}\left[{\frac {2J_{1}(ka\sin \theta )}{ka\sin \theta }}\right]^{2}\] where \(I_0\) is peak intensity (at the center), \(k=\frac{2\pi}{\lambda}\) is the wave number of the light, \(\theta\) is the angle of observation, and \(J_1\) is the Bessel function of the first kind of order one\cite{goodman2005introduction}. It is maxima/minima of this function that Rayleigh's criterion concerns.}
 \anotecontent{shotnoise}{TODO}
-\anotecontent{satelliteoptics}{Rayleigh's criterion implies that the angular resolution $R$ of a telescope with optical diameter $D = 2.4\text{m}$ observing visible light (${\sim}500\text{nm}$) is approximately\cite{doi:10.1080.14786447908639684} \[R  \approx 1.220\frac{\lambda}{D} = 1.220 \frac{500\text{nm}}{2.4\text{m}} \approx 0.06 \text{arcsec}\] From an altitude of 250 km this corresponds to a ground sample distance of 6cm. This loss of resolving power is further exacerbated by refraction through turbulent atmosphere\cite{Fried:66}.}
+\anotecontent{satelliteoptics}{Rayleigh's criterion implies that the angular resolution \(R\) of a telescope with optical diameter \(D = 2.4\text{m}\) observing visible light (\({\sim}500\text{nm}\)) is approximately\cite{doi:10.1080.14786447908639684} \[R  \approx 1.220\frac{\lambda}{D} = 1.220 \frac{500\text{nm}}{2.4\text{m}} \approx 0.06 \text{arcsec}\] From an altitude of 250 km this corresponds to a ground sample distance of 6cm. This loss of resolving power is further exacerbated by refraction through turbulent atmosphere\cite{Fried:66}.}
 \anotecontent{subpixel}{For example when a point source wholly captured by one sensor element shifts to distributing energy equally amongst the same element and a direct adjacent.}
 
 % background
-\anotecontent{lexico}{Consider an $N$ row $\times$ $M$ column image $X(n, m)$. The column-major vectorization $bm{x}$ of the image is the $NM$ length vector defined as $\bm{x}(Mm + n) = X(n, m)$.}
-\anotecontent{patch}{$m \times m$ pixel window, e.g. $3 \times 3$.}
+\anotecontent{lexico}{Consider an \(N\) row \(\times\) \(M\) column image \(X(n, m)\). The column-major vectorization \(bm{x}\) of the image is the \(NM\) length vector defined as \(\bm{x}(Mm + n) = X(n, m)\).}
+\anotecontent{patch}{\(m \times m\) pixel window, e.g. \(3 \times 3\).}
 \anotecontent{tensor}{A multidimensional array\cite{Goodfellow:2016:DL:3086952}. Not to be confused with the algebraic object.}
-%\anotecontent{deep-depletion}{The depletion layer is the region at the Si-SiO$_2$ interface that is characterized by few charge carriers (electrons and holes) that occurs when a gate voltage higher than the flat-band voltage is applied. Deep-depletion is characterized by a depletion region width that is greater than that at equilibrium\cite{semiconductorbook}.}
+%\anotecontent{deep-depletion}{The depletion layer is the region at the Si-SiO\(_2\) interface that is characterized by few charge carriers (electrons and holes) that occurs when a gate voltage higher than the flat-band voltage is applied. Deep-depletion is characterized by a depletion region width that is greater than that at equilibrium\cite{semiconductorbook}.}
 %\anotecontent{inversion}{The term inversion means that the surface is inverted from P type to N type, or electron rich. This process is a slow thermal equilibration\cite{ccdarkcurrent}, is called dark current and at various temperatures/exposure times is a source of noise.}
-\anotecontent{depletion}{By applying a positive voltage to the gate holes are repelled and migrate through the body to ground. This leaves a depleted region near the Si-SiO$_2$ interface that acts as an insulator.}
-\anotecontent{buriedchannel}{Buried channel as distinct from surface channel. In surface channel MOS capacitors signal charge is stored at the Si-SiO$_2$ interface, which can lead to charge trapping during the charge transfer process\cite{Bass:2009:HOT:1594759}.}
-\anotecontent{ccd}{CCD arrays, for example, employ $2\times 2$ or $3\times 3$ pixel binning, which is the practice of collapsing windows of pixels down to one pixel.}
+\anotecontent{depletion}{By applying a positive voltage to the gate holes are repelled and migrate through the body to ground. This leaves a depleted region near the Si-SiO\(_2\) interface that acts as an insulator.}
+\anotecontent{buriedchannel}{Buried channel as distinct from surface channel. In surface channel MOS capacitors signal charge is stored at the Si-SiO\(_2\) interface, which can lead to charge trapping during the charge transfer process\cite{Bass:2009:HOT:1594759}.}
+\anotecontent{ccd}{CCD arrays, for example, employ \(2\times 2\) or \(3\times 3\) pixel binning, which is the practice of collapsing windows of pixels down to one pixel.}
 \anotecontent{pnjunction}{The interface between a p-type semiconductor (excess holes, i.e. positive charge carriers) and an n-type (excess electrons, i.e. negative charge carriers) semiconductor.}
 \anotecontent{reversebias}{With the p-type material at a lower voltage than the n-type.
 	%
 	This causes both the holes and the electrons to flow away from the junction creating a depletion zone.}
-\anotecontent{bolometer}{Late 19th century: from Greek bolē 'ray of light' + -meter.}
+\anotecontent{bolometer}{Late 19th century: from Greek bolē `ray of light' + -meter.}
 \anotecontent{mems}{Micro-electro-mechanical systems.}
 \anotecontent{fabryperot}{An optical cavity made from two parallel reflecting surfaces that passes light only when it is in resonance with the cavity.}
 \anotecontent{thermistor}{An element with an electrical resistance that's a function of its temperature.}
 \anotecontent{innerphotoelectric}{The photoelectric effect is the emission of electrons when light hits a material.
 	%
 	The inner photoelectric effect is that phenomenon in the bulk matter of semiconductors.}
-\anotecontent{opticalflow}{"Optical flow can also be defined as the distribution of apparent velocities of movement of [patterns] in an image."\cite{HORN1981185}}
+\anotecontent{opticalflow}{``Optical flow can also be defined as the distribution of apparent velocities of movement of [patterns] in an image.''\cite{HORN1981185}}
 \anotecontent{otf}{The optical transfer function is the spatial Fourier transform of the point spread function (the impulse response) of the optics. Spatial here means periodic in space rather than in time.}
 \anotecontent{coma}{Off-axis point sources appearing to have a tail (coma), due to variation in magnification in the image of the aperture stop.}
 \anotecontent{dispersion}{E.g. the cover of Pink Floyd's The Dark Side of the Moon.}
@@ -36,17 +36,17 @@
 \anotecontent{scalepyramid}{No pun intended.}
 \anotecontent{threshold}{Set everything below a threshold to zero.}
 \anotecontent{nms}{Pick the maximum in a neighborhood and set all other values to zero.}
-\anotecontent{log}{The Laplacian of an image $X$ is $L(x,y) = \partial_x^2 X + \partial_y^2 X$. Since in practice this approximates a noisy signal (second derivative), smoothing by a Gaussian is a necessary prerequisite. Therefore the Laplace of Gaussians ($LoG$) filter is the Laplacian composed with the Gaussian: \begin{equation*} LoG(x,y, \sigma) = -\frac{1}{\pi \sigma^4}\left[ 1 - \frac{x^2+y^2}{2\sigma^2} \exp \left\{ - \frac{x^2+y^2}{2\sigma^2} \right\} \right]
+\anotecontent{log}{The Laplacian of an image \(X\) is \(L(x,y) = \partial_x^2 X + \partial_y^2 X\). Since in practice this approximates a noisy signal (second derivative), smoothing by a Gaussian is a necessary prerequisite. Therefore the Laplace of Gaussians (\(LoG\)) filter is the Laplacian composed with the Gaussian: \begin{equation*} LoG(x,y, \sigma) = -\frac{1}{\pi \sigma^4}\left[ 1 - \frac{x^2+y^2}{2\sigma^2} \exp \left\{ - \frac{x^2+y^2}{2\sigma^2} \right\} \right]
 	\end{equation*}}
-\anotecontent{smallcurvature}{The ratio of the eigenvalues of the spatial Hessian of $D$ (i.e. only along dimensions $x,y$). In fact a quantity not unlike eqn.~\eqref{eqn:strength} is computed in order to save having to explicitly find eigenvalues.}
+\anotecontent{smallcurvature}{The ratio of the eigenvalues of the spatial Hessian of \(D\) (i.e. only along dimensions \(x,y\)). In fact a quantity not unlike eqn.~\eqref{eqn:strength} is computed in order to save having to explicitly find eigenvalues.}
 \anotecontent{hog}{Simply the histogram of gradient orientations (polar angle) in a pixel window.}
-\anotecontent{kdtree}{$k$-d trees\cite{Bentley:1975:MBS:361002.361007}, short for $k$-dimensional trees, are data structures that partition space efficiently in order that searching the tree, insertion into the tree, and deletion from the tree are all, on average, $O(\log n)$ time operations (where $n$ is the number of nodes in the tree at the time of the operation).}
-\anotecontent{ransac}{RANSAC is a method used to estimate parameters of a model given outliers. In this case Zahra \etal~ use RANSAC at the transform estimation step to eliminate falsely matched keypoint pairs. RANSAC iterates by repeatedly random sampleing the putative matching keypoint pairs and fitting a transform model. At a given iteration the fitted transform model is tested against the unused keypoint pairs and evaluated (according to goodness of fit on a subset called the \textit{consensus set}).}
-\anotecontent{gridsearch}{Searching a space by taking regular incremental steps along each dimension (e.g. search $U \subset \mathbb{R}^2$ by checking all $x = \Delta x + x_0, y = \Delta y + y_0$ for $(x_0, y_0) \in U$ and for fixed $\Delta x, \Delta y$).}
-\anotecontent{fouriershift}{If $\mathcal{F}\{\left[ x_n \right] \}_{k}=X_{k}$ is the $k$th frequency component of the discrete signal
-$\left[ x_n \right]$ then shifting $\left[ x_n \right]$ by $m$ steps implies
+\anotecontent{kdtree}{\(k\)-d trees\cite{Bentley:1975:MBS:361002.361007}, short for \(k\)-dimensional trees, are data structures that partition space efficiently in order that searching the tree, insertion into the tree, and deletion from the tree are all, on average, \(O(\log n)\) time operations (where \(n\) is the number of nodes in the tree at the time of the operation).}
+\anotecontent{ransac}{RANSAC is a method used to estimate parameters of a model given outliers. In this case Zahra \etal~use RANSAC at the transform estimation step to eliminate falsely matched keypoint pairs. RANSAC iterates by repeatedly random sampleing the putative matching keypoint pairs and fitting a transform model. At a given iteration the fitted transform model is tested against the unused keypoint pairs and evaluated (according to goodness of fit on a subset called the \textit{consensus set}).}
+\anotecontent{gridsearch}{Searching a space by taking regular incremental steps along each dimension (e.g. search \(U \subset \mathbb{R}^2\) by checking all \(x = \Delta x + x_0, y = \Delta y + y_0\) for \((x_0, y_0) \in U\) and for fixed \(\Delta x, \Delta y\)).}
+\anotecontent{fouriershift}{If \(\mathcal{F}\{\left[ x_n \right] \}_{k}=X_{k}\) is the \(k\)th frequency component of the discrete signal
+\(\left[ x_n \right]\) then shifting \(\left[ x_n \right]\) by \(m\) steps implies
 \[
-	\mathcal{F}\left\{\left[ x_{n-m} \right]\right\}_{k}=X_{k}\cdot e^{-{\frac {i2\pi }{N}}km}
+	\mathcal{F}\left\{\left[ x_{n-m} \right]\right\}_{k} = X_{k}\cdot e^{-{\frac {i2\pi }{N}}km}
 \]
 }
 \anotecontent{hadamard}{
@@ -89,26 +89,26 @@ $\left[ x_n \right]$ then shifting $\left[ x_n \right]$ by $m$ steps implies
 	%
 	This is in close affinity with how generative machines such as variational auto-encoders and generative adversarial networks are understood.}
 %
-\anotecontent{gpassumptions}{Namely $\bm{y}_1$ is distributed $(0, W)$-Normal and independent of $\eta_1$.}
-\anotecontent{kalmanprediction}{This is better understood in the more general linear dynamic systems case where $\bm{y}_k = A_k\bm{y}_k + B_k \bm{u}_k + \varepsilon_k$ and $B_k \bm{u}_k$ is known "controlled" input.
+\anotecontent{gpassumptions}{Namely \(\bm{y}_1\) is distributed \((0, W)\)-Normal and independent of \(\eta_1\).}
+\anotecontent{kalmanprediction}{This is better understood in the more general linear dynamic systems case where \(\bm{y}_k = A_k\bm{y}_k + B_k \bm{u}_k + \varepsilon_k\) and \(B_k \bm{u}_k\) is known ``controlled'' input.
 	%
-	Then the prediction includes a $B_k \bm{u}_{k-1}$ term and the Kalman gain effectively mediates between controlled and uncontrolled inputs.
+	Then the prediction includes a \(B_k \bm{u}_{k-1}\) term and the Kalman gain effectively mediates between controlled and uncontrolled inputs.
 }
-\anotecontent{hmrf}{A Markov random field (MRF) is a collection of random variables $x_i, y_j, \mathellipsis$ with conditional dependence represented by pairings and satisfying the \textit{pairwise Markov} property: any two random variables that aren't paired are conditionally independent of each other given (conditioned on) all other variables.
+\anotecontent{hmrf}{A Markov random field (MRF) is a collection of random variables \(x_i, y_j, \mathellipsis\) with conditional dependence represented by pairings and satisfying the \textit{pairwise Markov} property: any two random variables that aren't paired are conditionally independent of each other given (conditioned on) all other variables.
 	%
 	A \textit{hidden} Markov random field is simply a MRF where some of the random variables aren't observed.
 }
-\anotecontent{positivedef}{A symmetric real matrix $Q$ is positive definite if $\bm{y}^T Q \bm{y} > 0 $ for all non-zero $\bm{y}$.}
-\anotecontent{conjugategradients}{Two vectors $\bm{u}, \bm{v}$ are conjugate with respect to $G$ if $\bm{u}^T G \bm{v} = 0$.
+\anotecontent{positivedef}{A symmetric real matrix \(Q\) is positive definite if \(\bm{y}^T Q \bm{y} > 0 \) for all non-zero \(\bm{y}\).}
+\anotecontent{conjugategradients}{Two vectors \(\bm{u}, \bm{v}\) are conjugate with respect to \(G\) if \(\bm{u}^T G \bm{v} = 0\).
 	%
 	Conjugate gradient descent is gradient descent but with conjugate gradients (it has better convergence properties).
 }
-\anotecontent{illcondition}{The condition number $\kappa$ of a function is a measure of how sensitive it is to small perturbations; for a matrix $G$ it is defined $\kappa (G) \coloneqq \sigma_{\max}(G)/\sigma_{\min} (G)$ where $\sigma_{\max}(G), \sigma_{\min} (G)$ are the maximum and minimum singular values of $G$ respectively.}
-\anotecontent{precondition}{A pre-conditioner of a matrix $G$ is an approximation of $G$ that has a better condition number.
+\anotecontent{illcondition}{The condition number \(\kappa\) of a function is a measure of how sensitive it is to small perturbations; for a matrix \(G\) it is defined \(\kappa (G) \coloneqq \sigma_{\max}(G)/\sigma_{\min} (G)\) where \(\sigma_{\max}(G), \sigma_{\min} (G)\) are the maximum and minimum singular values of \(G\) respectively.}
+\anotecontent{precondition}{A pre-conditioner of a matrix \(G\) is an approximation of \(G\) that has a better condition number.
 	%
-	Nguyen \textit{et al.} propose a pre-conditioner with singular values clustered around 1 in order that $\kappa(G) \approx 1$.}
-\anotecontent{gradientoperator}{Let $u = (1,2,1)$ and $v = (1,0,-1)$ then $h = uv^T$ is the first order Sobel filter and $\nabla Y = \left( h \ast Y, h^T \ast Y \right)$.}
-\anotecontent{boundedvariation}{$f(x)$ is of bounded variation on interval $\left[ a,b \right]$ if over all partitions $\mathcal{P}$ of $\left[ a,b \right]$
+	Nguyen \textit{et al.} propose a pre-conditioner with singular values clustered around 1 in order that \(\kappa(G) \approx 1\).}
+\anotecontent{gradientoperator}{Let \(u = (1,2,1)\) and \(v = (1,0,-1)\) then \(h = uv^T\) is the first order Sobel filter and \(\nabla Y = \left( h \ast Y, h^T \ast Y \right)\).}
+\anotecontent{boundedvariation}{\(f(x)\) is of bounded variation on interval \(\left[ a,b \right]\) if over all partitions \(\mathcal{P}\) of \(\left[ a,b \right]\)
 	\[
 		\sup_{P \in \mathcal{P}}\sum_{i=0}^{n_P-1} \lvert f(x_{i+1})-f(x_i) \rvert\, <\infty
 	\]
@@ -121,4 +121,4 @@ $\left[ x_n \right]$ then shifting $\left[ x_n \right]$ by $m$ steps implies
 \anotecontent{nphard}{Problems in NP are those which are unknown to have a deterministic polynomial time solutions.
 	%
 	NP-hard admit a polynomial time reduction from any problem in NP (colloquially they are as hard as any problem in NP).}
-\anotecontent{firstordergaussian}{The first derivative of the Gaussian expressed as a filter: $\left[ -2,-1,0,1,2 \right]$.}
+\anotecontent{firstordergaussian}{The first derivative of the Gaussian expressed as a filter: \(\left[ -2,-1,0,1,2 \right]\).}

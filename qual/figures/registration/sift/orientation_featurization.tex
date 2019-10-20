@@ -1,5 +1,5 @@
 \begin{figure*}
-	\pgfplotstableread[]{figures/registration/sift/subgrad_hists.csv}\subgradhists
+	\pgfplotstableread[]{figures/registration/sift/subgrad_hists.csv}\subgradhists;
 	\tikzstyle{every picture}+=[remember picture]
 	\tikzset{
 		pics/greensquare/.style args={#1/#2/#3}{
@@ -13,8 +13,8 @@
 						\foreach \j in {0.0, 1.0} {
 								\pgfmathsetmacro{\y}{0.5+\j*2*.08825};
 								\pic[] {greensquare=\x/\y/2*.08825};
-							}
-					}
+							};
+					};
 			},
 		pics/subgradbins/.style args={#1}{
 				code = {
@@ -79,7 +79,7 @@
 	\newcommand*{\length}{sqrt((2.*x^2+2.*y^2)^2 + (8.*x^2*y^2)^2 )}
 	\pgfplotsset{
 		dominantorientationaxis/.style={
-				enlargelimits = false ,
+				enlargelimits = false,
 				view={0}{90},
 				xmin=0, xmax=1, ymin=0, ymax=1,
 				ytick distance=1/16,
