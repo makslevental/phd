@@ -35,12 +35,10 @@ Bentoutou \etal\cite{bentoutou2005automatic} use a Harris detector\cite{harris19
 The Harris detector improves on the Moravec\cite{moravec1980obstacle} detector.
 %
 The Moravec detector starts from the error function $E_{x,y}(u,v)$ which computes the sum of the squared differences (SSD) between an $m \times m$ weighted window around a pixel $X(x, y)$ and weighted windows shifted by $u,v$ pixels:
-\begin{equation}
-    \begin{split}
-        E_{x,y}(u,v) \coloneqq \sum_{i,j=-m/2}^{m/2} w_{ij}\left[ X(x_i+ u,y_j+v) - X(x_i, y_j)\right]^2
-    \end{split}
+    \begin{multline}
+        \quad E_{x,y}(u,v) \coloneqq \\ \sum_{i,j=-m/2}^{m/2} w_{ij}\left[ X(x_i+ u,y_j+v) - X(x_i, y_j)\right]^2
     \label{moravecerrorfunction}
-\end{equation}
+\end{multline}
 where $x_i \coloneqq x + i$ and $y_j \coloneqq y+j$.
 \begin{figure}
     \centering
@@ -67,18 +65,18 @@ where the partial derivatives are taken at $(x,y)$.
 %
 This implies
 \begin{align}
-    E_{x,y}(u,v) &\approx \sum_{i,j=-m/2}^{m/2} w_{ij} \left[ X_u u + X_v v\right]^2 \\
-    &= \sum_{i,j=-m/2}^{m/2} w_{ij} \left[ X_u^2 u^2 + X_v^2 v^2 + 2 X_u X_v u v\right] \\
-    &= \left[ u,v \right] \begin{bmatrix}
-                              \sum w_{ij}X_u^2 & \sum w_{ij}X_u X_v \\
-                              \sum w_{ij}X_u X_v & \sum w_{ij}X_v^2\\
+    E_{x,y}(u,v) & \approx \sum_{i,j=-m/2}^{m/2} w_{ij} \left[ X_u u + X_v v\right]^2                 \\
+                 & = \sum_{i,j=-m/2}^{m/2} w_{ij} \left[ X_u^2 u^2 + X_v^2 v^2 + 2 X_u X_v u v\right] \\
+                 & = \left[ u,v \right] \begin{bmatrix}
+        \sum w_{ij}X_u^2   & \sum w_{ij}X_u X_v \\
+        \sum w_{ij}X_u X_v & \sum w_{ij}X_v^2   \\
     \end{bmatrix}  \begin{bmatrix}
-                       u \\
-                       v
-    \end{bmatrix} \\
-    &= \left[ u,v \right] M  \begin{bmatrix}
-                                 u \\
-                                 v
+        u \\
+        v
+    \end{bmatrix}          \\
+                 & = \left[ u,v \right] M  \begin{bmatrix}
+        u \\
+        v
     \end{bmatrix} \label{eqn:structurematrix}
 \end{align}
 where $X_u = \partial X/\partial u$ and similarly $X_v$.
@@ -95,8 +93,8 @@ Notice that if $w_{ij} = 1$ then this is just the gradient covariance of the ima
 %
 In fact Harris doesn't actually compute the eigenvalues but instead a related quantity called the "strength":
 \begin{align}
-    S &= \lambda_1 \lambda_2 - \kappa (\lambda_1 + \lambda_2)^2 \\
-    &= \operatorname{det}(M) - \kappa \operatorname{trace}^2(M)
+    S & = \lambda_1 \lambda_2 - \kappa (\lambda_1 + \lambda_2)^2   \\
+      & = \operatorname{det}(M) - \kappa \operatorname{trace}^2(M)
     \label{eqn:strength}
 \end{align}
 %
@@ -121,35 +119,17 @@ One issue with Harris detectors is that they're not invariant to scale (see figu
 Zahra \etal\cite{zahrasift} resolves this issue by using the Scale Invariant Feature Transform\cite{lowe2004distinctive} (SIFT) to identify CPs that, as the name implies, are invariant across multiple scales.
 %
 SIFT identifies scale invariant and noise robust features of an image, called \textit{keypoints}, by first finding candidate points with high local curvature at multiple scales and then culling according to some heuristics.
-\begin{figure}
-    \centering
-    \includegraphics[width=\linewidth,keepaspectratio]{figures/registration/sift/pyramid.png}
-    \caption{Smoothed $L(x,y, \sigma)$ and differenced $D(x,y,\sigma)$ pyramid of progressive feature scales\cite{lowe2004distinctive}.}
-    \label{fig:sift_pyramid}
-\end{figure}
-\begin{figure}
-    \centering
-    \includegraphics[width=.5\linewidth,keepaspectratio]{figures/registration/sift/sift_extrema.png}
-    \caption{SIFT local extrema in scale and space.}
-    \label{fig:sift_extrema}
-\end{figure}
-%\begin{figure*}
-%    \centering
-%    \includegraphics[width=\linewidth,keepaspectratio]{figures/registration/sift/sift_descriptor.png}
-%    \caption{SIFT keypoint orientation and descriptor computation: (a) dominant orientation (circle indicates Gaussian smoothed neighborhood) (b) $2 \times 2 = 4$ sub-neighborhood HOG descriptor\cite{lowe2004distinctive}.}
-%    \label{fig:sift_descriptor}
-%\end{figure*}
 \input{figures/registration/sift/orientation_featurization.tex}
 %
 It then "describes" these keypoints by a rotation invariant and noise robust representation.
 %
 The algorithm consists of five steps:
 \begin{enumerate}
-    \item Scale-space pyramid construction: a sequence of increasingly sub-sampled and more strongly Gaussian filtered images is computed. The sequence of differences of these images is also computed; the sequence of differenced images approximates the multi-scale Laplacian of Gaussians\anote{log} (LoG) of the image (see figure~\ref{fig:sift_pyramid}).
-    \item Keypoint detection: candidate keypoints are points on edges with curvature, i.e. extrema along scale and space dimensions in the LoG pyramid (see figure~\ref{fig:sift_extrema}).
+    \item Scale-space pyramid construction: a sequence of increasingly sub-sampled and more strongly Gaussian filtered images is computed. The sequence of differences of these images is also computed; the sequence of differenced images approximates the multi-scale Laplacian of Gaussians\anote{log} (LoG) of the image (see figure~\ref{fig:siftpyramid}).
+    \item Keypoint detection: candidate keypoints are points on edges with curvature, i.e. extrema along scale and space dimensions in the LoG pyramid (see figure~\ref{fig:siftpyramid}).
     \item Keypoint selection: candidate keypoints are more precisely localized using an iterative process. Keypoints of low-contrast (therefore sensitive to noise) or on edges of low curvature\anote{smallcurvature} are culled.
-    \item Keypoint orientation assignment: orientation is assigned to each keypoint by taking a weighted majority vote of all gradient orientations in a neighborhood of the keypoint (see figure~\ref{fig:sift_descriptor}a). Large minority votes (80\% of majority) are used to create more keypoints at the same pixel point.
-    \item Keypoint descriptor computation: for each keypoint the descriptor is computed by partitioning the keypoint's neighborhood into $2^k$ sub-neighborhoods, computing an 8-bin histogram of oriented gradients\anote{hog} (HOG) in each sub-neighborhood, and concatenating (see figure~\ref{fig:sift_descriptor}b). In Lowe \etal\cite{lowe2004distinctive} $2^4=16$ sub-neighborhoods are used to produce an $8\times16 = 128$ entry length descriptor. The descriptor is also normalized to unit length in order to make it invariant to luminance (intensity).
+    \item Keypoint orientation assignment: orientation is assigned to each keypoint by taking a weighted majority vote of all gradient orientations in a neighborhood of the keypoint (see figure~\ref{fig:siftdescriptorb}). Large minority votes (80\% of majority) are used to create more keypoints at the same pixel point.
+    \item Keypoint descriptor computation: for each keypoint the descriptor is computed by partitioning the keypoint's neighborhood into $2^k$ sub-neighborhoods, computing an 8-bin histogram of oriented gradients\anote{hog} (HOG) in each sub-neighborhood, and concatenating (see figure~\ref{fig:siftdescriptord}). In Lowe \etal\cite{lowe2004distinctive} $2^4=16$ sub-neighborhoods are used to produce an $8\times16 = 128$ entry length descriptor. The descriptor is also normalized to unit length in order to make it invariant to luminance (intensity).
 \end{enumerate}
 SIFT is indeed effective as a CP detector but unfortunately it is patented.
 %
@@ -157,19 +137,58 @@ Alternatives include Binary Robust Invariant Scalable Keypoints\cite{leutenegger
 
 \subsubsection{Feature Matching}
 
-After robust features are identified in the reference image and the displaced images they need to be matched.
+After robust features are identified in the reference image and the displaced images, they need to be matched.
 %
-For example for SIFT, where the descriptors are designed to be essentially invariant across images, Euclidean distance using a $k$-d tree\anote{kdtree} can be used to efficiently match keypoint descriptors.
+For example for SIFT, where the descriptors are designed to be invariant across images, Euclidean distance using a $k$-d tree\anote{kdtree} can be used to efficiently match keypoint descriptors.
 %
 Although this often leads to false-positive matches (Zahra \etal~ resolve this by using Random Sample Consensus (RANSAC)\anote{ransac}) it's a natural feature matching method.
 %
-In other cases the matching mechanism is not so straightforward; for a class of algorithms called area-based or intensity-based, that in fact combine the feature detection and matching step into one, matching involves comparing summaries of patches in the reference image and the displaced image.
+In other cases the matching mechanism is not so straightforward; for a class of algorithms called area-based or intensity-based algorithms, that in fact combine the feature detection and matching step into one, matching involves comparing summaries of patches in the reference image and the displaced image.
 
-\paragraph{Normalized Cross-Correlation}
+\paragraph{Normalized Cross-correlation}
+The simplest strategy for matching by region is to grid-search\anote{gridsearch} the space of possible translational shifts $\Delta x, \Delta y$ and assess the quality of the registration for a given shift using a similarity metric.
+%
+One such similarity metric is Normalized Cross-correlation (NCC); for two image patches $X, Y$ (with the same width, height) NCC is defined in a straightforward way
+\begin{multline}
+    NCC(X, Y) = \\ \frac{\sum_{x,y} \left(X(x,y) - \hat{X}\right) \left(Y(x,y) - \hat{Y}\right)}{\sqrt{\sum_{x,y} \left(X(x,y) - \hat{X}\right)^2} \sqrt{ \sum_{x,y} \left(Y(x,y) - \hat{Y}\right)^2 }}
+\end{multline}
+where $\hat{X}, \hat{Y}$ are mean patch values.
+
+\input{figures/registration/cross-correlation/overlap.tex}
+%
+The NCC image registration technique performs a grid-search over possible shifts and compute the cross-correlation of the shifted images (see figure~\ref{fig:shiftedcat}) (usually over a fixed cross-correlation window rather than the entire image for the sake of computational efficiency).
+%
+The maximum response as a function $\Delta x, \Delta y$ is the imputed translation between the images (see figure~\ref{fig:crosscorr}).
+%
+An alternative but closely related method is \textit{phase correlation}, based on the Fourier shift theorem\anote{fouriershift}  (the value of going to Fourier space is availability of highly optimized algorithms for computing the Fourier transform).
+%
+Let $\mathcal{X}(u,v) = \mathcal{F}\{X(x,y)\}, \; \mathcal{Y}(u,v) = \mathcal{F}\{Y(x,y)\}$ be the Fourier transforms of the displaced images.
+%
+Then
+\[
+    \mathcal{X} = \mathcal{Y}  e^{-2 \pi i (\frac{u \Delta x}{M} + \frac{v \Delta y}{N})}
+\]
+where $N,M$ are the dimensions of the images
+%
+and the \textit{normalized cross-power spectrum}
+\begin{align}
+    R(u,v) &= \frac{\mathcal{X}\circ \mathcal{Y}^{*}}{|\mathcal{X} ||\mathcal{Y}^{*} |} \nonumber\\
+    &= \frac{\mathcal{X}\circ \mathcal{X}^{*} \, e^{2 \pi i (\frac{u \Delta x}{M} + \frac{v \Delta y}{N})}}{|\mathcal{X} ||\mathcal{X}^{*} \, e^{-2 \pi i (\frac{u \Delta x}{M} + \frac{v \Delta y}{N})} |} \nonumber \\
+    &= \frac{\mathcal{X}\circ \mathcal{X}^{*} \, e^{2 \pi i (\frac{u \Delta x}{M} + \frac{v \Delta y}{N})}}{|\mathcal{X} ||\mathcal{X}^{*} |} \nonumber \\
+    &= e^{2 \pi i (\frac{u \Delta x}{M} + \frac{v \Delta y}{N})} \label{eqn:singleexp}
+\end{align}
+where $\circ$ is Hadamard product\anote{hadamard}, $|\mathcal{X}|$ is the magnitude of $\mathcal{X}$, $\mathcal{X}^*$ is the complex conjugate of $\mathcal{X}$ and we've used the fact that $|e^{iz}|=1$ for all $z$.
+%
+Then the inverse Fourier transform of eqn.~\eqref{eqn:singleexp}
+\[
+  \mathcal{F}^{-1}\left\{ R(u,v) \right\} = r(x,y) = \delta(x + \Delta x, y + \Delta y)
+\]
+is a single peak (see figure~\ref{fig:phasecorr}) at $(\Delta x, \Delta y)$.
+%
+The simplest implementation of NCC only identifies translations but it can be extended to affine transforms\cite{berthilsson1998}.
 
 \subsubsection{Transform Estimation}
 Furthermore, the transformation to be estimated should incorporate prior knowledge about the motion model but simultaneously lead to a tractable estimation problem (i.e. reasonable number of parameters).
-
 %In order to compute scale invariant features a multi-tier pyramid of images at progressively smaller resolutions is constructed.
 %%
 %Each tier has images at half the resolution of the previous, with the first tier in fact being a 2x upscaling of the original image.

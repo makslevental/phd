@@ -1,4 +1,5 @@
 \usepackage{etoolbox}
+\usepackage{transparent}
 \usepackage{tabularx,booktabs}
 \usepackage{etoc}
 \usepackage{tocloft}
@@ -15,9 +16,6 @@
 \usepackage{tikz}
 \usepackage{pgfplotstable}
 \usepackage{xcolor}
-\usepackage{array}
-\usepackage{readarray}
-\readarraysepchar{ }
 \usepackage{siunitx}
 \usetikzlibrary{backgrounds,calc,shadings,shapes.arrows,arrows,shapes.symbols,shadows,positioning,decorations.markings,backgrounds,arrows.meta}
 \usetikzlibrary{matrix}
@@ -26,7 +24,6 @@
 \usepackage{pgfplots}
 \pgfplotsset{compat=newest}
 \usepackage[edges]{forest}
-
 \usepackage{adjustbox}
 \usepackage{mathtools}
 \usepackage{breqn}
@@ -34,7 +31,7 @@
 \usepackage{subcaption}
 
 \DeclareCaptionFormat{subfig}{#1#2#3}
-\DeclareCaptionSubType*{figure}
+\DeclareCaptionSubType{figure}
 \captionsetup[subfigure]{format=subfig,labelsep=space,labelformat=parens}
 
 
@@ -165,3 +162,16 @@
 %\etocsettocstyle{\rule{.5\linewidth}{\tocrulewidth}\vskip0.5\baselineskip}{\rule{.5\linewidth}{\tocrulewidth}}
 \etocsettocstyle{\medskip\hrule\medskip}{\medskip\hrule\medskip}
 \etocsettocdepth{5}
+\tikzset{
+		redarrow/.style={
+				-latex,red,thick,solid
+			},
+		dot/.style = {
+				circle,
+				fill,
+				minimum size=#1,
+				inner sep=0pt,
+				outer sep=0pt
+			},
+		dot/.default = 6pt
+}

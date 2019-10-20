@@ -24,8 +24,6 @@
 							}
 					}
 			},
-		bert_grads/.pic={
-			},
 		pics/edgehistogram/.style args={#1/#2}{
 				code={
 						\begin{axis}[area style, width=2.5cm,height=2.5cm, hide axis, at={(#1cm,#2cm)}]
@@ -41,7 +39,7 @@
 			},
 		pics/randomedgehistogram/.style args={#1/#2}{
 				code={
-						\node[red] (hist-#1#2) at (#1cm+.5cm,#2cm+.5cm) {};% {#1,#2};
+						\node (hist-#1#2) at (#1cm+.5cm,#2cm+.5cm) {};% {#1,#2};
 						\begin{axis}[area style, width=2.5cm,height=2.5cm, hide axis, at={(#1cm,#2cm)}]
 							\pgfmathtruncatemacro{\rowindex}{#1*4+#2}
 							\pgfplotstablegetelem{\rowindex}{[index]0}\of{\subgradhists}\pgfmathtruncatemacro{\na}{\pgfplotsretval};
@@ -67,12 +65,8 @@
 							\foreach[count=\i from 0] \v in {\na, \nb, \nc, \nd, \ne, \nf, \ng, \nh} {
 									(\i, \v) node[below] {\scalebox{.3}{\v}}
 								};
-							%							\coordinate (hist-#1#2) at (2,2);
 						\end{axis}
 					}
-			},
-		redarrow/.style={
-				-latex,red,thick,solid
 			},
 		array/.style={
 				draw,
@@ -80,18 +74,10 @@
 				minimum height=2em,
 				outer sep=0pt
 			},
-		dot/.style = {
-				circle,
-				fill,
-				minimum size=#1,
-				inner sep=0pt,
-				outer sep=0pt
-			},
-		dot/.default = 6pt  % size of the circle diameter
 	}
 	\newcommand*{\siftwidth}{.5\linewidth}
 	\newcommand*{\length}{sqrt((2.*x^2+2.*y^2)^2 + (8.*x^2*y^2)^2 )}
-	\pgfplotsset{ % Define a common style, so we don't repeat ourselves
+	\pgfplotsset{
 		dominantorientationaxis/.style={
 				enlargelimits = false ,
 				view={0}{90},
@@ -102,7 +88,6 @@
 				minor grid style={black},
 				major grid style={black},
 				axis equal image,
-				samples=16
 			},
 	}
 	\pgfplotsset{ticks=none}
@@ -118,7 +103,7 @@
 			\node (keyp) at (4,6.5) {Keypoint};
 			\draw[redarrow] (keyp)--(keypoint);
 		\end{tikzpicture}
-		\caption{Keypoint neighborhood} \label{fig:1a}
+		\caption{Keypoint neighborhood.} \label{fig:siftdescriptora}
 	\end{subfigure}
 	\pgfmathsetmacro{\rot}{54}
 	\pgfmathsetmacro{\br}{sqrt(2)*.5/2}
@@ -145,12 +130,11 @@
 			\draw[redarrow] (gradwin)--(gradsquare);
 			\draw[redarrow] (domin)--(dominantgrad);
 		\end{tikzpicture}
-		\caption{Oriented and filterd keypoint gradient neigbhorhood} \label{fig:1b}
+		\caption{Oriented and filterd keypoint gradient neigbhorhood.} \label{fig:siftdescriptorb}
 	\end{subfigure}
 	\vskip\baselineskip
 	\begin{subfigure}{\siftwidth}
 		\centering
-
 		\begin{tikzpicture}
 			\begin{scope}[rotate=\rot,transform shape,local bounding box=scope1]
 				\clip[](1.95,1.99) rectangle (6.0,6.03);
@@ -168,7 +152,7 @@
 				\draw[redarrow] (gradb)--(gradbin);
 			\end{scope}
 		\end{tikzpicture}
-		\caption{16 Keypoint neigbhorhood gradient bins} \label{fig:1c}
+		\caption{16 Keypoint neigbhorhood gradient bins.} \label{fig:siftdescriptorc}
 	\end{subfigure}
 	\begin{subfigure}{\siftwidth}
 		\centering
@@ -216,7 +200,7 @@
 					\pgfplotstablegetelem{\rowindex}{[index]7}\of{\subgradhists}\pgfmathprintnumber[fixed,precision=0]{\pgfplotsretval}
 					\\};
 				\draw[decorate,decoration={brace, amplitude=10pt, raise=5pt, mirror}]
-				(A-1-1.south west) to node[black,midway,below= 15pt] {$16 \times 8$ entries} (A-1-4.south east);%
+				(A-1-1.south west) to node[black,midway,below= 15pt] {$16 \times 8 = 128$ entries} (A-1-4.south east);%
 				\draw[redarrow] (hist-03) -- (A-1-1);
 				\draw[redarrow] (hist-02) -- (A-1-2);
 				\draw[redarrow] (hist-01) -- (A-1-3);
@@ -232,8 +216,8 @@
 				\draw[redarrow] (hist-30) -- (A-1-4);
 			\end{scope}
 		\end{tikzpicture}
-		\caption{Histogram of gradient orientations descriptor} \label{fig:1d}
+		\caption{Histogram of gradient orientations descriptor.} \label{fig:siftdescriptord}
 	\end{subfigure}
-	%	\caption{A figure that contains three subfigures} \label{fig:1}
+	\caption{Sift keypoint descriptor construction.} \label{fig:siftdescriptor}
 \end{figure*}
 

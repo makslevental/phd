@@ -34,6 +34,39 @@
 \anotecontent{registration}{The process of aligning two or more images of the scene on a common pixel grid.}
 %registration
 \anotecontent{scalepyramid}{No pun intended.}
+\anotecontent{threshold}{Set everything below a threshold to zero.}
+\anotecontent{nms}{Pick the maximum in a neighborhood and set all other values to zero.}
+\anotecontent{log}{The Laplacian of an image $X$ is $L(x,y) = \partial_x^2 X + \partial_y^2 X$. Since in practice this approximates a noisy signal (second derivative), smoothing by a Gaussian is a necessary prerequisite. Therefore the Laplace of Gaussians ($LoG$) filter is the Laplacian composed with the Gaussian: \begin{equation*} LoG(x,y, \sigma) = -\frac{1}{\pi \sigma^4}\left[ 1 - \frac{x^2+y^2}{2\sigma^2} \exp \left\{ - \frac{x^2+y^2}{2\sigma^2} \right\} \right]
+	\end{equation*}}
+\anotecontent{smallcurvature}{The ratio of the eigenvalues of the spatial Hessian of $D$ (i.e. only along dimensions $x,y$). In fact a quantity not unlike eqn.~\eqref{eqn:strength} is computed in order to save having to explicitly find eigenvalues.}
+\anotecontent{hog}{Simply the histogram of gradient orientations (polar angle) in a pixel window.}
+\anotecontent{kdtree}{$k$-d trees\cite{Bentley:1975:MBS:361002.361007}, short for $k$-dimensional trees, are data structures that partition space efficiently in order that searching the tree, insertion into the tree, and deletion from the tree are all, on average, $O(\log n)$ time operations (where $n$ is the number of nodes in the tree at the time of the operation).}
+\anotecontent{ransac}{RANSAC is a method used to estimate parameters of a model given outliers. In this case Zahra \etal~ use RANSAC at the transform estimation step to eliminate falsely matched keypoint pairs. RANSAC iterates by repeatedly random sampleing the putative matching keypoint pairs and fitting a transform model. At a given iteration the fitted transform model is tested against the unused keypoint pairs and evaluated (according to goodness of fit on a subset called the \textit{consensus set}).}
+\anotecontent{gridsearch}{Searching a space by taking regular incremental steps along each dimension (e.g. search $U \subset \mathbb{R}^2$ by checking all $x = \Delta x + x_0, y = \Delta y + y_0$ for $(x_0, y_0) \in U$ and for fixed $\Delta x, \Delta y$).}
+\anotecontent{fouriershift}{If $\mathcal{F}\{\left[ x_n \right] \}_{k}=X_{k}$ is the $k$th frequency component of the discrete signal
+$\left[ x_n \right]$ then shifting $\left[ x_n \right]$ by $m$ steps implies
+\[
+	\mathcal{F}\left\{\left[ x_{n-m} \right]\right\}_{k}=X_{k}\cdot e^{-{\frac {i2\pi }{N}}km}
+\]
+}
+\anotecontent{hadamard}{
+	\[
+		\begin{bmatrix}
+			a_{11} & a_{12} \\
+			a_{21} & a_{22} \\
+		\end{bmatrix}\circ \begin{bmatrix}
+			b_{11} & b_{12} \\
+			b_{21} & b_{22} \\
+		\end{bmatrix} \coloneqq
+		\begin{bmatrix}
+			a_{11}\,b_{11} & a_{12}\,b_{12} \\
+			a_{21}\,b_{21} & a_{22}\,b_{22} \\
+		\end{bmatrix}
+	\]
+}
+
+
+
 %classical
 \anotecontent{lsi}{In analogy with Linear Time Invariant (i.e. linear and constant in space).}
 \anotecontent{lrpixel}{An LR pixel is one sampled from an LR image and embedded in an HR grid.
@@ -89,11 +122,3 @@
 	%
 	NP-hard admit a polynomial time reduction from any problem in NP (colloquially they are as hard as any problem in NP).}
 \anotecontent{firstordergaussian}{The first derivative of the Gaussian expressed as a filter: $\left[ -2,-1,0,1,2 \right]$.}
-\anotecontent{threshold}{Set everything below a threshold to zero.}
-\anotecontent{nms}{Pick the maximum in a neighborhood and set all other values to zero.}
-\anotecontent{log}{The Laplacian of an image $X$ is $L(x,y) = \partial_x^2 X + \partial_y^2 X$. Since in practice this approximates a noisy signal (second derivative), smoothing by a Gaussian is a necessary prerequisite. Therefore the Laplace of Gaussians ($LoG$) filter is the Laplacian composed with the Gaussian: \begin{equation*} LoG(x,y, \sigma) = -\frac{1}{\pi \sigma^4}\left[ 1 - \frac{x^2+y^2}{2\sigma^2} \exp \left\{ - \frac{x^2+y^2}{2\sigma^2} \right\} \right]
-	\end{equation*}}
-\anotecontent{smallcurvature}{The ratio of the eigenvalues of the spatial Hessian of $D$ (i.e. only along dimensions $x,y$). In fact a quantity not unlike eqn.~\eqref{eqn:strength} is computed in order to save having to explicitly find eigenvalues.}
-\anotecontent{hog}{Simply the histogram of gradient orientations (polar angle) in a pixel window.}
-\anotecontent{kdtree}{$k$-d trees\cite{Bentley:1975:MBS:361002.361007}, short for $k$-dimensional trees, are data structures that partition space efficiently in order that searching the tree, insertion into the tree, and deletion from the tree are all, on average, $O(\log n)$ time operations (where $n$ is the number of nodes in the tree at the time of the operation).}
-\anotecontent{ransac}{RANSAC is a method used to estimate parameters of a model given outliers. In this case Zahra \etal~ use RANSAC at the transform estimation step to eliminate falsely matched keypoint pairs. RANSAC iterates by repeatedly random sampleing the putative matching keypoint pairs and fitting a transform model. At a given iteration the fitted transform model is tested against the unused keypoint pairs and evaluated (according to goodness of fit on a subset called the \textit{consensus set}).}
