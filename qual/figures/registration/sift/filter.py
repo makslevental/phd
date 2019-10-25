@@ -29,13 +29,13 @@ def compute_grad_orientations(c_row, c_col, orientations, orientation_histogram,
     return grads_stack, domin_grad, subgrad_hists.reshape(subgrad_hists.shape[0]*subgrad_hists.shape[1],8)
 
 def compute_hog():
+    bins = 16
+    n_orientations = 8
     img = skimage.io.imread("bert_keypoint_window.png")
     h, w, _ = img.shape
+    pixels_per_cell = (h // bins, w // bins)
     # img = rgb2gray(img)
     #
-    bins = 16
-    pixels_per_cell = (h // bins, w // bins)
-    n_orientations = 8
     fd, hog_image, orient_hist = hog(
         img,
         orientations=n_orientations,

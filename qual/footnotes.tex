@@ -64,7 +64,19 @@
 		\end{bmatrix}
 	\]
 }
-
+\anotecontent{shannon}{
+Shannon entropy can be interpreted as the number of bits \(L\) necessary to encode a random variable \(X\) distributed according to distribution \(P\). It is defined as
+\[
+	\mathrm {H} (X)\coloneqq\sum{P(x)\log\left[\frac{1}{P (x)}\right]}
+\]
+i.e. \(P(x_i) = 1/2^L\) where \(L\) is the number of bits.
+}
+\anotecontent{kde}{Alternatively known as Parzen windowing, the kernel density estimator \(\hat{P}\) of a distribution \(X\sim P\) given a set of points \(\left\{ x_1, x_2, \dots, x_n \right\}\) is defined as
+\[
+	\hat{P}(x)={\frac {1}{nh}}\sum _{i=1}^{n}K{\Big (}{\frac {x-x_{i}}{h}}{\Big )}
+\]
+where \(K\) is a kernel (e.g. Gaussian) and \(h\) is the \textit{kernel bandwidth}.
+}
 
 
 %classical

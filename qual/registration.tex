@@ -36,21 +36,21 @@ The Harris detector improves on the Moravec\cite{moravec1980obstacle} detector.
 %
 The Moravec detector starts from the error function \(E_{x,y}(u,v)\) which computes the sum of the squared differences (SSD) between an \(m \times m\) weighted window around a pixel \(X(x, y)\) and weighted windows shifted by \(u,v\) pixels:
 \begin{multline}
-    \quad E_{x,y}(u,v) \coloneqq \\ \sum_{i,j=-m/2}^{m/2} w_{ij}\left[ X(x_i+ u,y_j+v) - X(x_i, y_j)\right]^2
-    \label{moravecerrorfunction}
+	\quad E_{x,y}(u,v) \coloneqq \\ \sum_{i,j=-m/2}^{m/2} w_{ij}\left[ X(x_i+ u,y_j+v) - X(x_i, y_j)\right]^2
+	\label{moravecerrorfunction}
 \end{multline}
 where \(x_i \coloneqq x + i\) and \(y_j \coloneqq y+j\).
 \begin{figure}
-    \centering
-    \includegraphics[width=\linewidth,keepaspectratio]{figures/registration/corners.png}
-    \caption{Moravec Corner Detector}
-    \label{fig:corners}
+	\centering
+	\includegraphics[width=\linewidth,keepaspectratio]{figures/registration/corners.png}
+	\caption{Moravec Corner Detector}
+	\label{fig:corners}
 \end{figure}
 Moravec assigns a "corner score" according to the following reasoning (see figure~\ref{fig:corners}):
 \begin{enumerate}
-    \item If a pixel is in a region of uniform intensity then \(E_{x,y}(u,v)\) is small for all \(u,v\) (since neighboring windows are similar).
-    \item If a pixel is on an edge, then \(E_{x,y}(u,v)\) for either \(u > 0\) or \(v > 0\), but not both, is high.
-    \item If a pixel is on a corner, then \(E_{x,y}(u,v)\) for \(u > 0\) and \(v > 0\) is high.
+	\item If a pixel is in a region of uniform intensity then \(E_{x,y}(u,v)\) is small for all \(u,v\) (since neighboring windows are similar).
+	\item If a pixel is on an edge, then \(E_{x,y}(u,v)\) for either \(u > 0\) or \(v > 0\), but not both, is high.
+	\item If a pixel is on a corner, then \(E_{x,y}(u,v)\) for \(u > 0\) and \(v > 0\) is high.
 \end{enumerate}
 Therefore the corner score at pixel coordinate \((x,y)\) is \(\min_{u,v} E_{x,y}(u,v)\) in order to select for the third case.
 %
@@ -59,25 +59,25 @@ Moravec comments that this corner score is not isotropic, i.e. if edges aren't a
 Harris' insight was to linearize \(E_{x,y}(u,v)\) in order to compute a quantity more closely related to the intensity variation in a local
 neighborhood of a pixel:
 \begin{equation}
-    X(x_i + u,y_j + v) \approx  X(x_i,y_j) + \frac{\partial X}{\partial u}u + \frac{\partial X }{\partial v} v
+	X(x_i + u,y_j + v) \approx  X(x_i,y_j) + \frac{\partial X}{\partial u}u + \frac{\partial X }{\partial v} v
 \end{equation}
 where the partial derivatives are taken at \((x,y)\).
 %
 This implies
 \begin{align}
-    E_{x,y}(u,v) & \approx \sum_{i,j=-m/2}^{m/2} w_{ij} \left[ X_u u + X_v v\right]^2                 \\
-                 & = \sum_{i,j=-m/2}^{m/2} w_{ij} \left[ X_u^2 u^2 + X_v^2 v^2 + 2 X_u X_v u v\right] \\
-                 & = \left[ u,v \right] \begin{bmatrix}
-        \sum w_{ij}X_u^2   & \sum w_{ij}X_u X_v \\
-        \sum w_{ij}X_u X_v & \sum w_{ij}X_v^2   \\
-    \end{bmatrix}  \begin{bmatrix}
-        u \\
-        v
-    \end{bmatrix}          \\
-                 & = \left[ u,v \right] M  \begin{bmatrix}
-        u \\
-        v
-    \end{bmatrix} \label{eqn:structurematrix}
+	E_{x,y}(u,v) & \approx \sum_{i,j=-m/2}^{m/2} w_{ij} \left[ X_u u + X_v v\right]^2                 \\
+	             & = \sum_{i,j=-m/2}^{m/2} w_{ij} \left[ X_u^2 u^2 + X_v^2 v^2 + 2 X_u X_v u v\right] \\
+	             & = \left[ u,v \right] \begin{bmatrix}
+		\sum w_{ij}X_u^2   & \sum w_{ij}X_u X_v \\
+		\sum w_{ij}X_u X_v & \sum w_{ij}X_v^2   \\
+	\end{bmatrix}  \begin{bmatrix}
+		u \\
+		v
+	\end{bmatrix}          \\
+	             & = \left[ u,v \right] M  \begin{bmatrix}
+		u \\
+		v
+	\end{bmatrix} \label{eqn:structurematrix}
 \end{align}
 where \(X_u = \partial X/\partial u\) and similarly \(X_v\).
 %
@@ -85,17 +85,17 @@ The matrix in eqn.~\eqref{eqn:structurematrix}, called the \textit{structor tens
 %
 Harris reasoned that the cases of Moravec correspond to conditions on the eigenvalues \(\lambda_1, \lambda_2\) of \(M\):
 \begin{enumerate}
-    \item If \(\lambda_1 \approx \lambda_2 \approx 0\) then \(X(x,y)\) is in a region of uniform intensity.
-    \item If \(\lambda_1 \gg \lambda_2\) or \(\lambda_2 \gg \lambda_1\) then \(X(x,y)\) is on an edge.
-    \item \(\lambda_1 \approx \lambda_2 > 0\) then \(X(x,y)\) is on a corner.
+	\item If \(\lambda_1 \approx \lambda_2 \approx 0\) then \(X(x,y)\) is in a region of uniform intensity.
+	\item If \(\lambda_1 \gg \lambda_2\) or \(\lambda_2 \gg \lambda_1\) then \(X(x,y)\) is on an edge.
+	\item \(\lambda_1 \approx \lambda_2 > 0\) then \(X(x,y)\) is on a corner.
 \end{enumerate}
 Notice that if \(w_{ij} = 1\) then this is just the gradient covariance of the image and the Harris detector is essentially a local Principle Components Analysis (PCA).
 %
 In fact Harris doesn't actually compute the eigenvalues but instead a related quantity called the "strength":
 \begin{align}
-    S & = \lambda_1 \lambda_2 - \kappa (\lambda_1 + \lambda_2)^2 \\
-      & = \det(M) - \kappa \operatorname{trace}^2(M)
-    \label{eqn:strength}
+	S & = \lambda_1 \lambda_2 - \kappa (\lambda_1 + \lambda_2)^2 \\
+	  & = \det(M) - \kappa \operatorname{trace}^2(M)
+	\label{eqn:strength}
 \end{align}
 %
 Hence Bentoutou \etal~first compute a gradient map of the image using a first order Gaussian derivative filter.
@@ -109,10 +109,10 @@ Finally only the "strongest" \(n\) corners are kept.
 \paragraph{SIFT}
 
 \begin{figure}
-    \centering
-    \includegraphics[width=\linewidth,keepaspectratio]{figures/registration/sift/sift_scale_invariant.png}
-    \caption{Harris Detector failing to recognize the right image as a corner.}
-    \label{fig:sift_harris}
+	\centering
+	\includegraphics[width=\linewidth,keepaspectratio]{figures/registration/sift/sift_scale_invariant.png}
+	\caption{Harris Detector failing to recognize the right image as a corner.}
+	\label{fig:sift_harris}
 \end{figure}
 One issue with Harris detectors is that they're not invariant to scale (see figure~\ref{fig:sift_harris}).
 %
@@ -125,11 +125,11 @@ It then "describes" these keypoints by a rotation invariant and noise robust rep
 %
 The algorithm consists of five steps:
 \begin{enumerate}
-    \item Scale-space pyramid construction: a sequence of increasingly sub-sampled and more strongly Gaussian filtered images is computed. The sequence of differences of these images is also computed; the sequence of differenced images approximates the multi-scale Laplacian of Gaussians\anote{log} (LoG) of the image (see figure~\ref{fig:siftpyramid}).
-    \item Keypoint detection: candidate keypoints are points on edges with curvature, i.e. extrema along scale and space dimensions in the LoG pyramid (see figure~\ref{fig:siftpyramid}).
-    \item Keypoint selection: candidate keypoints are more precisely localized using an iterative process. Keypoints of low-contrast (therefore sensitive to noise) or on edges of low curvature\anote{smallcurvature} are culled.
-    \item Keypoint orientation assignment: orientation is assigned to each keypoint by taking a weighted majority vote of all gradient orientations in a neighborhood of the keypoint (see figure~\ref{fig:siftdescriptorb}). Large minority votes (80\% of majority) are used to create more keypoints at the same pixel point.
-    \item Keypoint descriptor computation: for each keypoint the descriptor is computed by partitioning the keypoint's neighborhood into \(2^k\) sub-neighborhoods, computing an 8-bin histogram of oriented gradients\anote{hog} (HOG) in each sub-neighborhood, and concatenating (see figure~\ref{fig:siftdescriptord}). In Lowe \etal\cite{lowe2004distinctive} \(2^4=16\) sub-neighborhoods are used to produce an \(8\times16 = 128\) entry length descriptor. The descriptor is also normalized to unit length in order to make it invariant to luminance (intensity).
+	\item Scale-space pyramid construction: a sequence of increasingly sub-sampled and more strongly Gaussian filtered images is computed. The sequence of differences of these images is also computed; the sequence of differenced images approximates the multi-scale Laplacian of Gaussians\anote{log} (LoG) of the image (see figure~\ref{fig:siftpyramid}).
+	\item Keypoint detection: candidate keypoints are points on edges with curvature, i.e. extrema along scale and space dimensions in the LoG pyramid (see figure~\ref{fig:siftpyramid}).
+	\item Keypoint selection: candidate keypoints are more precisely localized using an iterative process. Keypoints of low-contrast (therefore sensitive to noise) or on edges of low curvature\anote{smallcurvature} are culled.
+	\item Keypoint orientation assignment: orientation is assigned to each keypoint by taking a weighted majority vote of all gradient orientations in a neighborhood of the keypoint (see figure~\ref{fig:siftdescriptorb}). Large minority votes (80\% of majority) are used to create more keypoints at the same pixel point.
+	\item Keypoint descriptor computation: for each keypoint the descriptor is computed by partitioning the keypoint's neighborhood into \(2^k\) sub-neighborhoods, computing an 8-bin histogram of oriented gradients\anote{hog} (HOG) in each sub-neighborhood, and concatenating (see figure~\ref{fig:siftdescriptord}). In Lowe \etal\cite{lowe2004distinctive} \(2^4=16\) sub-neighborhoods are used to produce an \(8\times16 = 128\) entry length descriptor. The descriptor is also normalized to unit length in order to make it invariant to luminance (intensity).
 \end{enumerate}
 SIFT is indeed effective as a CP detector but unfortunately it is patented.
 %
@@ -150,7 +150,7 @@ The simplest strategy for matching by region is to grid-search\anote{gridsearch}
 %
 One such similarity metric is Normalized Cross-correlation (NCC); for two image patches \(X, Y\) (with the same width, height) NCC is defined in a straightforward way
 \begin{multline}
-    NCC(X, Y) = \\ \frac{\sum_{x,y} \left(X(x,y) - \hat{X}\right) \left(Y(x,y) - \hat{Y}\right)}{\sqrt{\sum_{x,y} \left(X(x,y) - \hat{X}\right)^2} \sqrt{ \sum_{x,y} \left(Y(x,y) - \hat{Y}\right)^2 }}
+	NCC(X, Y) = \\ \frac{\sum_{x,y} \left(X(x,y) - \hat{X}\right) \left(Y(x,y) - \hat{Y}\right)}{\sqrt{\sum_{x,y} \left(X(x,y) - \hat{X}\right)^2} \sqrt{ \sum_{x,y} \left(Y(x,y) - \hat{Y}\right)^2 }}
 \end{multline}
 where \(\hat{X}, \hat{Y}\) are mean patch values.
 
@@ -166,27 +166,64 @@ Let \(\mathcal{X}(u,v) = \mathcal{F}\{X(x,y)\}, \; \mathcal{Y}(u,v) = \mathcal{F
 %
 Then
 \[
-    \mathcal{X} = \mathcal{Y}  e^{-2 \pi i (\frac{u \Delta x}{M} + \frac{v \Delta y}{N})}
+	\mathcal{X} = \mathcal{Y}  e^{-2 \pi i (\frac{u \Delta x}{M} + \frac{v \Delta y}{N})}
 \]
 where \(N,M\) are the dimensions of the images
 %
 and the \textit{normalized cross-power spectrum}
 \begin{align}
-    R(u,v) & = \frac{\mathcal{X}\circ \mathcal{Y}^{*}}{|\mathcal{X} ||\mathcal{Y}^{*} |} \nonumber                                                                                                                            \\
-           & = \frac{\mathcal{X}\circ \mathcal{X}^{*} \, e^{2 \pi i (\frac{u \Delta x}{M} + \frac{v \Delta y}{N})}}{|\mathcal{X} ||\mathcal{X}^{*} \, e^{-2 \pi i (\frac{u \Delta x}{M} + \frac{v \Delta y}{N})} |} \nonumber \\
-           & = \frac{\mathcal{X}\circ \mathcal{X}^{*} \, e^{2 \pi i (\frac{u \Delta x}{M} + \frac{v \Delta y}{N})}}{|\mathcal{X} ||\mathcal{X}^{*} |} \nonumber                                                               \\
-           & = e^{2 \pi i (\frac{u \Delta x}{M} + \frac{v \Delta y}{N})} \label{eqn:singleexp}
+	R(u,v) & = \frac{\mathcal{X}\circ \mathcal{Y}^{*}}{|\mathcal{X} ||\mathcal{Y}^{*} |} \nonumber                                                                                                                            \\
+	       & = \frac{\mathcal{X}\circ \mathcal{X}^{*} \, e^{2 \pi i (\frac{u \Delta x}{M} + \frac{v \Delta y}{N})}}{|\mathcal{X} ||\mathcal{X}^{*} \, e^{-2 \pi i (\frac{u \Delta x}{M} + \frac{v \Delta y}{N})} |} \nonumber \\
+	       & = \frac{\mathcal{X}\circ \mathcal{X}^{*} \, e^{2 \pi i (\frac{u \Delta x}{M} + \frac{v \Delta y}{N})}}{|\mathcal{X} ||\mathcal{X}^{*} |} \nonumber                                                               \\
+	       & = e^{2 \pi i (\frac{u \Delta x}{M} + \frac{v \Delta y}{N})} \label{eqn:singleexp}
 \end{align}
 where \(\circ\) is Hadamard product\anote{hadamard}, \(|\mathcal{X}|\) is the magnitude of \(\mathcal{X}\), \(\mathcal{X}^*\) is the complex conjugate of \(\mathcal{X}\) and we've used the fact that \(|e^{iz}|=1\) for all \(z\).
 %
 Then the inverse Fourier transform of eqn.~\eqref{eqn:singleexp}
 \[
-    \mathcal{F}^{-1}\left\{ R(u,v) \right\} = r(x,y) = \delta(x + \Delta x, y + \Delta y)
+	\mathcal{F}^{-1}\left\{ R(u,v) \right\} = r(x,y) = \delta(x + \Delta x, y + \Delta y)
 \]
 is a single peak (see figure~\ref{fig:phasecorr}) at \((\Delta x, \Delta y)\).
 %
 The simplest implementation of NCC only identifies translations but it can be extended to affine transforms\cite{berthilsson1998}.
 
+\subsubsection{Mutual Information}
+
+In general NCC fails for noisy images (the to-be-registered image is much noisier than the reference image).
+%
+Mutual information (MI) methods have been successfully employed in such cases; MI is also robust toward changes in light intensity, pixel color, noise and can fit large transformations.
+%
+The mutual information of two random variables \(X_1, X_2\) is defined
+\[
+	I (X_1,X_2) \coloneqq H (X_1)+H (X_2)-H (X_1,X_2)
+\]
+where \(H\) is Shannon-entropy\anote{shannon}.
+%
+In this context \(X_1\) is reference image and \(X_2\) is the to-be-registered image.
+%
+The central challenge in computing MI is in estimating joint \(H(X_1,X_2)\) and marginal \(H(X_1)\) entropies (which are functions of the joint \(P(X_1,X_2)\) and marginal \(P(X_1)\) probabilities).
+%
+In practice this is done using either Kernel Density Estimation\anote{kde} (KDE) or the joint histogram (i.e. number of common pixel values at same pixel coordinates normalized by total number of pixels).
+%
+Searching for the registration parameters \(\theta\) that maximize \(I_{\theta} \coloneqq I(X_1,X_2(\theta))\) exhaustively is generally costly (especially if more than just translation parameters are required).
+%
+Ritter \etal\cite{ritter1999} use simulated annealing to efficiently search the space of all possible parameters.
+%
+Simulated annealing iterates on the current candidate minimum \(I_{\theta}\) by "jumping" to potentially new minima in a way that prioritizes near jumps but allows for the possibility of far jumps. They use the Cauchy distribution as the minimum proposal function:
+\[
+	G_k(d) = \frac{t_k}{\pi \left( d^2 + t_k^2 \right)}
+\]
+where \(t_k\) is a parameter that over time encourages near jumps more and more strongly (called the temperature), and \(d\) is the parameter jump distance.
+%
+To allow escape from local minima of \(I_{\theta}\) it is necessary to occasionally make a jump from the current parameter estimate \(\theta_k\) to a proposed value \(\theta_{k+1}\) that is "worse" (i.e. for which \(I(\theta_{k+1}) < I(\theta_{k}) \)).
+%
+This is accomplished by querying an \textit{acceptance function} \(A_k\) on every such instance:
+\[
+	A_k(\theta_{k}, \theta_{k+1}) = \begin{cases}
+		1 & \text{if } I(\theta_{k+1}) \geq I(\theta_{k}) \\
+		\frac{e^{I(\theta_{k}) - I(\theta_{k+1})}}{C t_k} &  \text{otherwise}
+	\end{cases}
+\]
 \subsubsection{Transform Estimation}
 Furthermore, the transformation to be estimated should incorporate prior knowledge about the motion model but simultaneously lead to a tractable estimation problem (i.e. reasonable number of parameters).
 %In order to compute scale invariant features a multi-tier pyramid of images at progressively smaller resolutions is constructed.
@@ -254,3 +291,6 @@ Furthermore, the transformation to be estimated should incorporate prior knowled
 %
 \subsection{Gaussian Process}\label{subsec:gaussianprocess}
 %\input{figures/motion_transformations.tex}
+They innovation of this technique is the fully Bayesian approach; they marginalize over the unknown high-resolution image in order to infer the low-resolution image registration parameters.
+%
+Further, by virtue of marginalization, they're able to estimate the PSF along with the image registration parameters.

@@ -281,3 +281,9 @@ code/venv
 **/**/.bak*
 **/**/*.mtc
 **/**/bibexport.bib
+.DS_Store
+.vscode/settings.json
+qual/.DS_Store
+qual/draft.sh
+qual/figures/.DS_Store
+qual/figures/registration/.DS_Store
