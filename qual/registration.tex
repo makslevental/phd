@@ -1,25 +1,15 @@
 \input{figures/registration/sift/pyramid.tex}
-Images obtained from multiple vantage points, or at different times, of the same scene, become distorted with respect
-to each other.
+Images obtained from multiple vantage points, or at different times, of the same scene, become distorted with respect to each other.
 %
-Since in MISR the aim is to exploit new information across multiple LR samples we need to first rectify these distortions and reconcile the images.
+Since in MISR the aim is to exploit new information across multiple LR samples, we need to first rectify these distortions and reconcile the images.
 %
 Effectively this means finding one or more pixel transformations that enable mapping all LR images to a common pixel grid.
 %
-When the transformations cannot be deduced from first principles (e.g. precise knowledge of the relative motion of the scene and the imaging system) they must be estimated from the LR images.
+When the transformations cannot be deduced from first principles (e.g., precise knowledge of the relative motion of the scene and the imaging system) they must be estimated from the LR images.
 %
-There are broadly two perspectives on constructing the transformation \(f\) (see eqn.~\eqref{eqn:registration}): the global perspective which aims to model motion as a map of the image as a whole and the local perspective which aims to model motion as a deformation of individual pixels.
-%
-These two perspectives naturally correspond to a globally or locally defined transformation \(f\).
-%
-We first cover global algorithms, examining the different techniques available for each step, and then move on to local algorithms.
+The estimation process can be broken down into three distinct steps: feature detection, feature matching, and mapping function estimation.
 
-\subsection{Global Algorithms}
-
-Most global image registration algorithms consist of a feature detection and selection step (also called Control Point (CP) selection), a feature matching step, and a transform estimation step.
-%
-
-\subsubsection{Feature Detection and Selection}
+\subsection{Feature Detection and Selection}
 
 Feature detection and selection is the process of identifying features of the image that are presumed to be invariant across the multiple images to registered.
 %
@@ -29,7 +19,7 @@ The CPs are the data that will be used to estimate the transformation \(f\).
 %
 Therefore, in order that the estimated transformation is accurate, CPs should be robust to noise and image degradation, sufficiently distributed throughout the image, and readily matched in the matching step.
 
-\paragraph{Harris Corner Detection}
+\subsubsection{Harris Corner Detection}
 Bentoutou \etal\cite{bentoutou2005automatic} use a Harris detector\cite{harris1988combined} to find corner points, arguing that corners are robust to noise and stable over multiple images.
 %
 The Harris detector improves on the Moravec\cite{moravec1980obstacle} detector.
@@ -110,7 +100,7 @@ They also apply Non-maximum Suppression\anote{nms} (NMS) using a \(3 \times 3\) 
 %
 Finally only the "strongest" \(n\) corners are kept.
 
-\paragraph{SIFT}
+\subsubsection{SIFT}
 
 \begin{figure}
 	\centering
@@ -143,7 +133,7 @@ SIFT is indeed effective as a CP detector but unfortunately it is patented.
 %
 Alternatives include Binary Robust Invariant Scalable Keypoints\cite{leutenegger2011brisk}, and Oriented FAST and rotated BRIEF\cite{rublee2011orb} (which itself consists of applying Features from accelerated segment test\cite{rosten2006machine} to detect points of interest and Binary Robust Independent Elementary Features\cite{calonder2010brief} to compute descriptors).
 
-\subsubsection{Feature Matching}
+\subsection{Feature Matching}
 
 After robust features are identified in the reference image and the displaced images, they need to be matched.
 %
@@ -153,7 +143,7 @@ Although this often leads to false-positive matches (Zahra \etal~resolve this by
 %
 In other cases the matching mechanism is not so straightforward; for a class of algorithms called area-based or intensity-based algorithms, that in fact combine the feature detection and matching step into one, matching involves comparing summaries of patches in the reference image and the displaced image.
 
-\paragraph{Convex Hull Edges}
+\subsubsection{Convex Hull Edges}
 %
 One technique that matches features explicitly is Point Matching Using Convex Hull Edges\cite{Goshtasby1985}.
 %
@@ -175,7 +165,7 @@ The key part of the algorithm (after computing the convex hull of the control po
 %
 Note that this procedure operates on one set of control points at a time and that there could be many such matchings computed before final registration between images can be performed.
 
-\paragraph{Normalized Cross-correlation}
+\subsubsection{Normalized Cross-correlation}
 The simplest strategy for matching by region is to grid-search\anote{gridsearch} the space of possible translational shifts \(\Delta x, \Delta y\) and assess the quality of the registration for a given shift using a similarity metric.
 %
 One such similarity metric is Normalized Cross-correlation (NCC); for two image patches \(X, Y\) (with the same width, height) NCC is defined in a straightforward way
@@ -202,9 +192,9 @@ where \(N,M\) are the dimensions of the images
 %
 and the \textit{normalized cross-power spectrum}
 \begin{align}
-	R(u,v) & = \frac{\mathcal{X}\circ \mathcal{Y}^{*}}{|\mathcal{X} ||\mathcal{Y}^{*} |} \nonumber                                                                                                                            \\
-	       & = \frac{\mathcal{X}\circ \mathcal{X}^{*} \, e^{2 \pi i (\frac{u \Delta x}{M} + \frac{v \Delta y}{N})}}{|\mathcal{X} ||\mathcal{X}^{*} \, e^{-2 \pi i (\frac{u \Delta x}{M} + \frac{v \Delta y}{N})} |} \nonumber \\
-	       & = \frac{\mathcal{X}\circ \mathcal{X}^{*} \, e^{2 \pi i (\frac{u \Delta x}{M} + \frac{v \Delta y}{N})}}{|\mathcal{X} ||\mathcal{X}^{*} |} \nonumber                                                               \\
+	R(u,v) & = \frac{\mathcal{X}\circ \mathcal{Y}^{*}}{|\mathcal{X} ||\mathcal{Y}^{*} |} \\
+	       & = \frac{\mathcal{X}\circ \mathcal{X}^{*} \, e^{2 \pi i (\frac{u \Delta x}{M} + \frac{v \Delta y}{N})}}{|\mathcal{X} ||\mathcal{X}^{*} \, e^{-2 \pi i (\frac{u \Delta x}{M} + \frac{v \Delta y}{N})} |} \\
+	       & = \frac{\mathcal{X}\circ \mathcal{X}^{*} \, e^{2 \pi i (\frac{u \Delta x}{M} + \frac{v \Delta y}{N})}}{|\mathcal{X} ||\mathcal{X}^{*} |} \\
 	       & = e^{2 \pi i (\frac{u \Delta x}{M} + \frac{v \Delta y}{N})} \label{eqn:singleexp}
 \end{align}
 where \(\circ\) is Hadamard product\anote{hadamard}, \(|\mathcal{X}|\) is the magnitude of \(\mathcal{X}\), \(\mathcal{X}^*\) is the complex conjugate of \(\mathcal{X}\) and we've used the fact that \(|e^{iz}|=1\) for all \(z\).
@@ -217,7 +207,7 @@ is a single peak (see figure~\ref{fig:phasecorr}) at \((\Delta x, \Delta y)\).
 %
 The simplest implementation of NCC only identifies translations but it can be extended to affine transforms\cite{berthilsson1998}.
 
-\paragraph{Mutual Information}
+\subsubsection{Mutual Information}
 
 In general NCC fails for noisy images (i.e. the to-be-registered image is much noisier than the reference image).
 %
@@ -256,9 +246,56 @@ This is accomplished by accepting or rejecting the proposal with probability det
 		\frac{1}{C t_k}e^{I(\theta_{k}) - I(\theta_{k+1})} & \text{otherwise}
 	\end{cases}
 \]
-\subsubsection{Transform Estimation}
 
-After the feature matching has been successfully completed, the mapping that transforms the to-be-registered image and the reference image needs to be constructed.
+\subsection{Transform Estimation}
+\input{figures/registration/transforms/transform.tex}
+After feature matching is sucessfully completed the transformation function \(f\) is constructed (see eqn.~\eqref{eqn:registration}).
 %
-This involves choosing the class of the transform (rigid, affine, projective, or elastic)
+This consists of choosing a transformation type (see figure~\ref{fig:transformations}) and estimating the parameters necessary to uniquely determine the transformation.
+%
+The transformation type is partially informed by knowledge of the geometry of the displacements (rigid, affine, projective) and partially informed by computational efficiency (more general transformation have more parameters).
+%
+There are broadly two perspectives on constructing the transformation \(f\): the global perspective which aims to model motion as a map of the image as a whole and the local perspective which aims to model motion as a deformation of individual pixels.
+%
+%These two perspectives naturally correspond to a globally (see figures~\ref{fig:rigidtransformation}, ~\ref{fig:affinetransformation}, ~\ref{fig:projectivetransformation}) or locally defined transformation \(f\) (see figure~\ref{fig:elastictransformation}).
+%
+We first cover global algorithms and then move on to local algorithms.
+
+\subsubsection{Global Algorithms}
+
+The most commonly used global model is the affine transformation (see figures~\ref{fig:affinetransformation}), which in homogeneous coordinates\anote{homogeneous} is defined:
+\[
+	\begin{bmatrix}
+		ax + by + t_x \\
+		cx + dy+ t_y  \\
+		1             \\
+	\end{bmatrix} = 			\begin{bmatrix}
+		a & b & t_x \\
+		c & d & t_y \\
+		0 & 0 & 1   \\
+	\end{bmatrix} 			\begin{bmatrix}
+		x \\
+		y \\
+		1 \\
+	\end{bmatrix}
+\]
+from which the transformed pixel coordinates can be recovered as
+\begin{equation}
+	\begin{split}
+		x' & = ax + by + t_x \\
+		y' & = cx + dy+ t_y
+        \label{eqn:affinetf}
+	\end{split}
+\end{equation}
+In the more general case of a projective transformation (a perspective shift) the transformed pixel coordinates are
+\begin{equation}
+	\begin{split}
+	x' & = \frac{ax+by+c}{gx+hy+i} \\
+	y' & = \frac{dx+ey+f}{gx+hy+i}
+	\label{eqn:projectivetf}
+	\end{split}
+\end{equation}
+In eqns.~\eqref{eqn:affinetf} and~\eqref{eqn:projectivetf} those parameters that are not pixel coordinates \(x,y\) are estimated from the pixel coordinates of features matched in the previous step.
+%
+In general these systems of equations are overdetermined (by design) and a unique solution is determined using regularized least-squares.
 

@@ -111,6 +111,16 @@ The convex hull of a set of points \(X\) is the set of all convex combinations o
 %
 Schematically one can imagine stretching a rubberband such that it contains all points in \(X\).}
 \anotecontent{completegraph}{A graph in which each pair of vertices is connected by an edge.}
+\anotecontent{homogeneous}{
+	With \((x,y)\) a pixel coordinate, transformations in homogeneous coordinates operate on \(x,y,1\): if
+	\(
+	(a,b,c) = (x,y,1)\, T
+	\)
+	then the transformed pixel coordinate
+	\(
+	(x',y') = \frac{1}{c} (a,b)
+	\).
+}
 
 
 
