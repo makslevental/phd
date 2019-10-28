@@ -47,11 +47,13 @@ where \(x_i \coloneqq x + i\) and \(y_j \coloneqq y+j\).
 	\label{fig:corners}
 \end{figure}
 Moravec assigns a "corner score" according to the following reasoning (see figure~\ref{fig:corners}):
-\begin{enumerate}
-	\item If a pixel is in a region of uniform intensity then \(E_{x,y}(u,v)\) is small for all \(u,v\) (since neighboring windows are similar).
-	\item If a pixel is on an edge, then \(E_{x,y}(u,v)\) for either \(u > 0\) or \(v > 0\), but not both, is high.
-	\item If a pixel is on a corner, then \(E_{x,y}(u,v)\) for \(u > 0\) and \(v > 0\) is high.
-\end{enumerate}
+\begin{framed}
+	\begin{enumerate}
+		\item If a pixel is in a region of uniform intensity then \(E_{x,y}(u,v)\) is small for all \(u,v\) (since neighboring windows are similar).
+		\item If a pixel is on an edge, then \(E_{x,y}(u,v)\) for either \(u > 0\) or \(v > 0\), but not both, is high.
+		\item If a pixel is on a corner, then \(E_{x,y}(u,v)\) for \(u > 0\) and \(v > 0\) is high.
+	\end{enumerate}
+\end{framed}
 Therefore the corner score at pixel coordinate \((x,y)\) is \(\min_{u,v} E_{x,y}(u,v)\) in order to select for the third case.
 %
 Moravec comments that this corner score is not isotropic, i.e. if edges aren't aligned with either the pixel axes or diagonals then \(E_{x,y}(u,v)\) will incorrectly be low.
@@ -84,11 +86,13 @@ where \(X_u = \partial X/\partial u\) and similarly \(X_v\).
 The matrix in eqn.~\eqref{eqn:structurematrix}, called the \textit{structor tensor} or \textit{second-moment matrix} \(M\), is the quantity Harris investigated.
 %
 Harris reasoned that the cases of Moravec correspond to conditions on the eigenvalues \(\lambda_1, \lambda_2\) of \(M\):
-\begin{enumerate}
-	\item If \(\lambda_1 \approx \lambda_2 \approx 0\) then \(X(x,y)\) is in a region of uniform intensity.
-	\item If \(\lambda_1 \gg \lambda_2\) or \(\lambda_2 \gg \lambda_1\) then \(X(x,y)\) is on an edge.
-	\item \(\lambda_1 \approx \lambda_2 > 0\) then \(X(x,y)\) is on a corner.
-\end{enumerate}
+\begin{framed}
+	\begin{enumerate}
+		\item If \(\lambda_1 \approx \lambda_2 \approx 0\) then \(X(x,y)\) is in a region of uniform intensity.
+		\item If \(\lambda_1 \gg \lambda_2\) or \(\lambda_2 \gg \lambda_1\) then \(X(x,y)\) is on an edge.
+		\item \(\lambda_1 \approx \lambda_2 > 0\) then \(X(x,y)\) is on a corner.
+	\end{enumerate}
+\end{framed}
 Notice that if \(w_{ij} = 1\) then this is just the gradient covariance of the image and the Harris detector is essentially a local Principle Components Analysis (PCA).
 %
 In fact Harris doesn't actually compute the eigenvalues but instead a related quantity called the "strength":
@@ -124,13 +128,17 @@ SIFT identifies scale invariant and noise robust features of an image, called \t
 It then "describes" these keypoints by a rotation invariant and noise robust representation.
 %
 The algorithm consists of five steps:
-\begin{enumerate}
-	\item Scale-space pyramid construction: a sequence of increasingly sub-sampled and more strongly Gaussian filtered images is computed. The sequence of differences of these images is also computed; the sequence of differenced images approximates the multi-scale Laplacian of Gaussians\anote{log} (LoG) of the image (see figure~\ref{fig:siftpyramid}).
-	\item Keypoint detection: candidate keypoints are points on edges with curvature, i.e. extrema along scale and space dimensions in the LoG pyramid (see figure~\ref{fig:siftpyramid}).
-	\item Keypoint selection: candidate keypoints are more precisely localized using an iterative process. Keypoints of low-contrast (therefore sensitive to noise) or on edges of low curvature\anote{smallcurvature} are culled.
-	\item Keypoint orientation assignment: orientation is assigned to each keypoint by taking a weighted majority vote of all gradient orientations in a neighborhood of the keypoint (see figure~\ref{fig:siftdescriptorb}). Large minority votes (80\% of majority) are used to create more keypoints at the same pixel point.
-	\item Keypoint descriptor computation: for each keypoint the descriptor is computed by partitioning the keypoint's neighborhood into \(2^k\) sub-neighborhoods, computing an 8-bin histogram of oriented gradients\anote{hog} (HOG) in each sub-neighborhood, and concatenating (see figure~\ref{fig:siftdescriptord}). In Lowe \etal\cite{lowe2004distinctive} \(2^4=16\) sub-neighborhoods are used to produce an \(8\times16 = 128\) entry length descriptor. The descriptor is also normalized to unit length in order to make it invariant to luminance (intensity).
-\end{enumerate}
+%
+\begin{framed}
+	\begin{enumerate}
+		\item Scale-space pyramid construction: a sequence of increasingly sub-sampled and more strongly Gaussian filtered images is computed. The sequence of differences of these images is also computed; the sequence of differenced images approximates the multi-scale Laplacian of Gaussians\anote{log} (LoG) of the image (see figure~\ref{fig:siftpyramid}).
+		\item Keypoint detection: candidate keypoints are points on edges with curvature, i.e. extrema along scale and space dimensions in the LoG pyramid (see figure~\ref{fig:siftpyramid}).
+		\item Keypoint selection: candidate keypoints are more precisely localized using an iterative process. Keypoints of low-contrast (therefore sensitive to noise) or on edges of low curvature\anote{smallcurvature} are culled.
+		\item Keypoint orientation assignment: orientation is assigned to each keypoint by taking a weighted majority vote of all gradient orientations in a neighborhood of the keypoint (see figure~\ref{fig:siftdescriptorb}). Large minority votes (80\% of majority) are used to create more keypoints at the same pixel point.
+		\item Keypoint descriptor computation: for each keypoint the descriptor is computed by partitioning the keypoint's neighborhood into \(2^k\) sub-neighborhoods, computing an 8-bin histogram of oriented gradients\anote{hog} (HOG) in each sub-neighborhood, and concatenating (see figure~\ref{fig:siftdescriptord}). In Lowe \etal\cite{lowe2004distinctive} \(2^4=16\) sub-neighborhoods are used to produce an \(8\times16 = 128\) entry length descriptor. The descriptor is also normalized to unit length in order to make it invariant to luminance (intensity).
+	\end{enumerate}
+\end{framed}
+
 SIFT is indeed effective as a CP detector but unfortunately it is patented.
 %
 Alternatives include Binary Robust Invariant Scalable Keypoints\cite{leutenegger2011brisk}, and Oriented FAST and rotated BRIEF\cite{rublee2011orb} (which itself consists of applying Features from accelerated segment test\cite{rosten2006machine} to detect points of interest and Binary Robust Independent Elementary Features\cite{calonder2010brief} to compute descriptors).
@@ -144,6 +152,28 @@ For example for SIFT, where the descriptors are designed to be invariant across 
 Although this often leads to false-positive matches (Zahra \etal~resolve this by using Random Sample Consensus (RANSAC)\anote{ransac}) it's a natural feature matching method.
 %
 In other cases the matching mechanism is not so straightforward; for a class of algorithms called area-based or intensity-based algorithms, that in fact combine the feature detection and matching step into one, matching involves comparing summaries of patches in the reference image and the displaced image.
+
+\paragraph{Convex Hull Edges}
+%
+One technique that matches features explicitly is Point Matching Using Convex Hull Edges\cite{Goshtasby1985}.
+%
+It operates on the principle that the convex hull\anote{convexhull} of a set of points is invariant under translation, rotation, and scaling.
+%
+Goshtasby \etal~further argue that a noised set of points will most likely have elements deleted or added in its interior and therefore register the boundaries of the respective convex hulls of the to-be-registered image and the reference image (see figure~\ref{fig:convexhulledges}).
+%
+\input{figures/registration/convex/convex.tex}
+The key part of the algorithm (after computing the convex hull of the control points) is estimating transformation parameters between convex hull boundaries \(C_1, C_2\):
+%
+\begin{framed}
+	\begin{enumerate}
+		\item Determine the complete graphs\anote{completegraph} \(G_1=(V_1, E_1)\), \(G_2 = (V_2,E_2)\) of \(C_1\) and \(C_2\). Then \[|E_1| = \frac{|V_1| (|V_1|-1)}{2}\] (\(|V_1|\) "choose" 2) and similarly \(|E_2|\). Since there are 2 ways to match any undirected edge we extend \(E_2\) to include reverse directed edges and therefore \[|E_2| = |V_2| (|V_2|-1)\]
+		\item For each possible pairing of edges \(e_i, e_j\) in \(E_1, E_2\) compute the rotation \(R_{ij}\), scaling \(S_{ij}\), and translation \(T_{ij}\).
+		\item Given the composite transformation \(R_{ij} \circ S_{ij} \circ T_{ij}\) count the number \(N_{ij}\) of other points in \(C_1, C_2\) that also match (within a threshold distance \(D\)).
+		\item \(N_{IJ} = \max_{i,j} N_{ij}\) and \(R_{IJ} \circ S_{IJ} \circ T_{IJ}\) are the transformation parameters between the control points.
+	\end{enumerate}
+\end{framed}
+%
+Note that this procedure operates on one set of control points at a time and that there could be many such matchings computed before final registration between images can be performed.
 
 \paragraph{Normalized Cross-correlation}
 The simplest strategy for matching by region is to grid-search\anote{gridsearch} the space of possible translational shifts \(\Delta x, \Delta y\) and assess the quality of the registration for a given shift using a similarity metric.
@@ -187,11 +217,11 @@ is a single peak (see figure~\ref{fig:phasecorr}) at \((\Delta x, \Delta y)\).
 %
 The simplest implementation of NCC only identifies translations but it can be extended to affine transforms\cite{berthilsson1998}.
 
-\subsubsection{Mutual Information}
+\paragraph{Mutual Information}
 
-In general NCC fails for noisy images (the to-be-registered image is much noisier than the reference image).
+In general NCC fails for noisy images (i.e. the to-be-registered image is much noisier than the reference image).
 %
-Mutual information (MI) methods have been successfully employed in such cases; MI is also robust toward changes in light intensity, pixel color, noise and can fit large transformations.
+Mutual information (MI) methods have been successfully employed in such cases; MI is also robust to changes in light intensity, pixel color and can fit large transformations.
 %
 The mutual information of two random variables \(X_1, X_2\) is defined
 \[
@@ -209,7 +239,9 @@ Searching for the registration parameters \(\theta\) that maximize \(I_{\theta} 
 %
 Ritter \etal\cite{ritter1999} use simulated annealing to efficiently search the space of all possible parameters.
 %
-Simulated annealing iterates on the current candidate minimum \(I_{\theta}\) by "jumping" to potentially new minima in a way that prioritizes near jumps but allows for the possibility of far jumps. They use the Cauchy distribution as the minimum proposal function:
+Simulated annealing iterates on the current candidate minimum \(I_{\theta}\) by "jumping" to potentially new minima in a way that prioritizes near jumps but allows for the possibility of far jumps.
+%
+They use the Cauchy distribution as the jump proposal function:
 \[
 	G_k(d) = \frac{t_k}{\pi \left( d^2 + t_k^2 \right)}
 \]
@@ -217,80 +249,16 @@ where \(t_k\) is a parameter that over time encourages near jumps more and more 
 %
 To allow escape from local minima of \(I_{\theta}\) it is necessary to occasionally make a jump from the current parameter estimate \(\theta_k\) to a proposed value \(\theta_{k+1}\) that is "worse" (i.e. for which \(I(\theta_{k+1}) < I(\theta_{k}) \)).
 %
-This is accomplished by querying an \textit{acceptance function} \(A_k\) on every such instance:
+This is accomplished by accepting or rejecting the proposal with probability determined by an \textit{acceptance function} \(A_k\):
 \[
 	A_k(\theta_{k}, \theta_{k+1}) = \begin{cases}
-		1 & \text{if } I(\theta_{k+1}) \geq I(\theta_{k}) \\
-		\frac{e^{I(\theta_{k}) - I(\theta_{k+1})}}{C t_k} &  \text{otherwise}
+		1                                                  & \text{if } I(\theta_{k+1}) \geq I(\theta_{k}) \\
+		\frac{1}{C t_k}e^{I(\theta_{k}) - I(\theta_{k+1})} & \text{otherwise}
 	\end{cases}
 \]
 \subsubsection{Transform Estimation}
-Furthermore, the transformation to be estimated should incorporate prior knowledge about the motion model but simultaneously lead to a tractable estimation problem (i.e. reasonable number of parameters).
-%In order to compute scale invariant features a multi-tier pyramid of images at progressively smaller resolutions is constructed.
-%%
-%Each tier has images at half the resolution of the previous, with the first tier in fact being a 2x upscaling of the original image.
-%%
-%Gaussian smoothing, at uniformly increasing \(\sigma_0, k \sigma_0, k^2 \sigma_0, \mathellipsis\) scale factors, is then applied to the images (see figure~\ref{fig:sift_pyramid}):
-%\begin{equation}
-%    L(x,y,k^n\sigma_0) = G(x,y,k^n\sigma_0) \ast X(x,y)
-%\end{equation}
-%where \(G(x,y,k^n\sigma)\) is a Gaussian filter.
-%
-%With the aim being to compute image curvature extrema, the Difference of Gaussian is computed as an approximation of Laplace of Gaussians\anote{log}:
-%\begin{equation}
-%    D(x,y,k^{n+1}\sigma_0) = L(x,y,k^{n+1}\sigma_0) - L(x,y,k^n\sigma_0)
-%\end{equation}
-%This pyramid is what is used to identify extrema; an extremum is a maximum or minimum in its 26-pixel scale-space neighborhood.
-%%
-%The intensity of the point in the differenced image is compared to its neighbors in \(3 \times 3\) windows above and below in scale, and adjacent in space (see figure~\ref{fig:sift_scale}).
-%%
-%Unfortunately this produces too many candidate keypoints; the next step in the algorithm is to fit a quadratic in the neighborhood of a candidate keypoint \(\bm{c} = (x_c, y_c, k^c\sigma_0)\):
-%\begin{equation}
-%    D(\bx) \approx D(\bm{c}) + \nabla D(\bm{c})^T \bx + \frac{1}{2}\bx^T H_{D}(\bm{c}) \bx
-%    \label{eqn:dogapprox}
-%\end{equation}
-%where \(H_D\) is the Hessian of \(D\).
-%%
-%Then the true local extremum is the point \(\hat{\bm{x}}\) for which the derivative of eqn.~\eqref{eqn:dogapprox} is zero, i.e.
-%\begin{equation}
-%    \hat{\bm{x}} = -H_{D}^{-1}(\bm{c}) \nabla D(\bm{c})
-%\end{equation}
-%Low contrast points are rejected if \(|D(\hat{\bx})| < \tau\) a cut-off threshold.
-%%
-%Finally keypoints on edges of small principle curvature\anote{smallcurvature} are rejected.
-%
-%Once stable keypoints are identified, characterized by their coordinates and scale, an orientation is assigned to them in order that they function as rotation invariant features.
-%
 
+After the feature matching has been successfully completed, the mapping that transforms the to-be-registered image and the reference image needs to be constructed.
+%
+This involves choosing the class of the transform (rigid, affine, projective, or elastic)
 
-%
-%For a static scene and an imaging system with 6 degrees of freedom, motion is dependent on the geometry of the scene and potentially complex (due to occlusion and parallax).
-%%
-%This pertains to image registration where we seek to relate \(\Xkone\) to \(\Xk\):
-%\begin{equation*}
-%    \Xkone(x,y) = \Xk(x + v_x(x,y), y + v_y(x,y))
-%\end{equation*}
-%%
-%For small motions we can approximate \(\Xk\) by its first order Taylor series:
-%\begin{align}
-%    \Xkone(x,y) &= \Xk(x + v_x(x,y), y + v_y(x,y)) \\
-%    &\approx \Xk(x,y) + v_x(x,y)\frac{\partial \Xk}{\partial x} + v_y(x,y)\frac{\partial \Xk}{\partial y}\label{eqn:motiontaylor}
-%\end{align}
-%Evaluating equation~\ref{eqn:motiontaylor} at every pixel gives a set of linear equations that enable us to fit one of the models in table~\ref{table:transformations}.
-%%
-%We focus on affine motion primarily because it is easy to estimate and secondarily because the composition of multiple affine transformations is an affine transformation (enabling us to register more than 2 images by building up the necessary transformations incrementally).
-%%
-%In this instance it can be seen that at \(\bx' \coloneqq (x', y') = (x + v_x(x,y), y + v_y(x,y))\) in \(\Xkone\) are related to pixels at \(\bx \coloneqq (x,y)\) in \(\Xk\) by a translation and a rotation:
-%\begin{equation}
-%    \bx' = R \bx + \bm{t}
-%\end{equation}
-%%
-%Note that for nonstatic scenes the registration problem becomes "exponentially" more difficult as many more parameters need to be estimated.
-%%
-%Furthermore registration and super resolution are not independent since the data being used to estimate the registration transforms is blurry and noisy; to wit perfectly resolved images could be much more effectively registered.
-%
-\subsection{Gaussian Process}\label{subsec:gaussianprocess}
-%\input{figures/motion_transformations.tex}
-They innovation of this technique is the fully Bayesian approach; they marginalize over the unknown high-resolution image in order to infer the low-resolution image registration parameters.
-%
-Further, by virtue of marginalization, they're able to estimate the PSF along with the image registration parameters.

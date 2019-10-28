@@ -44,6 +44,7 @@ In figure~\ref{fig:ccd-array} these equi-potentials are labeled $\Phi1, \Phi2, \
 They function to move the collected photo-electrons down one electrode line at a time, using charge coupling, while the channel stops function to prevent diffusion of charge across channels.
 %
 The VR mechanism that shifts collected charge operates as follows:
+\begin{framed}
 \begin{enumerate}
 	\item Suppose initially there's a collection of photo-electrons on each channel at $\Phi1$ and only $\Phi1$. Note this means $\Phi2, \Phi3$ are at $0$v (again just as in figure~\ref{fig:mos-cap}).
 	\item $\Phi2$ is positively biased to $10$V. This diffuses the collection of charge under both $\Phi1$ and $\Phi2$.
@@ -51,6 +52,7 @@ The VR mechanism that shifts collected charge operates as follows:
 	\item The same is repeated with $\Phi2, \Phi3$ and $\Phi3, \Phi1$.
 	\item The entire process repeats thereby shifting the charge three lines (or one pixel row) at a time.
 \end{enumerate}
+\end{framed}
 At the bottom of the image section $\Phi3$ transfers all signal charges to the horizontal register (HR) which functions much like the VR except faster: the HR must transfer every line of pixels independently of all other lines to the read-out node.
 %
 An obvious challenge faced by this system is how to prevent errant charge from accumulating out of sync with the shift process i.e. how to prevent new photoelectrons from being produced at intermediate lines while far lines are being shifted.
