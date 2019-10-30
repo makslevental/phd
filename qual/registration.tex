@@ -100,7 +100,7 @@ They also apply Non-maximum Suppression\anote{nms} (NMS) using a \(3 \times 3\) 
 %
 Finally only the "strongest" \(n\) corners are kept.
 
-\subsubsection{SIFT}
+\subsubsection{SIFT}\label{sec:sift}
 
 \begin{figure}
 	\centering
@@ -259,34 +259,43 @@ There are broadly two perspectives on constructing the transformation \(f\): the
 %
 %These two perspectives naturally correspond to a globally (see figures~\ref{fig:rigidtransformation}, ~\ref{fig:affinetransformation}, ~\ref{fig:projectivetransformation}) or locally defined transformation \(f\) (see figure~\ref{fig:elastictransformation}).
 %
-We first cover global algorithms and then move on to local algorithms.
+We first quickly cover global algorithms and then move on to more powerful, and more interesting, local algorithms.
 
 \subsubsection{Global Algorithms}
 
-The most commonly used global model is the affine transformation (see figures~\ref{fig:affinetransformation}), which in homogeneous coordinates\anote{homogeneous} is defined:
-\[
-	\begin{bmatrix}
-		ax + by + t_x \\
-		cx + dy+ t_y  \\
-		1             \\
-	\end{bmatrix} = 			\begin{bmatrix}
-		a & b & t_x \\
-		c & d & t_y \\
-		0 & 0 & 1   \\
-	\end{bmatrix} 			\begin{bmatrix}
-		x \\
-		y \\
-		1 \\
-	\end{bmatrix}
-\]
-from which the transformed pixel coordinates can be recovered as
+The most commonly used global model is the rigid transformation (see figures~\ref{fig:rigidtransformation}), which in homogeneous coordinates\anote{homogeneous} is defined:
 \begin{equation}
-	\begin{split}
-		x' & = ax + by + t_x \\
-		y' & = cx + dy+ t_y
-        \label{eqn:affinetf}
-	\end{split}
+		\begin{bmatrix}
+			x' \\
+			y' \\
+			1             \\
+		\end{bmatrix} = 						\begin{bmatrix}
+												   \cos(\theta) & -\sin(\theta) & t_x \\
+												   \sin(\theta) & \cos(\theta)  & t_y \\
+												   0            & 0             & 1   \\
+		\end{bmatrix}			\begin{bmatrix}
+									 x \\
+									 y \\
+									 1 \\
+		\end{bmatrix}
+	\label{eqn:rigidparams}
 \end{equation}
+The unknown parameters \((\theta, t_x, t_y)\) in eqn.~\eqref{eqn:rigidparams} can be estimated by expanding \(x', y'\) to using Taylor series
+\begin{equation}
+    \begin{split}
+		x' &= t_x +  x\left( 1 - \frac{\theta^2}{2} \right) - y\theta  + O(\theta^3) \\
+		y' &= t_y + x \theta  + y\left( 1 - \frac{\theta^2}{2} \right) + O(\theta^3)
+    \end{split}
+	\label{eqn:rigidtaylor}
+\end{equation}
+Note that this is only valid for small angles \(\theta\) (the small-angle approximation\cite{keren1988}).
+%
+Truncating eqns.~\eqref{eqn:rigidtaylor} to first or second order and substituting data from matched features yields a system of linear equations.
+%
+Given that often there are many more matched features than unknowns in eqns.~\eqref{eqn:rigidtaylor} such a system is overdetermined; a unique solution can be determined using regularized least-squares.
+%
+In order to make this process more efficient and increase accuracy Keren \etal\cite{keren1988} use a Gaussian pyramid (see figure~\ref{fig:siftpyramid} and corresponding discussion in section~\ref{sec:sift}) to iteratively refine estimates at higher and higher resolutions.
+%
 In the more general case of a projective transformation (a perspective shift) the transformed pixel coordinates are
 \begin{equation}
 	\begin{split}
@@ -295,7 +304,7 @@ In the more general case of a projective transformation (a perspective shift) th
 	\label{eqn:projectivetf}
 	\end{split}
 \end{equation}
-In eqns.~\eqref{eqn:affinetf} and~\eqref{eqn:projectivetf} those parameters that are not pixel coordinates \(x,y\) are estimated from the pixel coordinates of features matched in the previous step.
-%
-In general these systems of equations are overdetermined (by design) and a unique solution is determined using regularized least-squares.
+and similarly the unknowns (\(a,b,\dots\), etc.) can be estimated from matched feature correspondence data.
+
+\subsubsection{Local Algorithms}
 
