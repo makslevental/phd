@@ -309,7 +309,6 @@ In the more general case of a projective transformation (a perspective shift) th
 and similarly the unknowns (\(a,b,\dots\), etc.) can be estimated from matched feature correspondence data.
 
 \subsubsection{Local Algorithms}
-\paragraph{Splines}
 \paragraph{Optical Flow}
 \input{figures/registration/optical_flow/flow.tex}
 The most general and most interesting framing of the problem of local transformation is \textit{optical flow}.
@@ -396,11 +395,10 @@ For example using a \(5 \times 5\) window around a given pixel yields a \(5\time
 Regularizers can also be used to resolve the aperture problem. 
 %
 Defining \(\rho(\mathbf{u})\) as the left-hand side of eqn.~\eqref{eqn:intensityconstr}, Horn \etal~\cite{horn1993determining} propose the functional
-\begin{multline}
-	E(\mathbf{u}) \coloneqq
-	\int_R \left[ |\rho(\mathbf{u})|^2 + \alpha \left( | \nabla u_1 |^2 + | \nabla u_2 |^2\right) \right] \dif R
+\begin{equation}
+	E(\mathbf{u}) \coloneqq \int_R \left[ |\rho(\mathbf{u})|^2 + \alpha \left( | \nabla u_1 |^2 + | \nabla u_2 |^2\right) \right] \dif R
 	\label{eqn:linearhorn}
-\end{multline}
+\end{equation}
 where \(| \nabla u_1 |^2\) is the \(L_2\) norm of \(\nabla u_1 = (\pd{u_1}{x}, \pd{u_1}{y})\).
 %
 \(E(\mathbf{u})\) acts a smoothing regularizer, constraining the acceleration of the flow (recall that \(\mathbf{u}\) is the velocity of the flow).
@@ -429,3 +427,9 @@ Perez \etal~\cite{perez2013tv} further relax this to a convex loss:
 in order that they can alternate fixing one of \(\mathbf{u}, \mathbf{v}\) and minimizing with respect to the other.
 %
 Note that fixing \(\theta\) in eqn.~\eqref{eqn:relaxhorn} to be small pushes \(E_{\theta}(\mathbf{u}, \mathbf{v})\) to be small when \(\mathbf{u}\approx \mathbf{v}\) and therefore effectively minimizing eqn.~\eqref{eqn:nonlinearhorn}.
+\paragraph{Splines}
+\input{figures/registration/splines/splines.tex}
+One issue with optical flow methods is that they are very compute intensive; iteratively minimizing either eqn.~\eqref{eqn:nonlinearhorn} or eqn.~\eqref{eqn:relaxhorn} requires evaluating at every pixel.
+%
+As an one can represent the velocity field \(\mathbf{u}\) as a two-dimensional spline controlled by a smaller number of
+displacement estimates \(\hat{\mathbf{u}}\) which lies on a coarser \textit{spline control grid} (see figure~\ref{fig:bsplinegrid}). 

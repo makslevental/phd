@@ -1,0 +1,55 @@
+\begin{figure}
+    \centering
+    \begin{tikzpicture}
+        \def\length{sqrt((x^2+y^2)^2  + (x*y)^2 )}
+        \begin{axis}[
+                enlargelimits = false ,
+                view={0}{90},
+				xmin=0, xmax=1, ymin=0, ymax=1,
+				ytick distance=1/8,
+				xtick distance=1/8,
+                axis equal image,
+                grid=both,
+                major grid style={black},
+                axis equal image,
+                ticks=none
+            ]
+            \addplot3[
+                domain=1/8:7/8,
+                black,
+                quiver={
+                    u={(x^2+y^2)/\length}, 
+                    v={x*y/\length}, 
+                    scale arrows=0.11
+                },
+                -latex,
+                samples=7
+            ] {0};
+        \end{axis}
+        \begin{axis}[
+            enlargelimits = false ,
+            view={0}{90},
+            xmin=0, xmax=1, ymin=0, ymax=1,
+            xtick={1/8,1/2,7/8},
+            ytick={1/8,1/2,7/8},
+            axis equal image,
+            grid=both,
+            major grid style={black},
+            axis equal image,
+            ticks=none
+        ]
+        \addplot3[
+            domain=1/8:7/8,
+            red,
+            quiver={
+                u={(x^2+y^2)/\length}, 
+                v={x*y/\length}, 
+                scale arrows=0.11
+            },
+            -{Latex[length=3mm,width=3mm]},
+            samples=3
+        ] {0};
+    \end{axis}
+    \end{tikzpicture}
+    \caption[]{B-spline interpolation for \(\mathbf{u}\) (red vectors are spline control points and black vectors interpolated).}\label{fig:bsplinegrid}
+\end{figure}
