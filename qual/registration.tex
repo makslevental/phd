@@ -71,7 +71,7 @@ This implies
 		v
 	\end{bmatrix} \label{eqn:structurematrix}
 \end{align}
-where \(X_u = \partial X/\partial u\) and similarly \(X_v\).
+where \(X_u \coloneqq \partial X/\partial u\) and similarly \(X_v\).
 %
 The matrix in eqn.~\eqref{eqn:structurematrix}, called the \textit{structor tensor} or \textit{second-moment matrix} \(M\), is the quantity Harris investigated.
 %
@@ -85,9 +85,9 @@ Harris reasoned that the cases of Moravec correspond to conditions on the eigenv
 \end{framed}
 Notice that if \(w_{ij} = 1\) then this is just the gradient covariance of the image and the Harris detector is essentially a local Principle Components Analysis (PCA).
 %
-In fact Harris doesn't actually compute the eigenvalues but instead a related quantity called the "strength":
+In fact Harris doesn't actually compute the eigenvalues but instead a related quantity called the ``strength'':
 \begin{align}
-	S & = \lambda_1 \lambda_2 - \kappa (\lambda_1 + \lambda_2)^2 \\
+	S & \coloneqq \lambda_1 \lambda_2 - \kappa (\lambda_1 + \lambda_2)^2 \\
 	  & = \det(M) - \kappa \operatorname{trace}^2(M)
 	\label{eqn:strength}
 \end{align}
@@ -98,7 +98,7 @@ They then threshold\anote{threshold} the gradient map at the average gradient va
 %
 They also apply Non-maximum Suppression\anote{nms} (NMS) using a \(3 \times 3\) window and further threshold the remaining non-zero strength values at a threshold of 1\% of maximum observed strength.
 %
-Finally only the "strongest" \(n\) corners are kept.
+Finally only the ``strongest'' \(n\) corners are kept.
 
 \subsubsection{SIFT}\label{sec:sift}
 
@@ -159,7 +159,7 @@ The key part of the algorithm (after computing the convex hull of the control po
 		\item Determine the complete graphs\anote{completegraph} \(G_1=(V_1, E_1)\), \(G_2 = (V_2,E_2)\) of \(C_1\) and \(C_2\). Then \[|E_1| = \frac{|V_1| (|V_1|-1)}{2}\] (\(|V_1|\) "choose" 2) and similarly \(|E_2|\). Since there are 2 ways to match any undirected edge we extend \(E_2\) to include reverse directed edges and therefore \[|E_2| = |V_2| (|V_2|-1)\]
 		\item For each possible pairing of edges \(e_i, e_j\) in \(E_1, E_2\) compute the rotation \(R_{ij}\), scaling \(S_{ij}\), and translation \(T_{ij}\).
 		\item Given the composite transformation \(R_{ij} \circ S_{ij} \circ T_{ij}\) count the number \(N_{ij}\) of other points in \(C_1, C_2\) that also match (within a threshold distance \(D\)).
-		\item \(N_{IJ} = \max_{i,j} N_{ij}\) and \(R_{IJ} \circ S_{IJ} \circ T_{IJ}\) are the transformation parameters between the control points.
+		\item \(N_{IJ} = \max_{i,j} N_{ij}\) and \(R_{IJ}\, \circ S_{IJ}\, \circ\, T_{IJ}\) are the transformation parameters between the control points.
 	\end{enumerate}
 \end{framed}
 %
@@ -170,7 +170,7 @@ The simplest strategy for matching by region is to grid-search\anote{gridsearch}
 %
 One such similarity metric is Normalized Cross-correlation (NCC); for two image patches \(X, Y\) (with the same width, height) NCC is defined in a straightforward way
 \begin{multline}
-	NCC(X, Y) = \\ \frac{\sum_{x,y} \left(X(x,y) - \hat{X}\right) \left(Y(x,y) - \hat{Y}\right)}{\sqrt{\sum_{x,y} \left(X(x,y) - \hat{X}\right)^2} \sqrt{ \sum_{x,y} \left(Y(x,y) - \hat{Y}\right)^2 }}
+	\operatorname{NCC}(X, Y) \coloneqq \\ \frac{\sum_{x,y} \left(X(x,y) - \hat{X}\right) \left(Y(x,y) - \hat{Y}\right)}{\sqrt{\sum_{x,y} \left(X(x,y) - \hat{X}\right)^2} \sqrt{ \sum_{x,y} \left(Y(x,y) - \hat{Y}\right)^2 }}
 \end{multline}
 where \(\hat{X}, \hat{Y}\) are mean patch values.
 
@@ -192,12 +192,12 @@ where \(N,M\) are the dimensions of the images
 %
 and the \textit{normalized cross-power spectrum}
 \begin{align}
-	R(u,v) & = \frac{\mathcal{X}\circ \mathcal{Y}^{*}}{|\mathcal{X} ||\mathcal{Y}^{*} |}                                                                                                                            \\
-	       & = \frac{\mathcal{X}\circ \mathcal{X}^{*} \, e^{2 \pi i (\frac{u \Delta x}{M} + \frac{v \Delta y}{N})}}{|\mathcal{X} ||\mathcal{X}^{*} \, e^{-2 \pi i (\frac{u \Delta x}{M} + \frac{v \Delta y}{N})} |} \\
-	       & = \frac{\mathcal{X}\circ \mathcal{X}^{*} \, e^{2 \pi i (\frac{u \Delta x}{M} + \frac{v \Delta y}{N})}}{|\mathcal{X} ||\mathcal{X}^{*} |}                                                               \\
-	       & = e^{2 \pi i (\frac{u \Delta x}{M} + \frac{v \Delta y}{N})} \label{eqn:singleexp}
+	R(u,v) & \coloneqq \frac{\mathcal{X}\odot \mathcal{Y}^{*}}{|\mathcal{X} ||\mathcal{Y}^{*} |} \\
+	& = \frac{\mathcal{X}\odot \mathcal{X}^{*} \, e^{2 \pi i (\frac{u \Delta x}{M} + \frac{v \Delta y}{N})}}{|\mathcal{X} ||\mathcal{X}^{*} \, e^{-2 \pi i (\frac{u \Delta x}{M} + \frac{v \Delta y}{N})} |} \\
+	& = \frac{\mathcal{X}\odot \mathcal{X}^{*} \, e^{2 \pi i (\frac{u \Delta x}{M} + \frac{v \Delta y}{N})}}{|\mathcal{X} ||\mathcal{X}^{*} |}                                                               \\
+	& = e^{2 \pi i (\frac{u \Delta x}{M} + \frac{v \Delta y}{N})} \label{eqn:singleexp}
 \end{align}
-where \(\circ\) is Hadamard product\anote{hadamard}, \(|\mathcal{X}|\) is the magnitude of \(\mathcal{X}\), \(\mathcal{X}^*\) is the complex conjugate of \(\mathcal{X}\) and we've used the fact that \(|e^{iz}|=1\) for all \(z\).
+where \(\odot\) is Hadamard product\anote{hadamard}, \(|\mathcal{X}|\) is the magnitude of \(\mathcal{X}\), \(\mathcal{X}^*\) is the complex conjugate of \(\mathcal{X}\) and we've used the fact that \(|e^{iz}|=1\) for all \(z\).
 %
 Then the inverse Fourier transform of eqn.~\eqref{eqn:singleexp}
 \[
@@ -241,7 +241,7 @@ To allow escape from local minima of \(I_{\theta}\) it is necessary to occasiona
 %
 This is accomplished by accepting or rejecting the proposal with probability determined by an \textit{acceptance function} \(A_k\):
 \[
-	A_k(\theta_{k}, \theta_{k+1}) = \begin{cases}
+	A_k(\theta_{k}, \theta_{k+1}) \coloneqq \begin{cases}
 		1                                                  & \text{if } I(\theta_{k+1}) \geq I(\theta_{k}) \\
 		\frac{1}{C t_k}e^{I(\theta_{k}) - I(\theta_{k+1})} & \text{otherwise}
 	\end{cases}
@@ -309,6 +309,7 @@ In the more general case of a projective transformation (a perspective shift) th
 and similarly the unknowns (\(a,b,\dots\), etc.) can be estimated from matched feature correspondence data.
 
 \subsubsection{Local Algorithms}
+\paragraph{Optical Flow}
 \input{figures/registration/optical_flow/flow.tex}
 The most general and most interesting framing of the problem of local transformation is \textit{optical flow}.
 %
@@ -375,10 +376,10 @@ It is therefore under-determined and hence a regularizer is necessary in order t
 Defining \(\rho(\mathbf{u})\) as the left-hand side of eqn.~\eqref{eqn:intensityconstr}, Horn \etal~\cite{horn1993determining} propose the functional
 \begin{multline}
 	E(\mathbf{u}) \coloneqq
-	\int_R \left[ \|\rho(\mathbf{u})\|^2 + \alpha \left( \left\| \nabla u_1 \right\|^2 + \left\| \nabla u_2 \right\|^2\right) \right] \dif R
+	\int_R \left[ |\rho(\mathbf{u})|^2 + \alpha \left( | \nabla u_1 |^2 + | \nabla u_2 |^2\right) \right] \dif R
 	\label{eqn:linearhorn}
 \end{multline}
-where \(\left\| \nabla u_1 \right\|^2\) is the \(L_2\) norm of \(\nabla u_1 = (\pd{u_1}{x}, \pd{u_1}{y})\).
+where \(| \nabla u_1 |^2\) is the \(L_2\) norm of \(\nabla u_1 = (\pd{u_1}{x}, \pd{u_1}{y})\).
 %
 \(E(\mathbf{u})\) acts a smoothing regularizer, constraining the acceleration of the flow (recall that \(\mathbf{u}\) is the velocity of the flow).
 %
@@ -387,22 +388,23 @@ Note that \(\nabla u_1\) is not the first component of \(\nabla \cdot \mathbf{u}
 Although eqn.~\eqref{eqn:intensityconstr}, along with Horn smoother, is an effective resolution to the problem of computing optical flows in continuous time it is unsuitable for images sampled discretely in time.
 %
 In such cases eqn.~\eqref{eqn:intensityconstr} is replaced by \( X_k(\bx + \mathbf{u}) - X_1(\bx)\), where \(\bx = (x,y)\), and then linearized around an initial velocity \(\mathbf{u}_1\):
-\begin{equation}
-	\nabla X_k (\bx + \mathbf{u}_1)\cdot (\mathbf{u} - \mathbf{u}_1) + X_k(\bx + \mathbf{u}_1) -  X_1(\bx)= 0
-	\label{eqn:nonlinearconstr}
-\end{equation}
+\begin{multline}
+\nabla X_k (\bx + \mathbf{u}_1)\cdot (\mathbf{u} - \mathbf{u}_1)\, + \\ X_k(\bx + \mathbf{u}_1)  -  X_1(\bx) = 0
+\label{eqn:nonlinearconstr}
+\end{multline}
 Defining \(\rho'(\mathbf{u})\) as the left-hand side of eqn.~\eqref{eqn:nonlinearconstr}, the Horn smoother suitably adjusted is
 \begin{equation}
-	E'(\mathbf{u}) \coloneqq \int_R \left[ \left\| u_1 \right\|^2 + \left\| u_2 \right\|^2 + \lambda \left\| \rho'(\mathbf{u}) \right\|_1 \right] \dif R
+	E'(\mathbf{u}) \coloneqq \int_R \left[ | u_1 |^2 + | u_2 |^2 + \lambda | \rho'(\mathbf{u}) |_1 \right] \dif R
 	\label{eqn:nonlinearhorn}
 \end{equation}
 %
 Perez \etal~\cite{perez2013tv} further relax this to a convex loss:
 \begin{multline}
 	E_{\theta}(\mathbf{u}, \mathbf{v}) \coloneqq \\
-	\int_R \left[ \left\| u_1 \right\|^2 + \left\| u_2 \right\|^2 + \frac{1}{2\theta}\left\| \mathbf{u} - \mathbf{v} \right\|^2 + \lambda \left\| \rho'(\mathbf{v}) \right\|_1 \right] \dif R
+	\int_R \left[ | u_1 |^2 + | u_2 |^2 + \frac{1}{2\theta}| \mathbf{u} - \mathbf{v} |^2 + \lambda | \rho'(\mathbf{v}) |_1 \right] \dif R
 	\label{eqn:relaxhorn}
 \end{multline}
 in order that they can alternate fixing one of \(\mathbf{u}, \mathbf{v}\) and minimizing with respect to the other.
 %
 Note that fixing \(\theta\) in eqn.~\eqref{eqn:relaxhorn} to be small pushes \(E_{\theta}(\mathbf{u}, \mathbf{v})\) to be small when \(\mathbf{u}\approx \mathbf{v}\) and therefore effectively minimizing eqn.~\eqref{eqn:nonlinearhorn}.
+\paragraph{Splines}

@@ -12,8 +12,8 @@ reference_image, moving_image, disp = stereo_motorcycle()
 reference_image = rgb2gray(reference_image)
 moving_image = rgb2gray(moving_image)
 
-reference_image = skimage.io.imread("image003.png", as_gray=True)
-moving_image = skimage.io.imread("image004.png", as_gray=True)
+reference_image = skimage.io.imread("cube1.png", as_gray=True)
+moving_image = skimage.io.imread("cube2.png", as_gray=True)
 dpi = 24
 px, py = reference_image.shape
 fig = pyplot.figure(figsize=(py / numpy.float(dpi), px / numpy.float(dpi)))

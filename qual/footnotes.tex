@@ -79,7 +79,7 @@ At a given iteration the fitted transform model is tested against the unused key
 		\begin{bmatrix}
 			a_{11} & a_{12} \\
 			a_{21} & a_{22} \\
-		\end{bmatrix}\circ \begin{bmatrix}
+		\end{bmatrix}\odot \begin{bmatrix}
 			b_{11} & b_{12} \\
 			b_{21} & b_{22} \\
 		\end{bmatrix} \coloneqq
@@ -94,13 +94,13 @@ Shannon entropy can be interpreted as the number of bits \(L\) necessary to enco
 %
 It is defined as
 \[
-	\mathrm {H} (X)\coloneqq\sum{P(x)\log\left[\frac{1}{P (x)}\right]}
+	H(X)\coloneqq\sum{P(x)\log\left[\frac{1}{P (x)}\right]}
 \]
 i.e. \(P(x_i) = 1/2^L\) where \(L\) is the number of bits.
 }
 \anotecontent{kde}{Alternatively known as Parzen windowing, the kernel density estimator \(\hat{P}\) of a distribution \(X\sim P\) given a set of points \(\left\{ x_1, x_2, \dots, x_n \right\}\) is defined as
 \[
-	\hat{P}(x)={\frac {1}{nh}}\sum _{i=1}^{n}K\left( \frac {x-x_{i}}{h} \right)
+	\hat{P}(x) \coloneqq {\frac {1}{nh}}\sum _{i=1}^{n}K\left( \frac {x-x_{i}}{h} \right)
 \]
 where \(K\) is a kernel (e.g. Gaussian) and \(h\) is the \textit{kernel bandwidth}.
 }
