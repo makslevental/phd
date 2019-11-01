@@ -192,10 +192,10 @@ where \(N,M\) are the dimensions of the images
 %
 and the \textit{normalized cross-power spectrum}
 \begin{align}
-	R(u,v) & \coloneqq \frac{\mathcal{X}\odot \mathcal{Y}^{*}}{|\mathcal{X} ||\mathcal{Y}^{*} |} \\
-	& = \frac{\mathcal{X}\odot \mathcal{X}^{*} \, e^{2 \pi i (\frac{u \Delta x}{M} + \frac{v \Delta y}{N})}}{|\mathcal{X} ||\mathcal{X}^{*} \, e^{-2 \pi i (\frac{u \Delta x}{M} + \frac{v \Delta y}{N})} |} \\
-	& = \frac{\mathcal{X}\odot \mathcal{X}^{*} \, e^{2 \pi i (\frac{u \Delta x}{M} + \frac{v \Delta y}{N})}}{|\mathcal{X} ||\mathcal{X}^{*} |}                                                               \\
-	& = e^{2 \pi i (\frac{u \Delta x}{M} + \frac{v \Delta y}{N})} \label{eqn:singleexp}
+	R(u,v) & \coloneqq \frac{\mathcal{X}\odot \mathcal{Y}^{*}}{|\mathcal{X} ||\mathcal{Y}^{*} |}                                                                                                                    \\
+	       & = \frac{\mathcal{X}\odot \mathcal{X}^{*} \, e^{2 \pi i (\frac{u \Delta x}{M} + \frac{v \Delta y}{N})}}{|\mathcal{X} ||\mathcal{X}^{*} \, e^{-2 \pi i (\frac{u \Delta x}{M} + \frac{v \Delta y}{N})} |} \\
+	       & = \frac{\mathcal{X}\odot \mathcal{X}^{*} \, e^{2 \pi i (\frac{u \Delta x}{M} + \frac{v \Delta y}{N})}}{|\mathcal{X} ||\mathcal{X}^{*} |}                                                               \\
+	       & = e^{2 \pi i (\frac{u \Delta x}{M} + \frac{v \Delta y}{N})} \label{eqn:singleexp}
 \end{align}
 where \(\odot\) is Hadamard product\anote{hadamard}, \(|\mathcal{X}|\) is the magnitude of \(\mathcal{X}\), \(\mathcal{X}^*\) is the complex conjugate of \(\mathcal{X}\) and we've used the fact that \(|e^{iz}|=1\) for all \(z\).
 %
@@ -309,6 +309,7 @@ In the more general case of a projective transformation (a perspective shift) th
 and similarly the unknowns (\(a,b,\dots\), etc.) can be estimated from matched feature correspondence data.
 
 \subsubsection{Local Algorithms}
+\paragraph{Splines}
 \paragraph{Optical Flow}
 \input{figures/registration/optical_flow/flow.tex}
 The most general and most interesting framing of the problem of local transformation is \textit{optical flow}.
@@ -316,14 +317,16 @@ The most general and most interesting framing of the problem of local transforma
 Optical flow is the apparent motion of objects, surfaces, and edges in a scene caused by the relative motion between an observer and a scene.
 %
 It is most often represented as a velocity field over the individual point sources in the scene (see figure~\ref{fig:opticalflow}).
+%
+This velocity field can be used to define a mapping between pixels in the displaced image and the reference image (in a sense propagating the pixels backwards in time).
 
 One approach to computing optical flow is based on treating pixel intensity as a \textit{conserved quantity}.
 %
-Let \(X(x,y,t)\) be pixel intensity over time (i.e., over a sequence of images),
+Let \(X(x,y,t)\) be pixel intensity over a sequence of images (i.e., the images per se),
 \[
 	Q(t) \coloneqq \iint_R X(x,y,t) \dif R
 \]
-be the total pixel intensity over some closed image region \(R\) and assume \(Q\) is differentiable in \(t\) (we deal with discretization in the forthcoming).
+be the total pixel intensity over some image region \(R\) and assume \(Q\) is differentiable in \(t\) (we deal with discretization in the forthcoming).
 %
 \(Q\) obeys a \textit{continuity equation}:
 \begin{equation}
@@ -332,9 +335,9 @@ be the total pixel intensity over some closed image region \(R\) and assume \(Q\
 \end{equation}
 where \(\partial R\) is the closed boundary of \(R\) (\(\dif l\) is the differential line element of \(\partial R\)), \(\mathbf{n}\) is unit length and normal to \(\partial R\), \(\mathbf{j}\) is the intensity flux (i.e., rate of flow of the intensity) through \(\partial R\), and \(\Sigma\) is the sum of all intensity sources and intensity sinks in \(R\).
 %
-Equation~\eqref{eqn:intcontinuity} expresses the fact that the change in total pixel intensity in the region \(R\) over time is equal to net intensity creation minus net flux through the boundary.
+Equation~\eqref{eqn:intcontinuity} expresses the fact that the change in total pixel intensity in the region \(R\) over time is equal to net intensity creation minus net flux through the boundary of the region.
 %
-By the Stokes' theorem\anote{stokes} and interchanging the order of the integration and differentiation
+By the Stokes' theorem\anote{stokes} and interchanging the order of integration and differentiation
 %\begin{align}
 %	\od{}{t} Q(t) + \oint_{\partial R} \mathbf{j} \cdot \mathbf{n}\, \dif l &=  \\
 %	\od{}{t} \iint_R X(x,y,t) \dif R + \iint_R \nabla \cdot \mathbf{j}\, \dif R &= \\
@@ -343,8 +346,8 @@ By the Stokes' theorem\anote{stokes} and interchanging the order of the integrat
 %\end{align}
 \begin{align*}
 	\od{}{t} Q(t) + \oint_{\partial R} \mathbf{j} \cdot \mathbf{n}\, \dif l & = \od{}{t} \iint_R X(x,y,t) \dif R + \iint_R \nabla \cdot \mathbf{j}\, \dif R \\
-	                                                                        & = \iint_R \pd{X}{t} \dif R + \iint_R \nabla \cdot \mathbf{j}\, \dif R         \\
-	                                                                        & = \iint_R \pd{X}{t} + \nabla \cdot \mathbf{j}\,  \dif R = \Sigma
+	& = \iint_R \pd{X}{t} \dif R + \iint_R \nabla \cdot \mathbf{j}\, \dif R         \\
+	& = \iint_R \left[ \pd{X}{t} + \nabla \cdot \mathbf{j} \right]  \dif R = \Sigma
 \end{align*}
 Then the corresponding differential form for eqn.~\eqref{eqn:intcontinuity} is
 \begin{equation}
@@ -355,23 +358,39 @@ where now \(\sigma\) is net intensity creation per unit area.
 %
 This is a generalized advection equation\anote{advection}.
 %
-Then if pixel intensity is a conserved quantity (i.e., no net creation) eqn.~\eqref{eqn:diffcontinuity} becomes
+If pixel intensity is a conserved quantity (i.e., no net creation) eqn.~\eqref{eqn:diffcontinuity} becomes
 \begin{equation}
 	\pd{X}{t} + \nabla \cdot \mathbf{j} = 0
 	\label{eqn:conservintent}
 \end{equation}
 By definition \(\mathbf{j} = X\mathbf{u}\) where \(\mathbf{u} \coloneqq (u_1(x,y), u_2(x,y))\) is the velocity field (over all the points in the image).
 %
-If we further assume that the intensity flow is incompressible (i.e., that intensity density remains constant as it is advected by the point sources) then \(\nabla \cdot \mathbf{u} = 0\) and eqn~\eqref{eqn:conservintent} becomes
+If we further assume that the intensity flow is incompressible (i.e., intensity density remains constant as it is advected by the point sources) then \(\nabla \cdot \mathbf{u} = 0\) and eqn~\eqref{eqn:conservintent} becomes
 \begin{equation}
 	\pd{X}{t} + \mathbf{u} \cdot \nabla X = 0
 	\label{eqn:intensityconstr}
 \end{equation}
-This is called the \textit{optical flow constraint equation}\cite{perez2013tv}.
+
+Equation~\eqref{eqn:intensityconstr} is called the \textit{optical flow constraint equation}\cite{perez2013tv}.
 %
-Note that for every point in the scene eqn.~\eqref{eqn:intensityconstr} is linear in two variables (the components of \(\mathbf{u}\)).
+Note that the constraint equation is a single linear equation in two unknowns (the components of \(\mathbf{u}\)) and is therefore under-determined.
 %
-It is therefore under-determined and hence a regularizer is necessary in order to uniquely determine \(\mathbf{u}\).
+\input{figures/registration/optical_flow/aperture.tex}
+%
+This is called the \textit{aperture problem} or the Barber-poll illusion (see figure~\ref{fig:barberpoll}) because any motion perpendicular to image gradients \(\nabla X\) (i.e., edges) isn't captured by the constraint: to wit if 
+\[\mathbf{u}' \cdot \nabla X= 0\] 
+then 
+\[
+	\pd{X}{t} + \left(\mathbf{u} + \mathbf{u}' \right) \cdot \nabla X = \pd{X}{t} + \mathbf{u} \cdot \nabla X = 0
+\]
+%
+Therefore additional constraints need to be imposed in order to uniquely determine \(\mathbf{u}\).
+%
+The first such additional constraint was the \textit{spatial coherence constraint} proposed by Lucas\etal~\cite{lucas1981iterative}: assume a pixel's neighbors have the same velocity \(\mathbf{u}\).
+%
+For example using a \(5 \times 5\) window around a given pixel yields a \(5\times5 = 25\) equation over-determined system (solved using least-squares).
+
+Regularizers can also be used to resolve the aperture problem. 
 %
 Defining \(\rho(\mathbf{u})\) as the left-hand side of eqn.~\eqref{eqn:intensityconstr}, Horn \etal~\cite{horn1993determining} propose the functional
 \begin{multline}
@@ -389,8 +408,8 @@ Although eqn.~\eqref{eqn:intensityconstr}, along with Horn smoother, is an effec
 %
 In such cases eqn.~\eqref{eqn:intensityconstr} is replaced by \( X_k(\bx + \mathbf{u}) - X_1(\bx)\), where \(\bx = (x,y)\), and then linearized around an initial velocity \(\mathbf{u}_1\):
 \begin{multline}
-\nabla X_k (\bx + \mathbf{u}_1)\cdot (\mathbf{u} - \mathbf{u}_1)\, + \\ X_k(\bx + \mathbf{u}_1)  -  X_1(\bx) = 0
-\label{eqn:nonlinearconstr}
+	\nabla X_k (\bx + \mathbf{u}_1)\cdot (\mathbf{u} - \mathbf{u}_1)\, + \\ X_k(\bx + \mathbf{u}_1)  -  X_1(\bx) = 0
+	\label{eqn:nonlinearconstr}
 \end{multline}
 Defining \(\rho'(\mathbf{u})\) as the left-hand side of eqn.~\eqref{eqn:nonlinearconstr}, the Horn smoother suitably adjusted is
 \begin{equation}
@@ -407,4 +426,3 @@ Perez \etal~\cite{perez2013tv} further relax this to a convex loss:
 in order that they can alternate fixing one of \(\mathbf{u}, \mathbf{v}\) and minimizing with respect to the other.
 %
 Note that fixing \(\theta\) in eqn.~\eqref{eqn:relaxhorn} to be small pushes \(E_{\theta}(\mathbf{u}, \mathbf{v})\) to be small when \(\mathbf{u}\approx \mathbf{v}\) and therefore effectively minimizing eqn.~\eqref{eqn:nonlinearhorn}.
-\paragraph{Splines}
