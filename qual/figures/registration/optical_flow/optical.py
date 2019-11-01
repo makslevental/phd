@@ -13,8 +13,8 @@ from skimage import io
 # reference_image = rgb2gray(reference_image)
 # moving_image = rgb2gray(moving_image)
 
-reference_image = io.imread("cube2.png", as_gray=True)
-moving_image = io.imread("cube1.png", as_gray=True)
+reference_image = io.imread("cube1.png", as_gray=True)
+moving_image = io.imread("cube2.png", as_gray=True)
 dpi = 24
 px, py = reference_image.shape
 fig = pyplot.figure(figsize=(py / numpy.float(dpi), px / numpy.float(dpi)))
@@ -24,10 +24,7 @@ fig.savefig("moving_image.png", transparent=True)
 ax.imshow(reference_image, cmap="gray")
 fig.savefig("reference_image.png", transparent=True)
 
-shift, error, diffphase = register_translation(reference_image, moving_image)
-print(shift)
-
-flow = optical_flow_tvl1(reference_image, moving_image)
+flow = optical_flow_tvl1(moving_image, reference_image)
 downscale = 20
 flow = skimage.measure.block_reduce(flow, (1, downscale, downscale), numpy.mean)
 
