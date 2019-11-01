@@ -322,11 +322,14 @@ This velocity field can be used to define a mapping between pixels in the displa
 
 One approach to computing optical flow is based on treating pixel intensity as a \textit{conserved quantity}.
 %
-Let \(X(x,y,t)\) be pixel intensity over a sequence of images (i.e., the images per se),
-\[
+Let \(X(x,y,t)\) be pixel intensity over a sequence of images (i.e., the images per se).
+%
+
+\noindent Then define
+\begin{equation*}
 	Q(t) \coloneqq \iint_R X(x,y,t) \dif R
-\]
-be the total pixel intensity over some image region \(R\) and assume \(Q\) is differentiable in \(t\) (we deal with discretization in the forthcoming).
+\end{equation*}
+be the total pixel intensity over some image region \(R\), and assume \(Q\) is differentiable in \(t\) (we deal with discretization in the forthcoming).
 %
 \(Q\) obeys a \textit{continuity equation}:
 \begin{equation}

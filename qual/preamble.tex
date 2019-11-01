@@ -121,12 +121,14 @@
 % Note that the amsmath package sets \interdisplaylinepenalty to 10000
 % thus preventing page breaks from occurring within multiline equations. Use:
 \interdisplaylinepenalty=0
+\interfootnotelinepenalty=10000
+\raggedbottom
 
 % fix footnote rule from ieee
 \def\footnoterule{
 	\relax
 	\kern-5pt
-	\hbox to \columnwidth{\hfill\vrule width 0.5\columnwidth height 0.4pt\hfill}
+	\hbox to \columnwidth{\hfill\vrule width \columnwidth height 0.4pt}
 	\kern4.6pt
 }
 
