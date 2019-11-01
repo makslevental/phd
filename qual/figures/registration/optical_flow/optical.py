@@ -19,10 +19,10 @@ dpi = 24
 px, py = reference_image.shape
 fig = pyplot.figure(figsize=(py / numpy.float(dpi), px / numpy.float(dpi)))
 ax = fig.add_axes([0, 0, 1, 1])
-ax.imshow(moving_image, cmap="gray")
-fig.savefig("moving_image.png", transparent=True)
 ax.imshow(reference_image, cmap="gray")
 fig.savefig("reference_image.png", transparent=True)
+ax.imshow(moving_image, cmap="gray")
+fig.savefig("moving_image.png", transparent=True)
 
 flow = optical_flow_tvl1(moving_image, reference_image)
 downscale = 20
