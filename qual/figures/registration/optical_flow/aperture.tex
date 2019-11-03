@@ -1,20 +1,52 @@
 \begin{figure*}
+    \tikzset{
+        aperture/.pic={
+                \pgfmathsetmacro\cs{sqrt(1.5*cos(#1-45)^2/2)};
+                \path [draw=black, rotate=#1, pattern=north east lines]
+                    (-6/4,-6/2) rectangle (6/4,6/2);
+                \path [fill=white, draw=black, even odd rule]
+                    circle [radius=4/3] (-2,-2) rectangle (2,2);
+
+                \draw[bluearrow, rotate=#1, line width=0.5mm] (0,0) -- node [above] {\small{\(\mathbf{u}\)}} (0,1.5);
+                \draw[redarrow, line width=0.5mm] (0,0) -- node [above] {\small{\(\nabla X\)}} (-1.5,1.5);
+                \draw[greenarrow, line width=0.5mm] (0,0) -- node [left] {\small{\(\nabla X \cdot \mathbf{u}\)}} (-\cs,\cs);
+            }
+    }
     \centering
-    \begin{tikzpicture}
-        \tikzset{%
-            aperture/.pic={
-                    \path [draw=black, rotate=#1-90, pattern=north east lines]
-                    (-3/4,-3/2) rectangle (3/4,3/2);
-                    \path [draw=black, rotate=#1-90, scale=1/8]
-                    (0,14) -- ++(-1,0) -- ++(0,2) -- ++(-1,0) -- ++(2,2)
-                    -- ++(2,-2) -- ++(-1,0) -- ++(0,-2) -- cycle;
-                    \path [fill=white, draw=black, even odd rule]
-                    circle [radius=2/3] (-1,-1) rectangle (1,1);
-                }
+    \begin{subfigure}[b]{0.3\textwidth}
+        \centering
+        \begin{adjustbox}{height=\textwidth}
+            \begin{tikzpicture}
+                \pic {aperture={45}};
+            \end{tikzpicture}
+        \end{adjustbox}
+        \caption{Diagonal motion. \(\nabla X \cdot \mathbf{u}\) is maximum and therefore optical flow directly corresponds to motion.}
+        \label{fig:diagbarber}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.3\textwidth}
+        \centering
+        \begin{adjustbox}{height=\textwidth}
+            \begin{tikzpicture}
+                \pic {aperture={0}};
+            \end{tikzpicture}
+        \end{adjustbox}
+        \caption{Vertical motion. \(\nabla X \cdot \mathbf{u}\) is less than maximum and therefore optical flow fails to capture all of the motion.}
+        \label{fig:vertbarber}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.3\textwidth}
+        \centering
+        \raisebox{22pt}{
+            \begin{adjustbox}{width=\textwidth}
+                \begin{tikzpicture}
+                    \pic {aperture={90}};
+                \end{tikzpicture}
+            \end{adjustbox}
         }
-        \path (0,3) node {} (0,0) pic {aperture={135}};
-        \path (4,3) node {} (4,0) pic {aperture={90}};
-        \path (8,3) node {} (8,0) pic {aperture={180}};
-    \end{tikzpicture}
-    \caption[]{Barber-poll illusion. Each of the motions appear to be identitical for approriately chosen velocities.}\label{fig:barberpoll}
+        \caption{Horizontal motion. \(\nabla X \cdot \mathbf{u}\) is less than maximum and therefore optical flow fails to capture all of the motion.}
+        \label{fig:horizbarber}
+    \end{subfigure}
+    \caption{Barber-poll illusion. Each of the three motion measure as vertical optical flow.}
+    \label{fig:barberpoll}
 \end{figure*}

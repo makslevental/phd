@@ -279,6 +279,10 @@ code/venv
 **/**/*.bak*
 *.bak*
 **/**/.bak*
+**/**/*-figure*
+**/**/*.figlist
+**/**/*.makefile
+**/**/*.pgf-plot*
 **/**/*.mtc
 **/**/bibexport.bib
 .DS_Store

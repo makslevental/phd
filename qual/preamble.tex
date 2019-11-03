@@ -18,6 +18,7 @@
 \usepackage{amsmath}
 \usepackage{tikz}
 \usepackage{pgfplotstable}
+\usepgfplotslibrary{patchplots}
 \usepackage{xcolor}
 \usepackage{siunitx}
 \usetikzlibrary{
@@ -32,11 +33,14 @@
 	positioning,
 	decorations.markings,
 	backgrounds,
-	arrows.meta
+	arrows.meta,
+	external
 }
 \usetikzlibrary{matrix}
 \usetikzlibrary{fit}
 \usetikzlibrary{shapes.geometric}
+% \tikzexternalize[mode=list and make]
+% \tikzexternalize
 \usepackage{pgfplots}
 \pgfplotsset{compat=newest}
 \usepackage[edges]{forest}
@@ -180,8 +184,14 @@
 \etocsettocstyle{\medskip\hrule\medskip}{\medskip\hrule\medskip}
 \etocsettocdepth{5}
 \tikzset{
+		greenarrow/.style={
+				-latex,black!60!green,thick,solid
+			},
 		redarrow/.style={
 				-latex,red,thick,solid
+			},
+		bluearrow/.style={
+				-latex,blue,thick,solid
 			},
 		dot/.style = {
 				circle,
