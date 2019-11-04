@@ -35,7 +35,7 @@ where \(x_i \coloneqq x + i\) and \(y_j \coloneqq y+j\).
 \begin{figure}
 	\centering
 	\includegraphics[width=\linewidth,keepaspectratio]{figures/registration/corners.png}
-	\caption{Moravec Corner Detector}
+	\caption{Moravec Corner Detector.}
 	\label{fig:corners}
 \end{figure}
 Moravec assigns a corner score according to the following reasoning (see figure~\ref{fig:corners}):
@@ -48,7 +48,7 @@ Moravec assigns a corner score according to the following reasoning (see figure~
 \end{framed}
 The Moravec detector assigns a corner score at pixel coordinate \((x,y)\) equal to \(\min_{u,v} E_{x,y}(u,v)\) in order to select for the third case; high corner scores indicate strong evidence of a corner detection.
 %
-Moravec comments that this corner score is not isotropic, i.e. if edges aren't aligned with either the pixel axes or diagonals then \(E_{x,y}(u,v)\) will incorrectly be low.
+Moravec comments that this corner score is not isotropic, i.e.,if edges aren't aligned with either the pixel axes or diagonals then \(E_{x,y}(u,v)\) will incorrectly be low.
 %
 Harris' innovation was to linearize \(E_{x,y}(u,v)\) in order to compute a quantity more closely related to the intensity variation in a local neighborhood of a corner pixel:
 \begin{equation}
@@ -122,7 +122,7 @@ The algorithm consists of five steps:
 \begin{framed}
 	\begin{enumerate}
 		\item \textbf{Scale-space pyramid construction}: a sequence of increasingly sub-sampled and more strongly Gaussian filtered images is computed. The sequence of differences of these images is also computed; the sequence of differenced images approximates the multi-scale Laplacian of Gaussians\footnotemark (LoG) of the image (see figure~\ref{fig:siftpyramid}).
-		\item \textbf{Keypoint detection}: candidate keypoints are points on edges with non-zero curvature, i.e. extrema along scale and space dimensions in the LoG pyramid (see figure~\ref{fig:siftpyramid}).
+		\item \textbf{Keypoint detection}: candidate keypoints are points on edges with non-zero curvature, i.e.,extrema along scale and space dimensions in the LoG pyramid (see figure~\ref{fig:siftpyramid}).
 		\item \textbf{Keypoint selection}: candidate keypoints are more precisely localized using an iterative process. Keypoints of low-contrast (therefore sensitive to noise) or on edges of low curvature\footnotemark are culled.
 		\item \textbf{Keypoint orientation assignment}: orientation is assigned to each keypoint by taking a weighted majority vote of all gradient orientations in a neighborhood of the keypoint (see figure~\ref{fig:siftdescriptorb}). Large minority votes (80\% of majority) are used to create more keypoints at the same pixel point.
 		\item \textbf{Keypoint descriptor computation}: for each keypoint the descriptor is computed by partitioning the keypoint's neighborhood into \(2^k\) sub-neighborhoods, computing an 8-bin histogram of oriented gradients\footnotemark (HOG) in each sub-neighborhood, and concatenating (see figure~\ref{fig:siftdescriptord}). In Lowe \etal\cite{lowe2004distinctive} \(2^4=16\) sub-neighborhoods are used to produce an \(8\times16 = 128\) entry length descriptor. The descriptor is also normalized to unit length in order to make it invariant to luminance (intensity).
@@ -249,7 +249,7 @@ In this context \(X_1\) is the reference image and \(X_2\) is the to-be-register
 %
 The central challenge in computing MI is in estimating joint \(H(X_1,X_2)\) and marginal \(H(X_1)\) entropies (which are functions of the joint \(P(X_1,X_2)\) and marginal \(P(X_1)\) probabilities).
 %
-In practice this is done using either Kernel Density Estimation\anote{kde} (KDE) or the joint histogram (i.e. number of common pixel values at same pixel coordinates normalized by total number of pixels).
+In practice this is done using either Kernel Density Estimation\anote{kde} (KDE) or the joint histogram (i.e.,number of common pixel values at same pixel coordinates normalized by total number of pixels).
 %
 Searching for the registration parameters \(\theta\) that maximize \(I_{\theta} \coloneqq I(X_1,X_2(\theta))\) exhaustively is generally costly (especially if more than just translation parameters are required).
 %
@@ -259,7 +259,7 @@ Simulated annealing iterates on the current candidate minimum \(I_{\theta}\) by 
 %
 They use the Cauchy distribution as the jump proposal function:
 \[
-	G_k(d) = \frac{t_k}{\pi \left( d^2 + t_k^2 \right)}
+	G_k(d) \coloneqq \frac{t_k}{\pi \left( d^2 + t_k^2 \right)}
 \]
 where \(t_k\) is a parameter that over time encourages near jumps more and more strongly (called the \textit{temperature}), and \(d\) is the parameter jump distance.
 %
@@ -461,7 +461,7 @@ Splines offer an efficient alternative to estimating \(\mathbf{u}\) at every pix
 %
 A \textit{spline} is a piece-wise defined polynomial function. For example a simple \textit{order} \(d+1\) spline \(s\) could be defined
 \[
-		s(x) = \sum_{i=0}^d \mathbbm{1}_{[k_j, k_{j+1})}P_{ij} \cdot (x - k_j)^i
+		s(x) \coloneqq \sum_{i=0}^d \mathbbm{1}_{[k_j, k_{j+1})}P_{ij} \cdot (x - k_j)^i
 \]
 where the \(n+1\) increasing \textit{knots} \(k_0 < \cdots < k_n\) bracket \(n\) intervals over which the component polynomials are defined, and the \((d+1)\) polynomial coefficients \(P_{ij}\) define the spline (see figure~\ref{fig:cubicspline}) for \(x \in [k_j, k_{j+1})\) (\(\mathbbm{1}\) enforces this\anote{indicator}).
 %
@@ -488,7 +488,7 @@ where \(B_j\) are \textit{basis functions}.
 %
 In particular they experiment with basis functions such as the biquadaritc B-spline:
 \[
-	B_j(x,y) = B_{j,2}(x) B_{j,2}(y)
+	B_j(x,y) \coloneqq B_{j,2}(x) B_{j,2}(y)
 \]
 where \(B_{j,2}\) is the quadratic B-spline (defined in the forthcoming and displayed in figure~\ref{fig:biquadspline}).
 
@@ -496,15 +496,15 @@ As an alternative one can completely forgo optical flow and simply perform Free-
 %
 A B-spline is a spline defined as a linear combination of a particular set of basis functions (themselves called B-splines): the B-spline basis element \(B_{i, d+1}\) of order \(d+1\) (degree \(d\)) over knots \(k_i < \cdots < k_{i+d+1}\) is defined recursively according to the Cox-de Boor recursion formula\cite{de1971subroutine}:
 \begin{align}
-	B_{j,1} (x) &= \mathbbm{1}_{[k_j, k_{j+1})} \\
-	B_{j,d+1} (x) &= \frac{x-k_j}{k_{j+d} - k_j} B_{j,d} (x) \\
+	B_{j,1} (x) &\coloneqq \mathbbm{1}_{[k_j, k_{j+1})} \\
+	B_{j,d+1} (x) &\coloneqq \frac{x-k_j}{k_{j+d} - k_j} B_{j,d} (x) \\
 	&\quad+ \frac{k_{j+d+1} - x}{k_{j+d+1} - k_{i+1}} B_{j+1,d} \nonumber (x)
 \end{align}
 where \(\frac{x-k_j}{k_{j+d} - k_j}\) increases smoothly from zero to one as \(x\) goes from \(k_j\) to \(k_{j+d}\) and \(\frac{k_{j+d+1} - x}{k_{j+d+1} - k_{i+1}}\) decreases smoothly from one to zero as \(x\) goes from \(k_{i+1}\) to \(k_{j+d+1}\).
 %
 Xie \etal\cite{xie2004} fit hierarchical B-splines 
 \begin{equation}
-	\mathbf{s}(x,y) = \sum_{i=0}^m\sum_{j=0}^n \mathbf{P}_{ij} B_{i,3}(x) B_{j,3}(y)
+	\mathbf{s}(x,y) \coloneqq \sum_{i=0}^m\sum_{j=0}^n \mathbf{P}_{ij} B_{i,3}(x) B_{j,3}(y)
 \end{equation}
 on a regular knot grid (see figure~\ref{fig:bicubicspline}).
 %

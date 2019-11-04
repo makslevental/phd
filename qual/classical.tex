@@ -16,14 +16,14 @@ Then \(H \coloneqq H_k\) commutes with \(A_k\)\cite{meladcommute} and eqn.~\eqre
 %
 where \(V \coloneqq H(Y)\).
 %
-This naturally suggests interpolation in order to recover \(V\) (since \(\Xk\), in this framing, is simply shifted samples of \(V\)).
+This naturally suggests interpolation in order to recover \(V\) (since \(\Xk\), in this framing, are simply shifted samples of \(V\)).
 %
-Note in this context we use interpolation very broadly, i.e. to connote filling in missing values using neighboring (in some sense --- not necessarily geometrically) values.
+Note in this context we use interpolation very broadly, i.e.,to connote filling in missing values using neighboring (in some sense --- not necessarily geometrically) values.
 %
 \begin{figure}
 	\centering
 	\includegraphics[width=\linewidth,keepaspectratio]{figures/classical/hrgrid.png}
-	\caption{LR image registration on an HR grid\cite{Lin}}
+	\caption{LR image registration on an HR grid\cite{Lin}.}
 	\label{fig:hrgrid}
 \end{figure}
 This class of techniques proceed by first registering images on a high resolution grid (see figure~\ref{fig:hrgrid}) then interpolating at the missing pixels in the HR grid to recover \(V\), and finally denoising and deconvolution (of \(H\)) to recover \(Y\).
@@ -32,14 +32,14 @@ Since in general consecutive \(\Xk\) have non-uniform shifts (relative to \(X_1\
 
 For example Alam \text{et al.}\cite{Alam2000} uses weighted nearest neighbors: for every pixel to be interpolated the three nearest pixels are weighted inversely by their distance (according to HR grid distance) and then their weighted sum is assigned to that pixel.
 %
-This non-uniform interpolation is then followed by application of a Wiener filter whose design is informed by the OTF of the particular imaging system they study (which they do not estimate i.e. they assume they can model accurately).
+This non-uniform interpolation is then followed by application of a Wiener filter whose design is informed by the OTF of the particular imaging system they study (which they do not estimate i.e.,they assume they can model accurately).
 %
 \subsubsection{Delaunay Triangulation}
 
 \begin{figure}
 	\centering
 	\includegraphics[width=.7\linewidth]{figures/classical/delauney.png}
-	\caption{Delaunay triangulation for fitting splines at LR pixels\cite{Lertrattanapanich}. \(v\) is an LR pixel. Note that \(v\) is at \(z\) equal to the pixel value}
+	\caption{Delaunay triangulation for fitting splines at LR pixels\cite{Lertrattanapanich}. \(v\) is an LR pixel. Note that \(v\) is at \(z\) equal to the pixel value.}
 	\label{fig:delauney}
 \end{figure}
 Lertrattanapanich \text{et al.}\cite{Lertrattanapanich} base their algorithm on interpolants which require knowledge of gradients (e.g. splines) and mediate the non-uniform sampling by using a weighted average (by area) of those gradients in adjacent Delaunay cells; to be precise they produce a Delaunay triangulation of all LR pixels and compute the gradients (see figure~\ref{fig:delauney}) according to
@@ -59,12 +59,12 @@ The algorithm operates on a sliding \textit{estimation window} whose dimensions 
 \begin{figure}
 	\centering
 	\includegraphics[width=.7\linewidth]{figures/classical/wiener.png}
-	\caption{Wiener filter super resolution estimation window of dimension \(D_x \times D_y\) and observation window of dimension \(W_x \times W_y\)\cite{wiener}}
+	\caption{Wiener filter super resolution estimation window of dimension \(D_x \times D_y\) and observation window of dimension \(W_x \times W_y\)\cite{wiener}.}
 	\label{fig:wiener}
 \end{figure}
 The pixel values for the estimation window are a function of the wiener filter weights of nearby LR pixels within an \textit{observation window} whose dimensions \(W_x, W_y\) are an integer multiple of \(D_x, D_y\) (see figure~\ref{fig:wiener}).
 %
-The weights \(\bm{w}\) are defined as the solution to the minimum mean squared error (MMSE) filter problem, i.e. the finite impulse response (FIR) wiener filter:
+The weights \(\bm{w}\) are defined as the solution to the minimum mean squared error (MMSE) filter problem, i.e.,the finite impulse response (FIR) wiener filter:
 \begin{equation}
 	\bm{w} = R^{-1}\bm{p}
 \end{equation}
@@ -86,7 +86,7 @@ Thus by evaluating \(C_1\) for all \(r = r(n_1, n_2)\) distances between LR pixe
 %
 Similarly for \(\bm{p}\), \(r = r(m, n)\) is the distance between pixel-to-be-estimated \(m\) and LR pixel \(n\).
 %
-Note that \(R\) is an \(N \times N\) matrix where \(N = K W_x W_y/D_x D_y\), i.e. how many LR pixels there are in the observation window, and \(\bm{p}\) is an \(N \times 1\) column vector uniquely computed for each pixel in the estimation window.
+Note that \(R\) is an \(N \times N\) matrix where \(N = K W_x W_y/D_x D_y\), i.e.,how many LR pixels there are in the observation window, and \(\bm{p}\) is an \(N \times 1\) column vector uniquely computed for each pixel in the estimation window.
 %
 The scheme is effective but suffers from issues with the spatial isotropy of the auto-correlation and cross-correlation models.
 \subsubsection{Steering Kernels}
@@ -94,14 +94,14 @@ One of the most sophisticated of these non-uniform interpolation schemes employs
 %
 In this context we start with all \(\Xk\) registered to a common HR grid and consider pixel values \(Y(\bxi)\) at pixel coordinates \(\bxi \coloneqq (x_{i1},x_{i2})\) as the measured data pairs \((\bxi, Y(\bxi)\).
 %
-Recall that kernel regression frames the estimation problem as
+Kernel regression frames the estimation problem as
 \begin{equation}
 	Y(\bxi) = Z(\bxi) + \varepsilon
 \end{equation}
 where \(Z\) is the to-be-estimated \textit{regression function} that predicts \(Y\) as a function of \(\bx\).
 Then the Nadaraya–Watson estimator (NWE)\cite{Nadaraya} \(\hat{Z}\) for \(Z\) is
 \begin{equation}
-	\hat{Z}(\bx) = \frac{\sum_{i=1}^{P}K(\delx)Y(\bxi)}{\sum_{i=1}^{P}K(\delx)}
+	\hat{Z}(\bx) \coloneqq \frac{\sum_{i=1}^{P}K(\delx)Y(\bxi)}{\sum_{i=1}^{P}K(\delx)}
 	\label{eqn:kernelregression}
 \end{equation}
 where \(P\) indexes over all pixels in the HR grid and \(K\) is a \textit{kernel function} whose purpose is to decay the contribution of \(\bxi\) if it's in some sense far from \(\bx\).
@@ -111,22 +111,21 @@ Note that \(\hat{Z}(\bx)\) can also be seen as a weighted filtering of \(Y\).
 \begin{figure}
 	\centering
 	\includegraphics[width=.8\linewidth]{figures/classical/footprint.png}
-	\caption{Kernel footprint as a function of sample density\cite{Takeda2007}}
+	\caption{Kernel footprint as a function of sample density\cite{Takeda2007}.}
 	\label{fig:footprint}
 \end{figure}
 \begin{figure}
 	\centering
 	\includegraphics[width=\linewidth,keepaspectratio]{figures/classical/steering.png}
-	\caption{Adapting kernel shape as a function of local directed structure\cite{Takeda2007}}
+	\caption{Adapting kernel shape as a function of local directed structure\cite{Takeda2007}.}
 	\label{fig:steering}
 \end{figure}
-In conventional kernel regression \(K\) might be any non-negative, symmetric, unimodal\cite{wand1994kernel} function with augmented with an additional \(h\) parameter that controls the bandwidth" or "footprint of the kernel, i.e.
-\begin{equation}
+In conventional kernel regression \(K\) might be any non-negative, symmetric, unimodal\cite{wand1994kernel} function with augmented with an additional \(h\) parameter that controls the bandwidth" or "footprint of the kernel, i.e.,\begin{equation}
 	K_h(\delx) \coloneqq \frac{1}{h}K\left( h^{-1}(\delx) \right)
 \end{equation}
 This bandwidth parameter \(h\) can be generalized to a \textit{smoothing kernel} \(H\) in order to make \(K = K_H\) adaptive to the local structure of the pixels, e.g. to have larger footprints in sparsely sampled regions and have smaller footprints in densely sampled regions (see figure~\ref{fig:footprint}).
 %
-Ultimately though it is desirable to have kernels that can adapt to directed structure in the image, i.e. steerable kernels that filter strongly along an edge and weakly across an edge.
+Ultimately though it is desirable to have kernels that can adapt to directed structure in the image, i.e.,steerable kernels that filter strongly along an edge and weakly across an edge.
 %
 This is accomplished by, for example, using a Gaussian as the kernel:
 \begin{equation}
@@ -134,7 +133,7 @@ This is accomplished by, for example, using a Gaussian as the kernel:
 \end{equation}
 and identifying \(H_i\) with \(\nabla^2 \zbxi\) (since gradients capture edge structure).
 %
-An estimate \(\hat{H}_i\) of \(\nabla^2 \zbxi\) can be obtained by looking at covariances of empirical gradients (i.e. the HR grid registered image convolved with a difference filter).
+An estimate \(\hat{H}_i\) of \(\nabla^2 \zbxi\) can be obtained by looking at covariances of empirical gradients (i.e.,the HR grid registered image convolved with a difference filter).
 %
 Unfortunately this is a naive estimate that is often rank deficient or unstable (both leading to instances where \(\hat{H}_i\) isn't invertible).
 %
@@ -142,7 +141,7 @@ One solution is to parameterize \(H_i\):
 \[
 	H_i = \gamma_i U_{\theta_i} \Lambda_{\sigma_i} U_{\theta_i}^T
 \]
-where \(U_{\theta_i}\) is a rotation matrix, \(\Lambda_{\sigma_i} = \text{diag}\left( \sigma_i, \sigma_i^{-1} \right)\) is an elongation matrix, and \(\gamma_i\) is a scaling parameter, with each of \(\gamma_i, \theta_i, \sigma_i\) estimated from the data in a more robust way.
+where \(U_{\theta_i}\) is a rotation matrix, \(\Lambda_{\sigma_i} \coloneqq \text{diag}\left( \sigma_i, \sigma_i^{-1} \right)\) is an elongation matrix, and \(\gamma_i\) is a scaling parameter, with each of \(\gamma_i, \theta_i, \sigma_i\) estimated from the data in a more robust way.
 %
 \subsubsection{Bilateral Kernel}
 An alternative kernel is the bilateral kernel\cite{Tomasi:1998:BFG:938978.939190} that defines closeness according to geometric and radiometric distance:
@@ -169,7 +168,7 @@ Recall eqn.~\eqref{eqn:imagingmodel}.
 \begin{figure}
 	\centering
 	\includegraphics[width=\linewidth,keepaspectratio]{figures/classical/iterative_back_projection.png}
-	\caption{Iterative back projection\cite{Irani1991ImprovingRB}}
+	\caption{Iterative back projection\cite{Irani1991ImprovingRB}.}
 	\label{fig:iterbackproj}
 \end{figure}
 %
@@ -180,13 +179,13 @@ Then the idea is to take the current estimate of the HR image \(\hat{Y}^{i}\), s
 \end{equation}
 where \(\hat{Y}^i\) is the current estimate of the blurred HR image, \((D \circ A_k)(\hat{Y}^i)\) is the projection of the current estimate to low resolution, and \((D \circ A_k)^{-1}\left( (D \circ A_k)(\hat{Y}^i) - \Xk \right)\) is the \textit{back-projection}.
 %
-This process iterates until convergence i.e. \(\lvert (D \circ A_k)(\hat{Y}^i) - \Xk \rvert < \delta\) for some \(\delta\).
+This process iterates until convergence i.e.,\(\lvert (D \circ A_k)(\hat{Y}^i) - \Xk \rvert < \delta\) for some \(\delta\).
 %
 Irani \etal\cite{Irani1991ImprovingRB} also convolve the back-projection with a smoothing kernel as a form of regularization since the estimation problem is in general ill-posed (there are many \(\hat{Y}^{i}\) that will project down to a pixel-distance neighbor of \(\Xk\)).
 %
 It can be shown\cite{Elad1996} that for \(\varepsilon_k\) distributed \((0, R_k)\)-Normal, \(\hat{Y}\) is none other than the maximum likelihood MLE for \(Y\).
 %
-We can see this by recognizing that eqn.~\eqref{eqn:ibp} is just the Richardson iterative\cite{Anderssen:1972:RNM:891962} solution to
+We can see this by recognizing that eqn.~\eqref{eqn:ibp} is just the Richardson iterative\cite{Anderssen:1972:RNM:891962} solution to the unconstrained optimization problem
 \begin{equation}
 	L(Y) = \frac{1}{2} \abs{ \bm{X} -  \begin{bmatrix}
 		D_1 \circ A_1 \\
@@ -210,7 +209,7 @@ Another estimation technique employs a Kalman filter\cite{elad1999} to estimate 
 %
 Let \(\bm{x}_k = \text{vec}(\Xk)\) be the vectorization\anote{vectorize} of \(\Xk\) and \(\bm{y} = \text{vec}(Y)\) likewise.
 %
-If we assume linear models for each of \(D, A_k, H_k\) (i.e. all representable as matrices) and a well-behaved motion model (most pixels in image \(\bm{x}_k\) appear in image \(\bm{x}_{k-1}\)) then we can image \(\bm{y}\) as a sequence of images \(\bm{y}_k\) related in time by
+If we assume linear models for each of \(D, A_k, H_k\) (i.e.,all representable as matrices) and a well-behaved motion model (most pixels in image \(\bm{x}_k\) appear in image \(\bm{x}_{k-1}\)) then we can image \(\bm{y}\) as a sequence of images \(\bm{y}_k\) related in time by
 \begin{equation}
 	\bm{y}_k = A'_k \bm{y}_{k-1} + \eta_k
 	\label{eqn:kalmanprocess}
@@ -273,7 +272,7 @@ Let \(\bm{H} \coloneqq \left( H_1, \mathellipsis, H_k \right)\) be the vector of
 %
 Then
 \begin{align}
-	\hat{Y} & = \underset{Y}{\text{argmax}}~P\left( Y \middle| \bm{X} \right) \nonumber                                                                                                \\
+	\hat{Y} & \coloneqq \underset{Y}{\text{argmax}}~P\left( Y \middle| \bm{X} \right) \nonumber                                                                                                \\
 	        & = \underset{Y}{\text{argmax}} \int_{D, \bm{H}, \bm{A}} P\left( Y, D, \bm{H}, \bm{A} \middle| \bm{X}\right) \nonumber                                                     \\
 	        & = \underset{Y}{\text{argmax}} \int_{D, \bm{H}, \bm{A}} \frac{P\left(\bm{X} \middle| Y, D, \bm{H}, \bm{A} \right)P(Y) P(D, \bm{H}, \bm{A})}{P(\bm{X})}\label{eqn:indepym} \\
 	        & = \underset{Y}{\text{argmax}} \int_{D, \bm{H}, \bm{A}} P\left(\bm{X} \middle| Y, D, \bm{H}, \bm{A} \right)P(Y) P(D, \bm{H}, \bm{A}) \label{eqn:maxx}
@@ -304,7 +303,7 @@ Again assume \(D, H_k, A_k\) linear and given \(\varepsilon_k\) in eqn.~\eqref{e
 \begin{equation}
 	P\left(\bm{X} \middle| Y; \hat{D},  \hat{\bm{H}}, \hat{\bm{A}} \right) \propto \exp \left\{ -\frac{\abs{ \bm{X} - \hat{D} \hat{\bm{H}} \hat{\bm{A}} \bm{y} }^2}{2r^2} \right\}
 \end{equation}
-where here \(\bm{X} = \left( \text{vec}(X_1), \mathellipsis, \text{vec}(\Xk) \right)\) and
+where here \(\bm{X} \coloneqq \left( \text{vec}(X_1), \mathellipsis, \text{vec}(\Xk) \right)\) and
 \begin{equation}
 	\hat{D} \hat{\bm{H}} \hat{\bm{A}} \coloneqq \begin{bmatrix}
 		\hat{D} \hat{\bm{H}}_1 \hat{\bm{A}}_1 \\
@@ -316,8 +315,7 @@ where here \(\bm{X} = \left( \text{vec}(X_1), \mathellipsis, \text{vec}(\Xk) \ri
 %
 After a suitable choice for the prior it can be seen that eqn.~\eqref{eqn:logmap} is just regularized regression.
 %
-For example when choosing a Gibbs\cite{Hardie1997} distribution as the prior, i.e.
-\begin{equation}
+For example when choosing a Gibbs\cite{Hardie1997} distribution as the prior, i.e.,\begin{equation}
 	P(Y) \propto e^{-\alpha B(Y)}
 	\label{eqn:gibbs}
 \end{equation}
@@ -377,28 +375,28 @@ One solution is to use Huber loss\cite{huber1964}
 		\end{cases}
 	}
 \end{equation}
-to explicitly parameterize the penalty for gradients (i.e. high-frequency features).
+to explicitly parameterize the penalty for gradients (i.e.,high-frequency features).
 %
 Huber loss enforces local smoothness (since it's quadratic for \(\lvert a \rvert \leq \delta\)) but permits edges (since it's linear for \(\lvert a \rvert > \delta\)).
 %
 Capel \etal\cite{capel2000} implement this by composing \(L_{\delta }(a)\) with a first-order gradient operator\anote{gradientoperator} as the potential in eqn.~\eqref{eqn:gibbs}.
 %
-Another gradient penalty that encourages sparse gradients (i.e. local smoothness and steep edges) is Total Variation (TV) norm\cite{RUDIN1992259}:
+Another gradient penalty that encourages sparse gradients (i.e.,local smoothness and steep edges) is Total Variation (TV) norm\cite{RUDIN1992259}:
 \begin{equation}
 	\abs{u}_{\operatorname {TV}}\,\coloneqq\int _{\Omega }\abs{\nabla u}\,d\Omega
 \end{equation}
-where \(u\) is a smooth image of bounded variation (i.e. such that the integral converges) over domain \(\Omega\).
+where \(u\) is a smooth image of bounded variation (i.e.,such that the integral converges) over domain \(\Omega\).
 %
 In the context of SR this amounts to setting
 \begin{equation}
-	B(Y) = TV(Y) \coloneqq \lVert \nabla Y \rVert_1
+	B(Y) = TV(Y) \coloneqq \abs{ \nabla Y }_1
 \end{equation}
 %
 Farsiu \etal\cite{farsiu} introduce a \textit{bilateral} TV norm
 \begin{equation}
-	BTV(Y) \coloneqq \sum_{k=0}^{N} \sum_{l=0}^{N} \alpha^{k + l} \lVert Y - S_x^k S_y^l Y \rVert_1
+	BTV(Y) \coloneqq \sum_{k=0}^{N} \sum_{l=0}^{N} \alpha^{k + l} \abs{ Y - S_x^k S_y^l Y }_1
 \end{equation}
-where \(S_x^k, S_y^l\) are shift operators (i.e. \(S_x^k\) shifts \(Y\) by \(k\) pixels in the horizontal) and \(N\) is arbitrary.
+where \(S_x^k, S_y^l\) are shift operators (i.e.,\(S_x^k\) shifts \(Y\) by \(k\) pixels in the horizontal) and \(N\) is arbitrary.
 %
 The bilateral TV norm factors in gradients at several scales (\(Y - S_x^2 Y\) is an approximation of the horizontal gradient at twice the scale of \(Y - S_x^1 Y\)) and decays their contribution according to their spatial distance (\(\alpha^{k+l}\) decays as a function of shift distance).
 %
@@ -406,7 +404,7 @@ It can also be shown to be equivalent\cite{elad2002} to filtering \(\bX\) by the
 
 Though there are many priors (or regularizers) that have been studied none really capture natural images in all of their variation.
 %
-For that we need to actually learn from real data i.e. examples images.
+For that we need to actually learn from real data i.e.,examples images.
 
 \subsection{Example based}\label{subsec:example-based}
 
@@ -426,7 +424,7 @@ Naive mosaicing of these matching HR patches produces poor results due to noise 
 \begin{figure}
 	\centering
 	\includegraphics[width=\linewidth,keepaspectratio]{figures/classical/mrf.png}
-	\caption{Hidden Markov random field modeling spatial relationships between LR patches \(x_i\) and example LR patches \(y_i^{LR}\) and HR patches \(y_i\)\cite{freeman2002example}}
+	\caption{Hidden Markov random field modeling spatial relationships between LR patches \(x_i\) and example LR patches \(y_i^{LR}\) and HR patches \(y_i\)\cite{freeman2002example}.}
 	\label{fig:mrf}
 \end{figure}
 Their solution to this issue is using a hidden Markov random field\anote{hmrf} (HMRF) to model spatial consistency between adjacent HR patches \(y_i\) and between LR-HR patch pairs \(x_i, y_i\) (see figure~\ref{fig:mrf}).
@@ -439,7 +437,7 @@ where \(x_i\) are observed LR patches and \(y_i\) are unknown (to-be-inferred) H
 %
 Note \(P(\bx)\) is a normalization constant, \(i\ue{} j\) indicates the product is only over adjacent HR patches, \(\psi(y_i, y_j)\) encodes the compatibility of adjacent HR patches according to
 \begin{equation}
-	\psi(y_i, y_j) = \exp \left\{ -  \frac{\abs{ y_i - y_j }}{2\sigma^2} \right\}
+	\psi(y_i, y_j) \coloneqq \exp \left\{ -  \frac{\abs{ y_i - y_j }}{2\sigma^2} \right\}
 \end{equation}
 where \(\abs{ y_i - y_j }\) is only computed on the overlapping pixels.
 %
@@ -454,31 +452,29 @@ The main problem with the direct LR-HR patch pair technique is that it requires 
 \begin{figure}
 	\centering
 	\includegraphics[width=\linewidth,keepaspectratio]{figures/classical/lle.png}
-	\caption{NNE algorithm from LR patches \(x_i\) to HR patches \(y_i\)\cite{Guillermophdthesis}}
+	\caption{NNE algorithm from LR patches \(x_i\) to HR patches \(y_i\)\cite{Guillermophdthesis}.}
 	\label{fig:lle}
 \end{figure}
 Chang \etal~ remedy this problem by using ideas from a manifold\anote{manifold} learning\anote{manifoldlearning} technique called locally linear embedding\cite{saul2000introduction} (LLE) that they call nearest neighbor embedding (NNE).
 %
 First they imagine both the space of LR patches and HR patches as manifolds.
 %
-Then based on the intuition that a well-sampled smooth manifold is locally linear (i.e. an LR patch \(x_i\) on the LR manifold and its neighbors \(x_j, x_k, \mathellipsis\) lie in a locally linear subspace of the manifold) they characterize the local geometry.
+Then based on the intuition that a well-sampled smooth manifold is locally linear (i.e.,an LR patch \(x_i\) on the LR manifold and its neighbors \(x_j, x_k, \mathellipsis\) lie in a locally linear subspace of the manifold) they characterize the local geometry.
 %
-One can characterize local geometry by finding convex reconstruction weights \(W_{ij}\) of any \(x_i\) from only its neighbors by minimizing reconstruction error, i.e.
-\begin{gather}
-	\hat{W} = \underset{W_{ij}}{\text{argmin}} \sum_i \abs{ x_i - \sum_{x_j \in N(x_i)} W_{ij} x_j  }^2 \nonumber \\
+One can characterize local geometry by finding convex reconstruction weights \(W_{ij}\) of any \(x_i\) from only its neighbors by minimizing reconstruction error, i.e.,\begin{gather}
+	\hat{W} \coloneqq \underset{W_{ij}}{\text{argmin}} \sum_i \abs{ x_i - \sum_{x_j \in N(x_i)} W_{ij} x_j  }^2 \nonumber \\
 	\text{s.t.} \\
 	\sum_{x_j \in N(x_i)} W_{ij} = 1 \text{ for all }i \nonumber
 \end{gather}
 where \(N(x_i)\) is the neighborhood of \(x_i\).
 %
-These weights \(W_{ij}\) are invariant with respect to rotation, rescaling, and translation of the LR patch and its neighborhood\cite{saul2000introduction} and therefore should remain valid in an embedding space (i.e. the HR manifold) coordinate system (see figure~\ref{fig:lle}).
+These weights \(W_{ij}\) are invariant with respect to rotation, rescaling, and translation of the LR patch and its neighborhood\cite{saul2000introduction} and therefore should remain valid in an embedding space (i.e.,the HR manifold) coordinate system (see figure~\ref{fig:lle}).
 %
-The HR patches \(y_i\) in the HR manifold are then reconstructed using the same weights, i.e.
-\begin{equation}
+The HR patches \(y_i\) in the HR manifold are then reconstructed using the same weights, i.e.,\begin{equation}
 	y_i = \sum_{x_j \in N(x_i)} W_{ij} y_j
 \end{equation}
 %
-Note that neighboring patches in HR space are constrained to overlap and in fact the neighborhoods are computed using gradient features of the LR and HR patches rather than the raw patches (they argue that this is what allows for better generalization i.e. much smaller patch databases).
+Note that neighboring patches in HR space are constrained to overlap and in fact the neighborhoods are computed using gradient features of the LR and HR patches rather than the raw patches (they argue that this is what allows for better generalization i.e.,much smaller patch databases).
 \subsubsection{Sparse Coading}
 The NNE approach suffers from its own issues; using a fixed number of nearest neighbors results in blurring (due to over-fitting or under-fitting).
 %
@@ -486,8 +482,7 @@ Yang \etal\cite{yang2008} resolve this issue by using sparse coding (SC) as a fr
 %
 This enables them to essentially leave the number of nearest numbers unspecified (or, alternatively, learn the correct number of neighbors on a patch by patch basis\anote{pun}).
 %
-To be precise, let \(D \in \mathbb{R}^{n \times K}\) be an \textit{over-complete dictionary}\anote{overcompletedictionary} of \(K\) atoms \(\bm{d}_i \in \mathbb{R}^n\), and suppose a signal \(\by \in \mathbb{R}^n\) can be represented as a sparse linear combination of these atoms i.e.
-\begin{equation}
+To be precise, let \(D \in \mathbb{R}^{n \times K}\) be an \textit{over-complete dictionary}\anote{overcompletedictionary} of \(K\) atoms \(\bm{d}_i \in \mathbb{R}^n\), and suppose a signal \(\by \in \mathbb{R}^n\) can be represented as a sparse linear combination of these atoms i.e.,\begin{equation}
 	\by = D\bm{\alpha}
 \end{equation}
 such that \(\abs{ \bm{\alpha} }_0 \ll K\) (few non-zero entries).
@@ -498,14 +493,14 @@ Yang \etal~ construct two dictionaries \(D_{LR}, D_{HR}\) consisting correspondi
 %
 Then given a new input LR patch \(\bx\) they compute the code for a featurized representation of \(\bx\) in \(D_{LR}\) by minimizing the code subject to reconstruction error tolerance:
 \begin{equation}
-	\hat{\bm{\alpha}} = \underset{\bm{\alpha}}{\text{argmin}} \abs{ \bm{\alpha} }_0 \text{ s.t. } \abs{ F\bx - FD_{LR}\bm{\alpha} }^2 \leq \epsilon
+	\hat{\bm{\alpha}} \coloneqq \underset{\bm{\alpha}}{\text{argmin}} \abs{ \bm{\alpha} }_0 \text{ s.t. } \abs{ F\bx - FD_{LR}\bm{\alpha} }^2 \leq \epsilon
 	\label{eqn:constrainedrepr}
 \end{equation}
-where \(\epsilon\) is the reconstruction error tolerance and \(F\) is the feature extraction operator (first and second order gradients), and construct the HR image using the same sparsely represented HR patch (i.e. \(\hat{\by} = D_{HR} \hat{\bm{\alpha}}\)).
+where \(\epsilon\) is the reconstruction error tolerance and \(F\) is the feature extraction operator (first and second order gradients), and construct the HR image using the same sparsely represented HR patch (i.e.,\(\hat{\by} = D_{HR} \hat{\bm{\alpha}}\)).
 %
 As stated the optimization in eqn.~\eqref{eqn:constrainedrepr} is non-convex (due to \(\abs{ \bm{\alpha} }_0\)) and is in fact NP-hard\anote{nphard}\cite{tilman2015}.
 %
-Fortunately the \(L_1\) (i.e. \(\abs{ \bm{\alpha} }_1\)) relaxation is often good enough\cite{Donoho9446}:
+Fortunately the \(L_1\) (i.e.,\(\abs{ \bm{\alpha} }_1\)) relaxation is often good enough\cite{Donoho9446}:
 \begin{equation}
 	\hat{\bm{\alpha}} = \underset{\bm{\alpha}}{\text{argmin}} \left[ \lambda\abs{ \bm{\alpha} }_1 + \frac{1}{2}\abs{ F\bx - FD_{LR}\bm{\alpha} }^2 \right]
 	\label{eqn:lagrangerepr}
@@ -526,32 +521,32 @@ The same group's follow-on paper\cite{yang2010} addresses this issue directly by
 \begin{figure}
 	\centering
 	\includegraphics[width=\linewidth,keepaspectratio]{figures/classical/dictpatches.png}
-	\caption{512 entry \(9 \times 9\) atom HR image patch dictionary trained using 100,000 HR and LR image patch pairs\cite{yang2010}}
+	\caption{512 entry \(9 \times 9\) atom HR image patch dictionary trained using 100,000 HR and LR image patch pairs\cite{yang2010}.}
 	\label{fig:hrpatchdict}
 \end{figure}
 %
 In general dictionary learning minimizes the reconstruction error of the codes across all \(J\) example inputs \(\bm{Z} \coloneqq \left( \bm{z}_1, \mathellipsis, \bm{z}_J \right)\):
 \begin{equation}
-	\hat{D} = \underset{D, \bm{A}}{\text{argmin}} \abs{ \bm{Z} - D\bm{A} }^2 + \lambda \abs{ \bm{A} }_1
+	\hat{D} \coloneqq \underset{D, \bm{A}}{\text{argmin}} \abs{ \bm{Z} - D\bm{A} }^2 + \lambda \abs{ \bm{A} }_1
 \end{equation}
 where \(\bm{A} \coloneqq \left( \bm{\alpha}_1, \mathellipsis, \bm{\alpha}_J  \right)\).
 %
 Yang \etal~ jointly learn \(D_{LR}, D_{HR}\) by making the identifications
 \begin{equation*}
-	\bm{Z} = \begin{bmatrix}
+	\bm{Z} \coloneqq \begin{bmatrix}
 		\frac{1}{\sqrt{N}}\bY \\ \frac{1}{\sqrt{M}} \bX
 	\end{bmatrix} \text{ and }
-	D = \begin{bmatrix}
+	D \coloneqq \begin{bmatrix}
 		\frac{1}{\sqrt{N}} D_{HR} \\ \frac{1}{\sqrt{M}} D_{LR}
 	\end{bmatrix}
 \end{equation*}
-where \(\bY = \left( \by_1, \mathellipsis, \by_P \right)\) are the example HR patches, \(\bX\) similarly the example LR patches, and \(N, M\) are the number of HR and LR pixels respectively in each example patch pair \(\byi, \bxi\) (in order to normalize the error between \(\byi, \bxi\)).
+where \(\bY \coloneqq \left( \by_1, \mathellipsis, \by_P \right)\) are the example HR patches, \(\bX\) similarly the example LR patches, and \(N, M\) are the number of HR and LR pixels respectively in each example patch pair \(\byi, \bxi\) (in order to normalize the error between \(\byi, \bxi\)).
 \subsubsection{Anchored Neigbhorhood Regression}
 Though SC achieves good results for reasonably sized example sets and dictionary sizes it suffers from the inherent computational complexity of solving the optimization problem (see figure~\ref{fig:dictspeedspize}).
 \begin{figure}
 	\centering
 	\includegraphics[width=\linewidth,keepaspectratio]{figures/classical/dictsizespeed.png}
-	\caption{Dictionary inference time as a function of dictionary size\cite{yang2010}}
+	\caption{Dictionary inference time as a function of dictionary size\cite{yang2010}.}
 	\label{fig:dictspeedspize}
 \end{figure}
 %
@@ -568,15 +563,15 @@ The code can then be used to compute the HR patch:
 \end{align}
 Factoring out
 \begin{equation}
-	P = D_{HR} \left( D_{LR}^T D_{LR} + \lambda I\right)^{-1}D_{LR}^T
+	P \coloneqq D_{HR} \left( D_{LR}^T D_{LR} + \lambda I\right)^{-1}D_{LR}^T
 \end{equation}
 we see that \(P\) can be pre-computed, thereby turning inference into simply a matrix multiplication.
 %
-They then go on to argue, reasoning by analogy with NNE, that the projection should be locally sensitive to input patches, i.e. instead of using the entire dictionary to construct the projection only the atoms nearest to the input LR patch should be used.
+They then go on to argue, reasoning by analogy with NNE, that the projection should be locally sensitive to input patches, i.e.,instead of using the entire dictionary to construct the projection only the atoms nearest to the input LR patch should be used.
 %
 Thus for every atom in the dictionary, they find its \(K' < K\) nearest neighbors, and using only those \(K'\) atoms they pre-compute \(K\) distinct projection operators \(P_k \in \mathbb{R}^{n \times K'}\):
 \begin{equation}
-	P_k = D_{HR}^k \left( (D_{LR}^k)^T D_{LR}^k + \lambda I\right)^{-1}(D_{LR}^k)^T
+	P_k \coloneqq D_{HR}^k \left( (D_{LR}^k)^T D_{LR}^k + \lambda I\right)^{-1}(D_{LR}^k)^T
 	\label{eqn:datadependentmapping}
 \end{equation}
 where \(D_{LR}^k, D_{HR}^k\) are the neighborhood of the LR atom and the neighborhood of its corresponding HR atom.
@@ -601,30 +596,30 @@ Putting aside for the moment how the trees are trained, each tree \(T_t\) indepe
 %
 For each tree \(t\) each subspace associated with a leaf \(l\) is then used to fit a linear basis-regression model defined by
 \begin{gather}
-	\prescript{l}{t}{W(\bx)} = \sum_{i=1}^I \prescript{l}{t}{\hat{w}_i}\phi_i(\bx) \\
-	\prescript{l}{t}{\hat{\bm{w}}} = \underset{\prescript{l}{t}{\bm{w}}}{\text{argmin}} \sum_{j=1}^J \abs{ \by_j - \sum_{i=1}^I \prescript{l}{t}{w_i}\phi_i(\bx_j) }^2
+	\prescript{l}{t}{\hat{W}(\bx)} \coloneqq \sum_{i=1}^I \prescript{l}{t}{\hat{w}_i}\phi_i(\bx) \\
+	\prescript{l}{t}{\hat{\bm{w}}} \coloneqq \underset{\prescript{l}{t}{\bm{w}}}{\text{argmin}} \sum_{j=1}^J \abs{ \by_j - \sum_{i=1}^I \prescript{l}{t}{w_i}\phi_i(\bx_j) }^2
 	\label{eqn:linearbasisregression}
 \end{gather}
 where \(\prescript{l}{t}{\bm{w}} \coloneqq \left( \prescript{l}{t}{w}_1, \mathellipsis, \prescript{l}{t}{w}_I \right)\) and \(\phi_i(\bx_j)\) are basis functions such as the radial basis function
 \begin{equation}
-	\phi_i(\bx_j) = \exp \left\{ \frac{\abs{ \bm{x}_j - \bm{\mu}_i }^2}{\sigma_i} \right\}
+	\phi_i(\bx_j) \coloneqq \exp \left\{ \frac{\abs{ \bm{x}_j - \bm{\mu}_i }^2}{\sigma_i} \right\}
 \end{equation}
 Since the objective in eqn.~\eqref{eqn:linearbasisregression} is linear in \(\prescript{l}{t}{w}_i\) the leaf models are fit using the closed form solution to least squares:
 \begin{equation}
 	\prescript{l}{t}{\hat{\bm{w}}} = \left( \Phi(\bX_t^l)^T \Phi(\bX_t^l) + \lambda I \right)^{-1} \Phi(\bX_t^l)^T \bY_t^l
 \end{equation}
-where \(\bX_t^l\) are only those LR patches that get routed to leaf \(l\) in tree \(t\), similarly \(\bY_t^l\), and \(\Phi(\bX_t^l)\) is matrix \(\left( \phi_i(\bx_j) \right)\) with \(\bx_j\) being one of \(\bX_t^l\).
+where \(\bX_t^l\) are only those LR patches that get routed to leaf \(l\) in tree \(t\), similarly \(\bY_t^l\), and \(\Phi(\bX_t^l)\) is the matrix \(\left( \phi_i(\bx_j) \right)\) with \(\bx_j\) being one of \(\bX_t^l\).
 %
 \begin{figure}
 	\centering
 	\includegraphics[width=\linewidth,keepaspectratio]{figures/classical/FIRF.png}
-	\caption{A set of decision trees. Each decision tree recursively classifies the input LR patch into left or right child node, until a leaf node is reached. By using the linear regression models stored in the each leaf node, the input LR patch can be projected to the HR patch space\cite{Huang}}
+	\caption{A set of decision trees. Each decision tree recursively classifies the input LR patch into left or right child node, until a leaf node is reached. By using the linear regression models stored in the each leaf node, the input LR patch can be projected to the HR patch space\cite{Huang}.}
 	\label{fig:firf}
 \end{figure}
 %
-Finally the inferred HR patch \(\by\) is the average of patches \(\prescript{l}{t}{W(\bx)}\) inferred by all \(n\) trees in the forest:
+Finally the inferred HR patch \(\by\) is the average of patches \(\prescript{l}{t}{\hat{W}(\bx)}\) inferred by all \(n\) trees in the forest:
 \begin{equation}
-	\hat{\by} = \frac{1}{n} \sum_{t=1}^{n} \prescript{l}{t}{W(\bx)} =  \frac{1}{n} \sum_{t=1}^{n} \sum_{i=1}^I \prescript{l}{t}{\hat{w}_i}\phi_i(\bx)
+	\hat{\by} = \frac{1}{n} \sum_{t=1}^{n} \prescript{l}{t}{\hat{W}(\bx)} =  \frac{1}{n} \sum_{t=1}^{n} \sum_{i=1}^I \prescript{l}{t}{\hat{w}_i}\phi_i(\bx)
 \end{equation}
 where \(l = l(t)\) is the leaf that sample \(\bx\) is routed to for each tree \(t\).
 %
@@ -643,21 +638,21 @@ The tree is grown as a function of the splitting function, current depth, and cu
 %
 At each node they select the splitting function parameters \(i, j, \tau\) by evaluating all such possible pixel pairs and thresholds according to a quality measure whose purpose is to cluster similar LR patches:
 \begin{equation}
-	Q(\bX, \bY) = \sum_k \left( \abs{ \by_k - \hat{\by}_k }^2 + \kappa\abs{ \bx_k - \bar{\bx} }^2 \right)
+	Q(\bX, \bY) \coloneqq \sum_k \left( \abs{ \by_k - \hat{\by}_k }^2 + \alpha\abs{ \bx_k - \bar{\bx} }^2 \right)
 	\label{eqn:qualitymeasure}
 \end{equation}
-where \(\hat{\by}_k\) is the estimate produced by the linear regression fit using data that's arrived at that node.
+where \(\hat{\by}_k\) is the estimate produced by the linear regression fit using data that's arrived at that node (and \(\alpha\) is a scale regularization parameter).
 %
 The first term in eqn.~\eqref{eqn:qualitymeasure} measures fitting error and the second term is the clustering regularizer.
 %
 They decide whether to actually split according to the \textit{error reduction} in performing the split:
 \begin{multline*}
-	R\left(i, j, \tau, \bX, \bY \right) = \\ Q(\bX, \bY) - \sum_{c\in\left\{L, R\right\}} \frac{\abs{\bX^c}}{\abs{\bX}} Q(\bX^c, \bY^c)
+	R\left(i, j, \tau, \bX, \bY \right) \coloneqq \\ Q(\bX, \bY) - \sum_{c\in\left\{L, R\right\}} \frac{\abs{\bX^c}}{\abs{\bX}} Q(\bX^c, \bY^c)
 \end{multline*}
 where \(\bX^L\) are all of the \(\bx_k\) such that \(\sigma(\bx_k, i, j, \tau) = \text{ left }\) and \(\bY^L\) are all the corresponding \(\by_k\) (and similarly for \(\bX^R, \bY^R\)).
 %
-The best set of parameters \(\hat{i}, \hat{j}, \hat{\tau}\) are those that maximize \(R\left(i, j, \tau, \bX, \bY \right)\).
+The best set of parameters \(\hat{\imath}, \hat{\jmath}, \hat{\tau}\) are those that maximize \(R\left(i, j, \tau, \bX, \bY \right)\).
 %
-Then if \(R\left(\hat{i}, \hat{j}, \hat{\tau}, \bX, \bY \right)\) is greater than zero (there's an error reduction gained from performing the split) the data is split amongst the left child and right child.
+Then if \(R\left(\hat{\imath}, \hat{\jmath}, \hat{\tau}, \bX, \bY \right)\) is greater than zero (i.e., there's an error reduction gained from performing the split) the data is split amongst the left child and right child.
 %
 Each non-leaf node stores its best set of parameters and each leaf node stores its learned linear regression.

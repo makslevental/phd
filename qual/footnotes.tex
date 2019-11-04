@@ -1,11 +1,11 @@
 %! Suppress = GatherEquations
 % introduction
 \anotecontent{vbsuper}{We will often use the verb form ``to super resolve'' in order to denote the use of one or more such methods.}
-\anotecontent{rayleighscriterion}{The amplitude of the diffraction pattern (known as the Airy pattern) of a monochromatic point source through a circular aperture is given by \[I(\theta)=I_{0}\left[{\frac {2J_{1}(ka\sin \theta )}{ka\sin \theta }}\right]^{2}\] where \(I_0\) is peak intensity (at the center), \(k=\frac{2\pi}{\lambda}\) is the wave number of the light, \(\theta\) is the angle of observation, and \(J_1\) is the Bessel function of the first kind of order one\cite{goodman2005introduction}.
+\anotecontent{rayleighscriterion}{The amplitude of the diffraction pattern (known as the Airy pattern) of a monochromatic point source through a circular aperture is given by \[I(\theta)\coloneqq I_{0}\left[{\frac {2J_{1}(ka\sin \theta )}{ka\sin \theta }}\right]^{2}\] where \(I_0\) is peak intensity (at the center), \(k=\frac{2\pi}{\lambda}\) is the wave number of the light, \(\theta\) is the angle of observation, and \(J_1\) is the Bessel function of the first kind of order one\cite{goodman2005introduction}.
 %
 It is maxima/minima of this function that Rayleigh's criterion concerns.}
 \anotecontent{shotnoise}{TODO}
-\anotecontent{satelliteoptics}{Rayleigh's criterion implies that the angular resolution \(R\) of a telescope with optical diameter \(D = 2.4\text{m}\) observing visible light (\({\sim}500\text{nm}\)) is approximately\cite{doi:10.1080.14786447908639684} \[R  \approx 1.220\frac{\lambda}{D} = 1.220 \frac{500\text{nm}}{2.4\text{m}} \approx 0.06 \text{arcsec}\] From an altitude of 250 km this corresponds to a ground sample distance of 6cm.
+\anotecontent{satelliteoptics}{Rayleigh's criterion implies that the angular resolution \(R\) of a telescope with optical diameter \(D = 2.4\text{m}\) observing visible light (\({\sim}500\text{nm}\)) is approximately\cite{doi:10.1080.14786447908639684} \[R  \approx 1.220\frac{\lambda}{D} = 1.220 \frac{500\text{nm}}{2.4\text{m}} \approx 0.06\text{arcsec}\] From an altitude of 250 km this corresponds to a ground sample distance of 6cm.
 %
 This loss of resolving power is further exacerbated by refraction through turbulent atmosphere\cite{Fried:66}.}
 \anotecontent{subpixel}{For example when a point source wholly captured by one sensor element shifts to distributing energy equally amongst the same element and a direct adjacent.}
@@ -27,7 +27,7 @@ This leaves a depleted region near the Si-SiO\(_2\) interface that acts as an in
 %
 In surface channel MOS capacitors signal charge is stored at the Si-SiO\(_2\) interface, which can lead to charge trapping during the charge transfer process\cite{Bass:2009:HOT:1594759}.}
 \anotecontent{ccd}{CCD arrays, for example, employ \(2\times 2\) or \(3\times 3\) pixel binning, which is the practice of collapsing windows of pixels down to one pixel.}
-\anotecontent{pnjunction}{The interface between a p-type semiconductor (excess holes, i.e. positive charge carriers) and an n-type (excess electrons, i.e. negative charge carriers) semiconductor.}
+\anotecontent{pnjunction}{The interface between a p-type semiconductor (excess holes, i.e.,positive charge carriers) and an n-type (excess electrons, i.e.,negative charge carriers) semiconductor.}
 \anotecontent{reversebias}{With the p-type material at a lower voltage than the n-type.
 	%
 	This causes both the holes and the electrons to flow away from the junction creating a depletion zone.}
@@ -53,9 +53,9 @@ Spatial here means periodic in space rather than in time.}
 %
 Since in practice this approximates a noisy signal (second derivative), smoothing by a Gaussian is a necessary prerequisite.
 %
-Therefore the Laplace of Gaussians (\(LoG\)) filter is the Laplacian composed with the Gaussian: \begin{equation*} LoG(x,y, \sigma) = -\frac{1}{\pi \sigma^4}\left[ 1 - \frac{x^2+y^2}{2\sigma^2} \exp \left\{ - \frac{x^2+y^2}{2\sigma^2} \right\} \right]
+Therefore the Laplace of Gaussians (\(LoG\)) filter is the Laplacian composed with the Gaussian: \begin{equation*} LoG(x,y, \sigma) \coloneqq -\frac{1}{\pi \sigma^4}\left[ 1 - \frac{x^2+y^2}{2\sigma^2} \exp \left\{ - \frac{x^2+y^2}{2\sigma^2} \right\} \right]
 	\end{equation*}}
-\anotecontent{smallcurvature}{The ratio of the eigenvalues of the spatial Hessian of \(D\) (i.e. only along dimensions \(x,y\)).
+\anotecontent{smallcurvature}{The ratio of the eigenvalues of the spatial Hessian of \(D\) (i.e.,only along dimensions \(x,y\)).
 %
 In fact a quantity not unlike eqn.~\eqref{eqn:strength} is computed in order to save having to explicitly find eigenvalues.}
 \anotecontent{hog}{The histogram of gradient orientations (polar angle) in a pixel window.}
@@ -140,7 +140,7 @@ In this instance \(R\) is the orientable manifold, \( \mathbf{j} \cdot \mathbf{n
 
 
 %classical
-\anotecontent{lsi}{In analogy with Linear Time Invariant (i.e. linear and constant in space).}
+\anotecontent{lsi}{In analogy with Linear Time Invariant (i.e.,linear and constant in space).}
 \anotecontent{lrpixel}{An LR pixel is one sampled from an LR image and embedded in an HR grid.
 	%
 	An HR pixel is a pixel in an HR grid.}
@@ -185,7 +185,7 @@ In this instance \(R\) is the orientable manifold, \( \mathbf{j} \cdot \mathbf{n
 		\sup_{P \in \mathcal{P}}\sum_{i=0}^{n_P-1} \lvert f(x_{i+1})-f(x_i) \rvert\, <\infty
 	\]
 }
-\anotecontent{beliefpropagation}{An efficient way to compute marginals of joint probabilities that have structure by reusing partial sums (i.e. passing messages)\cite{Yedidia2003jan1}.}
+\anotecontent{beliefpropagation}{An efficient way to compute marginals of joint probabilities that have structure by reusing partial sums (i.e.,passing messages)\cite{Yedidia2003jan1}.}
 \anotecontent{manifold}{A collection of points that locally resembles Euclidean space.}
 \anotecontent{manifoldlearning}{Dimensionality reduction.}
 \anotecontent{pun}{No pun intended.}

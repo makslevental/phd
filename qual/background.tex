@@ -1,7 +1,7 @@
 \subsection{Imaging systems}\label{subsec:imaging-systems}
 \begin{figure}
 	\includegraphics[width=\linewidth,keepaspectratio]{figures/background/bccd.png}
-	\caption{CCD buried channel MOS capacitor\cite{finaltestguideline}}
+	\caption{CCD buried channel MOS capacitor\cite{finaltestguideline}.}
 	\label{fig:mos-cap}
 \end{figure}
 We begin with a practical discussion of imaging systems.
@@ -26,7 +26,7 @@ Those photons that are transmitted interact with electrons in the valence band o
 %
 For high-quality silicon, the lifetime of such a pair is several milliseconds (before recombination)\cite{scientificccd}.
 %
-The electrons of the electron-hole pairs that do not recombine diffuse into the potential well, while the holes migrate to the grounded substrate (i.e. out of the sensor).
+The electrons of the electron-hole pairs that do not recombine diffuse into the potential well, while the holes migrate to the grounded substrate (i.e.,out of the sensor).
 %
 Electrons created in this way are called \textit{photoelectrons}.
 
@@ -35,7 +35,7 @@ CCD arrays consist of two sub-arrays: an image section and a readout section (se
 The image section is arranged with every third stripe of electrode tied electrically to form three sets of equipotentials.
 \begin{figure}
 	\includegraphics[width=\linewidth,keepaspectratio]{figures/background/ccd_array.png}
-	\caption{CCD array\cite{pawley1995handbook}}
+	\caption{CCD array\cite{pawley1995handbook}.}
 	\label{fig:ccd-array}
 \end{figure}
 %
@@ -55,7 +55,7 @@ The VR mechanism that shifts collected charge operates as follows:
 \end{framed}
 At the bottom of the image section \(\Phi3\) transfers all signal charges to the horizontal register (HR) which functions much like the VR except faster: the HR must transfer every line of pixels independently of all other lines to the read-out node.
 %
-An obvious challenge faced by this system is how to prevent errant charge from accumulating out of sync with the shift process i.e. how to prevent new photoelectrons from being produced at intermediate lines while far lines are being shifted.
+An obvious challenge faced by this system is how to prevent errant charge from accumulating out of sync with the shift process i.e.,how to prevent new photoelectrons from being produced at intermediate lines while far lines are being shifted.
 %
 The solution is to have interstitial dedicated shift channels in between columns of sensors, with the shift channels being masked off from exposure to light.
 %
@@ -64,24 +64,15 @@ This type of reading is called \textit{interline transfer} because the accumulat
 Naturally interline transfer shrinks photosensitive area by half and despite possible solutions (e.g micro-lenses being used to focus most of the light onto the unmasked sensors) this is one of the drawbacks of CCDs that CMOS imaging systems do not share.
 \subsubsection{CMOS Devices}
 CMOS sensors consist of arrays of photodiodes (see figure~\ref{fig:photodiode.png}).
-\begin{figure}
-	\includegraphics[width=\linewidth,keepaspectratio]{figures/background/photodiode.png}
-	\caption{Photodiode schematic. L\textsubscript{e}, L\textsubscript{h} are electron, hole diffusion lengths respectively\cite{Xu2015FundamentalCO}}
-	\label{fig:photodiode.png}
-\end{figure}
+\input{figures/background/cmos/cmos.tex}
 A photodiode is a p-n junction\anote{pnjunction} operated in reverse bias mode\anote{reversebias}.
 %
 When a photon of sufficient energy is absorbed by the diode, it creates an electron-hole pair.
 %
 If the creation event happens within the active region then the hole moves out through the p-type material and the electron moves out through the n-type material.
 %
-This establishes a \textit{photocurrent} that can be read by a reading circuit (see figure ~\ref{fig:3tpixel}).
-\begin{figure}
-	\center
-	\includegraphics[width=.5\linewidth,keepaspectratio]{figures/background/3t_pixel.png}
-	\caption{Three transistor pixel. M\textsubscript{rst} is the reset transistor (enabling the photodiode to dump charge), M\textsubscript{sf} buffers the charge on the photodiode (so that it can be read without loss), and M\textsubscript{sel} enables a whole row of pixels to be read simultaneously (since all pixels in a physical row are tied to the same row line).}
-	\label{fig:3tpixel}
-\end{figure}
+This establishes a \textit{photocurrent} that can be read by a reading circuit (see figure~\ref{fig:3tpixel}).
+
 CMOS sensor arrays do not shift the charge from row to row like CCD arrays.
 %
 In a CMOS sensor array, each pixel contains a transistor M\textsubscript{sel} controlled by the voltage applied across a row (see figure~\ref{fig:cmosarray}).
@@ -99,8 +90,8 @@ This, along with such artifacts as the rolling shutter effect produced by rowlin
 Despite this CMOS arrays have become the most common imaging system in consumer goods such as cell phones and digital cameras due to their relatively simple mechanics.
 \begin{figure}
 	\center
-	\includegraphics[width=.6\linewidth,keepaspectratio]{figures/background/cmos.png}
-	\caption{CMOS array}
+	\includegraphics[width=.8\linewidth,keepaspectratio]{figures/background/cmos.png}
+	\caption{CMOS array of red, green, and blue pixels.}
 	\label{fig:cmosarray}
 \end{figure}
 \subsubsection{Microbolometers}
@@ -111,7 +102,7 @@ A microbolometer, on the other hand, measures the power in the infrared by expos
 \begin{figure}[b]
 	\center
 	\includegraphics[width=.7\linewidth,keepaspectratio]{figures/background/microbolometer2.png}
-	\caption{Bridge structure of Honeywell microbolometer\cite{KESIM2014245}}
+	\caption{Bridge structure of Honeywell microbolometer\cite{KESIM2014245}.}
 	\label{fig:microbolometer}
 \end{figure}
 %
@@ -144,7 +135,7 @@ Lower case plain latin \(x, y\) denote LR and HR \textit{patches}\anote{patch} r
 %
 \(D, H, F, G\) variously refer to functions that operate on images.
 %
-Bolded uppercase latin \(\bm{X}, \bm{Y}\) are reserved for batches of images, i.e. batch size \(\times\) channel \(\times\) row \(\times\) column tensors with \((0, 0, 0,0)\) corresponding to the top left corner of the first channel of first image in the batch.
+Bolded uppercase latin \(\bm{X}, \bm{Y}\) are reserved for batches of images, i.e.,batch size \(\times\) channel \(\times\) row \(\times\) column tensors with \((0, 0, 0,0)\) corresponding to the top left corner of the first channel of first image in the batch.
 %
 Bolded lower case denote \(\bm{x}, \bm{y}, \bm{z}\) etc. denote conventional column or row vectors.
 %
@@ -184,7 +175,7 @@ Successful registration is effected by producing a transformation \(f\) that map
 	\Xkone(f(x', y')) = X_j(x,y)
 	\label{eqn:registration}
 \end{equation}
-where we use index \(j\) to indicate the possibility of registering all samples relative to a fixed reference image (e.g. \(j=0\) the first sample) or successive/relative registration (i.e. with \(j=k\)).
+where we use index \(j\) to indicate the possibility of registering all samples relative to a fixed reference image (e.g. \(j=0\) the first sample) or successive/relative registration (i.e.,with \(j=k\)).
 %
 While image registration is already challenging in the various domains where samples are treated as canonical, such as remote sensing and medical imaging, in SR it is further complicated by the fact that the images to be registered are assumed uncertain.
 %
@@ -202,7 +193,7 @@ In general the optical transfer function (OTF) characterizes the blur of an imag
 %
 We factor the OTF into three components:
 \begin{equation}
-	H(u, v) = H_{\text{diff}}(u,v) H_{\text{abr}}(u,v) H_{\text{int}} (u,v)
+	H(u, v) \coloneqq H_{\text{diff}}(u,v) H_{\text{abr}}(u,v) H_{\text{int}} (u,v)
 \end{equation}
 where \(u,v\) are horizontal and vertical spatial frequencies respectively (measured in cycles/mm), \(H_{\text{diff}}\) is blur due to diffraction, \(H_{\text{abr}}\) is blur due to lens aberrations, and \(H_{\text{int}}\) is blur due to imaging sensor shape (obtained by taking the Fourier transform of the shape an individual sensor in the imaging array).
 %
@@ -224,7 +215,7 @@ Wavelength independent blurring due to aberrations can be induced by various imp
 		0                                                                                & \text{otherwise}
 	\end{cases}
 \end{equation*}
-Figure~\ref{fig:mtf} shows an example OTF for an imaging system with a sensor spacing of 0.050 mm and therefore sampling frequency of 20 cycles/mm and \(\rho_c = 83.3~\text{cycles}/\text{mm}\) (\(F=3\) and \(\lambda = 4\mu\text{m}\) i.e. near infrared).
+Figure~\ref{fig:mtf} shows an example OTF for an imaging system with a sensor spacing of 0.050 mm and therefore sampling frequency of 20 cycles/mm and \(\rho_c = 83.3~\text{cycles}/\text{mm}\) (\(F=3\) and \(\lambda = 4\mu\text{m}\) i.e.,near infrared).
 %
 Notice that \(\rho_c\) is much greater than the Nyquist rate (\(\frac{1}{2} \times 20~\text{cycles}/\text{mm} = 10~\text{cycles}/\text{mm}\)) and therefore many frequencies that are within the radial cutoff frequency will be aliased.
 %
@@ -235,7 +226,7 @@ Notice also that like a typical transfer function the OTF is not flat and theref
 Simply applying gain to the image wouldn't solve the attenuation problems because of aliasing, but likewise this can be resolved after the effective sampling rate is increased using MISR.
 \begin{figure}
 	\includegraphics[width=\linewidth,keepaspectratio]{figures/background/mtf.png}
-	\caption{OTF magnitude cross-section for\cite{milanfar2017super}}
+	\caption{OTF magnitude cross-section for\cite{milanfar2017super}.}
 	\label{fig:mtf}
 \end{figure}
 
