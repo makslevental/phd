@@ -60,14 +60,14 @@ Therefore the Laplace of Gaussians (\(LoG\)) filter is the Laplacian composed wi
 In fact a quantity not unlike eqn.~\eqref{eqn:strength} is computed in order to save having to explicitly find eigenvalues.}
 \anotecontent{hog}{The histogram of gradient orientations (polar angle) in a pixel window.}
 \anotecontent{kdtree}{\(k\)-d trees\cite{Bentley:1975:MBS:361002.361007}, short for \(k\)-dimensional trees, are data structures that partition space efficiently in order that searching the data structure, insertion into the data structure, and deletion from the data structure are all, on average, \(O(\log n)\) time operations (where \(n\) is the number of nodes in the tree at the time of the operation).}
-\anotecontent{ransac}{RANSAC is a method used to estimate parameters of a model given outliers.
+\anotecontent{ransac}{Random Sample Consensus (RANSAC) is a method used to estimate parameters of a model given outliers.
 %
 In this case Zahra \etal~use RANSAC at the transform estimation step to eliminate falsely matched keypoint pairs.
 %
 RANSAC iterates by repeatedly random sampling the putative matching keypoint pairs and fitting a transform model.
 %
 At a given iteration the fitted transform model is tested against the unused keypoint pairs and evaluated (according to goodness of fit on a subset called the \textit{consensus set}).}
-\anotecontent{gridsearch}{Searching a space by taking regular incremental steps along each dimension (e.g. search \(U \subset \mathbb{R}^2\) by checking all \(x = \Delta x + x_0, y = \Delta y + y_0\) for \((x_0, y_0) \in U\) and for fixed \(\Delta x, \Delta y\)).}
+\anotecontent{gridsearch}{Searching a space by taking regular incremental steps along each dimension. For example, search \(U \subset \mathbb{R}^2\) by checking all \(x = \Delta x + x_0, y = \Delta y + y_0\) for \((x_0, y_0) \in U\) and for fixed \(\Delta x, \Delta y\).}
 \anotecontent{fouriershift}{If \(\mathcal{F}\{\left[ x_n \right] \}_{k}=X_{k}\) is the \(k\)th frequency component of the discrete signal
 \(\left[ x_n \right]\) then shifting \(\left[ x_n \right]\) by \(m\) steps implies
 \[
@@ -90,13 +90,13 @@ At a given iteration the fitted transform model is tested against the unused key
 	\]
 }
 \anotecontent{shannon}{
-Shannon entropy can be interpreted as the number of bits \(L\) necessary to encode a random variable \(X\) distributed according to distribution \(P\).
+Shannon entropy can be interpreted as the average number of bits \(L\) necessary to encode a random variable \(X\) distributed according to distribution \(P\).
 %
 It is defined as
 \[
 	H(X)\coloneqq\sum{P(x)\log\left[\frac{1}{P (x)}\right]}
 \]
-i.e. \(P(x_i) = 1/2^L\) where \(L\) is the number of bits.
+i.e., \(P(x_i) = 1/2^L\) where \(L\) is the number of bits.
 }
 \anotecontent{kde}{Alternatively known as Parzen windowing, the kernel density estimator \(\hat{P}\) of a distribution \(X\sim P\) given a set of points \(\left\{ x_1, x_2, \dots, x_n \right\}\) is defined as
 \[
@@ -108,19 +108,19 @@ where \(K\) is a kernel (e.g. Gaussian) and \(h\) is the \textit{kernel bandwidt
 %
 The convex hull of a set of points \(X\) is the set of all convex combinations of points in \(X\).
 %
-Schematically one can imagine stretching a rubberband such that it contains all points in \(X\).}
+Figuratively one can imagine stretching a rubberband such that it contains all points in \(X\).}
 \anotecontent{completegraph}{A graph in which each pair of vertices is connected by an edge.}
 \anotecontent{homogeneous}{
-	With \((x,y)\) a pixel coordinate, transformations in homogeneous coordinates operate on \(x,y,1\): if
+	With \((x,y)\) a pixel coordinate, transformations \(T\) in homogeneous coordinates operate on \((x,y,1)\): if
 	\(
-	(a,b,c) = (x,y,1)\, T
+	(a,b,c) = (x,y,1)\cdot T
 	\)
 	then the transformed pixel coordinate
 	\(
 	(x',y') = \frac{1}{c} (a,b)
 	\).
 }
-\anotecontent{advection}{Advection is the transport of a substance, or properties thereof, by bulk flow of a fluid (not to be confused with \textit{convection} which refers to the movement of the fluid itself). The substance, or properties thereof, are \textit{advected} by the flow and are considered \textit{conserved}. In general the fluid flow is described by a vector field \(\mathbf{u}\) (called velocity) and the substance or property is described by a scalar field \(\psi\) (various called distribution, concentration, or density). The canonical example is the advection of ink by flowing water.}
+\anotecontent{advection}{Advection is the transport of a substance, or properties thereof, by bulk flow of a fluid (not to be confused with \textit{convection} which refers to the movement of the fluid itself). The substance, or properties thereof, are \textit{advected} by the flow and are considered \textit{conserved}. In general the fluid flow is described by a vector field \(\mathbf{u}\) (called velocity) and the substance or property is described by a scalar field \(\psi\) (variously called distribution, concentration, or density). The canonical example is the advection of ink by flowing water.}
 \anotecontent{stokes}{
 The integral of a differential form \(\omega\) on the boundary of some orientable manifold \(\Omega\)  is equal to the integral of its exterior derivative \(\dif \omega\) on \(\Omega\), i.e
 \[
@@ -133,6 +133,9 @@ In this instance \(R\) is the orientable manifold, \( \mathbf{j} \cdot \mathbf{n
 	\|u\|_{\operatorname {TV}}=\int\|\nabla u\|
 \]
 }
+\anotecontent{indicator}{The indicator (or characteristic) \(\mathbbm{1}_{[a,b)}\) function is 1 on the interval \([a,b)\) and 0 otherwise.}
+\anotecontent{vectorspace}{A set whose members (\textit{vectors}) can be decomposed as linear combinations of elementary elements (a \textit{basis}).}
+\anotecontent{splinecontconstr}{Note that even though a \(d\)-degree polynomial has \(d\) derivatives we only require agreement at the first \(d-1\) derivatives (and continuity itself). This is owing to the fact that if we required all \(d\) derivatives to agree the number of degrees of freedom would be \((n(d+1) - (n-1)(d+1) = d+1\) and therefore the spline would no longer be a piece-wise polynomial but simply a polynomial (of degree \(d\)).}
 
 
 

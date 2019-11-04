@@ -9,11 +9,13 @@ When the transformations cannot be deduced from first principles (e.g., precise 
 %
 The estimation process can be broken down into three distinct steps: feature detection, feature matching, and mapping function estimation.
 
-\subsection{Feature Detection and Selection}
+\subsection{Feature Detection and Selection}\label{sec:featdetec}
 
-Feature detection and selection is the process of identifying features of the image that are presumed to be invariant across the multiple images to registered.
+Feature detection and selection is the process of identifying features of the image that are presumed to be invariant across the multiple images to be registered.
 %
-Note that here by features we mean image artifacts (e.g. edges, contours, line intersections, or corners); in this context encodings or transformations of these image artifacts are called \textit{descriptors}.
+Note that here by features  we mean image artifacts (e.g. edges, contours, line intersections, or corners); in this context encodings or transformations of these image artifacts are called \textit{descriptors}.
+%
+Features are also known as control points 
 %
 The CPs are the data that will be used to estimate the transformation \(f\).
 %
@@ -22,9 +24,9 @@ Therefore, in order that the estimated transformation is accurate, CPs should be
 \subsubsection{Harris Corner Detection}
 Bentoutou \etal\cite{bentoutou2005automatic} use a Harris detector\cite{harris1988combined} to find corner points, arguing that corners are robust to noise and stable over multiple images.
 %
-The Harris detector improves on the Moravec\cite{moravec1980obstacle} detector.
+In order to understand the Harris detector we need to first understand the Moravec\cite{moravec1980obstacle} detector on which it improves.
 %
-The Moravec detector starts from the error function \(E_{x,y}(u,v)\) which computes the sum of the squared differences (SSD) between an \(m \times m\) weighted window around a pixel \(X(x, y)\) and weighted windows shifted by \(u,v\) pixels:
+The Moravec detector starts from an error function \(E_{x,y}(u,v)\) which computes the sum of the squared differences (SSD) between an \(m \times m\) weighted window around a pixel \(X(x, y)\) and weighted windows shifted by \(u,v\) pixels:
 \begin{multline}
 	\quad E_{x,y}(u,v) \coloneqq \\ \sum_{i,j=-m/2}^{m/2} w_{ij}\left[ X(x_i+ u,y_j+v) - X(x_i, y_j)\right]^2
 	\label{moravecerrorfunction}
@@ -44,20 +46,19 @@ Moravec assigns a "corner score" according to the following reasoning (see figur
 		\item If a pixel is on a corner, then \(E_{x,y}(u,v)\) for \(u > 0\) and \(v > 0\) is high.
 	\end{enumerate}
 \end{framed}
-Therefore the corner score at pixel coordinate \((x,y)\) is \(\min_{u,v} E_{x,y}(u,v)\) in order to select for the third case.
+The Moravec detector assigns a corner score at pixel coordinate \((x,y)\) equal to \(\min_{u,v} E_{x,y}(u,v)\) in order to select for the third case; high corner scores indicate strong evidence of a corner detection.
 %
 Moravec comments that this corner score is not isotropic, i.e. if edges aren't aligned with either the pixel axes or diagonals then \(E_{x,y}(u,v)\) will incorrectly be low.
 %
-Harris' insight was to linearize \(E_{x,y}(u,v)\) in order to compute a quantity more closely related to the intensity variation in a local
-neighborhood of a pixel:
+Harris' innovation was to linearize \(E_{x,y}(u,v)\) in order to compute a quantity more closely related to the intensity variation in a local neighborhood of a corner pixel:
 \begin{equation}
-	X(x_i + u,y_j + v) \approx  X(x_i,y_j) + \frac{\partial X}{\partial u}u + \frac{\partial X }{\partial v} v
+	X(x_i + u,y_j + v) \approx  X(x_i,y_j) + X_u u + X_v v
 \end{equation}
-where the partial derivatives are taken at \((x,y)\).
+where \(X_u \coloneqq \partial X/\partial u\) and similarly \(X_v\) and the partial derivatives are taken at \((x,y)\).
 %
 This implies
 \begin{align}
-	E_{x,y}(u,v) & \approx \sum_{i,j=-m/2}^{m/2} w_{ij} \left[ X_u u + X_v v\right]^2                 \\
+	E_{x,y}(u,v) & \approx \sum_{i,j=-m/2}^{m/2} w_{ij} \left[X(x_i,y_j) + X_u u + X_v v - X(x_i,y_j)\right]^2                 \\
 	             & = \sum_{i,j=-m/2}^{m/2} w_{ij} \left[ X_u^2 u^2 + X_v^2 v^2 + 2 X_u X_v u v\right] \\
 	             & = \left[ u,v \right] \begin{bmatrix}
 		\sum w_{ij}X_u^2   & \sum w_{ij}X_u X_v \\
@@ -71,7 +72,6 @@ This implies
 		v
 	\end{bmatrix} \label{eqn:structurematrix}
 \end{align}
-where \(X_u \coloneqq \partial X/\partial u\) and similarly \(X_v\).
 %
 The matrix in eqn.~\eqref{eqn:structurematrix}, called the \textit{structor tensor} or \textit{second-moment matrix} \(M\), is the quantity Harris investigated.
 %
@@ -85,20 +85,20 @@ Harris reasoned that the cases of Moravec correspond to conditions on the eigenv
 \end{framed}
 Notice that if \(w_{ij} = 1\) then this is just the gradient covariance of the image and the Harris detector is essentially a local Principle Components Analysis (PCA).
 %
-In fact Harris doesn't actually compute the eigenvalues but instead a related quantity called the ``strength'':
+In fact Harris doesn't actually compute the eigenvalues but instead a related quantity called the \textit{strength}:
 \begin{align}
 	S & \coloneqq \lambda_1 \lambda_2 - \kappa (\lambda_1 + \lambda_2)^2 \\
 	  & = \det(M) - \kappa \operatorname{trace}^2(M)
 	\label{eqn:strength}
 \end{align}
 %
-Hence Bentoutou \etal~first compute a gradient map of the image using a first order Gaussian derivative filter.
+To this end (using the Harris detector) Bentoutou \etal~first compute a gradient map of the image using a first order Gaussian filter.
 %
 They then threshold\anote{threshold} the gradient map at the average gradient value, thereby extracting only sufficiently "interesting" regions, and compute the strength \(S\) for all pixels.
 %
 They also apply Non-maximum Suppression\anote{nms} (NMS) using a \(3 \times 3\) window and further threshold the remaining non-zero strength values at a threshold of 1\% of maximum observed strength.
 %
-Finally only the ``strongest'' \(n\) corners are kept.
+Finally only the \(n\) corners with the highest strengths \(S\) are kept.
 
 \subsubsection{SIFT}\label{sec:sift}
 
@@ -115,31 +115,45 @@ Zahra \etal\cite{zahrasift} resolves this issue by using the Scale Invariant Fea
 SIFT identifies scale invariant and noise robust features of an image, called \textit{keypoints}, by first finding candidate points with high local curvature at multiple scales and then culling according to some heuristics.
 \input{figures/registration/sift/orientation_featurization.tex}
 %
-It then "describes" these keypoints by a rotation invariant and noise robust representation.
+It then \textit{describes} these keypoints by a rotation invariant and noise robust representation.
 %
 The algorithm consists of five steps:
 %
 \begin{framed}
 	\begin{enumerate}
-		\item Scale-space pyramid construction: a sequence of increasingly sub-sampled and more strongly Gaussian filtered images is computed. The sequence of differences of these images is also computed; the sequence of differenced images approximates the multi-scale Laplacian of Gaussians\anote{log} (LoG) of the image (see figure~\ref{fig:siftpyramid}).
-		\item Keypoint detection: candidate keypoints are points on edges with curvature, i.e. extrema along scale and space dimensions in the LoG pyramid (see figure~\ref{fig:siftpyramid}).
-		\item Keypoint selection: candidate keypoints are more precisely localized using an iterative process. Keypoints of low-contrast (therefore sensitive to noise) or on edges of low curvature\anote{smallcurvature} are culled.
-		\item Keypoint orientation assignment: orientation is assigned to each keypoint by taking a weighted majority vote of all gradient orientations in a neighborhood of the keypoint (see figure~\ref{fig:siftdescriptorb}). Large minority votes (80\% of majority) are used to create more keypoints at the same pixel point.
-		\item Keypoint descriptor computation: for each keypoint the descriptor is computed by partitioning the keypoint's neighborhood into \(2^k\) sub-neighborhoods, computing an 8-bin histogram of oriented gradients\anote{hog} (HOG) in each sub-neighborhood, and concatenating (see figure~\ref{fig:siftdescriptord}). In Lowe \etal\cite{lowe2004distinctive} \(2^4=16\) sub-neighborhoods are used to produce an \(8\times16 = 128\) entry length descriptor. The descriptor is also normalized to unit length in order to make it invariant to luminance (intensity).
+		\item \textbf{Scale-space pyramid construction}: a sequence of increasingly sub-sampled and more strongly Gaussian filtered images is computed. The sequence of differences of these images is also computed; the sequence of differenced images approximates the multi-scale Laplacian of Gaussians\footnotemark (LoG) of the image (see figure~\ref{fig:siftpyramid}).
+		\item \textbf{Keypoint detection}: candidate keypoints are points on edges with non-zero curvature, i.e. extrema along scale and space dimensions in the LoG pyramid (see figure~\ref{fig:siftpyramid}).
+		\item \textbf{Keypoint selection}: candidate keypoints are more precisely localized using an iterative process. Keypoints of low-contrast (therefore sensitive to noise) or on edges of low curvature\footnotemark are culled.
+		\item \textbf{Keypoint orientation assignment}: orientation is assigned to each keypoint by taking a weighted majority vote of all gradient orientations in a neighborhood of the keypoint (see figure~\ref{fig:siftdescriptorb}). Large minority votes (80\% of majority) are used to create more keypoints at the same pixel point.
+		\item \textbf{Keypoint descriptor computation}: for each keypoint the descriptor is computed by partitioning the keypoint's neighborhood into \(2^k\) sub-neighborhoods, computing an 8-bin histogram of oriented gradients\footnotemark (HOG) in each sub-neighborhood, and concatenating (see figure~\ref{fig:siftdescriptord}). In Lowe \etal\cite{lowe2004distinctive} \(2^4=16\) sub-neighborhoods are used to produce an \(8\times16 = 128\) entry length descriptor. The descriptor is also normalized to unit length in order to make it invariant to luminance (intensity).
 	\end{enumerate}
 \end{framed}
+\addtocounter{footnote}{-3}
+{
+	\makeatletter
+	\renewcommand\@makefnmark{\hbox{\@textsuperscript{\normalfont\color{white}\@thefnmark}}}
+	\renewcommand\@makefntext[1]{%
+	  \parindent 1em\noindent
+				\hb@xt@1.8em{%
+					\hss\@textsuperscript{\normalfont\@thefnmark}}#1}
+	\makeatother
+
+\anote{log}
+\anote{smallcurvature}
+\anote{hog}
+}
 
 SIFT is indeed effective as a CP detector but unfortunately it is patented.
 %
-Alternatives include Binary Robust Invariant Scalable Keypoints\cite{leutenegger2011brisk}, and Oriented FAST and rotated BRIEF\cite{rublee2011orb} (which itself consists of applying Features from accelerated segment test\cite{rosten2006machine} to detect points of interest and Binary Robust Independent Elementary Features\cite{calonder2010brief} to compute descriptors).
+Alternatives include Binary Robust Invariant Scalable Keypoints\cite{leutenegger2011brisk}, and Oriented FAST and rotated BRIEF\cite{rublee2011orb} (which itself consists of applying Features from Accelerated Segment Test\cite{rosten2006machine} to detect points of interest and Binary Robust Independent Elementary Features\cite{calonder2010brief} to compute descriptors).
 
 \subsection{Feature Matching}
 
 After robust features are identified in the reference image and the displaced images, they need to be matched.
 %
-For example for SIFT, where the descriptors are designed to be invariant across images, Euclidean distance using a \(k\)-d tree\anote{kdtree} can be used to efficiently match keypoint descriptors.
+For example, in SIFT, where the descriptors are designed to be invariant across images, a \(k\)-d tree\anote{kdtree} can be used to efficiently match keypoint descriptors.
 %
-Although this often leads to false-positive matches (Zahra \etal~resolve this by using Random Sample Consensus (RANSAC)\anote{ransac}) it's a natural feature matching method.
+Although this often leads to false-positive matches (Zahra \etal~resolve this by using Random Sample Consensus\anote{ransac}) it's a natural feature matching method.
 %
 In other cases the matching mechanism is not so straightforward; for a class of algorithms called area-based or intensity-based algorithms, that in fact combine the feature detection and matching step into one, matching involves comparing summaries of patches in the reference image and the displaced image.
 
@@ -156,23 +170,35 @@ The key part of the algorithm (after computing the convex hull of the control po
 %
 \begin{framed}
 	\begin{enumerate}
-		\item Determine the complete graphs\anote{completegraph} \(G_1=(V_1, E_1)\), \(G_2 = (V_2,E_2)\) of \(C_1\) and \(C_2\). Then \[|E_1| = \frac{|V_1| (|V_1|-1)}{2}\] (\(|V_1|\) "choose" 2) and similarly \(|E_2|\). Since there are 2 ways to match any undirected edge we extend \(E_2\) to include reverse directed edges and therefore \[|E_2| = |V_2| (|V_2|-1)\]
+		\item Determine the complete graphs\footnotemark \(G_1=(V_1, E_1)\), \(G_2 = (V_2,E_2)\) of \(C_1\) and \(C_2\). Then \[|E_1| = \frac{|V_1| (|V_1|-1)}{2}\] (\(|V_1|\) choose 2) and similarly \(|E_2|\). Since there are 2 ways to match any undirected edge we extend \(E_2\) to include reverse directed edges and therefore \[|E_2| = |V_2| (|V_2|-1)\]
 		\item For each possible pairing of edges \(e_i, e_j\) in \(E_1, E_2\) compute the rotation \(R_{ij}\), scaling \(S_{ij}\), and translation \(T_{ij}\).
 		\item Given the composite transformation \(R_{ij} \circ S_{ij} \circ T_{ij}\) count the number \(N_{ij}\) of other points in \(C_1, C_2\) that also match (within a threshold distance \(D\)).
-		\item \(N_{IJ} = \max_{i,j} N_{ij}\) and \(R_{IJ}\, \circ S_{IJ}\, \circ\, T_{IJ}\) are the transformation parameters between the control points.
+		\item \(N_{IJ} \coloneqq \max_{i,j} N_{ij}\) and \(R_{IJ}\, \circ S_{IJ}\, \circ\, T_{IJ}\) are the transformation parameters between the control points.
 	\end{enumerate}
 \end{framed}
+\addtocounter{footnote}{-1}
+{
+	\makeatletter
+	\renewcommand\@makefnmark{\hbox{\@textsuperscript{\normalfont\color{white}\@thefnmark}}}
+	\renewcommand\@makefntext[1]{%
+	  \parindent 1em\noindent
+				\hb@xt@1.8em{%
+					\hss\@textsuperscript{\normalfont\@thefnmark}}#1}
+	\makeatother
+
+\anote{completegraph}
+}
 %
 Note that this procedure operates on one set of control points at a time and that there could be many such matchings computed before final registration between images can be performed.
 
-\subsubsection{Normalized Cross-correlation}
+\subsubsection{Normalized Cross-Correlation}
 The simplest strategy for matching by region is to grid-search\anote{gridsearch} the space of possible translational shifts \(\Delta x, \Delta y\) and assess the quality of the registration for a given shift using a similarity metric.
 %
-One such similarity metric is Normalized Cross-correlation (NCC); for two image patches \(X, Y\) (with the same width, height) NCC is defined in a straightforward way
+One such similarity metric is Normalized Cross-Correlation (NCC); for two image patches \(X_1, X_2\) (with the same width, height)
 \begin{multline}
-	\operatorname{NCC}(X, Y) \coloneqq \\ \frac{\sum_{x,y} \left(X(x,y) - \hat{X}\right) \left(Y(x,y) - \hat{Y}\right)}{\sqrt{\sum_{x,y} \left(X(x,y) - \hat{X}\right)^2} \sqrt{ \sum_{x,y} \left(Y(x,y) - \hat{Y}\right)^2 }}
+	\operatorname{NCC}(X_1, X_2) \coloneqq \\ \frac{\sum_{x,y} \left(X_1(x,y) - \hat{X}_1\right) \left(X_2(x,y) - \hat{X}_2\right)}{\sqrt{\sum_{x,y} \left(X_1(x,y) - \hat{X}_1\right)^2} \sqrt{ \sum_{x,y} \left(X_2(x,y) - \hat{X}_2\right)^2 }}
 \end{multline}
-where \(\hat{X}, \hat{Y}\) are mean patch values.
+where \(\hat{X}_1, \hat{X}_2\) are mean patch values.
 
 \input{figures/registration/cross-correlation/overlap.tex}
 %
@@ -182,22 +208,22 @@ The maximum response as a function \(\Delta x, \Delta y\) is the imputed transla
 %
 An alternative but closely related method is \textit{phase correlation}, based on the Fourier shift theorem\anote{fouriershift}  (the value of going to Fourier space is availability of highly optimized algorithms for computing the Fourier transform).
 %
-Let \(\mathcal{X}(u,v) = \mathcal{F}\{X(x,y)\}, \; \mathcal{Y}(u,v) = \mathcal{F}\{Y(x,y)\}\) be the Fourier transforms of the displaced images.
+Let \(\mathcal{X}_1(u,v) \coloneqq \mathcal{F}\{X_1(x,y)\}, \; \mathcal{X}_2(u,v) \coloneqq \mathcal{F}\{X_2(x,y)\}\) be the Fourier transforms of the images.
 %
 Then
 \[
-	\mathcal{X} = \mathcal{Y}  e^{-2 \pi i (\frac{u \Delta x}{M} + \frac{v \Delta y}{N})}
+	\mathcal{X}_1 = \mathcal{X}_2  e^{-2 \pi i \left(\frac{u \Delta x}{M} + \frac{v \Delta y}{N}\right)}
 \]
-where \(N,M\) are the dimensions of the images
+where \(N,M\) are the dimensions of the images.
 %
-and the \textit{normalized cross-power spectrum}
+Define \textit{normalized cross-power spectrum}:
 \begin{align}
-	R(u,v) & \coloneqq \frac{\mathcal{X}\odot \mathcal{Y}^{*}}{|\mathcal{X} ||\mathcal{Y}^{*} |}                                                                                                                    \\
-	       & = \frac{\mathcal{X}\odot \mathcal{X}^{*} \, e^{2 \pi i (\frac{u \Delta x}{M} + \frac{v \Delta y}{N})}}{|\mathcal{X} ||\mathcal{X}^{*} \, e^{-2 \pi i (\frac{u \Delta x}{M} + \frac{v \Delta y}{N})} |} \\
-	       & = \frac{\mathcal{X}\odot \mathcal{X}^{*} \, e^{2 \pi i (\frac{u \Delta x}{M} + \frac{v \Delta y}{N})}}{|\mathcal{X} ||\mathcal{X}^{*} |}                                                               \\
-	       & = e^{2 \pi i (\frac{u \Delta x}{M} + \frac{v \Delta y}{N})} \label{eqn:singleexp}
+	R(u,v) & \coloneqq \frac{\mathcal{X}_1\odot \mathcal{X}_2^{*}}{|\mathcal{X}_1 ||\mathcal{X}_2^{*} |}                                                                                                                    \\
+	       & = \frac{\mathcal{X}_1\odot \mathcal{X}_1^{*} \, e^{2 \pi i \left(\frac{u \Delta x}{M} + \frac{v \Delta y}{N}\right)}}{|\mathcal{X}_1 ||\mathcal{X}_1^{*} \, e^{-2 \pi i \left(\frac{u \Delta x}{M} + \frac{v \Delta y}{N}\right)} |} \\
+	       & = \frac{\mathcal{X}_1\odot \mathcal{X}_1^{*} \, e^{2 \pi i \left(\frac{u \Delta x}{M} + \frac{v \Delta y}{N}\right)}}{|\mathcal{X}_1 ||\mathcal{X}_1^{*} |}                                                               \\
+	       & = e^{2 \pi i \left(\frac{u \Delta x}{M} + \frac{v \Delta y}{N}\right)} \label{eqn:singleexp}
 \end{align}
-where \(\odot\) is Hadamard product\anote{hadamard}, \(|\mathcal{X}|\) is the magnitude of \(\mathcal{X}\), \(\mathcal{X}^*\) is the complex conjugate of \(\mathcal{X}\) and we've used the fact that \(|e^{iz}|=1\) for all \(z\).
+where \(\odot\) is Hadamard product\anote{hadamard}, \(|\mathcal{X}_1|\) is the magnitude of \(\mathcal{X}_1\), \(\mathcal{X}_1^*\) is the complex conjugate of \(\mathcal{X}_1\), and we've used the fact that \(|e^{iz}|=1\) for all \(z\).
 %
 Then the inverse Fourier transform of eqn.~\eqref{eqn:singleexp}
 \[
@@ -209,9 +235,9 @@ The simplest implementation of NCC only identifies translations but it can be ex
 
 \subsubsection{Mutual Information}
 
-In general NCC fails for noisy images (i.e. the to-be-registered image is much noisier than the reference image).
+In general NCC fails for noisy images (i.e., the to-be-registered image is much noisier than the reference image).
 %
-Mutual information (MI) methods have been successfully employed in such cases; MI is also robust to changes in light intensity, pixel color and can fit large transformations.
+Mutual information (MI) methods have been successfully employed in such cases; MI is also robust to changes in light intensity, pixel color, and can fit large displacement transformations.
 %
 The mutual information of two random variables \(X_1, X_2\) is defined
 \[
@@ -219,7 +245,7 @@ The mutual information of two random variables \(X_1, X_2\) is defined
 \]
 where \(H\) is Shannon-entropy\anote{shannon}.
 %
-In this context \(X_1\) is reference image and \(X_2\) is the to-be-registered image.
+In this context \(X_1\) is the reference image and \(X_2\) is the to-be-registered image.
 %
 The central challenge in computing MI is in estimating joint \(H(X_1,X_2)\) and marginal \(H(X_1)\) entropies (which are functions of the joint \(P(X_1,X_2)\) and marginal \(P(X_1)\) probabilities).
 %
@@ -235,11 +261,11 @@ They use the Cauchy distribution as the jump proposal function:
 \[
 	G_k(d) = \frac{t_k}{\pi \left( d^2 + t_k^2 \right)}
 \]
-where \(t_k\) is a parameter that over time encourages near jumps more and more strongly (called the temperature), and \(d\) is the parameter jump distance.
+where \(t_k\) is a parameter that over time encourages near jumps more and more strongly (called the \textit{temperature}), and \(d\) is the parameter jump distance.
 %
-To allow escape from local minima of \(I_{\theta}\) it is necessary to occasionally make a jump from the current parameter estimate \(\theta_k\) to a proposed value \(\theta_{k+1}\) that is "worse" (i.e. for which \(I(\theta_{k+1}) < I(\theta_{k}) \)).
+To allow escape from local minima of \(I_{\theta}\) it is necessary to occasionally make a jump from the current parameter estimate \(\theta_k\) to a proposed value \(\theta_{k+1}\) that is worse (i.e., for which \(I(\theta_{k+1}) < I(\theta_{k}) \)).
 %
-This is accomplished by accepting or rejecting the proposal with probability determined by an \textit{acceptance function} \(A_k\):
+This is accomplished by accepting or rejecting the proposed jump with probability determined by an \textit{acceptance function} \(A_k\):
 \[
 	A_k(\theta_{k}, \theta_{k+1}) \coloneqq \begin{cases}
 		1                                                  & \text{if } I(\theta_{k+1}) \geq I(\theta_{k}) \\
@@ -306,7 +332,7 @@ In the more general case of a projective transformation (a perspective shift) th
 		\label{eqn:projectivetf}
 	\end{split}
 \end{equation}
-and similarly the unknowns (\(a,b,\dots\), etc.) can be estimated from matched feature correspondence data.
+and similarly the unknowns (\(a,b,\dots, i\)) can be estimated from matched feature correspondence data.
 
 \subsubsection{Local Algorithms}
 \paragraph{Optical Flow}
@@ -328,14 +354,14 @@ Let \(X(x,y,t)\) be pixel intensity over a sequence of images (i.e., the images 
 \begin{equation*}
 	Q(t) \coloneqq \iint_R X(x,y,t) \dif R
 \end{equation*}
-be the total pixel intensity over some image region \(R\), and assume \(Q\) is differentiable in \(t\) (we deal with discretization in the forthcoming).
+to be the total pixel intensity over some image region \(R\), and assume \(Q\) is differentiable in \(t\) (we deal with discretization in the forthcoming).
 %
-\(Q\) obeys a \textit{continuity equation}:
+\(Q\) obeys an integral \textit{continuity equation}:
 \begin{equation}
 	\od{}{t} Q(t) + \oint_{\partial R} \mathbf{j} \cdot \mathbf{n}\, \dif l = \Sigma
 	\label{eqn:intcontinuity}
 \end{equation}
-where \(\partial R\) is the closed boundary of \(R\) (\(\dif l\) is the differential line element of \(\partial R\)), \(\mathbf{n}\) is unit length and normal to \(\partial R\), \(\mathbf{j}\) is the intensity flux (i.e., rate of flow of the intensity) through \(\partial R\), and \(\Sigma\) is the sum of all intensity sources and intensity sinks in \(R\).
+where \(\partial R\) is the closed boundary of \(R\), \(\dif l\) the differential line element of \(\partial R\), \(\mathbf{n}\) is unit length and normal to \(\partial R\), \(\mathbf{j}\) is the intensity flux (i.e., rate of flow of the intensity) through \(\partial R\), and \(\Sigma\) is the sum of all intensity sources and intensity sinks in \(R\).
 %
 Equation~\eqref{eqn:intcontinuity} expresses the fact that the change in total pixel intensity in the region \(R\) over time is equal to net intensity creation minus net flux through the boundary of the region.
 %
@@ -351,7 +377,7 @@ By the Stokes' theorem\anote{stokes} and interchanging the order of integration 
 	& = \iint_R \pd{X}{t} \dif R + \iint_R \nabla \cdot \mathbf{j}\, \dif R         \\
 	& = \iint_R \left[ \pd{X}{t} + \nabla \cdot \mathbf{j} \right]  \dif R = \Sigma
 \end{align*}
-Then the corresponding differential form for eqn.~\eqref{eqn:intcontinuity} is
+Then the differential form continuity equation corresponding to eqn.~\eqref{eqn:intcontinuity} is
 \begin{equation}
 	\pd{X}{t} + \nabla \cdot \mathbf{j} = \sigma
 	\label{eqn:diffcontinuity}
@@ -388,13 +414,13 @@ then
 %
 Therefore additional constraints need to be imposed in order to uniquely determine \(\mathbf{u}\).
 %
-The first such additional constraint was the \textit{spatial coherence constraint} proposed by Lucas\etal~\cite{lucas1981iterative}: assume a pixel's neighbors have the same velocity \(\mathbf{u}\).
+The first such additional constraint was the \textit{spatial coherence constraint} proposed by Lucas \etal\cite{lucas1981iterative}: assume a pixel's neighbors have the same velocity \(\mathbf{u}\).
 %
 For example using a \(5 \times 5\) window around a given pixel yields a \(5\times5 = 25\) equation over-determined system (solved using least-squares).
 
 Regularizers can also be used to resolve the aperture problem. 
 %
-Defining \(\rho(\mathbf{u})\) as the left-hand side of eqn.~\eqref{eqn:intensityconstr}, Horn \etal~\cite{horn1993determining} propose the functional
+Defining \(\rho(\mathbf{u})\) as the left-hand side of eqn.~\eqref{eqn:intensityconstr}, Horn \etal\cite{horn1993determining} propose the functional
 \begin{equation}
 	E(\mathbf{u}) \coloneqq \int_R \left[ |\rho(\mathbf{u})|^2 + \alpha \left( | \nabla u_1 |^2 + | \nabla u_2 |^2\right) \right] \dif R
 	\label{eqn:linearhorn}
@@ -407,7 +433,7 @@ Note that \(\nabla u_1\) is not the first component of \(\nabla \cdot \mathbf{u}
 
 Although eqn.~\eqref{eqn:intensityconstr}, along with Horn smoother, is an effective resolution to the problem of computing optical flows in continuous time it is unsuitable for images sampled discretely in time.
 %
-In such cases eqn.~\eqref{eqn:intensityconstr} is replaced by \( X_k(\bx + \mathbf{u}) - X_1(\bx)\), where \(\bx = (x,y)\), and then linearized around an initial velocity \(\mathbf{u}_1\):
+In such cases eqn.~\eqref{eqn:intensityconstr} is replaced by \( X_k(\bx + \mathbf{u}) - X_1(\bx)\), where \(\bx = (x,y)\), and then \( X_k(\bx + \mathbf{u})\) is  linearized around an initial velocity \(\mathbf{u}_1\) to produce a discrete constraint equation:
 \begin{multline}
 	\nabla X_k (\bx + \mathbf{u}_1)\cdot (\mathbf{u} - \mathbf{u}_1)\, + \\ X_k(\bx + \mathbf{u}_1)  -  X_1(\bx) = 0
 	\label{eqn:nonlinearconstr}
@@ -418,7 +444,7 @@ Defining \(\rho'(\mathbf{u})\) as the left-hand side of eqn.~\eqref{eqn:nonlinea
 	\label{eqn:nonlinearhorn}
 \end{equation}
 %
-Perez \etal~\cite{perez2013tv} further relax this to a convex loss:
+Perez \etal\cite{perez2013tv} further relax this to a convex loss:
 \begin{multline}
 	E_{\theta}(\mathbf{u}, \mathbf{v}) \coloneqq \\
 	\int_R \left[ | u_1 |^2 + | u_2 |^2 + \frac{1}{2\theta}| \mathbf{u} - \mathbf{v} |^2 + \lambda | \rho'(\mathbf{v}) |_1 \right] \dif R
@@ -426,11 +452,68 @@ Perez \etal~\cite{perez2013tv} further relax this to a convex loss:
 \end{multline}
 in order that they can alternate fixing one of \(\mathbf{u}, \mathbf{v}\) and minimizing with respect to the other.
 %
-Note that fixing \(\theta\) in eqn.~\eqref{eqn:relaxhorn} to be small pushes \(E_{\theta}(\mathbf{u}, \mathbf{v})\) to be small when \(\mathbf{u}\approx \mathbf{v}\) and therefore effectively minimizing eqn.~\eqref{eqn:nonlinearhorn}.
+Note that fixing \(\theta\) in eqn.~\eqref{eqn:relaxhorn} to be small pushes \(E_{\theta}(\mathbf{u}, \mathbf{v})\) to be small when \(\mathbf{u}\approx \mathbf{v}\) and therefore effectively minimizes eqn.~\eqref{eqn:nonlinearhorn}.
 \paragraph{Splines}
 \input{figures/registration/splines/splines.tex}
-One issue with optical flow methods is that they are very compute intensive; iteratively minimizing either eqn.~\eqref{eqn:nonlinearhorn} or eqn.~\eqref{eqn:relaxhorn} requires evaluating at every pixel.
+One issue with optical flow methods is that they are very compute intensive; iteratively minimizing either eqn.~\eqref{eqn:nonlinearhorn} or eqn.~\eqref{eqn:relaxhorn} requires evaluations at every pixel.
 %
-As an one can represent the velocity field \(\mathbf{u}\) as a two-dimensional spline controlled by a smaller number of
-displacement estimates \(\hat{\mathbf{u}}\) which lies on a coarser \textit{spline control grid} (see figure~\ref{fig:bsplinegrid}). 
+Splines offer an efficient alternative to estimating \(\mathbf{u}\) at every pixel.
+%
+A \textit{spline} is a piece-wise defined polynomial function. For example a simple \textit{order} \(d+1\) spline \(s\) could be defined
+\[
+		s(x) = \sum_{i=0}^d \mathbbm{1}_{[k_j, k_{j+1})}P_{ij} \cdot (x - k_j)^i
+\]
+where the \(n+1\) increasing \textit{knots} \(k_0 < \cdots < k_n\) bracket \(n\) intervals over which the component polynomials are defined, and the \((d+1)\) polynomial coefficients \(P_{ij}\) define the spline (see figure~\ref{fig:cubicspline}) for \(x \in [k_j, k_{j+1})\) (\(\mathbbm{1}\) enforces this\anote{indicator}).
+%
+Splines need not be differentiable (nor even continuous) at the knots but can be specified with such continuity constraints (at the knots).
+%
+The number of degrees of freedom of a spline over \(n+1\) knots and of order \(d+1\) (i.e., the dimension of the vector space\anote{vectorspace} of such splines) is the number of polynomial coefficients minus the number of continuity conditions
+%
+For example if the spline is constrained to be maximally continuous (i.e., continuous and differentiable \(d-1\) times\anote{splinecontconstr}) then the spline has \(d+1\) polynomial coefficients for every one of the \(n\) knot intervals and \(d\) continuity constraints at every one of the \(n-1\) interior knots (continuity constraints cannot be specified at the boundary knots), which implies 
+\[
+	n(d+1) - (n-1)d = n+d
+\]
+degrees of freedom. The spline construction naturally extends to dimensions greater than 1.
+
+Szeliski \etal~\cite{szeliski1997spline} represent the velocity field \(\mathbf{u}\) as a two-dimensional spline controlled by a smaller number of displacement estimates \(\hat{\mathbf{u}}\) at control points, which lie on a coarser grid (see figure~\ref{fig:bsplinegrid}):
+%
+\begin{equation}
+	\begin{bmatrix}
+		u_1(x,y) \\ u_2(x,y)
+	\end{bmatrix} = \sum_j \begin{bmatrix}
+		\hat{u}_{1j}(x,y) \\ \hat{u}_{2j}(x,y)
+	\end{bmatrix} B_j(x, y)
+\end{equation}
+where \(B_j\) are \textit{basis functions}. 
+%
+In particular they experiment with basis functions such as the biquadaritc B-spline:
+\[
+	B_j(x,y) = B_{j,2}(x) B_{j,2}(y)
+\]
+where \(B_{j,2}\) is the quadratic B-spline (defined in the forthcoming and displayed in figure~\ref{fig:biquadspline}).
+
+As an alternative one can completely forgo optical flow and simply perform Free-Form Deformation\cite{xie2004} using \textit{Basis splines} (B-splines).
+%
+A B-spline is a spline defined as a linear combination of a particular set of basis functions (themselves called B-splines): the B-spline basis element \(B_{i, d+1}\) of order \(d+1\) (degree \(d\)) over knots \(k_i < \cdots < k_{i+d+1}\) is defined recursively according to the Cox-de Boor recursion formula\cite{de1971subroutine}:
+\begin{align}
+	B_{j,1} (x) &= \mathbbm{1}_{[k_j, k_{j+1})} \\
+	B_{j,d+1} (x) &= \frac{x-k_j}{k_{j+d} - k_j} B_{j,d} (x) \\
+	&\quad+ \frac{k_{j+d+1} - x}{k_{j+d+1} - k_{i+1}} B_{j+1,d} \nonumber (x)
+\end{align}
+where \(\frac{x-k_j}{k_{j+d} - k_j}\) increases smoothly from zero to one as \(x\) goes from \(k_j\) to \(k_{j+d}\) and \(\frac{k_{j+d+1} - x}{k_{j+d+1} - k_{i+1}}\) decreases smoothly from one to zero as \(x\) goes from \(k_{i+1}\) to \(k_{j+d+1}\).
+%
+Xie \etal\cite{xie2004} fit hierarchical B-splines 
+\begin{equation}
+	\mathbf{s}(x,y) = \sum_{i=0}^m\sum_{j=0}^n \mathbf{P}_{ij} B_{i,3}(x) B_{j,3}(y)
+\end{equation}
+on a regular knot grid (see figure~\ref{fig:bicubicspline}).
+%
+This makes the splines purely functions of the coefficients \(\mathbf{P}_{ij}\) rather than the knots and coefficients both (as is typically the case).
+%
+Note the coefficients here control the contribution of each component B-spline.
+%
+Their solution is hierarchical in that after the initial fit they check goodness and refine by inserting knots and recomputing.
+%
+They use the hierarchically fit spline to interpolate at points outside the set of control points matched during the control point matching step of the registration process.
+%
 \input{figures/registration/splines/spline2.tex}
