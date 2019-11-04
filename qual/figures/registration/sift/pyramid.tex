@@ -47,7 +47,7 @@
 			\fi;
 			}
 			\foreach \Sigma in {1,...,5} {
-					\node[yshift=-365+\Sigma*30, xshift=140, diff] (diff-\Sigma-1){\Large$-$};
+					\node[yshift=-365+\Sigma*30, xshift=140, diff] (diff-\Sigma-1){\Large\(-\)};
 				}
 
 
@@ -58,7 +58,7 @@
 					};
 				}
 			\foreach \Sigma in {1,...,5} {
-					\node[yshift=-170+\Sigma*20, xshift=140, diff] (diff-\Sigma-2){\Large$-$};
+					\node[yshift=-170+\Sigma*20, xshift=140, diff] (diff-\Sigma-2){\Large\(-\)};
 				}
 
 
@@ -69,9 +69,8 @@
 					};
 				}
 			\foreach \Sigma in {1,...,5} {
-					\node[yshift=-45+\Sigma*20, xshift=140, diff] (diff-\Sigma-3){\Large$-$};
+					\node[yshift=-45+\Sigma*20, xshift=140, diff] (diff-\Sigma-3){\Large\(-\)};
 				}
-			%		($(diff-\Sigma-\x) + (0,5mm)$)
 			% draw annotations
 			\foreach \x in {1,2,3} {
 					\foreach \Sigma in {1,...,5} {
@@ -94,7 +93,7 @@
 			\path[trans] ([] keypoint) edge[] node[] {} ([yshift=-365+4*30, xshift=280, yslant=0.5, xslant=-1.5] a);
 			\foreach \x in {0,...,4} {
 					\pgfmathtruncatemacro{\nodelabel}{\x+1}
-					\path[trans] ([xshift=-10mm] bertrand-blur-\x-1.north west) edge[bend left] node[above, sloped] {$k^{\nodelabel}\sigma$} ([xshift=-10mm] bertrand-blur-\nodelabel-1.north west);
+					\path[trans] ([xshift=-10mm] bertrand-blur-\x-1.north west) edge[bend left] node[above, sloped] {\(k^{\nodelabel}\sigma\)} ([xshift=-10mm] bertrand-blur-\nodelabel-1.north west);
 				}
 		\end{tikzpicture}
 	\end{adjustbox}

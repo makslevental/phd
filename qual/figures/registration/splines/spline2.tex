@@ -25,10 +25,10 @@
                         }
                 }
                 \newcommand\Bezier[4]{% \bezier (lowercase 'b') was already defined elsewhere
-                    \node (p1) [ctrlpoint,label=90:$P_{00}$] at (#1) {};
-                    \node (p2) [ctrlpoint,label=90:$P_{01}$] at (#2) {};
-                    \node (p3) [ctrlpoint,label=90:$P_{10}$] at (#3) {};
-                    \node (p4) [ctrlpoint,label=90:$P_{11}$] at (#4) {};
+                    \node (p1) [ctrlpoint,label=90:\(P_{00}\)] at (#1) {};
+                    \node (p2) [ctrlpoint,label=90:\(P_{01}\)] at (#2) {};
+                    \node (p3) [ctrlpoint,label=90:\(P_{10}\)] at (#3) {};
+                    \node (p4) [ctrlpoint,label=90:\(P_{11}\)] at (#4) {};
                     \draw [black, dotted] (p1) -- (p2) -- (p3) -- (p4);
                     \draw [black] (#1) .. controls (#2) and (#3) .. (#4);
                 }

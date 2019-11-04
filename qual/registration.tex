@@ -38,7 +38,7 @@ where \(x_i \coloneqq x + i\) and \(y_j \coloneqq y+j\).
 	\caption{Moravec Corner Detector}
 	\label{fig:corners}
 \end{figure}
-Moravec assigns a "corner score" according to the following reasoning (see figure~\ref{fig:corners}):
+Moravec assigns a corner score according to the following reasoning (see figure~\ref{fig:corners}):
 \begin{framed}
 	\begin{enumerate}
 		\item If a pixel is in a region of uniform intensity then \(E_{x,y}(u,v)\) is small for all \(u,v\) (since neighboring windows are similar).
@@ -94,7 +94,7 @@ In fact Harris doesn't actually compute the eigenvalues but instead a related qu
 %
 To this end (using the Harris detector) Bentoutou \etal~first compute a gradient map of the image using a first order Gaussian filter.
 %
-They then threshold\anote{threshold} the gradient map at the average gradient value, thereby extracting only sufficiently "interesting" regions, and compute the strength \(S\) for all pixels.
+They then threshold\anote{threshold} the gradient map at the average gradient value, thereby extracting only sufficiently interesting regions, and compute the strength \(S\) for all pixels.
 %
 They also apply Non-maximum Suppression\anote{nms} (NMS) using a \(3 \times 3\) window and further threshold the remaining non-zero strength values at a threshold of 1\% of maximum observed strength.
 %
@@ -170,7 +170,7 @@ The key part of the algorithm (after computing the convex hull of the control po
 %
 \begin{framed}
 	\begin{enumerate}
-		\item Determine the complete graphs\footnotemark \(G_1=(V_1, E_1)\), \(G_2 = (V_2,E_2)\) of \(C_1\) and \(C_2\). Then \[|E_1| = \frac{|V_1| (|V_1|-1)}{2}\] (\(|V_1|\) choose 2) and similarly \(|E_2|\). Since there are 2 ways to match any undirected edge we extend \(E_2\) to include reverse directed edges and therefore \[|E_2| = |V_2| (|V_2|-1)\]
+		\item Determine the complete graphs\footnotemark \(G_1=(V_1, E_1)\), \(G_2 = (V_2,E_2)\) of \(C_1\) and \(C_2\). Then \[\abs{E_1} = \frac{\abs{V_1} (\abs{V_1}-1)}{2}\] (\(\abs{V_1}\) choose 2) and similarly \(\abs{E_2}\). Since there are 2 ways to match any undirected edge we extend \(E_2\) to include reverse directed edges and therefore \[\abs{E_2} = \abs{V_2} (\abs{V_2}-1)\]
 		\item For each possible pairing of edges \(e_i, e_j\) in \(E_1, E_2\) compute the rotation \(R_{ij}\), scaling \(S_{ij}\), and translation \(T_{ij}\).
 		\item Given the composite transformation \(R_{ij} \circ S_{ij} \circ T_{ij}\) count the number \(N_{ij}\) of other points in \(C_1, C_2\) that also match (within a threshold distance \(D\)).
 		\item \(N_{IJ} \coloneqq \max_{i,j} N_{ij}\) and \(R_{IJ}\, \circ S_{IJ}\, \circ\, T_{IJ}\) are the transformation parameters between the control points.
@@ -218,12 +218,12 @@ where \(N,M\) are the dimensions of the images.
 %
 Define \textit{normalized cross-power spectrum}:
 \begin{align}
-	R(u,v) & \coloneqq \frac{\mathcal{X}_1\odot \mathcal{X}_2^{*}}{|\mathcal{X}_1 ||\mathcal{X}_2^{*} |}                                                                                                                    \\
-	       & = \frac{\mathcal{X}_1\odot \mathcal{X}_1^{*} \, e^{2 \pi i \left(\frac{u \Delta x}{M} + \frac{v \Delta y}{N}\right)}}{|\mathcal{X}_1 ||\mathcal{X}_1^{*} \, e^{-2 \pi i \left(\frac{u \Delta x}{M} + \frac{v \Delta y}{N}\right)} |} \\
-	       & = \frac{\mathcal{X}_1\odot \mathcal{X}_1^{*} \, e^{2 \pi i \left(\frac{u \Delta x}{M} + \frac{v \Delta y}{N}\right)}}{|\mathcal{X}_1 ||\mathcal{X}_1^{*} |}                                                               \\
+	R(u,v) & \coloneqq \frac{\mathcal{X}_1\odot \mathcal{X}_2^{*}}{\abs{\mathcal{X}_1 }\abs{\mathcal{X}_2^{*} }}                                                                                                                    \\
+	       & = \frac{\mathcal{X}_1\odot \mathcal{X}_1^{*} \, e^{2 \pi i \left(\frac{u \Delta x}{M} + \frac{v \Delta y}{N}\right)}}{\abs{\mathcal{X}_1 }\abs{\mathcal{X}_1^{*} \, e^{-2 \pi i \left(\frac{u \Delta x}{M} + \frac{v \Delta y}{N}\right)} }} \\
+	       & = \frac{\mathcal{X}_1\odot \mathcal{X}_1^{*} \, e^{2 \pi i \left(\frac{u \Delta x}{M} + \frac{v \Delta y}{N}\right)}}{\abs{\mathcal{X}_1 }\abs{\mathcal{X}_1^{*} }}                                                               \\
 	       & = e^{2 \pi i \left(\frac{u \Delta x}{M} + \frac{v \Delta y}{N}\right)} \label{eqn:singleexp}
 \end{align}
-where \(\odot\) is Hadamard product\anote{hadamard}, \(|\mathcal{X}_1|\) is the magnitude of \(\mathcal{X}_1\), \(\mathcal{X}_1^*\) is the complex conjugate of \(\mathcal{X}_1\), and we've used the fact that \(|e^{iz}|=1\) for all \(z\).
+where \(\odot\) is Hadamard product\anote{hadamard}, \(\abs{\mathcal{X}_1}\) is the magnitude of \(\mathcal{X}_1\), \(\mathcal{X}_1^*\) is the complex conjugate of \(\mathcal{X}_1\), and we've used the fact that \(\abs{e^{iz}}=1\) for all \(z\).
 %
 Then the inverse Fourier transform of eqn.~\eqref{eqn:singleexp}
 \[
@@ -255,7 +255,7 @@ Searching for the registration parameters \(\theta\) that maximize \(I_{\theta} 
 %
 Ritter \etal\cite{ritter1999} use simulated annealing to efficiently search the space of all possible parameters.
 %
-Simulated annealing iterates on the current candidate minimum \(I_{\theta}\) by "jumping" to potentially new minima in a way that prioritizes near jumps but allows for the possibility of far jumps.
+Simulated annealing iterates on the current candidate minimum \(I_{\theta}\) by jumping to potentially new minima in a way that prioritizes near jumps but allows for the possibility of far jumps.
 %
 They use the Cauchy distribution as the jump proposal function:
 \[
@@ -422,10 +422,10 @@ Regularizers can also be used to resolve the aperture problem.
 %
 Defining \(\rho(\mathbf{u})\) as the left-hand side of eqn.~\eqref{eqn:intensityconstr}, Horn \etal\cite{horn1993determining} propose the functional
 \begin{equation}
-	E(\mathbf{u}) \coloneqq \int_R \left[ |\rho(\mathbf{u})|^2 + \alpha \left( | \nabla u_1 |^2 + | \nabla u_2 |^2\right) \right] \dif R
+	E(\mathbf{u}) \coloneqq \int_R \left[ \abs{\rho(\mathbf{u})}^2 + \alpha \left( \abs{ \nabla u_1 }^2 + \abs{ \nabla u_2 }^2\right) \right] \dif R
 	\label{eqn:linearhorn}
 \end{equation}
-where \(| \nabla u_1 |^2\) is the \(L_2\) norm of \(\nabla u_1 = (\pd{u_1}{x}, \pd{u_1}{y})\).
+where \(\abs{ \nabla u_1 }^2\) is the \(L_2\) norm of \(\nabla u_1 = (\pd{u_1}{x}, \pd{u_1}{y})\).
 %
 \(E(\mathbf{u})\) acts a smoothing regularizer, constraining the acceleration of the flow (recall that \(\mathbf{u}\) is the velocity of the flow).
 %
@@ -440,14 +440,14 @@ In such cases eqn.~\eqref{eqn:intensityconstr} is replaced by \( X_k(\bx + \math
 \end{multline}
 Defining \(\rho'(\mathbf{u})\) as the left-hand side of eqn.~\eqref{eqn:nonlinearconstr}, the Horn smoother suitably adjusted is
 \begin{equation}
-	E'(\mathbf{u}) \coloneqq \int_R \left[ | u_1 |^2 + | u_2 |^2 + \lambda | \rho'(\mathbf{u}) |_1 \right] \dif R
+	E'(\mathbf{u}) \coloneqq \int_R \left[ \abs{ u_1 }^2 + \abs{ u_2 }^2 + \lambda \abs{ \rho'(\mathbf{u}) }_1 \right] \dif R
 	\label{eqn:nonlinearhorn}
 \end{equation}
 %
 Perez \etal\cite{perez2013tv} further relax this to a convex loss:
 \begin{multline}
 	E_{\theta}(\mathbf{u}, \mathbf{v}) \coloneqq \\
-	\int_R \left[ | u_1 |^2 + | u_2 |^2 + \frac{1}{2\theta}| \mathbf{u} - \mathbf{v} |^2 + \lambda | \rho'(\mathbf{v}) |_1 \right] \dif R
+	\int_R \left[ \abs{ u_1 }^2 + \abs{ u_2 }^2 + \frac{1}{2\theta}\abs{ \mathbf{u} - \mathbf{v} }^2 + \lambda \abs{ \rho'(\mathbf{v}) }_1 \right] \dif R
 	\label{eqn:relaxhorn}
 \end{multline}
 in order that they can alternate fixing one of \(\mathbf{u}, \mathbf{v}\) and minimizing with respect to the other.

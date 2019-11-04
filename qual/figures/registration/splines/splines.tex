@@ -8,8 +8,8 @@
                     enlargelimits = false ,
                     view={0}{90},
                     xmin=0, xmax=1, ymin=0, ymax=1,
-                    ytick distance=1/8,
-                    xtick distance=1/8,
+                    ytick distance=.125,
+                    xtick distance=.125,
                     axis equal image,
                     grid=both,
                     major grid style={black},
@@ -17,7 +17,7 @@
                     ticks=none
                 ]
                 \addplot3[
-                    domain=1/8:7/8,
+                    domain=.125:.875,
                     black,
                     quiver={
                             u={(x^2+y^2)/\length},
@@ -32,8 +32,8 @@
                     enlargelimits = false ,
                     view={0}{90},
                     xmin=0, xmax=1, ymin=0, ymax=1,
-                    xtick={1/8,1/2,7/8},
-                    ytick={1/8,1/2,7/8},
+                    xtick={.125,.5,.875},
+                    ytick={.125,.5,.875},
                     axis equal image,
                     grid=both,
                     major grid style={red},
@@ -41,7 +41,7 @@
                     ticks=none
                 ]
                 \addplot3[
-                domain=1/8:7/8,
+                domain=.125:.875,
                 red,
                 quiver={
                         u={(x^2+y^2)/\length},
@@ -51,8 +51,8 @@
                 -{Latex[length=3mm,width=3mm]},
                 samples=3
                 ] {0};
-                \node  at  (axis cs:1/8,1/8)  [anchor=north west, red] {\(\hat{\mathbf{u}}\)};
-                \node  at  (axis cs:1/8,3/9)  [left, black] {\(\mathbf{u}\)};
+                \node  at  (axis cs:.125,.125)  [anchor=north west, red] {\(\hat{\mathbf{u}}\)};
+                \node  at  (axis cs:.125,.333)  [left, black] {\(\mathbf{u}\)};
             \end{axis}
         \end{tikzpicture}
         \caption{Spline interpolation for the velocity field.}\label{fig:bsplinegrid}
