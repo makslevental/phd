@@ -1,7 +1,56 @@
 %\input{figures/net}
-\section{Neural Networks}\label{sec:neural-networks}
+\section{Artificial Neural Networks}\label{sec:neural-networks}
 \localtableofcontents
-\input{figures/neural_networks/deep_archs}
-Neural network (NN) algorithms for SR are all based on a Convolutional Neural Network (CNN) architecture. 
+Artificial Neural Network algorithms for SR are all based on a Convolutional Neural Network (CNN) architecture. 
 %
-We first briefly review Neural networks in general and CNNs in particular and then explore the 
+We first briefly review ANNs in general and CNNs in particular and then explore the recent advances in Deep Learning (DL) for SR.
+%
+\subsection{Basics}
+\input{figures/neural_networks/mlp.tex}
+An Artificial Neural Network (ANN or NN) is a function specified by compositions of elementary functions called \textit{artificial neurons}\anote{ann} (or simply neurons).
+%
+Neurons consist of a set of inputs \(x_1, x_2, \dots, x_n\), an aggregation (typically summation), and an activation function \(\sigma\), which acts as a thresholding mechanism. 
+%
+For example, the simplest function that qualifies as a neuron is a linear function:
+\begin{equation}
+    y = x_1 + x_2 = \sum_i x_i
+\end{equation}
+where the the activation function is the trivial one i.e., the identity.
+%
+Common non-trivial, i.e., non-linear, activation functions are the sigmoid function
+\begin{equation}
+    S(x)={\frac {1}{1+e^{-x}}}={\frac {e^{x}}{e^{x}+1}}
+\end{equation}
+or the hyperbolic tangent function 
+\begin{equation}
+    \tanh x={\frac {\sinh x}{\cosh x}}={\frac {e^{x}-e^{-x}}{e^{x}+e^{-x}}}={\frac {e^{2x}-1}{e^{2x}+1}}
+\end{equation}
+or the piece-wise defined \textit{rectified linear unit} (\(\operatorname{ReLU}\))
+\begin{align}
+\operatorname{ReLU}(x) &=\begin{cases}x&{\text{if }}x>0,\\0&{\text{otherwise}}\end{cases} \\ 
+    &= \max(0, x)
+\end{align}
+%
+Minsky \etal\cite{minsky2017perceptrons} famously proved that neurons that don't include a non-linear activation function have very little approximation power (i.e., they're unable to approximate functions as simple as even \(\operatorname{XOR}\)\anote{xor}.) and those that do are universal approximators (i.e., given enough layers and neurons they're able to approximate functions of arbitrary complexity).
+%
+Note that this linear function passes through the origin \((0,0,0)\) since it has no constant term; in the parlance of machine learning the neuron is missing a bias term\anote{bias} \(b\):
+\begin{equation}
+    y = x_1 + x_2 + b
+    \label{eqn:linearregr}
+\end{equation}
+%
+ANNs are then assemblies of neurons grouped into \textit{layers} with the layers composed by applying neurons to weighted outputs from immediately preceding layers.
+%
+Those layers that are not input or output layers are denoted \textit{hidden} layers.
+%
+These \textit{networks} can be represented as directed graphs where vertices represent neurons and edges represent composition weights (see figure~\ref{fig:ann}).
+%
+For example the ANN specified in figure~\ref{fig:ann} represents the function 
+\begin{align}
+    y &= \sigma' \left( \sum_j w'_j z_j + b' \right) \\
+      &=  \sigma' \left( \sum_{j=1}^m w'_j \sigma\left(\sum_{i=1}^n w_i x_i + b_j\right) + b' \right)
+\end{align}
+
+
+
+\input{figures/neural_networks/deep_archs}
