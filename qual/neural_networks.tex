@@ -95,6 +95,22 @@ Stochastic Gradient Descent (SGD) replaces computing the \textit{batch loss} \(\
 \end{equation}
 Equation~\eqref{eqn:sgd} is evaluated for each of the \(k\) samples sequentially and therefore saves having to store all training samples in memory.
 \subsection{Convolutional Neural Networks}
+\input{figures/neural_networks/convolution.tex}
+\input{figures/neural_networks/2dconvolutions.tex}
+The one-dimensional (1-D) discrete convolution \((f*g)\) of 1-D discrete functions \(f,g\) is defined 
+\begin{equation}
+    (f*g)[n]\coloneqq \sum _{i} f[i]g[n-i]
+\end{equation}
+The convolution of a function \(f\) with a finite sequence of values \(g\) can be interpreted as filtering \(f\) with the filter \(g\); for example convolving a noisy \(f\) with a Heaviside function is effectively low-pass filtering \(f\) (see figure~\ref{fig:convfiltering}).
+%
+The the sequence of values that comprise \(g\) is called the \textit{kernel} of \(g\) and the length of the sequence is called the \textit{bandwidth} or just the width.
 
+The two-dimensional (2-D) discrete convolution \((f*g)\) of 2-D discrete functions \(f,g\) is defined 
+\begin{equation}
+    (f*g)[n, m]\coloneqq \sum _{i}\sum _{j}f[i, j]g[n-i, m-j]
+\end{equation}
+and can be interpreted in exactly the same way as for 1-D convolutions.
+%
+For 2-D convolutions the kernels are most often square and therefore the kernel dimensions are specified rather than just width (see figure~\ref{fig:2dconv}).
 \subsection{Deep Neural Networks}
 \input{figures/neural_networks/deep_archs}
