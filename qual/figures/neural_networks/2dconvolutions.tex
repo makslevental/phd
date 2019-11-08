@@ -1,323 +1,355 @@
 \begin{figure*}
-    \definecolor{blue}{RGB}{38,139,210}
-    \definecolor{cyan}{RGB}{42,161,152}
-    \definecolor{base01}{RGB}{88,110,117}
-    \definecolor{base02}{RGB}{7,54,66}
-    \definecolor{base03}{RGB}{0,43,54}
     \centering
     \newcommand*{\figwidth}{.24}
-    \newcommand*{\figscale}{.6}
+    \newcommand*{\figscale}{.5}
     \begin{subfigure}[b]{\textwidth}
         \centering
-        \begin{tikzpicture}[scale=.5,every node/.style={minimum size=1cm},on grid]
+        \begin{tikzpicture}[scale=1,every node/.style={minimum size=1cm},on grid]
             \begin{scope}
+                \node (node) at (-0.5,2) {$f = $};
                 \draw[step=10mm, base03, dashed, thick] (0,0) grid (4,4);
                 \draw[fill=blue] (0,0) rectangle (4,4);
                 \draw[draw=base03, thick] (0,0) grid (4,4);
-                \node (node) at (0.5,0.5) {\footnotesize 2};
-                \node (node) at (0.5,1.5) {\footnotesize 3};
-                \node (node) at (0.5,2.5) {\footnotesize 0};
-                \node (node) at (0.5,3.5) {\footnotesize 3};
-                \node (node) at (1.5,0.5) {\footnotesize 2};
-                \node (node) at (1.5,1.5) {\footnotesize 1};
-                \node (node) at (1.5,2.5) {\footnotesize 0};
-                \node (node) at (1.5,3.5) {\footnotesize 3};
-                \node (node) at (2.5,0.5) {\footnotesize 3};
-                \node (node) at (2.5,1.5) {\footnotesize 3};
-                \node (node) at (2.5,2.5) {\footnotesize 0};
-                \node (node) at (2.5,3.5) {\footnotesize 2};
-                \node (node) at (3.5,0.5) {\footnotesize 2};
-                \node (node) at (3.5,1.5) {\footnotesize 1};
-                \node (node) at (3.5,2.5) {\footnotesize 1};
-                \node (node) at (3.5,3.5) {\footnotesize 1};
-
-                % \draw[fill=base02, opacity=0.4] (0,1) rectangle
-                % (3,4);
-                % \draw[step=10mm, base03, thick] (0,1) grid
-                % (3,4);
-                % \node (node) at (0.8,1.2) {\tiny 0};
-                % \node (node) at (0.8,2.2) {\tiny 2};
-                % \node (node) at (0.8,3.2) {\tiny 0};
-                % \node (node) at (1.8,1.2) {\tiny 0};
-                % \node (node) at (1.8,2.2) {\tiny 2};
-                % \node (node) at (1.8,3.2) {\tiny 0};
-                % \node (node) at (2.8,1.2) {\tiny 1};
-                % \node (node) at (2.8,2.2) {\tiny 0};
-                % \node (node) at (2.8,3.2) {\tiny 2};
+                \node (node) at (0.5,0.5) {2};
+                \node (node) at (0.5,1.5) {3};
+                \node (node) at (0.5,2.5) {0};
+                \node (node) at (0.5,3.5) {3};
+                \node (node) at (1.5,0.5) {2};
+                \node (node) at (1.5,1.5) {1};
+                \node (node) at (1.5,2.5) {0};
+                \node (node) at (1.5,3.5) {3};
+                \node (node) at (2.5,0.5) {3};
+                \node (node) at (2.5,1.5) {3};
+                \node (node) at (2.5,2.5) {0};
+                \node (node) at (2.5,3.5) {2};
+                \node (node) at (3.5,0.5) {2};
+                \node (node) at (3.5,1.5) {1};
+                \node (node) at (3.5,2.5) {1};
+                \node (node) at (3.5,3.5) {1};
 
             \end{scope}
             \begin{scope}[xshift=5cm, yshift=0.5cm]
-                \draw[fill=blue] (0,0) rectangle (3,3);
+                \node (node) at (-0.5,1.5) {$g = $};
+                \draw[] (0,0) rectangle (3,3);
                 \draw[step=10mm, base03, thick] (0,0) grid (3,3);
                 \draw[fill=base02, opacity=0.4] (0,0) rectangle
                 (3,3);
                 \draw[base03, thick] (0,1) rectangle (1,2);
-                \node (node) at (0.5,0.5) {\tiny 0};
-                \node (node) at (0.5,1.5) {\tiny 2};
-                \node (node) at (0.5,2.5) {\tiny 0};
-                \node (node) at (1.5,0.5) {\tiny 0};
-                \node (node) at (1.5,1.5) {\tiny 2};
-                \node (node) at (1.5,2.5) {\tiny 0};
-                \node (node) at (2.5,0.5) {\tiny 1};
-                \node (node) at (2.5,1.5) {\tiny 0};
-                \node (node) at (2.5,2.5) {\tiny 2};
+                \node (node) at (0.5,0.5) {0};
+                \node (node) at (0.5,1.5) {2};
+                \node (node) at (0.5,2.5) {0};
+                \node (node) at (1.5,0.5) {0};
+                \node (node) at (1.5,1.5) {2};
+                \node (node) at (1.5,2.5) {0};
+                \node (node) at (2.5,0.5) {1};
+                \node (node) at (2.5,1.5) {0};
+                \node (node) at (2.5,2.5) {2};
 
             \end{scope}
-            \begin{scope}[xshift=9cm, yshift=1cm]
+            \begin{scope}[xshift=9.5cm, yshift=1cm]
+                \node (node) at (-0.75,1) {$f * g = $};
                 \draw[fill=cyan] (0,0) rectangle (2,2);
                 \draw[step=10mm, base03, thick] (0,0) grid (2,2);
                 \draw[base03, thick] (0,1) rectangle (1,2);
-                \node (node) at (0.5,0.5) {\tiny 0};
-                \node (node) at (0.5,1.5) {\tiny 0};
-                \node (node) at (1.5,0.5) {\tiny 0};
-                \node (node) at (1.5,1.5) {\tiny 0};
+                \node (node) at (0.5,0.5) {11};
+                \node (node) at (0.5,1.5) {7};
+                \node (node) at (1.5,0.5) {12};
+                \node (node) at (1.5,1.5) {3};
 
             \end{scope}
         \end{tikzpicture}
-        \caption{Input \(f\), 2-D \(3 \times 3\) convolution kernel \(g\), and the output (prior to evaluation of the convolution).}
+        \caption{Input \(f\), 2-D \(3 \times 3\) convolution kernel \(g\), and the output \(f * g\).}
     \end{subfigure}
     \begin{subfigure}[b]{\textwidth}
         \centering
         \begin{tikzpicture}[scale=\figscale,every node/.style={minimum size=1cm},on grid]
-            \begin{scope}[node/.append style={yslant=0.5,xslant=-0.7},
+            \begin{scope}[every node/.append style={yslant=0.5,xslant=-0.7},
                     yslant=0.5,xslant=-0.7]
 
                 \draw[step=10mm, base03, dashed, thick] (0,0) grid (4,4);
                 \draw[fill=blue] (0,0) rectangle (4,4);
                 \draw[draw=base03, thick] (0,0) grid (4,4);
-                \node (node) at (0.5,0.5) {\footnotesize 2};
-                \node (node) at (0.5,1.5) {\footnotesize 3};
-                \node (node) at (0.5,2.5) {\footnotesize 0};
-                \node (node) at (0.5,3.5) {\footnotesize 3};
-                \node (node) at (1.5,0.5) {\footnotesize 2};
-                \node (node) at (1.5,1.5) {\footnotesize 1};
-                \node (node) at (1.5,2.5) {\footnotesize 0};
-                \node (node) at (1.5,3.5) {\footnotesize 3};
-                \node (node) at (2.5,0.5) {\footnotesize 3};
-                \node (node) at (2.5,1.5) {\footnotesize 3};
-                \node (node) at (2.5,2.5) {\footnotesize 0};
-                \node (node) at (2.5,3.5) {\footnotesize 2};
-                \node (node) at (3.5,0.5) {\footnotesize 2};
-                \node (node) at (3.5,1.5) {\footnotesize 1};
-                \node (node) at (3.5,2.5) {\footnotesize 1};
-                \node (node) at (3.5,3.5) {\footnotesize 1};
+                \node (node) at (0.5,0.5) {2};
+                \node (node) at (0.5,1.5) {3};
+                \node (node) at (0.5,2.5) {0};
+                \node (node) at (0.5,3.5) {3};
+                \node (node) at (1.5,0.5) {2};
+                \node (node) at (1.5,1.5) {1};
+                \node (node) at (1.5,2.5) {0};
+                \node (node) at (1.5,3.5) {3};
+                \node (node) at (2.5,0.5) {3};
+                \node (node) at (2.5,1.5) {3};
+                \node (node) at (2.5,2.5) {0};
+                \node (node) at (2.5,3.5) {2};
+                \node (node) at (3.5,0.5) {2};
+                \node (node) at (3.5,1.5) {1};
+                \node (node) at (3.5,2.5) {1};
+                \node (node) at (3.5,3.5) {1};
+                \coordinate (BL) at (0,1);
+                \coordinate (BR) at (3,1);
+                \coordinate (TL) at (0,4);
+                \coordinate (TR) at (3,4);
+            \end{scope}
+            \begin{scope}[
+                xshift=-.4, 
+                yshift=.4cm,
+                every node/.append style={yslant=0.5,xslant=-0.7,opacity=.4},
+                yslant=0.5,xslant=-0.7]
 
                 \draw[fill=base02, opacity=0.4] (0,1) rectangle
                 (3,4);
                 \draw[step=10mm, base03, thick] (0,1) grid
                 (3,4);
-                \node (node) at (0.8,1.2) {\tiny 0};
-                \node (node) at (0.8,2.2) {\tiny 2};
-                \node (node) at (0.8,3.2) {\tiny 0};
-                \node (node) at (1.8,1.2) {\tiny 0};
-                \node (node) at (1.8,2.2) {\tiny 2};
-                \node (node) at (1.8,3.2) {\tiny 0};
-                \node (node) at (2.8,1.2) {\tiny 1};
-                \node (node) at (2.8,2.2) {\tiny 0};
-                \node (node) at (2.8,3.2) {\tiny 2};
+                \node (node) at (0.5,1.5) {0};
+                \node (node) at (0.5,2.5) {2};
+                \node (node) at (0.5,3.5) {0};
+                \node (node) at (1.5,1.5) {0};
+                \node (node) at (1.5,2.5) {2};
+                \node (node) at (1.5,3.5) {0};
+                \node (node) at (2.5,1.5) {1};
+                \node (node) at (2.5,2.5) {0};
+                \node (node) at (2.5,3.5) {2};
 
-                \coordinate (BL) at (0,1);
-                \coordinate (BR) at (3,1);
-                \coordinate (TL) at (0,4);
-                \coordinate (TR) at (3,4);
+                \coordinate (EBL) at (0,1);
+                \coordinate (EBR) at (3,1);
+                \coordinate (ETL) at (0,4);
+                \coordinate (ETR) at (3,4);
 
             \end{scope}
             \begin{scope}[xshift=-5, yshift=5cm,
                     every node/.append style={yslant=0.5,xslant=-0.7},
                     yslant=0.5,xslant=-0.7]
 
-                \draw (BL) -- (0,1) (BR) -- (1,1)
-                (TL) -- (0,2)    (TR) -- (1,2);
+                \draw (EBL) -- (0,1) (EBR) -- (1,1)
+                (ETL) -- (0,2)    (ETR) -- (1,2);
+
+                \draw (EBL) -- (BL) (EBR) -- (BR)
+                (ETL) -- (TL)    (ETR) -- (TR);
 
                 \draw[fill=cyan] (0,0) rectangle (2,2);
                 \draw[step=10mm, base03, thick] (0,0) grid (2,2);
                 \draw[fill=base02, opacity=0.4] (0,1) rectangle
                 (1,2);
                 \draw[base03, thick] (0,1) rectangle (1,2);
-                \node (node) at (0.5,0.5) {\tiny 0};
-                \node (node) at (0.5,1.5) {\tiny 7};
-                \node (node) at (1.5,0.5) {\tiny 0};
-                \node (node) at (1.5,1.5) {\tiny 0};
+                \node (node) at (0.5,0.5) {0};
+                \node (node) at (0.5,1.5) {7};
+                \node (node) at (1.5,0.5) {0};
+                \node (node) at (1.5,1.5) {0};
 
             \end{scope}
         \end{tikzpicture}
         \begin{tikzpicture}[scale=\figscale,every node/.style={minimum size=1cm},on grid]
-            \begin{scope}[node/.append style={yslant=0.5,xslant=-0.7},
+            \begin{scope}[every node/.append style={yslant=0.5,xslant=-0.7},
                     yslant=0.5,xslant=-0.7]
                 \draw[step=10mm, base03, dashed, thick] (0,0) grid (4,4);
                 \draw[fill=blue] (0,0) rectangle (4,4);
                 \draw[draw=base03, thick] (0,0) grid (4,4);
-                \node (node) at (0.5,0.5) {\footnotesize 2};
-                \node (node) at (0.5,1.5) {\footnotesize 3};
-                \node (node) at (0.5,2.5) {\footnotesize 0};
-                \node (node) at (0.5,3.5) {\footnotesize 3};
-                \node (node) at (1.5,0.5) {\footnotesize 2};
-                \node (node) at (1.5,1.5) {\footnotesize 1};
-                \node (node) at (1.5,2.5) {\footnotesize 0};
-                \node (node) at (1.5,3.5) {\footnotesize 3};
-                \node (node) at (2.5,0.5) {\footnotesize 3};
-                \node (node) at (2.5,1.5) {\footnotesize 3};
-                \node (node) at (2.5,2.5) {\footnotesize 0};
-                \node (node) at (2.5,3.5) {\footnotesize 2};
-                \node (node) at (3.5,0.5) {\footnotesize 2};
-                \node (node) at (3.5,1.5) {\footnotesize 1};
-                \node (node) at (3.5,2.5) {\footnotesize 1};
-                \node (node) at (3.5,3.5) {\footnotesize 1};
-
-                \draw[fill=base02, opacity=0.4] (1,1) rectangle
-                (4,4);
-                \draw[step=10mm, base03, thick] (1,1) grid
-                (4,4);
-                \node (node) at (1.8,1.2) {\tiny 0};
-                \node (node) at (1.8,2.2) {\tiny 2};
-                \node (node) at (1.8,3.2) {\tiny 0};
-                \node (node) at (2.8,1.2) {\tiny 0};
-                \node (node) at (2.8,2.2) {\tiny 2};
-                \node (node) at (2.8,3.2) {\tiny 0};
-                \node (node) at (3.8,1.2) {\tiny 1};
-                \node (node) at (3.8,2.2) {\tiny 0};
-                \node (node) at (3.8,3.2) {\tiny 2};
-
+                \node (node) at (0.5,0.5) {2};
+                \node (node) at (0.5,1.5) {3};
+                \node (node) at (0.5,2.5) {0};
+                \node (node) at (0.5,3.5) {3};
+                \node (node) at (1.5,0.5) {2};
+                \node (node) at (1.5,1.5) {1};
+                \node (node) at (1.5,2.5) {0};
+                \node (node) at (1.5,3.5) {3};
+                \node (node) at (2.5,0.5) {3};
+                \node (node) at (2.5,1.5) {3};
+                \node (node) at (2.5,2.5) {0};
+                \node (node) at (2.5,3.5) {2};
+                \node (node) at (3.5,0.5) {2};
+                \node (node) at (3.5,1.5) {1};
+                \node (node) at (3.5,2.5) {1};
+                \node (node) at (3.5,3.5) {1};
                 \coordinate (BL) at (1,1);
                 \coordinate (BR) at (4,1);
                 \coordinate (TL) at (1,4);
                 \coordinate (TR) at (4,4);
             \end{scope}
+            \begin{scope}[
+                xshift=-.4, 
+                yshift=.4cm,
+                every node/.append style={yslant=0.5,xslant=-0.7,opacity=.4},
+                yslant=0.5,xslant=-0.7]
+
+                \draw[fill=base02, opacity=0.4] (1,1) rectangle
+                (4,4);
+                \draw[step=10mm, base03, thick] (1,1) grid
+                (4,4);
+                \node (node) at (1.5,1.5) {0};
+                \node (node) at (1.5,2.5) {2};
+                \node (node) at (1.5,3.5) {0};
+                \node (node) at (2.5,1.5) {0};
+                \node (node) at (2.5,2.5) {2};
+                \node (node) at (2.5,3.5) {0};
+                \node (node) at (3.5,1.5) {1};
+                \node (node) at (3.5,2.5) {0};
+                \node (node) at (3.5,3.5) {2};
+
+                \coordinate (EBL) at (1,1);
+                \coordinate (EBR) at (4,1);
+                \coordinate (ETL) at (1,4);
+                \coordinate (ETR) at (4,4);
+            \end{scope}
             \begin{scope}[xshift=-5, yshift=5cm,
                     every node/.append style={yslant=0.5,xslant=-0.7},
                     yslant=0.5,xslant=-0.7]
-                \draw (BL) -- (1,1) (BR) -- (2,1)
-                (TL) -- (1,2)    (TR) -- (2,2);
+                \draw (EBL) -- (1,1) (EBR) -- (2,1)
+                (ETL) -- (1,2)    (ETR) -- (2,2);
+                \draw (EBL) -- (BL) (EBR) -- (BR)
+                (ETL) -- (TL)    (ETR) -- (TR);
+
                 \draw[fill=cyan] (0,0) rectangle (2,2);
                 \draw[step=10mm, base03, thick] (0,0) grid (2,2);
                 \draw[fill=base02, opacity=0.4] (1,1) rectangle
                 (2,2);
                 \draw[base03, thick] (1,1) rectangle (2,2);
-                \node (node) at (0.5,0.5) {\tiny 0};
-                \node (node) at (0.5,1.5) {\tiny 7};
-                \node (node) at (1.5,0.5) {\tiny 0};
-                \node (node) at (1.5,1.5) {\tiny 3};
+                \node (node) at (0.5,0.5) {0};
+                \node (node) at (0.5,1.5) {7};
+                \node (node) at (1.5,0.5) {0};
+                \node (node) at (1.5,1.5) {3};
 
             \end{scope}
         \end{tikzpicture}
         \begin{tikzpicture}[scale=\figscale,every node/.style={minimum size=1cm},on grid]
-            \begin{scope}[node/.append style={yslant=0.5,xslant=-0.7},
+            \begin{scope}[every node/.append style={yslant=0.5,xslant=-0.7},
                     yslant=0.5,xslant=-0.7]
                 \draw[step=10mm, base03, dashed, thick] (0,0) grid (4,4);
                 \draw[fill=blue] (0,0) rectangle (4,4);
                 \draw[draw=base03, thick] (0,0) grid (4,4);
-                \node (node) at (0.5,0.5) {\footnotesize 2};
-                \node (node) at (0.5,1.5) {\footnotesize 3};
-                \node (node) at (0.5,2.5) {\footnotesize 0};
-                \node (node) at (0.5,3.5) {\footnotesize 3};
-                \node (node) at (1.5,0.5) {\footnotesize 2};
-                \node (node) at (1.5,1.5) {\footnotesize 1};
-                \node (node) at (1.5,2.5) {\footnotesize 0};
-                \node (node) at (1.5,3.5) {\footnotesize 3};
-                \node (node) at (2.5,0.5) {\footnotesize 3};
-                \node (node) at (2.5,1.5) {\footnotesize 3};
-                \node (node) at (2.5,2.5) {\footnotesize 0};
-                \node (node) at (2.5,3.5) {\footnotesize 2};
-                \node (node) at (3.5,0.5) {\footnotesize 2};
-                \node (node) at (3.5,1.5) {\footnotesize 1};
-                \node (node) at (3.5,2.5) {\footnotesize 1};
-                \node (node) at (3.5,3.5) {\footnotesize 1};
-
-                \draw[fill=base02, opacity=0.4] (0,0) rectangle
-                (3,3);
-                \draw[step=10mm, base03, thick] (0,0) grid
-                (3,3);
-                \node (node) at (0.8,0.2) {\tiny 0};
-                \node (node) at (0.8,1.2) {\tiny 2};
-                \node (node) at (0.8,2.2) {\tiny 0};
-                \node (node) at (1.8,0.2) {\tiny 0};
-                \node (node) at (1.8,1.2) {\tiny 2};
-                \node (node) at (1.8,2.2) {\tiny 0};
-                \node (node) at (2.8,0.2) {\tiny 1};
-                \node (node) at (2.8,1.2) {\tiny 0};
-                \node (node) at (2.8,2.2) {\tiny 2};
-
+                \node (node) at (0.5,0.5) {2};
+                \node (node) at (0.5,1.5) {3};
+                \node (node) at (0.5,2.5) {0};
+                \node (node) at (0.5,3.5) {3};
+                \node (node) at (1.5,0.5) {2};
+                \node (node) at (1.5,1.5) {1};
+                \node (node) at (1.5,2.5) {0};
+                \node (node) at (1.5,3.5) {3};
+                \node (node) at (2.5,0.5) {3};
+                \node (node) at (2.5,1.5) {3};
+                \node (node) at (2.5,2.5) {0};
+                \node (node) at (2.5,3.5) {2};
+                \node (node) at (3.5,0.5) {2};
+                \node (node) at (3.5,1.5) {1};
+                \node (node) at (3.5,2.5) {1};
+                \node (node) at (3.5,3.5) {1};
                 \coordinate (BL) at (0,0);
                 \coordinate (BR) at (3,0);
                 \coordinate (TL) at (0,3);
                 \coordinate (TR) at (3,3);
             \end{scope}
+            \begin{scope}[
+                xshift=-.4, 
+                yshift=.4cm,
+                every node/.append style={yslant=0.5,xslant=-0.7,opacity=.4},
+                yslant=0.5,xslant=-0.7]
+                \draw[fill=base02, opacity=0.4] (0,0) rectangle
+                (3,3);
+                \draw[step=10mm, base03, thick] (0,0) grid
+                (3,3);
+                \node (node) at (0.5,0.5) {0};
+                \node (node) at (0.5,1.5) {2};
+                \node (node) at (0.5,2.5) {0};
+                \node (node) at (1.5,0.5) {0};
+                \node (node) at (1.5,1.5) {2};
+                \node (node) at (1.5,2.5) {0};
+                \node (node) at (2.5,0.5) {1};
+                \node (node) at (2.5,1.5) {0};
+                \node (node) at (2.5,2.5) {2};
+
+                \coordinate (EBL) at (0,0);
+                \coordinate (EBR) at (3,0);
+                \coordinate (ETL) at (0,3);
+                \coordinate (ETR) at (3,3);
+            \end{scope}
             \begin{scope}[xshift=-5, yshift=5cm,
                     every node/.append style={yslant=0.5,xslant=-0.7},
                     yslant=0.5,xslant=-0.7]
-                \draw (BL) -- (0,0) (BR) -- (1,0)
-                (TL) -- (0,1)    (TR) -- (1,1);
+                \draw (EBL) -- (0,0) (EBR) -- (1,0)
+                (ETL) -- (0,1)    (ETR) -- (1,1);
+                \draw (EBL) -- (BL) (EBR) -- (BR)
+                (ETL) -- (TL)    (ETR) -- (TR);
                 \draw[fill=cyan] (0,0) rectangle (2,2);
                 \draw[step=10mm, base03, thick] (0,0) grid (2,2);
                 \draw[fill=base02, opacity=0.4] (0,0) rectangle
                 (1,1);
                 \draw[base03, thick] (0,0) rectangle (1,1);
-                \node (node) at (0.5,0.5) {\tiny 11};
-                \node (node) at (0.5,1.5) {\tiny 7};
-                \node (node) at (1.5,0.5) {\tiny 0};
-                \node (node) at (1.5,1.5) {\tiny 3};
+                \node (node) at (0.5,0.5) {11};
+                \node (node) at (0.5,1.5) {7};
+                \node (node) at (1.5,0.5) {0};
+                \node (node) at (1.5,1.5) {3};
 
             \end{scope}
         \end{tikzpicture}
         \begin{tikzpicture}[scale=\figscale,every node/.style={minimum size=1cm},on grid]
-            \begin{scope}[node/.append style={yslant=0.5,xslant=-0.7},
+            \begin{scope}[every node/.append style={yslant=0.5,xslant=-0.7},
                     yslant=0.5,xslant=-0.7]
                 \draw[step=10mm, base03, dashed, thick] (0,0) grid (4,4);
                 \draw[fill=blue] (0,0) rectangle (4,4);
                 \draw[draw=base03, thick] (0,0) grid (4,4);
-                \node (node) at (0.5,0.5) {\footnotesize 2};
-                \node (node) at (0.5,1.5) {\footnotesize 3};
-                \node (node) at (0.5,2.5) {\footnotesize 0};
-                \node (node) at (0.5,3.5) {\footnotesize 3};
-                \node (node) at (1.5,0.5) {\footnotesize 2};
-                \node (node) at (1.5,1.5) {\footnotesize 1};
-                \node (node) at (1.5,2.5) {\footnotesize 0};
-                \node (node) at (1.5,3.5) {\footnotesize 3};
-                \node (node) at (2.5,0.5) {\footnotesize 3};
-                \node (node) at (2.5,1.5) {\footnotesize 3};
-                \node (node) at (2.5,2.5) {\footnotesize 0};
-                \node (node) at (2.5,3.5) {\footnotesize 2};
-                \node (node) at (3.5,0.5) {\footnotesize 2};
-                \node (node) at (3.5,1.5) {\footnotesize 1};
-                \node (node) at (3.5,2.5) {\footnotesize 1};
-                \node (node) at (3.5,3.5) {\footnotesize 1};
-
-                \draw[fill=base02, opacity=0.4] (1,0) rectangle
-                (4,3);
-                \draw[step=10mm, base03, thick] (1,0) grid
-                (4,3);
-                \node (node) at (1.8,0.2) {\tiny 0};
-                \node (node) at (1.8,1.2) {\tiny 2};
-                \node (node) at (1.8,2.2) {\tiny 0};
-                \node (node) at (2.8,0.2) {\tiny 0};
-                \node (node) at (2.8,1.2) {\tiny 2};
-                \node (node) at (2.8,2.2) {\tiny 0};
-                \node (node) at (3.8,0.2) {\tiny 1};
-                \node (node) at (3.8,1.2) {\tiny 0};
-                \node (node) at (3.8,2.2) {\tiny 2};
+                \node (node) at (0.5,0.5) {2};
+                \node (node) at (0.5,1.5) {3};
+                \node (node) at (0.5,2.5) {0};
+                \node (node) at (0.5,3.5) {3};
+                \node (node) at (1.5,0.5) {2};
+                \node (node) at (1.5,1.5) {1};
+                \node (node) at (1.5,2.5) {0};
+                \node (node) at (1.5,3.5) {3};
+                \node (node) at (2.5,0.5) {3};
+                \node (node) at (2.5,1.5) {3};
+                \node (node) at (2.5,2.5) {0};
+                \node (node) at (2.5,3.5) {2};
+                \node (node) at (3.5,0.5) {2};
+                \node (node) at (3.5,1.5) {1};
+                \node (node) at (3.5,2.5) {1};
+                \node (node) at (3.5,3.5) {1};
                 \coordinate (BL) at (1,0);
                 \coordinate (BR) at (4,0);
                 \coordinate (TL) at (1,3);
                 \coordinate (TR) at (4,3);
             \end{scope}
+            \begin{scope}[
+                xshift=-.4, 
+                yshift=.4cm,
+                every node/.append style={yslant=0.5,xslant=-0.7,opacity=.4},
+                yslant=0.5,xslant=-0.7]
+                \draw[fill=base02, opacity=0.4] (1,0) rectangle
+                (4,3);
+                \draw[step=10mm, base03, thick] (1,0) grid
+                (4,3);
+                \node (node) at (1.5,0.5) {0};
+                \node (node) at (1.5,1.5) {2};
+                \node (node) at (1.5,2.5) {0};
+                \node (node) at (2.5,0.5) {0};
+                \node (node) at (2.5,1.5) {2};
+                \node (node) at (2.5,2.5) {0};
+                \node (node) at (3.5,0.5) {1};
+                \node (node) at (3.5,1.5) {0};
+                \node (node) at (3.5,2.5) {2};
+                \coordinate (EBL) at (1,0);
+                \coordinate (EBR) at (4,0);
+                \coordinate (ETL) at (1,3);
+                \coordinate (ETR) at (4,3);
+            \end{scope}
             \begin{scope}[xshift=-5, yshift=5cm,
                     every node/.append style={yslant=0.5,xslant=-0.7},
                     yslant=0.5,xslant=-0.7]
-                \draw (BL) -- (1,0) (BR) -- (2,0)
-                (TL) -- (1,1)    (TR) -- (2,1);
+                \draw (EBL) -- (1,0) (EBR) -- (2,0)
+                (ETL) -- (1,1)    (ETR) -- (2,1);
+                \draw (EBL) -- (BL) (EBR) -- (BR)
+                (ETL) -- (TL)    (ETR) -- (TR);
                 \draw[fill=cyan] (0,0) rectangle (2,2);
                 \draw[step=10mm, base03, thick] (0,0) grid (2,2);
                 \draw[fill=base02, opacity=0.4] (1,0) rectangle
                 (2,1);
                 \draw[base03, thick] (1,0) rectangle (2,1);
-                \node (node) at (0.5,0.5) {\tiny 11};
-                \node (node) at (0.5,1.5) {\tiny 7};
-                \node (node) at (1.5,0.5) {\tiny 12};
-                \node (node) at (1.5,1.5) {\tiny 3};
+                \node (node) at (0.5,0.5) {11};
+                \node (node) at (0.5,1.5) {7};
+                \node (node) at (1.5,0.5) {12};
+                \node (node) at (1.5,1.5) {3};
 
             \end{scope}
         \end{tikzpicture}
-    \caption{Evaluation of the convolution. More strongly shaded elements in the input show the \textit{receptive field} of each element in the output.\cite{dumoulin2016guide}.}\label{fig:2dconviter}
+    \caption{Evaluation of the convolution.}\label{fig:2dconviter}
     \end{subfigure}
     \caption{2-D convolution.}\label{fig:2dconv}
 \end{figure*}

@@ -95,22 +95,38 @@ Stochastic Gradient Descent (SGD) replaces computing the \textit{batch loss} \(\
 \end{equation}
 Equation~\eqref{eqn:sgd} is evaluated for each of the \(k\) samples sequentially and therefore saves having to store all training samples in memory.
 \subsection{Convolutional Neural Networks}
-\input{figures/neural_networks/convolution.tex}
 \input{figures/neural_networks/2dconvolutions.tex}
+\input{figures/neural_networks/multconvs.tex}
+\input{figures/neural_networks/convolution.tex}
 The one-dimensional (1-D) discrete convolution \((f*g)\) of 1-D discrete functions \(f,g\) is defined 
 \begin{equation}
     (f*g)[n]\coloneqq \sum _{i} f[i]g[n-i]
+    \label{eqn:1dconv}
 \end{equation}
 The convolution of a function \(f\) with a finite sequence of values \(g\) can be interpreted as filtering \(f\) with the filter \(g\); for example convolving a noisy \(f\) with a Heaviside function is effectively low-pass filtering \(f\) (see figure~\ref{fig:convfiltering}).
 %
-The the sequence of values that comprise \(g\) is called the \textit{kernel} of \(g\) and the length of the sequence is called the \textit{bandwidth} or just the width.
+The sequence of values that comprise \(g\) is called the \textit{kernel} of the filter \(g\) and the length of the sequence is called the \textit{bandwidth} of \(g\) (or simply the width).
 
 The two-dimensional (2-D) discrete convolution \((f*g)\) of 2-D discrete functions \(f,g\) is defined 
 \begin{equation}
     (f*g)[n, m]\coloneqq \sum _{i}\sum _{j}f[i, j]g[n-i, m-j]
+    \label{eqn:2dconv}
 \end{equation}
 and can be interpreted in exactly the same way as for 1-D convolutions.
 %
 For 2-D convolutions the kernels are most often square and therefore the kernel dimensions are specified rather than just width (see figure~\ref{fig:2dconv}).
+
+Notice that eqns.~\eqref{eqn:1dconv} and~\eqref{eqn:2dconv} are completely linear in their inputs \(f[i]\) (\(f[i,j]\)) with weights \(w_i = g[n-i]\) (\(w_{ij} = g[n-i, m-j]\)) and hence naturally constitute a neuron (layer of neurons); a \textit{convolution layer} in a multi-layer ANN is either eqn.~\eqref{eqn:1dconv} or eqn.~\eqref{eqn:2dconv} with filter values being iteratively adjusted by the learning rule.
+%
+CNN is an ANN with one or more convolution layers.
+%
+In practice multiple filters are applied to the same input and then stacked to produce a higher-dimensional output (see figure~\ref{fig:multconvs}).
+%
+Depending on whether the CNN is being employed to solve a generative task or a classification task the activation function might be either a \(\operatorname{ReLU}\) (applied element-wise to the output of the convolution layer) or a \textit{max-pooling} filter:
+\begin{multline}
+\operatorname{max-pool}(f,g)[n, m]\coloneqq\\ \max_{i,j}\left[ f[i, j]g[n-i, m-j] \right]
+\label{eqn:2dpool}
+\end{multline}
+There are many other convolution operators (e.g., strided, dilated, transposed) that are beyond the scope of this survey\cite{dumoulin2016guide}.
 \subsection{Deep Neural Networks}
 \input{figures/neural_networks/deep_archs}
