@@ -1,0 +1,39 @@
+\begin{figure}
+    \centering
+    \begin{subfigure}[b]{.49\textwidth}
+        \centering
+        \begin{tikzpicture}[]
+            \def\pindist{35pt}
+            \def\nodesize{38pt}
+
+            \tikzstyle{every pin edge}=[signal]
+            \tikzstyle{annot} = [text width=4em, text centered]
+
+            \node[hiddennode, text width=\nodesize, minimum size=\nodesize,
+                pin={[pin edge={latex-}, pin distance=\pindist]above left:$w_1 x_1$},
+                pin={[pin edge={latex-}, pin distance=\pindist]below left:$w_2 x_2$},
+                pin={[pin edge={-latex}, pin distance=\pindist]right:$y$}
+            ] (N1) at (-100pt,0) {$\Sigma\quad \sigma$};
+            \draw[dashed] (-100pt,-0.55) -- (-100pt,0.55);
+        \end{tikzpicture}
+        \caption{Forward Pass.}
+    \end{subfigure}
+    \vskip\baselineskip
+    \begin{subfigure}[b]{.49\textwidth}
+        \centering
+        \begin{tikzpicture}[]
+            \def\pindist{35pt}
+            \def\nodesize{38pt}
+            \tikzstyle{every pin edge}=[signal]
+            \tikzstyle{annot} = [text width=4em, text centered]
+
+            \node[hiddennode, text width=\nodesize, minimum size=\nodesize,
+                pin={[pin edge={-latex}, pin distance=\pindist]above left:$\frac{\partial L}{\partial w_1}=\frac{\partial L}{\partial y}\frac{\partial y}{\partial w_1}$},
+                pin={[pin edge={-latex}, pin distance=\pindist]below left:$\frac{\partial L}{\partial w_2}=\frac{\partial L}{\partial y}\frac{\partial y}{\partial w_2}$},
+                pin={[pin edge={latex-}, pin distance=\pindist]right:$\frac{\partial L}{\partial y}$}
+            ] (N2) at (+120pt,0) {$\dif \sigma$};
+        \end{tikzpicture}
+        \caption{Backwards Pass. Note that \(\pd{L}{y}\) can be reused when computing both \(\pd{L}{w_1}\) and \(\pd{L}{w_2}\).}
+    \end{subfigure}
+    \caption{Back-propagation computation of derivatives.}\label{fig:backprop}
+\end{figure}

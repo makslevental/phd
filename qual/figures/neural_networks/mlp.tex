@@ -1,127 +1,76 @@
 \begin{figure*}
     % MLP
     \centering
-
-    % \tikzstyle{netnode}=[circle, inner sep=5pt, text width=85pt, align=center, line width=1.0pt]
-    % \tikzstyle{inputnode}=[netnode, fill=sail,draw=black]
-    % \tikzstyle{hiddennode}=[netnode, fill=snowymint,draw=black]
-    % \tikzstyle{outputnode}=[netnode, fill=plum,draw=black]
-    % \definecolor{snowymint}{HTML}{E3F8D1}
-    % \definecolor{wepeep}{HTML}{FAD2D2}
-    % \definecolor{portafino}{HTML}{F5EE9D}
-    % \definecolor{plum}{HTML}{DCACEF}
-    % \definecolor{sail}{HTML}{A3CEEE}
-    % \definecolor{highland}{HTML}{6D885A}
-    \tikzstyle{inputNode}=[draw,circle,minimum size=10pt,inner sep=0pt]
+    \tikzstyle{inputNode}=[draw,fill=sail,circle,minimum size=10pt,inner sep=2pt]
+    \tikzstyle{hiddenNode}=[draw,fill=snowymint,circle,minimum size=10pt,inner sep=2pt]
+    \tikzstyle{outputNode}=[draw,fill=plum,circle,minimum size=10pt,inner sep=2pt]
     \tikzstyle{stateTransition}=[-stealth, thick]
-    \begin{adjustbox}{width=\textwidth}
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
         \begin{tikzpicture}
-            \node[draw,circle,minimum size=25pt,inner sep=0pt] (x) at (0,0) {$\Sigma$ $\sigma$};
+            \node[draw,fill=plum, circle,minimum size=25pt,inner sep=0pt] (x) at (0,0) {$\Sigma$ $\sigma$};
+            \draw[dashed] (0,-0.43) -- (0,0.43);
 
-            \node[inputNode] (x0) at (-2, 1.5) {$\tiny x_1$};
-            \node[inputNode] (x1) at (-2, 0.75) {$\tiny x_2$};
-            \node[inputNode] (x2) at (-2, 0) {$\tiny x_3$};
-            \node[inputNode] (x3) at (-2, -0.75) {$\tiny x_4$};
-            \node[inputNode] (xn) at (-2, -1.75) {$\tiny x_n$};
+            \node[inputNode] (x0) at (-2, 1.5) {$ x_1$};
+            \node[inputNode] (x1) at (-2, 0.75) {$ x_2$};
+            \node[inputNode] (x2) at (-2, 0) {$ x_3$};
+            \node[inputNode] (x3) at (-2, -0.75) {$ x_4$};
+            \node[inputNode] (xn) at (-2, -1.95) {$ x_n$};
 
             \draw[stateTransition] (x0) to[out=0,in=120] node [midway, sloped, above] {$w_1$} (x);
             \draw[stateTransition] (x1) to[out=0,in=150] node [midway, sloped, above] {$w_2$} (x);
             \draw[stateTransition] (x2) to[out=0,in=180] node [midway, sloped, above] {$w_3$} (x);
             \draw[stateTransition] (x3) to[out=0,in=210] node [midway, sloped, above] {$w_4$} (x);
             \draw[stateTransition] (xn) to[out=0,in=240] node [midway, sloped, above] {$w_n$} (x);
-            \draw[stateTransition] (x) -- (4,0) node [midway,above] {$z_j = \sigma\left(\sum\limits_{i=1}^{n}{w_ix_i} +  b_j\right)$};
-            \draw[dashed] (0,-0.43) -- (0,0.43);
-            \node (dots) at (-2, -1.15) {$\vdots$};
-            \node[inputNode, thick] (i1) at (6, 0.75) {};
-            \node[inputNode, thick] (i2) at (6, 0) {};
-            \node[] (i4) at (6, -0.75) {$\LARGE \vdots$};
-            \node[inputNode, thick] (i3) at (6, -1.5) {};
+            \draw[stateTransition] (x) -- (4,0) node [midway,above] {$z(\mathbf{x}) = \sigma\left(\sum\limits_{i=1}^{n}{w_ix_i} +  b\right)$};
+            \node (dots) at (-2, -1.25) {$\vdots$};
+        \end{tikzpicture}
+        \caption{Single Artificial Neuron function.}\label{fig:singleann}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \begin{tikzpicture}
 
-            \node[inputNode, thick] (h1) at (8, 1.5) {};
-            \node[inputNode, thick] (h2) at (8, 0.75) {};
-            \node[inputNode, thick] (h3) at (8, 0) {};
+            \node[inputNode, thick] (i1) at (6, 0.75) {$x_1$};
+            \node[inputNode, thick] (i2) at (6, 0) {$x_2$};
+            \node[] (i4) at (6, -0.75) {$\LARGE \vdots$};
+            \node[inputNode, thick] (i3) at (6, -1.5) {$x_n$};
+
+            \node[hiddenNode, thick] (h1) at (8, 1.5) {$z_1$};
+            \node[hiddenNode, thick] (h2) at (8, 0.75) {$z_2$};
+            \node[hiddenNode, thick] (h3) at (8, 0) {$z_3$};
             \node[] (h4) at (8, -0.75) {$\LARGE \vdots$};
             \node[]  at (8, -1.5) {$\LARGE \vdots$};
-            \node[inputNode, thick] (h5) at (8, -2.25) {};
+            \node[hiddenNode, thick] (h5) at (8, -2.25) {$z_m$};
 
-            % \node[inputNode, thick] (o1) at (10, 0.75) {};
-            \node[inputNode, thick] (o2) at (10, 0) {};
-
-            \draw[stateTransition] (5, 0.75) -- node[above] {$x_1$} (i1);
-            \draw[stateTransition] (5, 0) -- node[above] {$x_2$} (i2);
-            \draw[stateTransition] (5, -1.5) -- node[above] {$x_n$} (i3);
+            \node[outputNode, thick] (o2) at (10, 0) {$\Sigma$ $\sigma$};
+            \draw[dashed] (10,-0.43) -- (10,0.43);
 
             \draw[stateTransition] (i1) -- (h1);
             \draw[stateTransition] (i1) -- (h2);
             \draw[stateTransition] (i1) -- (h3);
-            % \draw[stateTransition] (i1) -- (h4);
             \draw[stateTransition] (i1) -- (h5);
             \draw[stateTransition] (i2) -- (h1);
             \draw[stateTransition] (i2) -- (h2);
             \draw[stateTransition] (i2) -- (h3);
-            % \draw[stateTransition] (i2) -- (h4);
             \draw[stateTransition] (i2) -- (h5);
             \draw[stateTransition] (i3) -- (h1);
             \draw[stateTransition] (i3) -- (h2);
             \draw[stateTransition] (i3) -- (h3);
-            % \draw[stateTransition] (i3) -- (h4);
             \draw[stateTransition] (i3) -- (h5);
 
-            % \draw[stateTransition] (h1) -- (o1);
             \draw[stateTransition] (h1) -- (o2);
-            % \draw[stateTransition] (h2) -- (o1);
             \draw[stateTransition] (h2) -- (o2);
-            % \draw[stateTransition] (h3) -- (o1);
             \draw[stateTransition] (h3) -- (o2);
-            % \draw[stateTransition] (h4) -- (o1);
-            % \draw[stateTransition] (h4) -- (o2);
-            % \draw[stateTransition] (h5) -- (o1);
             \draw[stateTransition] (h5) -- (o2);
 
             \node[above=of i1, align=center] (l1) {\footnotesize $n$ Neuron \\ \footnotesize Input \\ \footnotesize layer};
             \node[right=1.3em of l1, align=center] (l2) {\footnotesize $m$ Neuron \\ \footnotesize Hidden \\ \footnotesize layer};
             \node[right=2.3em of l2, align=center] (l3) {\footnotesize Output \\ \footnotesize layer};
 
-            % \draw[stateTransition] (o1) -- node[above] {$O_1$} (11, 0.75);
-            \draw[stateTransition] (o2) -- node[midway,above] {$y = \sigma'\left(\sum\limits_{j=1}^{m}{w'_jz_j} + b'\right)$} (13, 0);
-
-            \path[dashed, double, ultra thick, gray] (x.north) edge[bend left=0] (h5.north);
-            \path[dashed, double, ultra thick, gray] (x.south) edge[bend right=0] (h5.south);
+            \draw[stateTransition] (o2) -- node[midway,above] {$y(\mathbf{x}) = \sigma'\left(\sum\limits_{j=1}^{m}{w'_jz_j} + b'\right)$} (13, 0);
         \end{tikzpicture}
-        % \begin{tikzpicture}
-        %     \def\nodedist{45pt}
-        %     \def\layerdist{80pt}
-        %     \def\pindist{20pt}
-
-        %     \tikzstyle{every pin edge}=[signal]
-        %     \tikzstyle{annot} = [text width=4em, text centered]
-
-        %     \foreach \y in {1,...,2}
-        %     \node[inputnode, pin={[pin edge={latex-}, pin distance=\pindist]left:Input \y}]
-        %     (I\y) at (0,-\y*\nodedist) {$x_\y$};
-
-        %     \foreach \y in {1,...,2}
-        %     \node[hiddennode]
-        %     % (H\y) at ($(\layerdist,-\y*\nodedist) + (0, 0.5*\nodedist)$) {$z_\y$};
-        %     (H\y) at (\layerdist,-\y*\nodedist) {$z_\y = \sigma(\sum_{i}w_{ij} x_i)$};
-
-        %     \foreach \y in {1,...,1}
-        %     \node[outputnode, pin={[pin edge={-latex}, pin distance=\pindist]right:Output \y}]
-        %     (O\y) at ($(I1) + (2*\layerdist, -0.5*\nodedist)$) {$y_\y$};
-
-        %     \foreach \dest in {1,...,2}
-        %     \foreach \source in {1,...,2}
-        %     \draw[signal] (I\source) -- (H\dest);
-
-        %     \foreach \dest in {1,...,1}
-        %     \foreach \source in {1,...,2}
-        %     \draw[signal] (H\source) edge (O\dest);
-
-        %     \node[annot, above=4pt of H1] (hl) {Hidden layer};
-        %     \node[annot] at (I1 |- hl) {Input layer};
-        %     \node[annot] at (O1 |- hl) {Output layer};
-        % \end{tikzpicture}
-
-    \end{adjustbox}
-    \caption{Single layer ANN.}\label{fig:ann}
+        \caption{Multi-layer ANN.}\label{fig:multiann}
+    \end{subfigure}
+    \caption{Artificial Neural Network representation.}\label{fig:ann}
 \end{figure*}
