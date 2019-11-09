@@ -23,6 +23,7 @@
 \usepackage{siunitx}
 \usetikzlibrary{
 	patterns,
+	chains,
 	backgrounds,
 	calc,
 	shadings,
@@ -36,12 +37,14 @@
 	arrows.meta,
 	external
 }
+
 \usetikzlibrary{matrix}
 \usetikzlibrary{fit}
 \usetikzlibrary{shapes.geometric}
 % \tikzexternalize[mode=list and make]
 % \tikzexternalize
 \usepackage{bbm}
+\usepackage{relsize}
 \usepackage{pgfplots}
 \pgfplotsset{compat=newest}
 \usepackage[edges]{forest}
@@ -205,20 +208,4 @@
 }
 
 
-\definecolor{snowymint}{HTML}{E3F8D1}
-\definecolor{wepeep}{HTML}{FAD2D2}
-\definecolor{portafino}{HTML}{F5EE9D}
-\definecolor{plum}{HTML}{DCACEF}
-\definecolor{sail}{HTML}{A3CEEE}
-\definecolor{highland}{HTML}{6D885A}
-
-\definecolor{blue}{RGB}{38,139,210}
-\definecolor{cyan}{RGB}{42,161,152}
-\definecolor{base01}{RGB}{88,110,117}
-\definecolor{base02}{RGB}{7,54,66}
-\definecolor{base03}{RGB}{0,43,54}
-
-\tikzstyle{netnode}=[circle, inner sep=0pt, text width=22pt, align=center, line width=1.0pt]
-\tikzstyle{inputnode}=[netnode, fill=sail,draw=black]
-\tikzstyle{hiddennode}=[netnode, fill=snowymint,draw=black]
-\tikzstyle{outputnode}=[netnode, fill=plum,draw=black]
+\input{figures/nn_init.tex}

@@ -1,15 +1,17 @@
 %\input{figures/net}
 \section{Artificial Neural Networks}\label{sec:neural-networks}
 \localtableofcontents
-Artificial Neural Network algorithms for SR are all based on a Convolutional Neural Network (CNN) architecture.
+Artificial Neural Network (ANN or NN) algorithms for SR are all based on a Convolutional Neural Network (CNN) architecture.
 %
-We first briefly review ANNs in general and CNNs in particular and then explore the recent advances in Deep Learning (DL) for SR.
+We first briefly review ANNs in general, CNNs in particular, powerful architectures called Deep Neural Networks (DNNs) and techniques that make their use feasible (Deep Learning).
+%
+We then proceed to review applications of DNNs to SR.
 %
 \subsection{Basics}
 \input{figures/neural_networks/mlp.tex}
-An Artificial Neural Network (ANN or NN) is a function specified by compositions of elementary functions called \textit{artificial neurons}\anote{ann} (or simply neurons).
+An ANN is a function specified by compositions of elementary functions called \textit{artificial neurons}\anote{ann} (or simply neurons).
 %
-Neurons consist of a set of inputs \(\mathbf{x} = (x_1, x_2, \dots, x_n)\), an aggregation (typically linear combination), and an activation function \(\sigma\), which acts as a thresholding mechanism.
+Neurons consist of a set of inputs \(\mathbf{x} \coloneqq (x_1, x_2, \dots, x_n)\), an aggregation (typically linear combination), and an textit{activation function} \(\sigma\), which acts as a thresholding mechanism.
 %
 For example, the simplest function that qualifies as a neuron is a linear function:
 \begin{equation}
@@ -18,11 +20,9 @@ For example, the simplest function that qualifies as a neuron is a linear functi
 \end{equation}
 where the the activation function is the trivial one i.e., the identity.
 %
-Minsky \etal\cite{minsky2017perceptrons} famously proved that neurons that don't include a non-linear activation function have very little representational power (i.e., they're unable to represent functions as simple as even \(\operatorname{XOR}\)\anote{xor}.) and those that do are universal representers (i.e., given enough layers and neurons they're able to represent functions of arbitrary complexity).
-%
 Common non-trivial, i.e., non-linear, activation functions are the sigmoid function
 \begin{equation}
-    S(x)={\frac {1}{1+e^{-x}}}={\frac {e^{x}}{e^{x}+1}}
+    \operatorname{sig}(x)={\frac {1}{1+e^{-x}}}={\frac {e^{x}}{e^{x}+1}}
 \end{equation}
 or the hyperbolic tangent function
 \begin{equation}
@@ -33,6 +33,8 @@ or the piece-wise defined \textit{rectified linear unit} (\(\operatorname{ReLU}\
     \operatorname{ReLU}(x) & \coloneqq \begin{cases}x&{\text{if }}x>0,\\0&{\text{otherwise}}\end{cases} \\
                            & = \max(0, x)
 \end{align}
+%
+Minsky \etal\cite{minsky2017perceptrons} famously proved that neurons that don't include a non-linear activation function have very little representational power and those that do are universal representers\anote{universapprox}.
 %
 Note that eqn.~\eqref{eqn:simpleann} passes through the origin \((0,0,0)\) since it has no constant term; in the parlance of machine learning the neuron is missing a bias term\anote{bias} \(b\):
 \begin{equation}
@@ -56,13 +58,14 @@ For example the ANN specified in figure~\ref{fig:multiann} represents the functi
 
 If ANNs were simply another way to diagrammatically represent non-linear functions they would be fairly uninteresting.
 %
-In fact ANNs are comprised by their definition and a \textit{learning} method.
+In fact ANNs entail the definition of a non-linear function and a \textit{learning} method.
 %
 The learning method enables the function to approximate some other function, by adjusting the weights \(w_i\), given \textit{training} pairs \(\left\{ \mathbf{x}_k, t_k \right\}\) where \(\mathbf{x}_k\) is the \(k\)th training \textit{sample} and \(t_k\) is the \(k\)th training \textit{target}.
 %
 The most common such learning rule is called the Delta rule\cite{widrow1960adaptive} for a single neuron, which can be derived from minimizing the the squared error \textit{loss} with respect to each of the weights for a given training pair \((\mathbf{x}_k, t_k)\):
 \begin{equation}
-    L(w_1, \dots, w_n) = \sum_k \frac{1}{2} (t_k - y(\mathbf{x}_k))^2
+    L(w_1, \dots, w_n) \coloneqq \sum_k \frac{1}{2} (t_k - y(\mathbf{x}_k))^2
+    \label{eqn:loss}
 \end{equation}
 and hence
 \begin{equation}
@@ -72,7 +75,7 @@ where here by \(y'\) we mean the derivative of the activation function with resp
 %
 Hence, by gradient descent the weights \(w_i\) should be adjusted in the opposite direction of \(\pd{L}{w_i}\) and so we have the weight adjustment rule
 \begin{equation}
-    \Delta w_i = \alpha \cdot \sum_k(t_k-y(\mathbf{x}_k))\cdot \sigma'\cdot x_{ik}
+    \Delta w_i \coloneqq \alpha \cdot \sum_k(t_k-y(\mathbf{x}_k))\cdot \sigma'\cdot x_{ik}
     \label{eqn:batchupdate}
 \end{equation}
 where \(\alpha\) is a small constant called the \textit{learning rate}.
@@ -84,16 +87,21 @@ In general computing the partial derivatives \(\pd{L}{w_i}\) for a deep (many la
 \input{figures/neural_networks/backprop.tex}
 To mititage the effect of this combinatorial explosion of dependencies between the weights Rumelhart \etal\cite{rumelhart1988learning} popularlized a technique called \textit{back-propagation}\anote{backprop} or simply backprop (see figure~\ref{fig:backprop}).
 %
-Another inefficiency of the Delta rule is that it requires evaluating the ANN on the entire batch of samples in order to compute the adjustment \(\Delta w_i\).
+Another inefficiency of the Delta rule is that it requires evaluating the ANN on the entire set of samples in order to compute the adjustment \(\Delta w_i\).
 %
 For large training sets (on the order of millions of samples) this is infeasible due to memory limitations.
 %
-Stochastic Gradient Descent (SGD) replaces computing the \textit{batch loss} \(\sum_k(t_k-y(\mathbf{x}_k))\) in eqn.~\eqref{eqn:batchupdate} with an iterative update to \(w_i\):
+Stochastic Gradient Descent (SGD) replaces computing the total \(\sum_k(t_k-y(\mathbf{x}_k))\) in eqn.~\eqref{eqn:batchupdate} with an iterative update to \(w_i\):
 \begin{equation}
-    w_i^k = w_i^{k-1} + \alpha \cdot (t_k-y(\mathbf{x}_k))\cdot \sigma'\cdot x_{ik}
+    \Delta w_i^t = w_i^t - w_i^{t-1} \coloneqq \alpha \cdot \sum_j (t_j-y(\mathbf{x}_j))\cdot \sigma'\cdot x_{ij}
     \label{eqn:sgd}
 \end{equation}
-Equation~\eqref{eqn:sgd} is evaluated for each of the \(k\) samples sequentially and therefore saves having to store all training samples in memory.
+where \(\sum_j (t_j-y(\mathbf{x}_j))\) is the loss over a subset of samples called a batch and the aggregate weight update
+\begin{equation}
+    \Delta w_i = \sum_t \Delta w_i^t
+\end{equation}
+%
+% Equation~\eqref{eqn:sgd} is evaluated for each of the \(k\) samples sequentially and therefore saves having to store all training samples in memory.
 \subsection{Convolutional Neural Networks}
 \input{figures/neural_networks/2dconvolutions.tex}
 \input{figures/neural_networks/multconvs.tex}
@@ -106,21 +114,21 @@ The one-dimensional (1-D) discrete convolution \((f*g)\) of 1-D discrete functio
 The convolution of a function \(f\) with a finite sequence of values \(g\) can be interpreted as filtering \(f\) with the filter \(g\); for example convolving a noisy \(f\) with a Heaviside function is effectively low-pass filtering \(f\) (see figure~\ref{fig:convfiltering}).
 %
 The sequence of values that comprise \(g\) is called the \textit{kernel} of the filter \(g\) and the length of the sequence is called the \textit{bandwidth} of \(g\) (or simply the width).
-
+%
 The two-dimensional (2-D) discrete convolution \((f*g)\) of 2-D discrete functions \(f,g\) is defined 
 \begin{equation}
     (f*g)[n, m]\coloneqq \sum _{i}\sum _{j}f[i, j]g[n-i, m-j]
     \label{eqn:2dconv}
 \end{equation}
-and can be interpreted in exactly the same way as for 1-D convolutions.
+and can be interpreted in exactly the same way as 1-D convolutions.
 %
 For 2-D convolutions the kernels are most often square and therefore the kernel dimensions are specified rather than just width (see figure~\ref{fig:2dconv}).
 
-Notice that eqns.~\eqref{eqn:1dconv} and~\eqref{eqn:2dconv} are completely linear in their inputs \(f[i]\) (\(f[i,j]\)) with weights \(w_i = g[n-i]\) (\(w_{ij} = g[n-i, m-j]\)) and hence naturally constitute a neuron (layer of neurons); a \textit{convolution layer} in a multi-layer ANN is either eqn.~\eqref{eqn:1dconv} or eqn.~\eqref{eqn:2dconv} with filter values being iteratively adjusted by the learning rule.
+Notice that eqns.~\eqref{eqn:1dconv} and~\eqref{eqn:2dconv} are completely linear in their inputs \(f[i]\) (\(f[i,j]\)) with weights \(w_i = g[n-i]\) (\(w_{ij} = g[n-i, m-j]\)) and hence naturally constitute a neuron (layer of neurons); a \textit{convolution layer} in a multi-layer ANN is either eqn.~\eqref{eqn:1dconv} or eqn.~\eqref{eqn:2dconv} with kernel values being iteratively adjusted by the learning rule.
 %
-CNN is an ANN with one or more convolution layers.
+Hence, a CNN is an ANN with one or more convolution layers; CNNs are particularly effective for tasks that operate on images (since image patches have more semantic signficance than image slices).
 %
-In practice multiple filters are applied to the same input and then stacked to produce a higher-dimensional output (see figure~\ref{fig:multconvs}).
+In practice multiple filters are applied to the same input and then stacked to produce a higher-dimensional output (see figure~\ref{fig:multconvs}), each dimension of which is called a \textit{feature map}.
 %
 Depending on whether the CNN is being employed to solve a generative task or a classification task the activation function might be either a \(\operatorname{ReLU}\) (applied element-wise to the output of the convolution layer) or a \textit{max-pooling} filter:
 \begin{multline}
@@ -128,5 +136,51 @@ Depending on whether the CNN is being employed to solve a generative task or a c
 \label{eqn:2dpool}
 \end{multline}
 There are many other convolution operators (e.g., strided, dilated, transposed) that are beyond the scope of this survey\cite{dumoulin2016guide}.
+
 \subsection{Deep Neural Networks}
+
+%
+Deep Neural Networks (DNNs) are ANNs that have multiple layers and many neurons in each layer.
+%
+Intuitively the advantage of deep networks (over shallow networks) is they learn\anote{learn} hierarchies of concepts (called \textit{features}); for example in face recognition tasks, layers proximal to the input layer learn to recognize elementary features such as edges, layers distal to the input layer learn abstractions such as arrangements of features that comprise eyes or noses, and layers even more distal to the input layer learn entire faces. 
+
+Training DNNs presents many challenges; due to their depth they suffer from issues such as \textit{vanishing gradients} and \textit{overfitting}.
+%
+Vanishing gradients is an all but complete cessation of substantive updates to weights; consider the partial derivative of the activation function \(\sigma'\) in eqn.~\eqref{eqn:batchupdate}.
+%
+Notice that if \(\abs{\sigma'} \ll 1\) then \(\Delta w_i\) will be very small. 
+%
+This occurs for a single neuron when the input \textit{saturates} the activation function; for example for \(\operatorname{sig}\) this happens when \(\abs{x} > 5\) because the gradient \(\sigma'\) is very small (see figure~\ref{fig:activs}).
+\input{figures/neural_networks/activation.tex}
+%
+For multi-layer ANNs, such as DNNs, even if no single neuron saturates the activation function, 
+due to the chain rule, weight updates for layers near the input potentially have products of very many factors that are less than one.
+%
+Overfitting can be interpreted as memorization of the training samples; since the optimization (eqn.~\eqref{eqn:loss}) that leads to the Delta rule only measures \(\abs{t_k - y(\mathbf{x}_k)}\) DNNs can simply learn weights that encode responses to many (or most) of the training samples (since DNNs have so many weight parameters\anote{largeparams}). 
+
+\textit{Deep Learning} is a collection of techniques that make training Deep Neural Networks (DNNs) tractable. 
+%
+\input{figures/neural_networks/batch_norm.tex}
+\input{figures/neural_networks/dropout.tex}
+In order to combat vanishing gradient \textit{Batch Normalization}\cite{ioffe2015batch} is used to normalize outputs from linear layers prior to activation.
+%
+On a batch by batch basis inputs to each layer's activation function (i.e., the activation functions of all of the neurons in the layer) are \((0,1)-\)Normal normalized:
+\begin{align}
+    \bm{\mu} _{B} &\coloneqq {\frac {1}{m}}\sum _{j=1}^{m}\bm{x}_{j} \\
+    \bm{\sigma} _{B}^{2} &\coloneqq{\frac {1}{m}}\sum _{j=1}^{m}(\bm{x}_{j}-\bm{\mu}_{B})^{2}\\
+    {\hat {\bm{x}}} &\coloneqq {\frac {\bm{x}-\bm{\mu}_{B}}{\sqrt {\bm{\sigma}_{B}^{2}}}} \label{eqn:bathcnormdiv}
+\end{align}
+where \(m\) is the batch size and the operations in eqn.~\eqref{eqn:bathcnormdiv} are understood to be broadcast (i.e., \(\sqrt {\bm{\sigma} _{B}^{2}}\) is an element-wise root and elements of \(\sqrt {\bm{\sigma} _{B}^{2}}\) divide corresponding elements of \(\bm{x}-\bm{\mu}_{B}\)).
+%
+Overfitting is mititaged by using regularization; methods such as \(L_2\) regularization and \textit{dropout} have been shown to be effective against overfitting\cite{bengio2013}.
+%
+\(L_2\) regularization introduces a squared weight term \(\frac{\lambda}{2}\sum_{i=1}^n w_i^2\) to eqn.~\eqref{eqn:loss} which translates into a \textit{weight decay} term \(\lambda w_i^t\) in the Delta rule (eqn.~\eqref{eqn:sgd})
+\begin{equation}
+    \Delta w_i^t = \alpha \cdot \sum_j (t_j-y(\mathbf{x}_j))\cdot \sigma'\cdot x_{ij} + \lambda w_i^t
+    \label{eqn:weightdecaydelta}
+\end{equation}
+Dropout effects regularization by selectively disabling neurons in the network (see figure~\ref{fig:dropout}); on each forward pass through the network a neuron is either passed input or not according to some probability \(p\) (usually \(p = 0.5\)).
+%
+The intuition being that not every neuron will have an opportunity to learn from every sample thereby limiting its, and the network's as a whole, ability to memorize patterns unique to the training samples (i.e., overfit).
 \input{figures/neural_networks/deep_archs}
+

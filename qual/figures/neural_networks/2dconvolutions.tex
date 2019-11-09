@@ -1,7 +1,7 @@
 \begin{figure*}
     \centering
-    \newcommand*{\figwidth}{.24}
-    \newcommand*{\figscale}{.5}
+    \newcommand*{\figwidth}{.25}
+    \newcommand*{\figscale}{1}
     \begin{subfigure}[b]{\textwidth}
         \centering
         \begin{tikzpicture}[scale=1,every node/.style={minimum size=1cm},on grid]
@@ -58,8 +58,9 @@
 
             \end{scope}
         \end{tikzpicture}
-        \caption{Input \(f\), 2-D \(3 \times 3\) convolution kernel \(g\), and the output \(f * g\).}
+        \caption{Input \(f\), 2-D \(3 \times 3\) convolution kernel \(g\), and output \(f * g\).}
     \end{subfigure}
+    \vskip\baselineskip
     \begin{subfigure}[b]{\textwidth}
         \centering
         \begin{tikzpicture}[scale=\figscale,every node/.style={minimum size=1cm},on grid]
@@ -210,6 +211,7 @@
 
             \end{scope}
         \end{tikzpicture}
+
         \begin{tikzpicture}[scale=\figscale,every node/.style={minimum size=1cm},on grid]
             \begin{scope}[every node/.append style={yslant=0.5,xslant=-0.7},
                     yslant=0.5,xslant=-0.7]
@@ -349,7 +351,7 @@
 
             \end{scope}
         \end{tikzpicture}
-    \caption{Evaluation of the convolution.}\label{fig:2dconviter}
+    \caption{Evaluation of convolution.}\label{fig:2dconviter}
     \end{subfigure}
     \caption{2-D convolution.}\label{fig:2dconv}
 \end{figure*}
