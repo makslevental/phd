@@ -3,7 +3,7 @@
     \begin{tikzpicture}[scale=.35,every node/.style={minimum size=1cm}, on grid]
         \begin{scope}[]
             \node (node) at (-1.5,2) {$f = $};
-            \draw[draw=base03,fill=blue,thick]
+            \draw[fill=sail,thick]
             (0,0) grid (4,4) rectangle (0,0);
         \end{scope}
 
@@ -11,26 +11,24 @@
                 \begin{scope}[xshift=\x cm,yshift=8cm]
                     \begin{scope}[xshift=0.5cm,yshift=0.5cm]
                         \node (node) at (-1.5,1.5) {$g_\i = $};
-                        \draw[step=10mm, base03, thick] (0,0) grid (3,3);
-                        \draw[fill=base02, opacity=0.4]
-                        (0,0) grid (3,3) rectangle (0,0);
+                        \draw[fill=snowymint] (0,0) rectangle (3,3);
+                        \draw[black, thick] (0,0) grid (3,3);
                     \end{scope}
                 \end{scope}
                 \begin{scope}[xshift=\x cm,yshift=16cm]
                     \begin{scope}[xshift=1cm]
                         \node (node) at (-2.5,1) {$f * g_\i = $};
-                        \draw[draw=base03,fill=cyan,thick]
-                        (0,0) grid (2,2) rectangle (0,0);
+                        \draw[fill=plum] (0,0) rectangle (2,2);
+                        \draw[black, thick] (0,0) grid (2,2);
                     \end{scope}
                 \end{scope}
             }
-
         \begin{scope}[xshift=1cm,yshift=24cm]
             \node (node) at (-2,1) {$f' = $};
             \foreach \s in {-0.5,0, 0.5} {%
                     \begin{scope}[xshift=\s cm,yshift=\s cm]
-                        \draw[draw=base03,fill=cyan,thick]
-                        (0,0) grid (2,2) rectangle (0,0);
+                        \draw[fill=plum] (0,0) rectangle (2,2);
+                        \draw[black, thick] (0,0) grid (2,2);
                     \end{scope}
                 }
         \end{scope}
