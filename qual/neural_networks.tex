@@ -11,7 +11,7 @@ We then proceed to review applications of ANNs to super resolution.
 \input{figures/neural_networks/mlp.tex}
 An ANN is a function specified by compositions of elementary functions called \textit{artificial neurons}\anote{ann} (or simply neurons).
 %
-Neurons consist of a set of inputs \(\mathbf{x} \coloneqq (x_1, x_2, \dots, x_n)\), an aggregation (typically linear combination), and an textit{activation function} \(\sigma\), which acts as a thresholding mechanism.
+Neurons consist of a set of inputs \(\mathbf{x} \coloneqq (x_1, x_2, \dots, x_n)\), a set of parameters called weights \(w_i\), and an textit{activation function} \(\sigma\), which acts as a thresholding mechanism.
 %
 For example, the simplest function that qualifies as a neuron is a linear function:
 \begin{equation}
@@ -34,19 +34,15 @@ or the piece-wise defined \textit{rectified linear unit} (\(\operatorname{ReLU}\
                            & = \max(0, x)
 \end{align}
 %
-Minsky \etal\cite{minsky2017perceptrons} famously proved that neurons that don't include a non-linear activation function have very little representational power and those that do are universal representers\anote{universapprox}.
-%
-Note that eqn.~\eqref{eqn:simpleann} passes through the origin \((0,0,0)\) since it has no constant term; in the parlance of machine learning the neuron is missing a bias term\anote{bias} \(b\):
+Note that eqn.~\eqref{eqn:simpleann} passes through the origin \((0,0,0)\) since it has no constant term; in the parlance of machine learning (ML) the neuron is missing a bias term\anote{bias} \(b\):
 \begin{equation}
     z(\mathbf{x}) = \sum_i w_i x_i + b
     \label{eqn:linearregr}
 \end{equation}
 %
-Neurons can be represented as directed graphs where a vertex represent an input or a neuron and edges represent the weights in the linear combination (see figure~\ref{fig:singleann}).
+Neurons can be represented as directed graphs where a vertex represent an input or a neuron, and edges represent the weights (see figure~\ref{fig:singleann}).
 %
 ANNs are then assemblies of neurons grouped into \textit{layers} with the layers composed by applying neurons to outputs from immediately preceding layers.
-%
-Those layers that are not input or output layers are denoted \textit{hidden} layers.
 %
 For example the ANN specified in figure~\ref{fig:multiann} represents the function
 \begin{equation}
@@ -55,51 +51,60 @@ For example the ANN specified in figure~\ref{fig:multiann} represents the functi
         &=  \sigma' \left( \sum_{j=1}^m w'_j \sigma\left(\sum_{i=1}^n w_i x_i + b_j\right) + b' \right)
     \end{split}
 \end{equation}
+%
+Layers are categorized as either \textit{hidden layers} or input-ouput layers: those layers that are not input or output layers are hidden layers.
 
-If ANNs were simply another way to diagrammatically represent non-linear functions they would be fairly uninteresting.
+ANNs might seem like a very simple class of functions;
 %
-In fact ANNs entail the definition of a non-linear function and a \textit{learning} method.
+for example, Minsky \etal\cite{minsky2017perceptrons} famously proved that ANNs that don't include a non-linear activation functions can't represent \(\operatorname{XOR}\)\anote{xor}. 
 %
-The learning method enables the function to approximate some other function, by adjusting the weights \(w_i\), given \textit{training} pairs \(\left\{ \mathbf{x}_k, t_k \right\}\) where \(\mathbf{x}_k\) is the \(k\)th training \textit{sample} and \(t_k\) is the \(k\)th training \textit{target}.
+On the contrary, strikingly, it's the case that ANNs that do include a non-linear activation function fulfill a \textit{universal approximation theorem}\cite{cybenko1989approximation}:
 %
-The most common such learning rule is called the Delta rule\cite{widrow1960adaptive} for a single neuron, which can be derived from minimizing the the squared error \textit{loss} with respect to each of the weights for a given training pair \((\mathbf{x}_k, t_k)\):
+given any continuous function \(f\) (on some bounded interval \(I\)) there exists a sequence of ANNs (with at least one hidden layer and employing a non-linear activation function) whose limit approximates\anote{uniformconv} \(f\) to arbitrary precision.
+%
+A critical component of the universal approximation theorem is finding the correct sequence of ANNs; in the parlance of ML an ANN demands a \textit{learning rule}.
+%
+In general, ANN learning rules iterate on the the weights \(w_i\) given \(k \gg 1\) \textit{training} pairs of known inputs and ouputs \(\left\{ \bm{x}_k, t_k \right\}\) of \(f\). 
+%
+The \(\mathbf{x}_k\) are called the \(k\)th \textit{training samples} and \(t_k\) the  \textit{training targets}.
+%
+The most common such learning rule is a \textit{gradient descent} based rule called the Delta rule\cite{widrow1960adaptive}.
+%
+It is derived from minimizing the \(L_2\) \textit{loss} with respect to each of the weights using gradient descent:
 \begin{equation}
     L(w_1, \dots, w_n) \coloneqq \sum_k \frac{1}{2} (t_k - y(\mathbf{x}_k))^2
     \label{eqn:loss}
 \end{equation}
 and hence
 \begin{equation}
-    \pd{L}{w_i} = - \sum_k(t_k-y(\mathbf{x}_k))\cdot y'\cdot x_{ik}
+    \pd{L}{w_i} = - \sum_k(t_k-y(\bm{x}_k))\cdot y'\cdot x_{ik}
 \end{equation}
-where here by \(y'\) we mean the derivative of the activation function with respect to its argument and by \(x_{ik}\) we mean the \(i\)th input \(x_i\) of the \(k\)th training sample.
+where here by \(y' \coloneqq \sigma'\) we mean the derivative of the activation function with respect to its argument and by \(x_{ik}\) we mean the \(i\)th input \(x_i\) of the \(k\)th training sample \(\bm{x}_k\).
 %
-Hence, by gradient descent the weights \(w_i\) should be adjusted in the opposite direction of \(\pd{L}{w_i}\) and so we have the weight adjustment rule
+Hence, by gradient descent the weights \(w_i\) should be adjusted in the opposite direction of \(\pd{L}{w_i}\) and so we have the weight update rule
 \begin{equation}
     \Delta w_i \coloneqq \alpha \cdot \sum_k(t_k-y(\mathbf{x}_k))\cdot \sigma'\cdot x_{ik}
     \label{eqn:batchupdate}
 \end{equation}
-where \(\alpha\) is a small constant called the \textit{learning rate}.
+where \(\alpha\) is a small constant called the \textit{learning rate} that controls the rate of convergence of the ANN.
 
-The Delta rule is essentially the chain rule as applied to ANNs.
-%
 In general computing the partial derivatives \(\pd{L}{w_i}\) for a deep (many layers) and wide (many neurons in each layer) network is onerous.
 %
 \input{figures/neural_networks/backprop.tex}
-To mititage the effect of this combinatorial explosion of dependencies between the weights Rumelhart \etal\cite{rumelhart1988learning} popularlized a technique called \textit{back-propagation}\anote{backprop} or simply backprop (see figure~\ref{fig:backprop}).
+To mitigate the effect of this combinatorial explosion of dependencies between the weights Rumelhart \etal\cite{rumelhart1988learning} popularlized a technique called \textit{back-propagation}\anote{backprop} or simply backprop (see figure~\ref{fig:backprop}).
 %
-Another inefficiency of the Delta rule is that it requires evaluating the ANN on the entire set of samples in order to compute the adjustment \(\Delta w_i\).
+Another inefficiency of the Delta rule is that it requires evaluating the ANN on the entire set of samples in order to compute the update \(\Delta w_i\).
 %
 For large training sets (on the order of millions of samples) this is infeasible due to memory limitations.
 %
-Stochastic Gradient Descent (SGD) replaces computing the total \(\sum_k(t_k-y(\mathbf{x}_k))\) in eqn.~\eqref{eqn:batchupdate} with an iterative update to \(w_i\):
+Stochastic Gradient Descent (SGD) replaces computing the total loss in eqn.~\eqref{eqn:batchupdate} with computing a partial loss:
 \begin{equation}
     \Delta w_i^t = w_i^t - w_i^{t-1} \coloneqq \alpha \cdot \sum_j (t_j-y(\mathbf{x}_j))\cdot \sigma'\cdot x_{ij}
     \label{eqn:sgd}
 \end{equation}
-where \(\sum_j (t_j-y(\mathbf{x}_j))\) is the loss over a subset of samples called a batch and the aggregate weight update
-\begin{equation}
-    \Delta w_i = \sum_t \Delta w_i^t
-\end{equation}
+where the sum on the left-hand side is now over a subset of samples called a \textit{batch}.
+%
+This in effect computes the weight update \(\Delta w_i\) incrementally and saves having to hold all training data in memory concurrently.
 %
 % Equation~\eqref{eqn:sgd} is evaluated for each of the \(k\) samples sequentially and therefore saves having to store all training samples in memory.
 \subsubsection{Convolutional Neural Networks}
@@ -123,7 +128,7 @@ and can be interpreted in exactly the same way as 1-D convolutions.
 For 2-D convolutions the kernels are most often square and therefore the kernel dimensions are specified rather than just width (see figure~\ref{fig:2dconv}).
 \input{figures/neural_networks/2dconvolutions.tex}
 
-Notice that eqns.~\eqref{eqn:1dconv} and~\eqref{eqn:2dconv} are completely linear in their inputs \(f[i]\) (\(f[i,j]\)) with weights \(w_i = g[n-i]\) (\(w_{ij} = g[n-i, m-j]\)) and hence naturally constitute a neuron (layer of neurons); a \textit{convolution layer} in a multi-layer ANN is either eqn.~\eqref{eqn:1dconv} or eqn.~\eqref{eqn:2dconv} with kernel values being iteratively adjusted by the learning rule.
+Notice that eqns.~\eqref{eqn:1dconv} and~\eqref{eqn:2dconv} are completely linear in their inputs \(f[i]\) (\(f[i,j]\)) with weights \(w_i = g[n-i]\) (\(w_{ij} = g[n-i, m-j]\)) and hence naturally constitute a neuron (layer of neurons); a \textit{convolution layer} in a multi-layer ANN is either eqn.~\eqref{eqn:1dconv} or eqn.~\eqref{eqn:2dconv} with kernel values being iteratively updated by the learning rule.
 %
 Hence, a CNN is an ANN with one or more convolution layers; CNNs are particularly effective for tasks that operate on images (since image patches have more semantic signficance than image slices).
 %
@@ -137,7 +142,7 @@ Depending on whether the CNN is being employed to solve a generative task or a c
 \end{multline}
 There are many other convolution operators (e.g., strided, dilated, transposed) that are beyond the scope of this survey\cite{dumoulin2016guide}.
 
-\subsubsection{Deep Neural Networks}
+\subsubsection{Deep Neural Networks}\label{subsubsec:dnns}
 
 %
 Deep Neural Networks (DNNs) are ANNs that have multiple layers and many neurons in each layer.
@@ -172,6 +177,11 @@ On a batch by batch basis inputs to each layer's activation function (i.e., the 
 \end{align}
 where \(m\) is the batch size and the operations in eqn.~\eqref{eqn:bathcnormdiv} are understood to be broadcast (i.e., \(\sqrt {\bm{\sigma} _{B}^{2}}\) is an element-wise root and elements of \(\sqrt {\bm{\sigma} _{B}^{2}}\) divide corresponding elements of \(\bm{x}-\bm{\mu}_{B}\)).
 %
+\input{figures/neural_networks/resblock.tex}
+Another solution to the vanishing gradients problem is using \textit{skip connections}: outputs from non-adjacent layers are used as inputs for a layer (see figure~\ref{fig:skipconnection}).
+%
+This has the effect that substantive gradients can be propagated farther back into the network more easily (since they skip being attenuated by intermediate layers).
+
 Overfitting is mititaged by using regularization; methods such as \(L_2\) regularization and \textit{dropout} have been shown to be effective against overfitting\cite{bengio2013}.
 %
 \(L_2\) regularization introduces a squared weight term \(\frac{\lambda}{2}\sum_{i=1}^n w_i^2\) to eqn.~\eqref{eqn:loss} which translates into a \textit{weight decay} term \(\lambda w_i^{t-1}\) in the Delta rule (eqn.~\eqref{eqn:sgd}):
@@ -230,13 +240,34 @@ Goodfellow \etal go on to prove that for the generator this loss criterion is eq
 Deep neural network architectures for single-image super-resolution fall into one of roughly four categories (see figure~\ref{fig:comparedeepsr}):
 \begin{framed}
     \begin{itemize}
-        \item \textbf{Predefined up-sampling}: networks that expected the image to already have been up-sampling (e.g., using bicubic interpolation). These networks chiefly restore high-frequency features that are omitted by the classical up-sampling technique.
+        \item \textbf{Pre-defined up-sampling}: networks that expect the image to already have been up-sampled (e.g., using bicubic interpolation). These networks chiefly restore high-frequency features that are omitted by the classical up-sampling technique.
         \item \textbf{Single up-sampling}: networks that perform the up-sampling themselves (in addition to performing restoration).
         \item \textbf{Progressive up-sampling}: networks that up-sample in phases, performing restoration at every phase.
         \item \textbf{Iterative up-sampling}: networks that up-sample and then assess goodness of the result by down-sampling to original low-resolution (see section~\ref{subsubsec:iterback} for the classical analogue).
     \end{itemize}
 \end{framed}
-\subsubsection{Very Deep Super-Resolution}\label{subsubsec:vdsr}
+\subsubsection{Pre-defined Up-sampling}\label{subsubsec:vdsr}
+The first successful foray of Deep Learning into SR was Dong \etal's 2-layer SRCNN model\cite{Dong_2016}.
+%
+They use a CNN composed of two convolution layers, with the first layer consisting of 64 filter (per color channel), the second layer consisting of 32 filters, and both layers employing \(\operatorname{ReLU}\) activations.
+%
+\input{figures/neural_networks/srcnn.tex}
+They argue that their CNN architecture is equivalent to the sparse coding technique (see figure~\ref{fig:srcnn}).
+%
+This is a common theme in the literature --- ANN architectures learning transformations equivalent to classical techniques --- owing to the universal approximation theorem.
+
+Clearly, at least by modern standards, 2 layers isn't very deep; they experiment with an additional convolution layer but report difficulties maintaining reasonable convergence rates due to vanishing gradients.
+%
+Kim \etal\cite{Kim_2016} improve on SRCNN by increasing the convolution layer count to a sum total of 20.
+%
+In order to overcome the training challenges faced by Dong \etal~they use skip connections (see section~\ref{subsubsec:dnns}) and further argue that an SR network need only learn \textit{residuals} \(\bm{r} \coloneqq \bm{y} - \bm{x}\).
+%
+In this context, residuals have the significance of being the high-frequency components of an image, since the bicubic up-sampled input \(\bm{x}\) can be interpreted as a low-pass filtered version of the high-resolution image target.
+%
+Therefore their loss function measures the error between the HR image and the residual plus the input:
+\begin{equation}
+    L \coloneqq \abs{(\bm{x} + \bm{r}) - \bm{t}}^2
+\end{equation}
 \subsubsection{Super-Resolution GAN}\label{subsubsec:srgan}
 \subsubsection{Enhanced Deep Super-Resolution}\label{subsubsec:EDSR}
 \subsubsection{Deep Back-Projection Networks}\label{subsubsec:dbpn}

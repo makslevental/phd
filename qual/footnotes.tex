@@ -219,3 +219,9 @@ Note that \(\operatorname{D}_{\text{KL}}\) is not symmetric and therefore not a 
 In this form it called the Jensen–Shannon divergence and is a true distance measure between probability distributions.
 }
 \anotecontent{minimax}{Strictly speaking mini-max is a decision rule --- a decision rule that leads to minimizing the possible loss for a worst case (maximum loss) scenario.}
+\anotecontent{uniformconv}{A sequence of functions \(F_n\), uniformly converges to \(f\) on a bounded interval \(I\) if given some \(\varepsilon > 0\) there exists \(n\) such that 
+\[
+	\abs{ F_n( x ) - f ( x ) } < \varepsilon
+\]
+for all \(x \in I\). Note the order of the quantifiers: there should be \textbf{one} \(n\) that satisfies the constraint at a given precision \(\varepsilon\) for \textbf{all} \(x \in I\) simultaneously.
+}

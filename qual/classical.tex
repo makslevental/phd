@@ -477,7 +477,7 @@ The HR patches \(y_i\) in the HR manifold are then reconstructed using the same 
 \end{equation}
 %
 Note that neighboring patches in HR space are constrained to overlap and in fact the neighborhoods are computed using gradient features of the LR and HR patches rather than the raw patches (they argue that this is what allows for better generalization i.e.,much smaller patch databases).
-\subsubsection{Sparse Coading}
+\subsubsection{Sparse Coading}\label{subsubsec:sparsecoding}
 The NNE approach suffers from its own issues; using a fixed number of nearest neighbors results in blurring (due to over-fitting or under-fitting).
 %
 Yang \etal\cite{yang2008} resolve this issue by using sparse coding (SC) as a framework for learning a sparse mapping from LR patches to HR patches (see figure~\ref{fig:hrpatchdict}).
