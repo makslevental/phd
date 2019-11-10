@@ -262,11 +262,11 @@ Kim \etal\cite{Kim_2016} improve on SRCNN by increasing the convolution layer co
 %
 In order to overcome the training challenges faced by Dong \etal~they use skip connections (see section~\ref{subsubsec:dnns}) and further argue that an SR network need only learn \textit{residuals} \(\bm{r} \coloneqq \bm{y} - \bm{x}\).
 %
-In this context, residuals have the significance of being the high-frequency components of an image, since the bicubic up-sampled input \(\bm{x}\) can be interpreted as a low-pass filtered version of the high-resolution image target.
+In this context, residuals have the significance of being the high-frequency components of an image, since the bicubic up-sampled input \(\bm{x}\) can be interpreted as a low-pass filtered version of the high-resolution image.
 %
 Therefore their loss function measures the error between the HR image and the residual plus the input:
 \begin{equation}
-    L \coloneqq \abs{(\bm{x} + \bm{r}) - \bm{t}}^2
+    L \coloneqq \abs{(\bm{x} + \bm{r}) - \bm{y}}^2
 \end{equation}
 \subsubsection{Super-Resolution GAN}\label{subsubsec:srgan}
 \subsubsection{Enhanced Deep Super-Resolution}\label{subsubsec:EDSR}
