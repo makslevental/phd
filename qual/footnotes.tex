@@ -208,3 +208,14 @@ Figuratively one can imagine stretching a rubberband such that it contains all p
 \anotecontent{universapprox}{Given enough layers and neurons ANNs with non-linear activations are able to represent functions of arbitrary complexity. Conversely, sans a non-linear activation function, ANNs are unable to represent functions as simple as even \(\operatorname{XOR}\).}
 \anotecontent{learn}{To learn, in this context, means to effectively approximate a function that effectively performs a task. For example in the case of an object recognition task, learning entails approximating a function that outputs high values when an object is recognized and low values otherwise.}
 \anotecontent{largeparams}{OpenAI’s Generative Pre-trained Transformer\cite{radford2018improving} natural language processing (NLP) network has approximately 150 million parameters (and takes 8 GPU-months of non-stop training).}
+\anotecontent{kldiv}{The Kullback–Leibler divergence of two probability distributions \(P,Q\) with densities \(p, q\) is defined
+	\begin{equation*}
+		\operatorname{D}_{\text{KL}}(P\parallel Q)\coloneqq\int _{-\infty }^{\infty }p(x)\log \left({\frac {p(x)}{q(x)}}\right)\,dx
+	\end{equation*}
+Note that \(\operatorname{D}_{\text{KL}}\) is not symmetric and therefore not a true distance measure. Fortunately it can be symmetrized:
+\begin{equation*}
+	\operatorname{JSD}(P\parallel Q)\coloneqq{\frac  {1}{2}}\operatorname{D}_{\text{KL}}\left(P\bigg\| {\frac  {1}{2}}(P+Q)\right)+{\frac  {1}{2}}\operatorname{D}_{\text{KL}}\left(Q\bigg\| {\frac  {1}{2}}(P+Q)\right)
+\end{equation*}
+In this form it called the Jensen–Shannon divergence and is a true distance measure between probability distributions.
+}
+\anotecontent{minimax}{Strictly speaking mini-max is a decision rule --- a decision rule that leads to minimizing the possible loss for a worst case (maximum loss) scenario.}

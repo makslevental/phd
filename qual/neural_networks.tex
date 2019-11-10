@@ -3,9 +3,9 @@
 \localtableofcontents
 Artificial Neural Network (ANN or NN) algorithms for SR are all based on a Convolutional Neural Network (CNN) architecture.
 %
-We first briefly review ANNs in general, CNNs in particular, powerful architectures called Deep Neural Networks (DNNs) and techniques that make their use feasible (Deep Learning).
+We first briefly review ANNs in general, CNNs in particular, powerful architectures called Deep Neural Networks (DNNs), and a powerful training methodology for networks that are generative called Generative Adversarial Networks (GANs).
 %
-We then proceed to review applications of DNNs to SR.
+We then proceed to review applications of ANNs to super resolution.
 %
 \subsection{Basics}
 \input{figures/neural_networks/mlp.tex}
@@ -80,7 +80,7 @@ Hence, by gradient descent the weights \(w_i\) should be adjusted in the opposit
 \end{equation}
 where \(\alpha\) is a small constant called the \textit{learning rate}.
 
-The Delta rule is essentially the chain rule as applied to ANNs. 
+The Delta rule is essentially the chain rule as applied to ANNs.
 %
 In general computing the partial derivatives \(\pd{L}{w_i}\) for a deep (many layers) and wide (many neurons in each layer) network is onerous.
 %
@@ -102,8 +102,8 @@ where \(\sum_j (t_j-y(\mathbf{x}_j))\) is the loss over a subset of samples call
 \end{equation}
 %
 % Equation~\eqref{eqn:sgd} is evaluated for each of the \(k\) samples sequentially and therefore saves having to store all training samples in memory.
-\subsection{Convolutional Neural Networks}
-The one-dimensional (1-D) discrete convolution \((f*g)\) of 1-D discrete functions \(f,g\) is defined 
+\subsubsection{Convolutional Neural Networks}
+The one-dimensional (1-D) discrete convolution \((f*g)\) of 1-D discrete functions \(f,g\) is defined
 \begin{equation}
     (f*g)[n]\coloneqq \sum _{i} f[i]g[n-i]
     \label{eqn:1dconv}
@@ -113,7 +113,7 @@ The convolution of a function \(f\) with a finite sequence of values \(g\) can b
 %
 The sequence of values that comprise \(g\) is called the \textit{kernel} of the filter \(g\) and the length of the sequence is called the \textit{bandwidth} of \(g\) (or simply the width).
 %
-The two-dimensional (2-D) discrete convolution \((f*g)\) of 2-D discrete functions \(f,g\) is defined 
+The two-dimensional (2-D) discrete convolution \((f*g)\) of 2-D discrete functions \(f,g\) is defined
 \begin{equation}
     (f*g)[n, m]\coloneqq \sum _{i}\sum _{j}f[i, j]g[n-i, m-j]
     \label{eqn:2dconv}
@@ -132,55 +132,116 @@ In practice multiple filters are applied to the same input and then stacked to p
 %
 Depending on whether the CNN is being employed to solve a generative task or a classification task the activation function might be either a \(\operatorname{ReLU}\) (applied element-wise to the output of the convolution layer) or a \textit{max-pooling} filter:
 \begin{multline}
-\operatorname{max-pool}(f,g)[n, m]\coloneqq\\ \max_{i,j}\left[ f[i, j]g[n-i, m-j] \right]
-\label{eqn:2dpool}
+    \operatorname{max-pool}(f,g)[n, m]\coloneqq\\ \max_{i,j}\left[ f[i, j]g[n-i, m-j] \right]
+    \label{eqn:2dpool}
 \end{multline}
 There are many other convolution operators (e.g., strided, dilated, transposed) that are beyond the scope of this survey\cite{dumoulin2016guide}.
 
-\subsection{Deep Neural Networks}
+\subsubsection{Deep Neural Networks}
 
 %
 Deep Neural Networks (DNNs) are ANNs that have multiple layers and many neurons in each layer.
 %
-Intuitively the advantage of deep networks (over shallow networks) is they learn\anote{learn} hierarchies of concepts (called \textit{features}); for example in face recognition tasks, layers proximal to the input layer learn to recognize elementary features such as edges, layers distal to the input layer learn abstractions such as arrangements of features that comprise eyes or noses, and layers even more distal to the input layer learn entire faces. 
+Intuitively the advantage of deep networks (over shallow networks) is they learn\anote{learn} hierarchies of concepts (called \textit{features}); for example in face recognition tasks, layers proximal to the input layer learn to recognize elementary features such as edges, layers distal to the input layer learn abstractions such as arrangements of features that comprise eyes or noses, and layers even more distal to the input layer learn entire faces.
 
 Training DNNs presents many challenges; due to their depth they suffer from issues such as \textit{vanishing gradients} and \textit{overfitting}.
 %
 Vanishing gradients is an all but complete cessation of substantive updates to weights; consider the partial derivative of the activation function \(\sigma'\) in eqn.~\eqref{eqn:batchupdate}.
 %
-Notice that if \(\abs{\sigma'} \ll 1\) then \(\Delta w_i\) will be very small. 
+Notice that if \(\abs{\sigma'} \ll 1\) then \(\Delta w_i\) will be very small.
 %
 This occurs for a single neuron when the input \textit{saturates} the activation function; for example for \(\operatorname{sig}\) this happens when \(\abs{x} > 5\) because the gradient \(\sigma'\) is very small (see figure~\ref{fig:activs}).
 \input{figures/neural_networks/activation.tex}
 %
-For multi-layer ANNs, such as DNNs, even if no single neuron saturates the activation function, 
+For multi-layer ANNs, such as DNNs, even if no single neuron saturates the activation function,
 due to the chain rule, weight updates for layers near the input potentially have products of very many factors that are less than one.
 %
-Overfitting can be interpreted as memorization of the training samples; since the optimization (eqn.~\eqref{eqn:loss}) that leads to the Delta rule only measures \(\abs{t_k - y(\mathbf{x}_k)}\) DNNs can simply learn weights that encode responses to many (or most) of the training samples (since DNNs have so many weight parameters\anote{largeparams}). 
+Overfitting can be interpreted as memorization of the training samples; since the optimization (eqn.~\eqref{eqn:loss}) that leads to the Delta rule only measures \(\abs{t_k - y(\mathbf{x}_k)}\) DNNs can simply learn weights that encode responses to many (or most) of the training samples (since DNNs have so many weight parameters\anote{largeparams}).
 
-\textit{Deep Learning} is a collection of techniques that make training Deep Neural Networks (DNNs) tractable. 
+\textit{Deep Learning} is a collection of techniques that make training Deep Neural Networks (DNNs) tractable.
 %
 \input{figures/neural_networks/batch_norm.tex}
 \input{figures/neural_networks/dropout.tex}
-In order to combat vanishing gradient \textit{Batch Normalization}\cite{ioffe2015batch} is used to normalize outputs from linear layers prior to activation.
+In order to combat vanishing gradient \textit{Batch Normalization}\cite{ioffe2015batch} is used to normalize outputs from linear layers prior to activation (see figure~\ref{fig:batchnorm}).
 %
 On a batch by batch basis inputs to each layer's activation function (i.e., the activation functions of all of the neurons in the layer) are \((0,1)-\)Normal normalized:
 \begin{align}
-    \bm{\mu} _{B} &\coloneqq {\frac {1}{m}}\sum _{j=1}^{m}\bm{x}_{j} \\
-    \bm{\sigma} _{B}^{2} &\coloneqq{\frac {1}{m}}\sum _{j=1}^{m}(\bm{x}_{j}-\bm{\mu}_{B})^{2}\\
-    {\hat {\bm{x}}} &\coloneqq {\frac {\bm{x}-\bm{\mu}_{B}}{\sqrt {\bm{\sigma}_{B}^{2}}}} \label{eqn:bathcnormdiv}
+    \bm{\mu} _{B}        & \coloneqq {\frac {1}{m}}\sum _{j=1}^{m}\bm{x}_{j}                                             \\
+    \bm{\sigma} _{B}^{2} & \coloneqq{\frac {1}{m}}\sum _{j=1}^{m}(\bm{x}_{j}-\bm{\mu}_{B})^{2}                           \\
+    {\hat {\bm{x}}}      & \coloneqq {\frac {\bm{x}-\bm{\mu}_{B}}{\sqrt {\bm{\sigma}_{B}^{2}}}} \label{eqn:bathcnormdiv}
 \end{align}
 where \(m\) is the batch size and the operations in eqn.~\eqref{eqn:bathcnormdiv} are understood to be broadcast (i.e., \(\sqrt {\bm{\sigma} _{B}^{2}}\) is an element-wise root and elements of \(\sqrt {\bm{\sigma} _{B}^{2}}\) divide corresponding elements of \(\bm{x}-\bm{\mu}_{B}\)).
 %
 Overfitting is mititaged by using regularization; methods such as \(L_2\) regularization and \textit{dropout} have been shown to be effective against overfitting\cite{bengio2013}.
 %
-\(L_2\) regularization introduces a squared weight term \(\frac{\lambda}{2}\sum_{i=1}^n w_i^2\) to eqn.~\eqref{eqn:loss} which translates into a \textit{weight decay} term \(\lambda w_i^t\) in the Delta rule (eqn.~\eqref{eqn:sgd})
+\(L_2\) regularization introduces a squared weight term \(\frac{\lambda}{2}\sum_{i=1}^n w_i^2\) to eqn.~\eqref{eqn:loss} which translates into a \textit{weight decay} term \(\lambda w_i^{t-1}\) in the Delta rule (eqn.~\eqref{eqn:sgd}):
 \begin{equation}
-    \Delta w_i^t = \alpha \cdot \sum_j (t_j-y(\mathbf{x}_j))\cdot \sigma'\cdot x_{ij} + \lambda w_i^t
+    \Delta w_i^t = \alpha \cdot \sum_j (t_j-y(\mathbf{x}_j))\cdot \sigma'\cdot x_{ij} - \lambda w_i^{t-1}
     \label{eqn:weightdecaydelta}
 \end{equation}
-Dropout effects regularization by selectively disabling neurons in the network (see figure~\ref{fig:dropout}); on each forward pass through the network a neuron is either passed input or not according to some probability \(p\) (usually \(p = 0.5\)).
+On the other hand Dropout implements regularization by selectively disabling neurons in the network (see figure~\ref{fig:dropout}); on each forward pass through the network a neuron is either passed input or not according to some probability \(p\) (usually \(p = 0.5\)).
 %
 The intuition being that not every neuron will have an opportunity to learn from every sample thereby limiting its, and the network's as a whole, ability to memorize patterns unique to the training samples (i.e., overfit).
-\input{figures/neural_networks/deep_archs}
 
+Overfitting and vanishing gradients are not the only challenges encountered when training DNNs.
+%
+Hence there are many other best-practices techniques for training DNNs that are beyond the scope of this brief review; an accessible survey is Montavon \etal\cite{montavon2012neural}.
+\subsubsection{Generative Adversarial Networks}
+A Generative Adversarial Network\cite{goodfellow2014generative} is a training regimen for networks that perform \textit{generative tasks}.
+%
+A generative task is one which calls for generating samples from a probability distribution represented by the training data.
+%
+For example one might have many images of people and one might wish to generate new samples (see figure~\ref{fig:stylegan}) from the probability distribution of such images (i.e., new images of people).
+\begin{figure}
+    \centering
+    \begin{adjustbox}{width=.8\linewidth}
+        \centering
+        \includegraphics[]{figures/neural_networks/stylegan.jpg}
+    \end{adjustbox}
+    \caption{Uncurated set of images produced using StyleGAN with the FFHQ dataset\cite{karras2018stylebased}}\label{fig:stylegan}
+\end{figure}
+%
+In general this is a highly non-trivial problem due to the dimensionality of the sample space.
+
+GANs solve this problem by pitting a \textit{generator} \(G\), that learns to transform samples from a readily available high-dimensional surrogate distribution (Normal or Uniform), against a \textit{discriminator} \(D\).
+The generator takes as input samples \(\bm{z}\) from the surrogate distribution \(p_{\bm{z}}\) and outputs putative samples \(G(\bm{z})\) from the desired distribution.
+%
+The discriminator alternates between considering true samples \(\bm{x}\) from the desired distribution \(p_r\) and considering counterfeit samples \(G(\bm{z})\) produced by the generator; it therefore assesses the quality of \(G\)'s output with respect to its own understanding of the desired distribution.
+%
+To that end Goodfellow \etal\cite{goodfellow2014generative} propose a training framework that involves playing a \textit{mini-max game}\anote{minimax}:
+\begin{equation}
+    \min_G \max_D L(D, G)
+\end{equation}
+where
+\begin{multline}
+    L(D, G) \coloneqq \mathbb{E}_{\bm{x} \sim p_{r}} [\log D(\bm{x})] + \\ \mathbb{E}_{\bm{z} \sim p_{\bm{z}} } [\log(1 - D(G(\bm{z})))]
+    \label{eqn:ganloss}
+\end{multline}
+Since the discriminator seeks to maximize \(L(D, G)\), the term \(\mathbb{E}_{\bm{x} \sim p_{r}} [\log D(\bm{x})]\) ensures that it's able to correctly identify (i.e., score high) true samples.
+%
+Simultaneously the term \(\mathbb{E}_{\bm{z} \sim p_{\bm{z}} } [\log(1 - D(G(\bm{z})))] \) ensures that it's able to correctly identify (i.e., score low) counterfeit samples produced by \(G\).
+%
+\input{figures/neural_networks/gan.tex}
+On the other hand the inverse holds for \(G\) with respect to \(\mathbb{E}_{\bm{z} \sim p_{\bm{z}} } [\log(1 - D(G(\bm{z})))]\) (the first term in eqn.~\eqref{eqn:ganloss}) does not play a role when optimizing \(G\)) and so \(G\) improves in its ability to fool the discriminator (i.e., produce plausible samples from the desired distribution).
+%
+Goodfellow \etal go on to prove that for the generator this loss criterion is equivalent to minimizing the Jensen–Shannon divergence\anote{kldiv} between the distribution that it represents and the desired, true, distribution of the data.
+\subsection{Deep Neural Networks for SISR}
+\input{figures/neural_networks/deep_archs}
+Deep neural network architectures for single-image super-resolution fall into one of roughly four categories (see figure~\ref{fig:comparedeepsr}):
+\begin{framed}
+    \begin{itemize}
+        \item \textbf{Predefined up-sampling}: networks that expected the image to already have been up-sampling (e.g., using bicubic interpolation). These networks chiefly restore high-frequency features that are omitted by the classical up-sampling technique.
+        \item \textbf{Single up-sampling}: networks that perform the up-sampling themselves (in addition to performing restoration).
+        \item \textbf{Progressive up-sampling}: networks that up-sample in phases, performing restoration at every phase.
+        \item \textbf{Iterative up-sampling}: networks that up-sample and then assess goodness of the result by down-sampling to original low-resolution (see section~\ref{subsubsec:iterback} for the classical analogue).
+    \end{itemize}
+\end{framed}
+\subsubsection{Very Deep Super-Resolution}\label{subsubsec:vdsr}
+\subsubsection{Super-Resolution GAN}\label{subsubsec:srgan}
+\subsubsection{Enhanced Deep Super-Resolution}\label{subsubsec:EDSR}
+\subsubsection{Deep Back-Projection Networks}\label{subsubsec:dbpn}
+\subsection{Deep Neural Networks for MISR}
+\subsubsection{Temporally Coherent GAN}\label{subsubsec:tecogan}
+\subsubsection{Frame-Recurrent Video Super-Resolution}\label{subsubsec:frvsr}
+\subsubsection{Recurrent Back-Projection Network}\label{subsubsec:rbpn}
+\subsubsection{Enhanced Deformable Convolutional Networks}\label{subsubsec:edvr}

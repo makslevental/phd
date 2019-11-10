@@ -163,7 +163,7 @@ In general non-uniform interpolation techniques are intuitive and typically (rel
 
 Statistical estimation methods cast SR as an inference problem.
 %
-\subsubsection{Iterative Back-Projection}
+\subsubsection{Iterative Back-Projection}\label{subsubsec:iterback}
 One of the earliest successful SR algorithms\cite{Irani1991ImprovingRB} proposed an iterative scheme inspired by the back-projection method commonly used to reconstruct 2-D objects from 1-D projections in computer-aided tomography.
 %
 Recall eqn.~\eqref{eqn:imagingmodel}.
@@ -205,7 +205,7 @@ since
 \end{equation*}
 and therefore \(\hat{Y}_i \rightarrow \hat{Y}\) is the MLE (since MLE is the solution to least squares\cite{CaseBerg:01}).
 %
-Though this is one of the oldest SR algorithms it's recently been revisited and re-imagined as a deep neural network architecture (DNN)\cite{DBLP:journals.corr.abs-1803-02735}.
+Though this is one of the oldest SR algorithms it's recently been revisited and re-imagined as a deep neural network architecture (DNN)\cite{DBLP:journals.corr.abs-1803-02735} (see section~\ref{subsubsec:dbpn}).
 \subsubsection{Kalman Filter}
 Another estimation technique employs a Kalman filter\cite{elad1999} to estimate \(Y\).
 %
@@ -224,7 +224,7 @@ Consequently eqn.~\eqref{eqn:imagingmodel} becomes
     \bm{x}_k = DH_k\bm{y}_k + \varepsilon_k
     \label{eqn:kalmanobs}
 \end{equation}
-and the pair of eqns.~\ref{eqn:kalmanprocess},~\ref{eqn:kalmanobs} can be seen to constitute a linear dynamical system with \(\bm{y}_k\) the state of the system, \(A'_k\) the state transition, \(\eta_k\) the state noise, \(\bm{x}_k\) the measurement, \(DH_k\) the measurement model, and \(\varepsilon_k\) the measurement noise.
+and the pair of eqns.~\eqref{eqn:kalmanprocess},~\eqref{eqn:kalmanobs} can be seen to constitute a linear dynamical system with \(\bm{y}_k\) the state of the system, \(A'_k\) the state transition, \(\eta_k\) the state noise, \(\bm{x}_k\) the measurement, \(DH_k\) the measurement model, and \(\varepsilon_k\) the measurement noise.
 %
 Note that the HR image conditioned on all previous LR images (measurements)
 \begin{equation}
