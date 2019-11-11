@@ -123,7 +123,7 @@ Note that \(\hat{Z}(\bx)\) can also be seen as a weighted filtering of \(Y\).
     \label{fig:steering}
 \end{figure}
 In conventional kernel regression \(K\) might be any non-negative, symmetric, unimodal\cite{wand1994kernel} function with augmented with an additional \(h\) parameter that controls the bandwidth" or "footprint of the kernel, i.e.,\begin{equation}
-                                                                                                                                                                                                                                          K_h(\delx) \coloneqq \frac{1}{h}K\left( h^{-1}(\delx) \right)
+    K_h(\delx) \coloneqq \frac{1}{h}K\left( h^{-1}(\delx) \right)
 \end{equation}
 This bandwidth parameter \(h\) can be generalized to a \textit{smoothing kernel} \(H\) in order to make \(K = K_H\) adaptive to the local structure of the pixels, e.g. to have larger footprints in sparsely sampled regions and have smaller footprints in densely sampled regions (see figure~\ref{fig:footprint}).
 %
@@ -190,11 +190,11 @@ It can be shown\cite{Elad1996} that for \(\varepsilon_k\) distributed \((0, R_k)
 We can see this by recognizing that eqn.~\eqref{eqn:ibp} is just the Richardson iterative\cite{Anderssen:1972:RNM:891962} solution to the unconstrained optimization problem
 \begin{equation}
     L(Y) = \frac{1}{2} \abs{ \bm{X} -  \begin{bmatrix}
-                                           D_1 \circ A_1 \\
-                                           D_2 \circ A_2 \\
-                                           \vdots        \\
-                                           D_K \circ A_K \\
-    \end{bmatrix}  Y  }^2
+            D_1 \circ A_1 \\
+            D_2 \circ A_2 \\
+            \vdots        \\
+            D_K \circ A_K \\
+        \end{bmatrix}  Y  }^2
     \label{eqn:l2regression}
 \end{equation}
 since
@@ -274,10 +274,10 @@ Let \(\bm{H} \coloneqq \left( H_1, \mathellipsis, H_k \right)\) be the vector of
 %
 Then
 \begin{align}
-    \hat{Y} & \coloneqq \underset{Y}{\text{argmax}}~P\left( Y \middle| \bm{X} \right) \nonumber                                                                                                \\
-    & = \underset{Y}{\text{argmax}} \int_{D, \bm{H}, \bm{A}} P\left( Y, D, \bm{H}, \bm{A} \middle| \bm{X}\right) \nonumber                                                     \\
-    & = \underset{Y}{\text{argmax}} \int_{D, \bm{H}, \bm{A}} \frac{P\left(\bm{X} \middle| Y, D, \bm{H}, \bm{A} \right)P(Y) P(D, \bm{H}, \bm{A})}{P(\bm{X})}\label{eqn:indepym} \\
-    & = \underset{Y}{\text{argmax}} \int_{D, \bm{H}, \bm{A}} P\left(\bm{X} \middle| Y, D, \bm{H}, \bm{A} \right)P(Y) P(D, \bm{H}, \bm{A}) \label{eqn:maxx}
+    \hat{Y} & \coloneqq \underset{Y}{\text{argmax}}~P\left( Y \middle| \bm{X} \right) \nonumber                                                                                        \\
+            & = \underset{Y}{\text{argmax}} \int_{D, \bm{H}, \bm{A}} P\left( Y, D, \bm{H}, \bm{A} \middle| \bm{X}\right) \nonumber                                                     \\
+            & = \underset{Y}{\text{argmax}} \int_{D, \bm{H}, \bm{A}} \frac{P\left(\bm{X} \middle| Y, D, \bm{H}, \bm{A} \right)P(Y) P(D, \bm{H}, \bm{A})}{P(\bm{X})}\label{eqn:indepym} \\
+            & = \underset{Y}{\text{argmax}} \int_{D, \bm{H}, \bm{A}} P\left(\bm{X} \middle| Y, D, \bm{H}, \bm{A} \right)P(Y) P(D, \bm{H}, \bm{A}) \label{eqn:maxx}
 \end{align}
 where in eqn.~\eqref{eqn:indepym} we've used the independence of \(Y\) and \(D, \bm{H}, \bm{A}\)\cite{Hardie1997} and in eqn.~\eqref{eqn:maxx} we've used that \(\bm{X}\) is a constant with respect to the maximization.
 %
@@ -295,7 +295,7 @@ This casts \(\hat{Y}\) the standard MAP estimate of \(Y\).
 Note that an equivalent formulation of MAP maximizes the log-likelihood instead of maximizing the likelihood:
 \begin{align}
     \hat{Y} & = \underset{Y}{\text{argmax}}\left[ \log\left( P\left(\bm{X} \middle| Y; \hat{D},  \hat{\bm{H}}, \hat{\bm{A}}\right) P(Y) \right) \right]  \nonumber \\
-    & =  \underset{Y}{\text{argmax}}\left[ \log{P\left(\bm{X} \middle| Y; \hat{D},  \hat{\bm{H}}, \hat{\bm{A}} \right)} + \log{P(Y)} \right]
+            & =  \underset{Y}{\text{argmax}}\left[ \log{P\left(\bm{X} \middle| Y; \hat{D},  \hat{\bm{H}}, \hat{\bm{A}} \right)} + \log{P(Y)} \right]
     \label{eqn:logmap}
 \end{align}
 %
@@ -308,18 +308,18 @@ Again assume \(D, H_k, A_k\) linear and given \(\varepsilon_k\) in eqn.~\eqref{e
 where here \(\bm{X} \coloneqq \left( \text{vec}(X_1), \mathellipsis, \text{vec}(\Xk) \right)\) and
 \begin{equation}
     \hat{D} \hat{\bm{H}} \hat{\bm{A}} \coloneqq \begin{bmatrix}
-                                                    \hat{D} \hat{\bm{H}}_1 \hat{\bm{A}}_1 \\
-                                                    \hat{D} \hat{\bm{H}}_2 \hat{\bm{A}}_2 \\
-                                                    \vdots                                \\
-                                                    \hat{D} \hat{\bm{H}}_K \hat{\bm{A}}_K \\
+        \hat{D} \hat{\bm{H}}_1 \hat{\bm{A}}_1 \\
+        \hat{D} \hat{\bm{H}}_2 \hat{\bm{A}}_2 \\
+        \vdots                                \\
+        \hat{D} \hat{\bm{H}}_K \hat{\bm{A}}_K \\
     \end{bmatrix}
 \end{equation}
 %
 After a suitable choice for the prior it can be seen that eqn.~\eqref{eqn:logmap} is just regularized regression.
 %
 For example when choosing a Gibbs\cite{Hardie1997} distribution as the prior, i.e.,\begin{equation}
-                                                                                       P(Y) \propto e^{-\alpha B(Y)}
-                                                                                       \label{eqn:gibbs}
+    P(Y) \propto e^{-\alpha B(Y)}
+    \label{eqn:gibbs}
 \end{equation}
 where \(B(Y)\) is called the \textit{potential}, eqn.~\eqref{eqn:logmap} becomes
 \begin{equation}
@@ -334,7 +334,7 @@ Alternatively we can (and will) take eqn.~\eqref{eqn:minmap} as our starting poi
 
 \subsubsection{Tikhonov Regularization}
 
-One of the simplest priors is a \((0, Q)\)-Normal, where \(Q\) is symmetric positive definite\anote{positivedef} (PD) and captures the covariance.
+One of the simplest priors is a \((0, Q)\)-Normal, where \(Q\) is symmetric positive definite\anote{positivedef} (PD) and captures the covariance of neighboring pixels.
 %
 This corresponds to the regularizer taking the form
 \begin{equation}
@@ -371,10 +371,10 @@ An issue with the multivariate Normal prior is that it strongly enforces global 
 One solution is to use Huber loss\cite{huber1964}
 \begin{equation}
     L_{\delta }(a)\coloneqq {
-    \begin{cases}
-        a^2 & \text{for }\lvert a \rvert \leq \delta \\
-        2 \delta \lvert a \rvert - \delta^2 & {\text{otherwise}}
-    \end{cases}
+        \begin{cases}
+            a^2                                 & \text{for }\lvert a \rvert \leq \delta \\
+            2 \delta \lvert a \rvert - \delta^2 & {\text{otherwise}}
+        \end{cases}
     }
 \end{equation}
 to explicitly parameterize the penalty for gradients (i.e.,high-frequency features).
@@ -448,8 +448,9 @@ Similarly \(\phi(x_i, y_i^{LR})\) encodes the compatibility between the observed
 To make the MAP computation tractable they choose only 16 candidate example LR patches \(y_i^{LR}\).
 %
 They compute the MAP estimate using belief propagation\anote{beliefpropagation}.
+
 \subsubsection{Nearest Neighbor Embedding}
-The main problem with the direct LR-HR patch pair technique is that it requires an enormous database of patches in order for it to generalize.
+An issue with the direct LR-HR patch pair technique is that it requires an enormous database of patches in order for it to generalize.
 %
 \begin{figure}
     \centering
@@ -464,28 +465,50 @@ First they imagine both the space of LR patches and HR patches as manifolds.
 Then based on the intuition that a well-sampled smooth manifold is locally linear (i.e.,an LR patch \(x_i\) on the LR manifold and its neighbors \(x_j, x_k, \mathellipsis\) lie in a locally linear subspace of the manifold) they characterize the local geometry.
 %
 One can characterize local geometry by finding convex reconstruction weights \(W_{ij}\) of any \(x_i\) from only its neighbors by minimizing reconstruction error, i.e.,\begin{gather}
-                                                                                                                                                                            \hat{W} \coloneqq \underset{W_{ij}}{\text{argmin}} \sum_i \abs{ x_i - \sum_{x_j \in N(x_i)} W_{ij} x_j  }^2 \nonumber \\
-                                                                                                                                                                            \text{s.t.} \\
-                                                                                                                                                                            \sum_{x_j \in N(x_i)} W_{ij} = 1 \text{ for all }i \nonumber
+    \hat{W} \coloneqq \underset{W_{ij}}{\text{argmin}} \sum_i \abs{ x_i - \sum_{x_j \in N(x_i)} W_{ij} x_j  }^2 \nonumber \\
+    \text{s.t.} \\
+    \sum_{x_j \in N(x_i)} W_{ij} = 1 \text{ for all }i \nonumber
 \end{gather}
 where \(N(x_i)\) is the neighborhood of \(x_i\).
 %
 These weights \(W_{ij}\) are invariant with respect to rotation, rescaling, and translation of the LR patch and its neighborhood\cite{saul2000introduction} and therefore should remain valid in an embedding space (i.e.,the HR manifold) coordinate system (see figure~\ref{fig:lle}).
 %
-The HR patches \(y_i\) in the HR manifold are then reconstructed using the same weights, i.e.,\begin{equation}
-                                                                                                  y_i = \sum_{x_j \in N(x_i)} W_{ij} y_j
+The HR patches \(y_i\) in the HR manifold are then reconstructed using the same weights, i.e.,
+\begin{equation}
+    y_i = \sum_{x_j \in N(x_i)} W_{ij} y_j
 \end{equation}
 %
-Note that neighboring patches in HR space are constrained to overlap and in fact the neighborhoods are computed using gradient features of the LR and HR patches rather than the raw patches (they argue that this is what allows for better generalization i.e.,much smaller patch databases).
+Note that neighboring patches in HR space are constrained to overlap and in fact the neighborhoods are computed using gradient features of the LR and HR patches rather than the raw patches.
+%
+Chang \etal~ argue that this is what allows for better generalization i.e., much smaller patch databases.
+
+\subsubsection{Sub-Band Energy Attenuation}\label{subsubsec:subband}
+Another issue with using LR-HR patch pairs to train NNE is the uncertainty associated with matching highly textured patches, i.e., those with large gradients.
+%
+Zontak \etal\cite{zontak2011internal} show that finding matches between image patches becomes more and more unlikely as the mean gradient magnitude per patch increases.
+%
+This is directly as a result of the fact that \(L_2\) distances between patches are primarily determined by prominent image structures.
+%
+Singh \etal\cite{singh2014} make this intuition rigorous by decomposing HR and SR patch pairs into oriented \textit{sub-bands} (i.e., gradient orientation bins) and demonstrating that low-energy sub-bands (i.e., those that contribute weakly to the decomposition) are more strongly attenuated (see figure~\ref{fig:subbands}).
+\begin{figure}
+    \centering
+    \begin{adjustbox}{width=\linewidth}
+        \centering
+        \includegraphics{figures/classical/subbands.png}
+    \end{adjustbox}
+    \caption{Oriented gradient attentuation sorted by energy\cite{singh2014}.}\label{fig:subbands}
+\end{figure}
+To mitigate the effect of this insensitivity of the \(L_2\) metric, they learn the necessary gains to apply in order to recover such low energy patches (along with the matchings).
+
 \subsubsection{Sparse Coading}\label{subsubsec:sparsecoding}
-The NNE approach suffers from its own issues; using a fixed number of nearest neighbors results in blurring (due to over-fitting or under-fitting).
+NNE also suffers from using a fixed number of nearest neighbors results in blurring (due to over-fitting or under-fitting).
 %
 Yang \etal\cite{yang2008} resolve this issue by using sparse coding (SC) as a framework for learning a sparse mapping from LR patches to HR patches (see figure~\ref{fig:hrpatchdict}).
 %
 This enables them to essentially leave the number of nearest numbers unspecified (or, alternatively, learn the correct number of neighbors on a patch by patch basis\anote{pun}).
 %
 To be precise, let \(D \in \mathbb{R}^{n \times K}\) be an \textit{over-complete dictionary}\anote{overcompletedictionary} of \(K\) atoms \(\bm{d}_i \in \mathbb{R}^n\), and suppose a signal \(\by \in \mathbb{R}^n\) can be represented as a sparse linear combination of these atoms i.e.,\begin{equation}
-                                                                                                                                                                                                                                                                                                 \by = D\bm{\alpha}
+    \by = D\bm{\alpha}
 \end{equation}
 such that \(\abs{ \bm{\alpha} }_0 \ll K\) (few non-zero entries).
 %
@@ -536,13 +559,14 @@ where \(\bm{A} \coloneqq \left( \bm{\alpha}_1, \mathellipsis, \bm{\alpha}_J  \ri
 Yang \etal~ jointly learn \(D_{LR}, D_{HR}\) by making the identifications
 \begin{equation*}
     \bm{Z} \coloneqq \begin{bmatrix}
-                         \frac{1}{\sqrt{N}}\bY \\ \frac{1}{\sqrt{M}} \bX
+        \frac{1}{\sqrt{N}}\bY \\ \frac{1}{\sqrt{M}} \bX
     \end{bmatrix} \text{ and }
     D \coloneqq \begin{bmatrix}
-                    \frac{1}{\sqrt{N}} D_{HR} \\ \frac{1}{\sqrt{M}} D_{LR}
+        \frac{1}{\sqrt{N}} D_{HR} \\ \frac{1}{\sqrt{M}} D_{LR}
     \end{bmatrix}
 \end{equation*}
 where \(\bY \coloneqq \left( \by_1, \mathellipsis, \by_P \right)\) are the example HR patches, \(\bX\) similarly the example LR patches, and \(N, M\) are the number of HR and LR pixels respectively in each example patch pair \(\byi, \bxi\) (in order to normalize the error between \(\byi, \bxi\)).
+
 \subsubsection{Anchored Neigbhorhood Regression}
 Though SC achieves good results for reasonably sized example sets and dictionary sizes it suffers from the inherent computational complexity of solving the optimization problem (see figure~\ref{fig:dictspeedspize}).
 \begin{figure}
@@ -561,7 +585,7 @@ By relaxing the \(L_1\) norm in eqn.~\eqref{eqn:lagrangerepr} to the \(L_2\) nor
 The code can then be used to compute the HR patch:
 \begin{align}
     \by & = D_{HR} \hat{\bm{\alpha}}                                                               \\
-    & = D_{HR} \left( D_{LR}^T D_{LR} + \lambda I\right)^{-1}D_{LR}^T \label{eqn:mappinglr}\bx
+        & = D_{HR} \left( D_{LR}^T D_{LR} + \lambda I\right)^{-1}D_{LR}^T \label{eqn:mappinglr}\bx
 \end{align}
 Factoring out
 \begin{equation}
@@ -585,6 +609,7 @@ For a new input LR patch \(x\) they find the nearest atom in the \(D_{LR}\) and 
 Note that ANR, just as in SC, does not operate on the raw image patches themselves but rather featurized image patches: they apply PCA to the first and seconder gradients of the patches and, as in Zeyde \etal\cite{Zeyde2012}, and keep only keep only components explaining 99.9\% of the variance.
 %
 This reduces the dimensions of their atoms to about 30.
+
 \subsubsection{SR Forests}
 Inspired by the anchored regressions of ANR Schulter \etal\cite{Schulter2015} propose a technique called Super-Resolution Forests: their point of departure is a data-dependent function \(W(\cdot)\) such that
 \begin{equation}
@@ -628,10 +653,10 @@ where \(l = l(t)\) is the leaf that sample \(\bx\) is routed to for each tree \(
 Schulter \etal~ train the trees on example LR-HR patch pairs \(\bx, \by\) by recursively splitting the data using parameterized splitting functions
 \begin{equation}
     \sigma(\bx, i, j, \tau)\coloneqq {
-    \begin{cases}
-        \text{left}  & \text{if } \text{vec}(\bx)\left[ i \right] - \text{vec}(\bx)\left[ j \right] - \tau < 0 \\
-        \text{right} & \text{otherwise}
-    \end{cases}
+        \begin{cases}
+            \text{left}  & \text{if } \text{vec}(\bx)\left[ i \right] - \text{vec}(\bx)\left[ j \right] - \tau < 0 \\
+            \text{right} & \text{otherwise}
+        \end{cases}
     }
 \end{equation}
 where \(\text{vec}(\bx)\left[ i \right]\) is the \(i\)th pixel of \(\text{vec}(\bx)\) and similarly \(\text{vec}(\bx)\left[ j \right]\).

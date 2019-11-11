@@ -1,4 +1,3 @@
-%\input{figures/net}
 \section{Artificial Neural Networks}\label{sec:neural-networks}
 \localtableofcontents
 Artificial Neural Network (ANN or NN) algorithms for SR are all based on a Convolutional Neural Network (CNN) architecture.
@@ -238,7 +237,7 @@ On the other hand the inverse holds for \(G\) with respect to \(\mathbb{E}_{\bm{
 %
 Goodfellow \etal go on to prove that for the generator this loss criterion is equivalent to minimizing the Jensen–Shannon divergence\anote{kldiv} between the distribution that it represents and the desired, true, distribution of the data.
 \subsection{Deep Neural Networks for SISR}
-Deep neural network architectures for single-image super-resolution abide a four tiered hierarchy (according to complexity) (see figure~\ref{fig:comparedeepsr}) which roughly parallels the chronological order of the innovations that have contributed to the current state of the art:
+Deep neural network architectures for single-image super-resolution abide a four tiered hierarchy (according to complexity) which roughly parallels the chronological order of the innovations that have contributed to the current state of the art:
 \begin{framed}
     \begin{itemize}
         \item \textbf{Pre-defined up-sampling}: networks that expect the image to already have been up-sampled (e.g., using bicubic interpolation). These networks chiefly restore high-frequency features that are omitted by the classical up-sampling technique.
@@ -247,13 +246,12 @@ Deep neural network architectures for single-image super-resolution abide a four
         \item \textbf{Iterative up-sampling}: networks that up-sample and then assess the goodness of the result by down-sampling to original low-resolution (see section~\ref{subsubsec:iterback} for the classical analogue).
     \end{itemize}
 \end{framed}
-\subsubsection{Pre-defined Up-sampling}\label{subsubsec:vdsr}
+\subsubsection{SRCNN and VDSR}\label{subsubsec:vdsr}
 The first successful foray of Deep Learning was the 2-layer SRCNN model\cite{Dong_2016}.
 %
 SRCNN is a CNN composed of two convolution layers, with the first layer consisting of 64 filters (per color channel), the second layer consisting of 32 filters, and both layers employing \(\operatorname{ReLU}\) activations.
 %
 \input{figures/neural_networks/srcnn.tex}
-\input{figures/neural_networks/deep_archs}
 Dong \etal~argue that their CNN architecture is equivalent to sparse coding SR (see figure~\ref{fig:srcnn}).
 %
 This is a common theme in the literature --- ANN architectures learning transformations equivalent to classical techniques --- owing to the universal approximation theorem.
@@ -272,10 +270,10 @@ In this context, residuals have the significance of being the high-frequency com
 %
 Hence, their loss function measures the error between the HR image target and the output of the network \(\bm{y}\) plus the input:
 \begin{equation}
-    L \coloneqq \abs{(\bm{x} + \bm{y}) - \bm{t}}^2
+    L \coloneqq \abs{{t} - ({x} + {y})}^2
 \end{equation}
 
-\subsubsection{Single Up-sampling}\label{subsubsec:srgan}
+\subsubsection{SRGAN}\label{subsubsec:srgan}
 Single up-sampling networks forgo bicubic pre-processing and learn the up-sampling transformation as a component of the network.
 %
 The most interesting network in this class of networks is the Super-resolution Residual Network (SRResNet) along with its GAN trained counterpart SRGAN\cite{Ledig_2017}.
@@ -301,13 +299,46 @@ Ledig \etal~ pre-train SRResNet using mean-squared-error (MSE) loss and then fur
     \end{adjustbox}
     \caption{Perceptual loss\cite{johnson2016perceptual}.}\label{fig:perceptualloss}
 \end{figure}
-In addition to using the conventional GAN loss they add an aditional term they call \textit{perceptual loss}:
+In addition to using the conventional GAN loss they add a term they call \textit{perceptual loss}:
 \begin{equation}
     \ell_{feat}^{\phi, j} \left( \hat{y}, y\right) = \frac{1}{H_j W_j} \abs{\phi_j\left({\hat{y}}\right) - \phi_j \left(y_c\right)}^2
 \end{equation}
-\(\phi_j\) is the \(j\)th layer activation of the VGG network\cite{simonyan2014very}, \(\hat{y}\) is the output of SRResNet, and \(y_c\) is the target HR image (see figure~\ref{fig:perceptualloss}), and \(H_j, W_j\) are the dimensions of the \(j\)th layer activation.
+where \(\phi_j\) is the \(j\)th layer activation of the VGG network\cite{simonyan2014very}, \(\hat{y}\) is the output of SRResNet, and \(y_c\) is the target HR image (see figure~\ref{fig:perceptualloss}), and \(H_j, W_j\) are the dimensions of the \(j\)th layer activation.
 %
 They argue that this loss is closer to perceptual similarity than MSE loss and therefore encourages reconstruction of high frequency content that MSE loss alone suppresses.
+\subsubsection{Laplacian Pyramid Super-Resolution Network}
+\begin{figure}
+    \centering
+    \begin{adjustbox}{width=\linewidth}
+        \centering
+        \includegraphics{figures/neural_networks/lapsrn.png}
+    \end{adjustbox}
+    \caption{LapSRN architecture\cite{Lai_2017}.}\label{fig:lapsrn}
+\end{figure}
+Lai \etal\cite{Lai_2017} propose a network that up-samples by predicting sub-band (see section~\ref{subsubsec:subband}) residuals at progressively finer and finer scales (i.e., higher and higher resolution).
+%
+Their network consists of \(\log_2(r)\), where \(r\) is the scaling factor, tiers of CNNs along two branches: a feature extraction branch and an image reconstruction branch (see figure~\ref{fig:lapsrn}).
+%
+For a given tier the feature extraction branch extracts the gradients that comprise the residual and performs a 2x up-sampling (using transposed convolution). 
+%
+The output of the feature extraction branch, at a given tier, is then passed on to the next feature extraction tier and simultaneously to the corresponding image reconstruction tier.
+%
+The image reconstruction branch, at a given tier, up-samples the input image (also using transposed convolution) and element-wise sums it to the residual produced by the feature extraction branch (at the corresponding tier).
+%
+This structure emulates a Laplacian pyramid (see figure~\ref{fig:bertrand}) along both branches and as a result is called the Laplacian Pyramid Super-Resolution Network (LapSRN).
+%
+They also identify \(L_2\) loss as a source of perceptual fidelity flaws and substitute \textit{Charbonnier loss}\cite{charbonnier1994two} \(\rho(x)\) to train their network:
+\begin{equation}
+    \rho(x) \coloneqq \sqrt{\left(\frac{x}{\epsilon}\right)^2+ 1}
+\end{equation}
+where \(\epsilon\) is a scale parameter that they empirically set to \(10^{-3}\). 
+%
+Lie \etal~ train their network using \textit{deep supervision}; the loss function they optimize compares the result at every tier of the network against the target HR image (the HR image is down-sampled to produce targets at multiple scales):
+\begin{equation}
+    L({t}, \bm{y}) \coloneqq \sum_{i=1}^{log_2(r)} \rho({t}_i - {y}_i)
+\end{equation}
+where \({t}_i\) is the target HR image down-sampled and \(\bm{y} = (y_1, \dots, y_{\log_2{r}})\) are the outputs of LapSRN at each of the tiers.
+%
 % \subsubsection{Super-Resolution GAN}\label{subsubsec:srgan}
 % \subsubsection{Enhanced Deep Super-Resolution}\label{subsubsec:EDSR}
 % \subsubsection{Deep Back-Projection Networks}\label{subsubsec:dbpn}

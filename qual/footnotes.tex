@@ -185,7 +185,7 @@ Figuratively one can imagine stretching a rubberband such that it contains all p
 		\sup_{P \in \mathcal{P}}\sum_{i=0}^{n_P-1} \lvert f(x_{i+1})-f(x_i) \rvert\, <\infty
 	\]
 }
-\anotecontent{beliefpropagation}{An efficient way to compute marginals of joint probabilities that have structure by reusing partial sums (i.e.,passing messages)\cite{Yedidia2003jan1}.}
+\anotecontent{beliefpropagation}{An efficient way to compute marginals of joint probabilities that have structure by reusing partial sums (i.e., passing messages)\cite{Yedidia2003jan1}.}
 \anotecontent{manifold}{A collection of points that locally resembles Euclidean space.}
 \anotecontent{manifoldlearning}{Dimensionality reduction.}
 \anotecontent{pun}{No pun intended.}
@@ -226,4 +226,4 @@ In this form it is called the Jensen–Shannon divergence and is a true distance
 for all \(x \in I\). Note the order of the quantifiers: there should be \textbf{one} \(n\) that satisfies the constraint at a given precision \(\varepsilon\) for \textbf{all} \(x \in I\) simultaneously.
 }
 \anotecontent{annealing}{Learning rate annealing imposes a scheduled decay of the learning rate \(\alpha_i\) over time. The intuition being that initially, prior to identifying a minimum, one can afford to take optimistically large steps \(\Delta w_i\) in parameter space but over time one should become more conservative in order to hone in on an identified minimum. Typically the annealing schedule is such that the learning out starts out large and is reduced by an order of magnitude (i.e., a factor of 10) every \(M\) epochs (where \(M\) is a divisor of the total number of epochs that one will train for).}
-\anotecontent{gradclip}{Exploding gradients is the opposite of vanishing gradients: gradients become so large that weights become unstable. That is, weight updates become large and oscillate around a minimum. Gradient clipping constrains \(\pd{L}{w_i}\) to be within a narrow range around 0; Kim \etal constrain the gradient to be within \(\left[ -\frac{\theta}{\alpha_i}, \frac{\theta}{\alpha_i} \right]\) for some small \(\theta\).}
+\anotecontent{gradclip}{Exploding gradients is the opposite of vanishing gradients: gradients become so large that weights become unstable. That is, weight updates become large and oscillate around a minimum. Gradient clipping constrains \(\pd{L}{w_i}\) to be within a narrow range around 0; Kim \etal~constrain the gradient to be within \(\left[ -\frac{\theta}{\alpha_i}, \frac{\theta}{\alpha_i} \right]\) for some small \(\theta\).}
