@@ -216,7 +216,7 @@ Note that \(\operatorname{D}_{\text{KL}}\) is not symmetric and therefore not a 
 \begin{equation*}
 	\operatorname{JSD}(P\parallel Q)\coloneqq{\frac  {1}{2}}\operatorname{D}_{\text{KL}}\left(P\bigg\| {\frac  {1}{2}}(P+Q)\right)+{\frac  {1}{2}}\operatorname{D}_{\text{KL}}\left(Q\bigg\| {\frac  {1}{2}}(P+Q)\right)
 \end{equation*}
-In this form it called the Jensen–Shannon divergence and is a true distance measure between probability distributions.
+In this form it is called the Jensen–Shannon divergence and is a true distance measure between probability distributions.
 }
 \anotecontent{minimax}{Strictly speaking mini-max is a decision rule --- a decision rule that leads to minimizing the possible loss for a worst case (maximum loss) scenario.}
 \anotecontent{uniformconv}{A sequence of functions \(F_n\), uniformly converges to \(f\) on a bounded interval \(I\) if given some \(\varepsilon > 0\) there exists \(n\) such that 
@@ -225,3 +225,5 @@ In this form it called the Jensen–Shannon divergence and is a true distance me
 \]
 for all \(x \in I\). Note the order of the quantifiers: there should be \textbf{one} \(n\) that satisfies the constraint at a given precision \(\varepsilon\) for \textbf{all} \(x \in I\) simultaneously.
 }
+\anotecontent{annealing}{Learning rate annealing imposes a scheduled decay of the learning rate \(\alpha_i\) over time. The intuition being that initially, prior to identifying a minimum, one can afford to take optimistically large steps \(\Delta w_i\) in parameter space but over time one should become more conservative in order to hone in on an identified minimum. Typically the annealing schedule is such that the learning out starts out large and is reduced by an order of magnitude (i.e., a factor of 10) every \(M\) epochs (where \(M\) is a divisor of the total number of epochs that one will train for).}
+\anotecontent{gradclip}{Exploding gradients is the opposite of vanishing gradients: gradients become so large that weights become unstable. That is, weight updates become large and oscillate around a minimum. Gradient clipping constrains \(\pd{L}{w_i}\) to be within a narrow range around 0; Kim \etal constrain the gradient to be within \(\left[ -\frac{\theta}{\alpha_i}, \frac{\theta}{\alpha_i} \right]\) for some small \(\theta\).}
