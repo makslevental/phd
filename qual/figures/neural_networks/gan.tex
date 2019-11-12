@@ -15,7 +15,20 @@
 	\begin{adjustbox}{width=\textwidth}
 		\begin{tikzpicture}
 
-			\node[] (z) {$\bm{z} \sim \operatorname{N}(0,I)$};
+			% \node[] (z) {};
+			\node[] (z) {
+				$
+      \begin{aligned}
+						\bm{z} \sim \operatorname{N}(0,I) \\
+						\bm{z} \sim \operatorname{N}(0,I) \\
+						\bm{z} \sim \operatorname{N}(0,I) \\
+      \end{aligned}
+$
+				% $
+				% \begin{aligned*}
+				% 	\end{aligned*}
+				% 	$
+			};
 			\node[punkt, fill=sail, right=2em of z] (gen) {Generator};
 			\node[below=of gen, inner sep=0pt] (pt7) {};
 			\node[above=of gen] (x) {Real image \(\bm{x}\)};
@@ -37,12 +50,12 @@
 			\draw[-stealth, thick] (gen) -- (pt2);
 			\draw[-stealth, thick] (x) -- (pt1);
 
-			\draw[dashed, thick, -stealth] (loss) -- (pt4) -- (pt5) -- node[above] {\(\mathbb{E} [\log D(\bm{x})] + \\ \mathbb{E} [\log(1 - D(G(\bm{z})))]\)} (pt8) -- (discr.north);
+			\draw[dashed, thick, -stealth] (loss) -- (pt4) -- (pt5) -- node[above] {\(-\left(\mathbb{E} [\log D(\bm{x})] + \mathbb{E} [\log(1 - D(G(\bm{z})))]\right)\)} (pt8) -- (discr.north);
 			\draw[dashed, thick, -stealth] (loss) -- (pt4) -- (pt6) -- node[above] {\(\mathbb{E} [\log(1 - D(G(\bm{z})))]\)} (pt7) -- (gen.south);
 
 
 		\end{tikzpicture}
 	\end{adjustbox}
-	\caption{Schematic diagram for Generative Adversarial Network}\label{fig:gan}
+	\caption{Schematic diagram for Generative Adversarial Network. Note that the discriminator can minimize \(-L(D,G)\) (eqn.~\eqref{eqn:ganloss})  in order to maximize \(L(D,G)\).}\label{fig:gan}
 
 \end{figure*}

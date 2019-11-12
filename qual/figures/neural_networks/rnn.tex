@@ -1,0 +1,114 @@
+    \begin{figure}
+        \centering
+        	\begin{adjustbox}{width=.49\textwidth}
+
+        \begin{tikzpicture}
+            \def\nodedist{64pt}
+
+            \node[block, fill=snowymint, rounded corners, minimum width=40pt, minimum height=24pt] (at) at (0,0) {A};
+            \node[inputnode, below=26pt of at] (xt) {$x$};
+            \node[outputnode, above=26pt of at] (ht) {$h$};
+            \draw[signal] (xt) -- (at);
+            \draw[signal] (at) -- (ht);
+            \coordinate (0t) at ($(ht)!0.6!(at)$);
+            \draw[signal, -, shorten >=\intergape] (at) -- node[below] {$t$} +(40pt,0pt) |- (0t);
+            \draw[signal, latex-, shorten >=\intergape] (at) -- +(-40pt,0pt) |- (0t);
+
+            \newcommand{\timestep}[2]{
+                \node[block, fill=snowymint, rounded corners, minimum width=40pt, minimum height=24pt] (a#2) at #1 {A};
+                \node[inputnode, below=26pt of a#2] (x#2) {$x_#2$};
+                \node[outputnode, above=26pt of a#2] (h#2) {$h_#2$};
+                \draw[signal] (x#2) -- (a#2);
+                \draw[signal] (a#2) -- (h#2);
+            }
+
+            % \timestep{(0, 0)}{t};
+
+            \node[] (e) at ($(at) +(\nodedist,0)$) {\LARGE=};
+
+            \timestep{($(e) +(0.7*\nodedist,0)$)}{0};
+            \timestep{($(a0) +(\nodedist,0)$)}{1};
+            \draw[signal] (a0) -- (a1);
+            \timestep{($(a1) +(\nodedist,0)$)}{2};
+            \draw[signal] (a1) -- (a2);
+            \timestep{($(a2) +(\nodedist,0)$)}{3};
+            \draw[signal] (a2) -- (a3);
+
+            \node[] at ($(a3) +(0.6*\nodedist,0)$) (ddd) {$\dots$};
+            \timestep{($(ddd) +(0.7*\nodedist,0)$)}{t};
+            \draw[signal, -] (a3) -- (ddd);
+            \draw[signal] (ddd) -- (at);
+        \end{tikzpicture}
+    \end{adjustbox}
+    \caption{\(t\)-step RNN unrolled.}\label{subfig:unrolledrnn}
+    \end{figure}
+    % \begin{subfigure}[b]{.49\textwidth}
+    %     \centering
+    %     \begin{tikzpicture}[thick, node distance=30pt and 30pt, on grid]
+    %         \node[cell, minimum width=200pt, minimum height=110pt, anchor=north west] (b) at (-2pt,0pt) {};
+
+    %         \coordinate (cin) at (0pt,-20pt);
+    %         \draw[signal] (cin) +(-\iolen, 0pt) node[above] {$c_{t-1}$} -- (cin);
+    %         \coordinate (cout) at (200pt,-20pt);
+    %         \draw[signal] (cout) -- +(\iolen,0pt) node[above left] {$c_{t}$};
+    %         \coordinate (hin) at (0pt,-100pt);
+    %         \draw[signal] (hin) +(-\iolen, 0pt) node[above] {$h_{t-1}$} -- (hin);
+    %         \coordinate (hout) at (200pt,-100pt);
+    %         \draw[signal] (hout) -- +(\iolen,0pt) node[above left] {$h_{t}$};
+    %         \coordinate (h) at (184pt,0pt);
+    %         \draw[signal] (h) -- +(0,\iolen) node[left] {$h_{t}$};
+    %         \coordinate (x) at (14pt,-110pt);
+    %         \draw[signal, -] (x) +(0pt,-\iolen) node[left] {$x_{t}$} -- (x);
+
+    %         \node[celllayer] (f) at (32pt,-80pt) {$\operatorname{sig}$};
+    %         \node[celllayer, right=34pt of f] (i) {$\operatorname{sig}$};
+    %         \node[celllayer, right=34pt of i] (c) {$\tanh$};
+    %         \node[celllayer, right=34pt of c] (o) {$\operatorname{sig}$};
+
+    %         \node[pointwise, above=60pt of f] (fm) {$\times$};
+
+    %         \node[pointwise, above=30pt of c] (cm) {$\times$};
+    %         \node[pointwise, above=30pt of cm] (cmp) {$+$};
+
+    %         \node[pointwise, above right=20pt and 20 pt of o] (om) {$\times$};
+    %         \node[pointwise, above=20pt of om] (omt) {$\tanh$};
+
+    %         \draw[signal] (f) edge node[near start,left] {$f_t$} (fm);
+
+    %         \draw[signal, -] (c) edge node[pos=0.5,left] {$\tilde{c}_t$} (cm);
+    %         \draw[signal] (cm) to (cmp);
+    %         \draw[signal] (i) |- (cm) node[near start,left] {$i_t$};
+
+    %         \draw[signal] (o) |- (om) node[pos=0.3,left] {$o_t$};
+
+    %         \draw[signal, -] (fm) -- (cmp);
+
+    %         \draw[signal, -] (cmp) -| (omt);
+    %         \draw[signal, -] (omt) -- (om);
+
+    %         \draw[signal] (cin) +(-\iolen, 0) node[above] {$c_{t-1}$} -- +(0,0);
+
+    %         \draw[signal, -] (cin) +(-10pt,0) -- (fm);
+
+    %         \draw[signal] (hin) +(-\iolen, 0) node[above] {$h_{t-1}$} -- +(0,0);
+
+    %         \draw[signal, -] (hin) +(-10pt,0) -| (o);
+    %         \draw[signal, -] (hin) -| (c);
+    %         \draw[signal, -] (hin) -| (i);
+    %         \draw[signal, -] (hin) -| (f);
+
+    %         \draw[signal] (cout) -- +(\iolen,0) node[above left] {$c_{t}$};
+
+    %         \draw[signal, -] (cmp) -- (cout);
+
+    %         \draw[signal] (hout) -- +(\iolen,0) node[above left] {$h_{t}$};
+
+    %         \draw[signal, -] (om) |- (hout);
+
+    %         \draw[signal, -, shorten >=\intergape] (h |- hout) +(-10pt,0) -| (h |- cout);
+    %         \draw[signal, shorten <=\intergape] (h |- cout) -- +(0,\iolen+20pt) node[left] {$h_{t}$};
+
+    %         \draw[signal, -] (x) |- (f |- hin);
+    %     \end{tikzpicture}
+    %     \caption{Long Short Term Memory RNN unit.}\label{subfig:lstm}
+    % \end{subfigure}

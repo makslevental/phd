@@ -1,4 +1,4 @@
-\section{Image Registration}
+\section{Image Registration}\label{sec:registration}
 \localtableofcontents
 \input{figures/registration/sift/pyramid.tex}
 Images obtained from multiple vantage points, or at different times, of the same scene, become distorted with respect to each other.
@@ -94,7 +94,7 @@ In fact Harris doesn't actually compute the eigenvalues but instead a related qu
 	\label{eqn:strength}
 \end{align}
 %
-To this end (using the Harris detector) Bentoutou \etal~first compute a gradient map of the image using a first order Gaussian filter.
+To this end (using the Harris detector) Bentoutou \etal first compute a gradient map of the image using a first order Gaussian filter.
 %
 They then threshold\anote{threshold} the gradient map at the average gradient value, thereby extracting only sufficiently interesting regions, and compute the strength \(S\) for all pixels.
 %
@@ -155,7 +155,7 @@ After robust features are identified in the reference image and the displaced im
 %
 For example, in SIFT, where the descriptors are designed to be invariant across images, a \(k\)-d tree\anote{kdtree} can be used to efficiently match keypoint descriptors.
 %
-Although this often leads to false-positive matches (Zahra \etal~resolve this by using Random Sample Consensus\anote{ransac}) it's a natural feature matching method.
+Although this often leads to false-positive matches (Zahra \etal resolve this by using Random Sample Consensus\anote{ransac}) it's a natural feature matching method.
 %
 In other cases the matching mechanism is not so straightforward; for a class of algorithms called area-based or intensity-based algorithms, that in fact combine the feature detection and matching step into one, matching involves comparing summaries of patches in the reference image and the displaced image.
 
@@ -165,7 +165,7 @@ One technique that matches features explicitly is Point Matching Using Convex Hu
 %
 It operates on the principle that the convex hull\anote{convexhull} of a set of points is invariant under translation, rotation, and scaling.
 %
-Goshtasby \etal~further argue that a noised set of points will most likely have elements deleted or added in its interior and therefore register the boundaries of the respective convex hulls of the to-be-registered image and the reference image (see figure~\ref{fig:convexhulledges}).
+Goshtasby \etal further argue that a noised set of points will most likely have elements deleted or added in its interior and therefore register the boundaries of the respective convex hulls of the to-be-registered image and the reference image (see figure~\ref{fig:convexhulledges}).
 %
 \input{figures/registration/convex/convex.tex}
 The key part of the algorithm (after computing the convex hull of the control points) is estimating transformation parameters between convex hull boundaries \(C_1, C_2\):
@@ -477,7 +477,7 @@ For example if the spline is constrained to be maximally continuous (i.e., conti
 \]
 degrees of freedom. The spline construction naturally extends to dimensions greater than 1.
 
-Szeliski \etal~\cite{szeliski1997spline} represent the velocity field \(\mathbf{u}\) as a two-dimensional spline controlled by a smaller number of displacement estimates \(\hat{\mathbf{u}}\) at control points, which lie on a coarser grid (see figure~\ref{fig:bsplinegrid}):
+Szeliski \etal \cite{szeliski1997spline} represent the velocity field \(\mathbf{u}\) as a two-dimensional spline controlled by a smaller number of displacement estimates \(\hat{\mathbf{u}}\) at control points, which lie on a coarser grid (see figure~\ref{fig:bsplinegrid}):
 %
 \begin{equation}
 	\begin{bmatrix}

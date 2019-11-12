@@ -62,7 +62,7 @@
 \anotecontent{kdtree}{\(k\)-d trees\cite{Bentley:1975:MBS:361002.361007}, short for \(k\)-dimensional trees, are data structures that partition space efficiently in order that searching the data structure, insertion into the data structure, and deletion from the data structure are all, on average, \(O(\log n)\) time operations (where \(n\) is the number of nodes in the tree at the time of the operation).}
 \anotecontent{ransac}{Random Sample Consensus (RANSAC) is a method used to estimate parameters of a model given outliers.
 	%
-	In this case Zahra \etal~use RANSAC at the transform estimation step to eliminate falsely matched keypoint pairs.
+	In this case Zahra \etal use RANSAC at the transform estimation step to eliminate falsely matched keypoint pairs.
 	%
 	RANSAC iterates by repeatedly random sampling the putative matching keypoint pairs and fitting a transform model.
 	%
@@ -226,4 +226,4 @@ In this form it is called the Jensen–Shannon divergence and is a true distance
 for all \(x \in I\). Note the order of the quantifiers: there should be \textbf{one} \(n\) that satisfies the constraint at a given precision \(\varepsilon\) for \textbf{all} \(x \in I\) simultaneously.
 }
 \anotecontent{annealing}{Learning rate annealing imposes a scheduled decay of the learning rate \(\alpha_i\) over time. The intuition being that initially, prior to identifying a minimum, one can afford to take optimistically large steps \(\Delta w_i\) in parameter space but over time one should become more conservative in order to hone in on an identified minimum. Typically the annealing schedule is such that the learning out starts out large and is reduced by an order of magnitude (i.e., a factor of 10) every \(M\) epochs (where \(M\) is a divisor of the total number of epochs that one will train for).}
-\anotecontent{gradclip}{Exploding gradients is the opposite of vanishing gradients: gradients become so large that weights become unstable. That is, weight updates become large and oscillate around a minimum. Gradient clipping constrains \(\pd{L}{w_i}\) to be within a narrow range around 0; Kim \etal~constrain the gradient to be within \(\left[ -\frac{\theta}{\alpha_i}, \frac{\theta}{\alpha_i} \right]\) for some small \(\theta\).}
+\anotecontent{gradclip}{Exploding gradients is the opposite of vanishing gradients: gradients become so large that weights become unstable. That is, weight updates become large and oscillate around a minimum. Gradient clipping constrains \(\pd{L}{w_i}\) to be within a narrow range around 0; Kim \etal constrain the gradient to be within \(\left[ -\frac{\theta}{\alpha_i}, \frac{\theta}{\alpha_i} \right]\) for some small \(\theta\).}
