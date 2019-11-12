@@ -205,7 +205,7 @@ since
 \end{equation*}
 and therefore \(\hat{Y}_i \rightarrow \hat{Y}\) is the MLE (since MLE is the solution to least squares\cite{CaseBerg:01}).
 %
-Though this is one of the oldest SR algorithms it's recently been revisited and re-imagined as a deep neural network architecture (DNN)\cite{DBLP:journals.corr.abs-1803-02735} (see section~\ref{subsubsec:dbpn}).
+Though this is one of the oldest SR algorithms it's recently been revisited and re-imagined as a deep neural network architecture (DNN)\cite{haris2018deep} (see section~\ref{subsubsec:dbpn}).
 \subsubsection{Kalman Filter}
 Another estimation technique employs a Kalman filter\cite{elad1999} to estimate \(Y\).
 %
@@ -360,7 +360,7 @@ Nguyen \etal\cite{milanfar2001} use cross-validation to determine the regulariza
 %
 In general, rather than explicitly computing inverses in eqn.~\eqref{eqn:closedform}, in practice \(\hat{\bm{y}}\) is found by solving the regression problem via optimization (for high-dimensional matrices optimization is faster than inversion).
 %
-Nguyen \etal~ use conjugate gradient descent\anote{conjugategradients} to optimize eqn.~\eqref{eqn:tikminmap}.
+Nguyen \etal~use conjugate gradient descent\anote{conjugategradients} to optimize eqn.~\eqref{eqn:tikminmap}.
 %
 They argue that \(\hat{D} \hat{\bm{H}} \hat{\bm{A}}\) is ill-conditioned\anote{illcondition} and to that end, since the convergence rate of conjugate gradients is dependent on the condition number\cite{vanderSluis1986}, propose pre-conditioners\anote{precondition} to improve the converge rate.
 
@@ -458,7 +458,7 @@ An issue with the direct LR-HR patch pair technique is that it requires an enorm
     \caption{NNE algorithm from LR patches \(x_i\) to HR patches \(y_i\)\cite{Guillermophdthesis}.}
     \label{fig:lle}
 \end{figure}
-Chang \etal~ remedy this problem by using ideas from a manifold\anote{manifold} learning\anote{manifoldlearning} technique called locally linear embedding\cite{saul2000introduction} (LLE) that they call nearest neighbor embedding (NNE).
+Chang \etal~remedy this problem by using ideas from a manifold\anote{manifold} learning\anote{manifoldlearning} technique called locally linear embedding\cite{saul2000introduction} (LLE) that they call nearest neighbor embedding (NNE).
 %
 First they imagine both the space of LR patches and HR patches as manifolds.
 %
@@ -480,7 +480,7 @@ The HR patches \(y_i\) in the HR manifold are then reconstructed using the same 
 %
 Note that neighboring patches in HR space are constrained to overlap and in fact the neighborhoods are computed using gradient features of the LR and HR patches rather than the raw patches.
 %
-Chang \etal~ argue that this is what allows for better generalization i.e., much smaller patch databases.
+Chang \etal~argue that this is what allows for better generalization i.e., much smaller patch databases.
 
 \subsubsection{Sub-Band Energy Attenuation}\label{subsubsec:subband}
 Another issue with using LR-HR patch pairs to train NNE is the uncertainty associated with matching highly textured patches, i.e., those with large gradients.
@@ -514,7 +514,7 @@ such that \(\abs{ \bm{\alpha} }_0 \ll K\) (few non-zero entries).
 %
 The sparse vector \(\bm{\alpha}\) is variously called the code, reconstruction, or sparse representation of \(\by\).
 %
-Yang \etal~ construct two dictionaries \(D_{LR}, D_{HR}\) consisting corresponding LR and HR patches \(\bxi, \byi\).
+Yang \etal~construct two dictionaries \(D_{LR}, D_{HR}\) consisting corresponding LR and HR patches \(\bxi, \byi\).
 %
 Then given a new input LR patch \(\bx\) they compute the code for a featurized representation of \(\bx\) in \(D_{LR}\) by minimizing the code subject to reconstruction error tolerance:
 \begin{equation}
@@ -556,7 +556,7 @@ In general dictionary learning minimizes the reconstruction error of the codes a
 \end{equation}
 where \(\bm{A} \coloneqq \left( \bm{\alpha}_1, \mathellipsis, \bm{\alpha}_J  \right)\).
 %
-Yang \etal~ jointly learn \(D_{LR}, D_{HR}\) by making the identifications
+Yang \etal~jointly learn \(D_{LR}, D_{HR}\) by making the identifications
 \begin{equation*}
     \bm{Z} \coloneqq \begin{bmatrix}
         \frac{1}{\sqrt{N}}\bY \\ \frac{1}{\sqrt{M}} \bX
@@ -650,7 +650,7 @@ Finally the inferred HR patch \(\by\) is the average of patches \(\prescript{l}{
 \end{equation}
 where \(l = l(t)\) is the leaf that sample \(\bx\) is routed to for each tree \(t\).
 %
-Schulter \etal~ train the trees on example LR-HR patch pairs \(\bx, \by\) by recursively splitting the data using parameterized splitting functions
+Schulter \etal~train the trees on example LR-HR patch pairs \(\bx, \by\) by recursively splitting the data using parameterized splitting functions
 \begin{equation}
     \sigma(\bx, i, j, \tau)\coloneqq {
         \begin{cases}
