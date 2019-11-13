@@ -364,13 +364,13 @@ Nguyen \etal use conjugate gradient descent\anote{conjugategradients} to optimiz
 %
 They argue that \(\hat{D} \hat{\bm{H}} \hat{\bm{A}}\) is ill-conditioned\anote{illcondition} and to that end, since the convergence rate of conjugate gradients is dependent on the condition number\cite{vanderSluis1986}, propose pre-conditioners\anote{precondition} to improve the converge rate.
 
-\subsubsection{Huber Loss and TV Loss}
+\subsubsection{Huber Loss and TV Loss}\label{subsubsec:huberloss}
 
 An issue with the multivariate Normal prior is that it strongly enforces global smoothness, penalizing sharp edges.
 %
 One solution is to use Huber loss\cite{huber1964}
 \begin{equation}
-    L_{\delta }(a)\coloneqq {
+    \mathcal{H}_{\delta }(a)\coloneqq {
         \begin{cases}
             a^2                                 & \text{for }\lvert a \rvert \leq \delta \\
             2 \delta \lvert a \rvert - \delta^2 & {\text{otherwise}}

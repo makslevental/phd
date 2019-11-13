@@ -397,16 +397,33 @@ BRCN achieved (at the time) state of the art reconstruction performance for \(t=
 \subsubsection{Video Efficient Sub-Pixel Networks}
 \begin{figure}
     \includegraphics[width=.49\textwidth]{figures/neural_networks/realtime_epscn.png}
-    \caption{Real-time MISR with motion compensation\cite{caballero2017real}.}\label{fig:realtimeepscn}
+    \caption{Real-time MISR with motion compensation\cite{caballero2017real}. Motion compensation is performed two adjacent frames in a triplet and all three frames are then passed to up-sampling network.}\label{fig:realtimeepscn}
 \end{figure}
-The first real-time DNN architecture for MISR is based on efficient sub-pixel convolutions (see section~\ref{subsubsec:srgan}).
+\begin{figure}
+    \includegraphics[width=.49\textwidth]{figures/neural_networks/space_transformer.png}
+    \caption{Motion estimation\cite{caballero2017real}. \(\Delta^c\) is a coarse estimate (used to produce a coarsely registered intermediate image \(I_{t+1}^{'c}\)) and \(\Delta^f\) is a refined estimate (both are used to produce the final motion-compensated image \(I'_{t+1}\)).}\label{fig:spacetransformer}
+\end{figure}
+The first real-time DNN architecture (see figure~\ref{fig:realtimeepscn}) for MISR was based on \textit{space transformers} for motion compensation and efficient sub-pixel convolutions networks (ESPCN) for up-sampling (see section~\ref{subsubsec:srgan}).
 %
+A space transformer \cite{jaderberg2015spatial} is a component of a neural network that learns the optical flow estimate between a reference image and a displaced image and carries out the motion compensation (i.e., registers the images).
+%
+In this case the space transformer learns a pair of displacement mappings \(\Delta_{t+1} \coloneqq (\Delta_{t+1}x, \Delta_{t+1} y)\) (parameterized by \(\theta\)) for each pixel in the images that minimize error between the reference image and the transformed-displaced image:
+\begin{equation}
+    \hat{\theta} \coloneqq \underset{\theta}{\text{argmin}}\left[\abs{I_t - I'_{t+1}}^2 + \lambda \mathcal{H}\left( \partial_{x,y} \Delta_{x+1} \right)\right]
+\end{equation}
+where the Huber loss \(\mathcal{H}\) is used as a regularizer (see section~\ref{subsubsec:huberloss}).
+%
+In fact the spatial transformer used by Caballero \etal estimates the optical flow in a course to fine fashion (see figure~\ref{fig:spacetransformer}).
+
+
 \input{figures/neural_networks/fusion.tex}
-Caballero \etal experiment with various \textit{fusion} methods for extracting non-redundant information from sequences of images.
+For the up-sampling itself Caballero \etal experiment with various incorporations of sub-pixel convolution architectures that they call \textit{fusion} methods.
 %
-Each fusion method applies convolutions to the sequence of images in either a tiered or conventional fashion (see figure~\ref{fig:fusions}).
+Each fusion method applies convolutions to the sequence of images in either a tiered or conventional fashion (see figure~\ref{fig:fusions}) and then reorders the pixels to produce the HR image.
 %
-Early fusion 
+For example, early fusion applies convolutions to a sequence of images as if they were independent channels of one image (see figure~\ref{subfig:earlyfus}).
+%
+Slow fusion on the other hand applies applies the convolutions in tiers in order to incorporate time dependencies in the filters (see figure~\ref{subfig:slowfus}); note that if adjacent filter banks are made to share weights than as new frames come in operations can be recycled.
 % \subsubsection{Temporally Coherent GAN}\label{subsubsec:tecogan}
 % \subsubsection{Frame-Recurrent Video Super-Resolution}\label{subsubsec:frvsr}
 % \subsubsection{Recurrent Back-Projection Network}\label{subsubsec:rbpn}
