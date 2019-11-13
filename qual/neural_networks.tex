@@ -108,7 +108,16 @@ The disadvantage of using SGD is that the batch loss is a noisy estimate of the 
 Each such training episode is called an \textit{epoch}.
 %
 % Equation~\eqref{eqn:sgd} is evaluated for each of the \(k\) samples sequentially and therefore saves having to store all training samples in memory.
+
+
+
+
+
 \subsubsection{Convolutional Neural Networks}
+
+
+
+
 The one-dimensional (1-D) discrete convolution \((f*g)\) of 1-D discrete functions \(f,g\) is defined
 \begin{equation}
     (f*g)[n]\coloneqq \sum _{i} f[i]g[n-i]
@@ -119,14 +128,14 @@ The convolution of a function \(f\) with a finite sequence of values \(g\) can b
 %
 The sequence of values that comprise \(g\) is called the \textit{kernel} of the filter \(g\) and the length of the sequence is called the \textit{bandwidth} of \(g\) (or simply the width).
 %
-The two-dimensional (2-D) discrete convolution \((f*g)\) of 2-D discrete functions \(f,g\) is defined
+The two-dimensional (2D) discrete convolution \((f*g)\) of 2D discrete functions \(f,g\) is defined
 \begin{equation}
     (f*g)[n, m]\coloneqq \sum _{i}\sum _{j}f[i, j]g[n-i, m-j]
     \label{eqn:2dconv}
 \end{equation}
 and can be interpreted in exactly the same way as 1-D convolutions.
 %
-For 2-D convolutions the kernels are most often square and therefore the kernel dimensions are specified rather than just width (see figure~\ref{fig:2dconv}).
+For 2D convolutions the kernels are most often square and therefore the kernel dimensions are specified rather than just width (see figure~\ref{fig:2dconv}).
 \input{figures/neural_networks/2dconvolutions.tex}
 
 Notice that eqns.~\eqref{eqn:1dconv} and~\eqref{eqn:2dconv} are completely linear in their inputs \(f[i]\) (\(f[i,j]\)) with weights \(w_i = g[n-i]\) (\(w_{ij} = g[n-i, m-j]\)) and hence naturally constitute a neuron (layer of neurons); a \textit{convolution layer} in a multi-layer ANN is either eqn.~\eqref{eqn:1dconv} or eqn.~\eqref{eqn:2dconv} with kernel values being iteratively updated by the learning rule.
@@ -143,7 +152,15 @@ Depending on whether the CNN is being employed to solve a generative task or a c
 \end{multline}
 There are many other convolution operators (e.g., strided, dilated, transposed) that are beyond the scope of this survey \cite{dumoulin2016guide}.
 
+
+
+
+
 \subsubsection{Deep Neural Networks}\label{subsubsec:dnns}
+
+
+
+
 
 %
 Deep Neural Networks (DNNs) are ANNs that have multiple layers and many neurons in each layer.
@@ -204,7 +221,15 @@ The intuition being that not every neuron will have an opportunity to learn from
 Overfitting and vanishing gradients are not the only challenges encountered when training DNNs.
 %
 Hence there are many other best-practices techniques for training DNNs that are beyond the scope of this brief review; an accessible survey is Montavon \etal \cite{montavon2012neural}.
+
+
+
+
 \subsubsection{Generative Adversarial Networks}\label{subsubsec:gan}
+
+
+
+
 A Generative Adversarial Network \cite{goodfellow2014generative} is a training regimen for networks that perform \textit{generative tasks}.
 %
 A generative task is one which calls for generating samples from a probability distribution represented by the training data.
@@ -252,7 +277,14 @@ Deep neural network architectures for single-image super-resolution abide a four
         \item \textbf{Iterative up-sampling}: networks that up-sample and then assess the goodness of the result by down-sampling to original low-resolution (see section~\ref{subsubsec:iterback} for the classical analogue).
     \end{itemize}
 \end{framed}
+
+
+
 \subsubsection{SRCNN and Very Deep SR}\label{subsubsec:vdsr}
+
+
+
+
 The first successful foray of Deep Learning was the 2-layer Super-Resolution CNN (SRCNN) model \cite{Dong_2016}.
 %
 SRCNN is a CNN composed of two convolution layers, with the first layer consisting of 64 filters (per color channel), the second layer consisting of 32 filters, and both layers employing \(\operatorname{ReLU}\) activations.
@@ -279,7 +311,14 @@ Hence, their loss function measures the error between the HR image target and th
     L \coloneqq \abs{\bm{t} - (\bm{x} + \bm{y})}^2
 \end{equation}
 
+
+
+
 \subsubsection{Super-Resolution GAN}\label{subsubsec:srgan}
+
+
+
+
 Single up-sampling networks forgo bicubic pre-processing and learn the up-sampling transformation as a component of the network.
 %
 The most interesting network in this class of networks is the Super-resolution Residual Network (SRResNet) along with its GAN trained counterpart SRGAN \cite{Ledig_2017}.
@@ -312,7 +351,15 @@ In addition to using the conventional GAN loss they add a term they call \textit
 where \(\phi_j\) is the \(j\)th layer activation of the VGG network \cite{simonyan2014very} pretrained on a large data set, \(\hat{\bm{y}}\) is the output of SRResNet, and \(\bm{y}_c\) is the target HR image (see figure~\ref{fig:perceptualloss}), and \(H_j, W_j\) are the dimensions of the \(j\)th layer activation of VGG.
 %
 They argue that this loss is closer to perceptual similarity than MSE loss and therefore encourages reconstruction of high frequency content that MSE loss alone suppresses.
+
+
+
+
 \subsubsection{Laplacian Pyramid Super-Resolution Network}\label{subsubsec:lapsrn}
+
+
+
+
 \begin{figure}
     \centering
     \begin{adjustbox}{width=\linewidth}
@@ -344,23 +391,31 @@ Lie \etal train their network using \textit{deep supervision}; the loss function
     L(\bm{t}, \bm{y}) \coloneqq \sum_{i=1}^{\log_2(r)} \rho(\bm{t}_i - \bm{y}_i)
 \end{equation}
 where \(\bm{t}_i \coloneqq (t_{\log_2{(r)}}, \dots, t_1)\) is the target HR image down-sampled and \(\bm{y} \coloneqq (y_1, \dots, y_{\log_2(r)})\) are the outputs of LapSRN at each of the tiers.
+
+
+
+
 \subsubsection{Deep Back-Projection Networks}\label{subsubsec:dbpn}
+
+
+
+
 \input{figures/neural_networks/dbpn.tex}
 Inspired by recent theories on the function of the human visual cortex \cite{kravitz2013ventral} Harris \etal \cite{haris2018deep} propose a deep neural network for SR that incorporates error-correcting feedback mechanisms.
 %
 They build on the work of Irani \etal (see section~\ref{subsubsec:iterback}) and implement deep iterative back projections (DBPN) (see figure~\ref{subfig:dbpn}).
 %
-These iterative back-projections are in effect repeated up-down-up sampling units, implemented using skip connections and deconvolutions, that minimize reconstruction error (see figure~\ref{subfig:updowndbpn}).
+These iterative back-projections are in effect repeated up-down-up sampling \textit{modules}, implemented using skip connections and deconvolutions, that minimize reconstruction error (see figure~\ref{subfig:updowndbpn}).
 %
 In classical iterative back projection a sequence of LR images is used to estimate an HR image.
 %
 Harris \etal use only a single input LR image and produce multiple candidate HR images uses multiple learned up-sampling operators (deconvolutions).
 %
-Their Up-Projection units take the error \(e_t^l\) between a proposed up-sampling \(H_0^t\) and the back-projection \(L_0^t\) and feeds it back into the proposed up-sampling, i.e., the error-correcting feedback is the difference between the back-projection and LR input.
+Their Up-Projection module takes the error \(e_t^l\) between a proposed up-sampling \(H_0^t\) and the back-projection \(L_0^t\) and feeds it back into the proposed up-sampling, i.e., the error-correcting feedback is the difference between the back-projection and LR input.
 %
-Their Down-Projection units perform the same function but from HR to LR.
+Their Down-Projection module performs the same function but from HR to LR.
 %
-Using these units they achieve state of the art up-sampling all the way up to 8x \cite{timofte2018ntire}.
+Using these modules they achieve state of the art up-sampling all the way up to 8x \cite{timofte2018ntire}.
 \subsection{Deep Neural Networks for MISR}
 MISR algorithms process a batch of LR images to generate a single HR image by aggregating non-redundant information across the LR images.
 %
@@ -368,7 +423,14 @@ In order to effectively perform this task they must compensate for motion betwee
 %
 In the context of neural networks this is framed as learning the time dependency from the training data (LR-HR image pair sequences) and then inferring such a time dependency on new samples.
 %
+
+
+
 \subsubsection{Bi-directional Recurrent CNN}
+
+
+
+
 \input{figures/neural_networks/rnn.tex}
 Huang \etal \cite{huang2015bidirectional} learn the time dependency for complex motions jointly with the up-sampling transformation using a Bidirectional Recurrent CNN (BRCN). 
 %
@@ -394,22 +456,75 @@ Each of BRCN's RNNs is composed of conventional (feed-forward) convolutions, whi
 Note that the bi-directional framework incurs 3 image delay due the two hidden layers.
 %
 BRCN achieved (at the time) state of the art reconstruction performance for \(t=8\) image sequences but at \(\sim\)1s run-times it was far from real-time performance.
+
+
+
+
+\subsubsection{Interlude: Attention and Spatial Transformers}\label{subsubsec:spatialtrans}
+
+
+Attention mechanisms \cite{bahdanau2014neural} are neural networks modules that can conditionally suppress certain parts of data (either at the input layer or at intermediate layers in the network).
+%
+Let \(\bm{x} \in \mathbb{R}^d\) be a sample and \(\bm{z} \in \mathbb{R}^k\) be the output at some intermediate layer.
+%
+Then \(f_\phi(\cdot) \in \left[0,1\right]^k\) is an attention network with learnable parameters \(\phi\), \(\bm{a} \coloneqq f_\phi (\bm{x})\) is an \textit{attention vector}, and \(g = a \odot \bm{z}\) is an \textit{attention glimpse} of \(\bm{z}\) (\(\odot\) is the Hadamard product).
+%
+As defined \(f_\phi\) is a \textit{soft attention} mechanism; if \(f_\phi(\cdot) \in \left\{0,1\right\}^k\) (i.e., \(f_\phi\) learns a binary mask) then it is called a \textit{hard attention} mechanism.
+%
+\begin{figure*}
+    \centering
+    \includegraphics[width=\textwidth]{figures/neural_networks/attention.png}
+    \caption[]{Attention for image captioning \cite{xu2015attend}.}\label{fig:attention}
+\end{figure*}
+For example, \textit{Visual attention} (attention applied to images) can be used to improve image captioning (see figure~\ref{fig:attention}).
+
+A spatial transformer \cite{jaderberg2015spatial} is an attention mechanism that can also perform geometric transformations \(\mathcal{T}_{\bm{\theta}}\) of the data.
+%
+Note that the transformation is conditional on the input just like attention is conditional on the input.
+%
+\begin{figure}
+    \centering
+    \includegraphics[width=.49\textwidth]{figures/neural_networks/space_transformer.png}
+    \caption{Spatial Transformer \cite{jaderberg2015spatial}.}\label{fig:spacetransformer}
+\end{figure}
+\input{figures/neural_networks/space_transformer.tex}
+The transformer operates operates on input \(U\) to produce output \(V\) in three phases, each of which is implemented by a module (see figure~\ref{fig:spacetransformer}): 
+\begin{framed}
+    \begin{enumerate}
+        \item \textbf{Localization}: a regression network \(f_{\text{loc}}(\cdot)\) that regresses the transformation parameters \(\bm{\theta}\) that parameterize the transformation \(\mathcal{T}_{\bm{\theta}}\). For example the six parameters that define an affine transformation (see figure~\ref{fig:affinetransformationa}) in homogenous coordinates.
+        \item \textbf{Grid generation}: a sampling grid network, which generates the set of points where the input should be sampled to produce the transformed output (see figure~\ref{fig:paramsampling}). In practice it takes \(\bm{\theta}\) as a fixed parameter and a coordinate system and generates a grid but in full generality this module can even learn the correct coordinate representation.
+        \item \textbf{Sampling}: a sampling kernel \(K\) that controls sampling strength on the transformed \((n,m)\) grid:
+        \begin{equation*}
+            V(x,y) = \sum_n \sum_m U(n,m) K(x-m, y-n)
+        \end{equation*}
+        Note that the kernel only need  be differentiable such as, for example, the bilinear kernel \begin{equation*}
+            K(i, j) \coloneqq \max(0, 1-\abs{i})\cdot \max(0, 1- \abs{j})
+        \end{equation*}
+    \end{enumerate}
+\end{framed}
+
+
+
+
+
 \subsubsection{Video Efficient Sub-Pixel Networks}
+
+
+
 \begin{figure}
     \includegraphics[width=.49\textwidth]{figures/neural_networks/realtime_epscn.png}
     \caption{Real-time MISR with motion compensation \cite{caballero2017real}. Motion compensation is performed two adjacent frames in a triplet and all three frames are then passed to up-sampling network.}\label{fig:realtimeepscn}
 \end{figure}
 \begin{figure}
-    \includegraphics[width=.49\textwidth]{figures/neural_networks/space_transformer.png}
-    \caption{Motion estimation \cite{caballero2017real}. \(\Delta^c\) is a coarse estimate (used to produce a coarsely registered intermediate image \(I_{t+1}^{'c}\)) and \(\Delta^f\) is a refined estimate (both are used to produce the final motion-compensated image \(I'_{t+1}\)).}\label{fig:spacetransformer}
+    \centering
+    \includegraphics[width=.4\textwidth]{figures/neural_networks/motion_compensation.png}
+    \caption{Motion estimation module for BRCN \cite{caballero2017real}.}\label{fig:motion_estimation}
 \end{figure}
-The first real-time DNN architecture (see figure~\ref{fig:realtimeepscn}) for MISR was based on \textit{space transformers} for motion compensation and efficient sub-pixel convolutions networks (ESPCN) for up-sampling (see section~\ref{subsubsec:srgan}).
+The first real-time DNN architecture (see figure~\ref{fig:realtimeepscn}) for MISR was based on a spatial transformer (see section~\ref{subsubsec:spatialtrans}) for motion compensation and efficient sub-pixel convolutions networks (ESPCN) for up-sampling (see section~\ref{subsubsec:srgan}).
 %
-A space transformer  \cite{jaderberg2015spatial} is a component of a neural network that learns the optical flow estimate between a reference image and a displaced image and carries out the motion compensation (i.e., registers the images).
-%
-In this case the space transformer learns a pair of displacement mappings \(\Delta_{t+1} \coloneqq (\Delta_{t+1}x, \Delta_{t+1} y)\) (parameterized by \(\theta\)) for each pixel in the images that minimize error between the reference image and the transformed-displaced image:
+In this case only the localization network of the spatial transformer is used to learn a pair of displacement mappings \(\Delta_{t+1} \coloneqq (\Delta_{t+1}x, \Delta_{t+1} y)\) (parameterized by \(\bm{\theta}\)) for each pixel in the images:
 \begin{equation}
-    \hat{\theta} \coloneqq \underset{\theta}{\text{argmin}}\left[\abs{I_t - I'_{t+1}}^2 + \lambda \mathcal{H}\left( \partial_{x,y} \Delta_{x+1} \right)\right]
+    \hat{\bm{\theta}} \coloneqq \underset{\bm{\theta}}{\text{argmin}}\left[\abs{I_t - I'_{t+1}}^2 + \lambda \mathcal{H}\left( \partial_{x,y} \Delta_{x+1} \right)\right]
 \end{equation}
 where the Huber loss \(\mathcal{H}\) is used as a regularizer (see section~\ref{subsubsec:huberloss}).
 %
@@ -424,7 +539,25 @@ Each fusion method applies convolutions to the sequence of images in either a ti
 For example, early fusion applies convolutions to a sequence of images as if they were independent channels of one image (see figure~\ref{subfig:earlyfus}).
 %
 Slow fusion on the other hand applies the convolutions in tiers in order to incorporate time dependencies in the filters (see figure~\ref{subfig:slowfus}); note that if adjacent filter banks are made to share weights than new incoming frames can recycle computations from earlier frames.
-% \subsubsection{Temporally Coherent GAN}\label{subsubsec:tecogan}
-% \subsubsection{Frame-Recurrent Video Super-Resolution}\label{subsubsec:frvsr}
-% \subsubsection{Recurrent Back-Projection Network}\label{subsubsec:rbpn}
-% \subsubsection{Enhanced Deformable Convolutional Networks}\label{subsubsec:edvr}
+
+
+
+
+\subsubsection{Enhanced Deformable Convolutional Networks}
+
+
+
+The current state-of-the-art DNN solution for MISR is the Enhanced Deformable Convolutional Network architectures\cite{wang2019edvr}.
+\begin{figure}
+    \includegraphics[width=.49\textwidth]{figures/neural_networks/edvr.png}
+    \caption[]{Enhanced Deformable Convolutional Networks\cite{wang2019edvr}.}\label{fig:edvr}
+\end{figure}
+This architecture consists of three (or four) independent stages implemented as self-contained modules (see figure~\ref{fig:edvr}): 
+\begin{framed}
+    \begin{enumerate}
+        \item \textbf{De-blur}: an optional pre-processing stage for deblurring images and potentially improving registration accuracy.
+        \item \textbf{Registration}: an image registration stage effected by a Pyramid, Cascading and Deformable (PCD) alignment module.
+        \item \textbf{Fusion}: a non-redundant information extraction stage effected by a Temporal and Spatial Attention (TSA) fusion module.
+        \item \textbf{Reconstruction}: a high-frequency image artefact restoration stage effected by a cascade of ResBlocks (see section~\ref{subsubsec:vdsr}).
+    \end{enumerate}
+\end{framed}
