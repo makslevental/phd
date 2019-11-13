@@ -6,7 +6,7 @@ Suppose that \(H_k\) is linear spatial\anote{lsi} and time invariant.
 %
 Suppose further that \(A_k\) is affine.
 %
-Then \(H \coloneqq H_k\) commutes with \(A_k\)\cite{meladcommute} and eqn.~\eqref{eqn:commuteimagingmodel} becomes
+Then \(H \coloneqq H_k\) commutes with \(A_k\) \cite{meladcommute} and eqn.~\eqref{eqn:commuteimagingmodel} becomes
 \begin{equation}
     \label{eqn:commuteimagingmodel}
     \begin{split}
@@ -25,14 +25,14 @@ Note in this context we use interpolation very broadly, i.e.,to connote filling 
 \begin{figure}
     \centering
     \includegraphics[width=\linewidth,keepaspectratio]{figures/classical/hrgrid.png}
-    \caption{LR image registration on an HR grid\cite{Lin}.}
+    \caption{LR image registration on an HR grid \cite{Lin}.}
     \label{fig:hrgrid}
 \end{figure}
 This class of techniques proceed by first registering images on a high resolution grid (see figure~\ref{fig:hrgrid}) then interpolating at the missing pixels in the HR grid to recover \(V\), and finally denoising and deconvolution (of \(H\)) to recover \(Y\).
 %
 Since in general consecutive \(\Xk\) have non-uniform shifts (relative to \(X_1\)) the interpolation is non-uniform and improvisations on this theme use various weighting schemes for adjacent LR pixels\anote{lrpixel}.
 
-For example Alam \text{et al.}\cite{Alam2000} uses weighted nearest neighbors: for every pixel to be interpolated the three nearest pixels are weighted inversely by their distance (according to HR grid distance) and then their weighted sum is assigned to that pixel.
+For example Alam \text{et al.} \cite{Alam2000} uses weighted nearest neighbors: for every pixel to be interpolated the three nearest pixels are weighted inversely by their distance (according to HR grid distance) and then their weighted sum is assigned to that pixel.
 %
 This non-uniform interpolation is then followed by application of a Wiener filter whose design is informed by the OTF of the particular imaging system they study (which they do not estimate i.e.,they assume they can model accurately).
 %
@@ -41,10 +41,10 @@ This non-uniform interpolation is then followed by application of a Wiener filte
 \begin{figure}
     \centering
     \includegraphics[width=.7\linewidth]{figures/classical/delauney.png}
-    \caption{Delaunay triangulation for fitting splines at LR pixels\cite{Lertrattanapanich}. \(v\) is an LR pixel. Note that \(v\) is at \(z\) equal to the pixel value.}
+    \caption{Delaunay triangulation for fitting splines at LR pixels \cite{Lertrattanapanich}. \(v\) is an LR pixel. Note that \(v\) is at \(z\) equal to the pixel value.}
     \label{fig:delauney}
 \end{figure}
-Lertrattanapanich \text{et al.}\cite{Lertrattanapanich} base their algorithm on interpolants which require knowledge of gradients (e.g. splines) and mediate the non-uniform sampling by using a weighted average (by area) of those gradients in adjacent Delaunay cells; to be precise they produce a Delaunay triangulation of all LR pixels and compute the gradients (see figure~\ref{fig:delauney}) according to
+Lertrattanapanich \text{et al.} \cite{Lertrattanapanich} base their algorithm on interpolants which require knowledge of gradients (e.g. splines) and mediate the non-uniform sampling by using a weighted average (by area) of those gradients in adjacent Delaunay cells; to be precise they produce a Delaunay triangulation of all LR pixels and compute the gradients (see figure~\ref{fig:delauney}) according to
 \begin{align*}
     \vec{n} = \sum_{i=1}^m \frac{B_j \vec{n_j}}{B}   & \text{ where } B=\sum_{i=1}^m B_i                              \\
     \frac{\partial z}{\partial x} = -\frac{n_x}{n_z} & \text{ and }  \frac{\partial z}{\partial y} = -\frac{n_y}{n_z}
@@ -53,7 +53,7 @@ where \(B_i\) is the area of the \(i\)th Delaunay cell.
 %
 Unfortunately this intricate solution is not robust to noise in real images.
 \subsubsection{Wiener Filter}
-A more sophisticated method for non-uniform interpolation uses parametric models for the auto-correlation between LR pixels and the cross-correlation between LR pixels and interpolated pixels to estimate wiener filter weights\cite{wiener}.
+A more sophisticated method for non-uniform interpolation uses parametric models for the auto-correlation between LR pixels and the cross-correlation between LR pixels and interpolated pixels to estimate wiener filter weights \cite{wiener}.
 %
 These weights are then used to average nearby pixel values.
 %
@@ -61,7 +61,7 @@ The algorithm operates on a sliding \textit{estimation window} whose dimensions 
 \begin{figure}
     \centering
     \includegraphics[width=.7\linewidth]{figures/classical/wiener.png}
-    \caption{Wiener filter super resolution estimation window of dimension \(D_x \times D_y\) and observation window of dimension \(W_x \times W_y\)\cite{wiener}.}
+    \caption{Wiener filter super resolution estimation window of dimension \(D_x \times D_y\) and observation window of dimension \(W_x \times W_y\) \cite{wiener}.}
     \label{fig:wiener}
 \end{figure}
 The pixel values for the estimation window are a function of the wiener filter weights of nearby LR pixels within an \textit{observation window} whose dimensions \(W_x, W_y\) are an integer multiple of \(D_x, D_y\) (see figure~\ref{fig:wiener}).
@@ -101,7 +101,7 @@ Kernel regression frames the estimation problem as
     Y(\bxi) = Z(\bxi) + \varepsilon
 \end{equation}
 where \(Z\) is the to-be-estimated \textit{regression function} that predicts \(Y\) as a function of \(\bx\).
-Then the Nadaraya–Watson estimator (NWE)\cite{Nadaraya} \(\hat{Z}\) for \(Z\) is
+Then the Nadaraya–Watson estimator (NWE) \cite{Nadaraya} \(\hat{Z}\) for \(Z\) is
 \begin{equation}
     \hat{Z}(\bx) \coloneqq \frac{\sum_{i=1}^{P}K(\delx)Y(\bxi)}{\sum_{i=1}^{P}K(\delx)}
     \label{eqn:kernelregression}
@@ -113,16 +113,16 @@ Note that \(\hat{Z}(\bx)\) can also be seen as a weighted filtering of \(Y\).
 \begin{figure}
     \centering
     \includegraphics[width=.8\linewidth]{figures/classical/footprint.png}
-    \caption{Kernel footprint as a function of sample density\cite{Takeda2007}.}
+    \caption{Kernel footprint as a function of sample density \cite{Takeda2007}.}
     \label{fig:footprint}
 \end{figure}
 \begin{figure}
     \centering
     \includegraphics[width=\linewidth,keepaspectratio]{figures/classical/steering.png}
-    \caption{Adapting kernel shape as a function of local directed structure\cite{Takeda2007}.}
+    \caption{Adapting kernel shape as a function of local directed structure \cite{Takeda2007}.}
     \label{fig:steering}
 \end{figure}
-In conventional kernel regression \(K\) might be any non-negative, symmetric, unimodal\cite{wand1994kernel} function with augmented with an additional \(h\) parameter that controls the bandwidth" or "footprint of the kernel, i.e.,\begin{equation}
+In conventional kernel regression \(K\) might be any non-negative, symmetric, unimodal \cite{wand1994kernel} function with augmented with an additional \(h\) parameter that controls the bandwidth" or "footprint of the kernel, i.e.,\begin{equation}
     K_h(\delx) \coloneqq \frac{1}{h}K\left( h^{-1}(\delx) \right)
 \end{equation}
 This bandwidth parameter \(h\) can be generalized to a \textit{smoothing kernel} \(H\) in order to make \(K = K_H\) adaptive to the local structure of the pixels, e.g. to have larger footprints in sparsely sampled regions and have smaller footprints in densely sampled regions (see figure~\ref{fig:footprint}).
@@ -146,7 +146,7 @@ One solution is to parameterize \(H_i\):
 where \(U_{\theta_i}\) is a rotation matrix, \(\Lambda_{\sigma_i} \coloneqq \text{diag}\left( \sigma_i, \sigma_i^{-1} \right)\) is an elongation matrix, and \(\gamma_i\) is a scaling parameter, with each of \(\gamma_i, \theta_i, \sigma_i\) estimated from the data in a more robust way.
 %
 \subsubsection{Bilateral Kernel}
-An alternative kernel is the bilateral kernel\cite{Tomasi:1998:BFG:938978.939190} that defines closeness according to geometric and radiometric distance:
+An alternative kernel is the bilateral kernel \cite{Tomasi:1998:BFG:938978.939190} that defines closeness according to geometric and radiometric distance:
 \begin{equation}
     \begin{split}
         K_S(\delx) &\coloneqq \exp \left\{ -\frac{\abs{ \delx }^2}{2 \sigma_S^2}  \right\} \\
@@ -164,13 +164,13 @@ In general non-uniform interpolation techniques are intuitive and typically (rel
 Statistical estimation methods cast SR as an inference problem.
 %
 \subsubsection{Iterative Back-Projection}\label{subsubsec:iterback}
-One of the earliest successful SR algorithms\cite{Irani1991ImprovingRB} proposed an iterative scheme inspired by the back-projection method commonly used to reconstruct 2-D objects from 1-D projections in computer-aided tomography.
+One of the earliest successful SR algorithms \cite{Irani1991ImprovingRB} proposed an iterative scheme inspired by the back-projection method commonly used to reconstruct 2-D objects from 1-D projections in computer-aided tomography.
 %
 Recall eqn.~\eqref{eqn:imagingmodel}.
 \begin{figure}
     \centering
     \includegraphics[width=\linewidth,keepaspectratio]{figures/classical/iterative_back_projection.png}
-    \caption{Iterative back projection\cite{Irani1991ImprovingRB}.}
+    \caption{Iterative back projection \cite{Irani1991ImprovingRB}.}
     \label{fig:iterbackproj}
 \end{figure}
 %
@@ -183,11 +183,11 @@ where \(\hat{Y}^i\) is the current estimate of the blurred HR image, \((D \circ 
 %
 This process iterates until convergence i.e.,\(\lvert (D \circ A_k)(\hat{Y}^i) - \Xk \rvert < \delta\) for some \(\delta\).
 %
-Irani \etal\cite{Irani1991ImprovingRB} also convolve the back-projection with a smoothing kernel as a form of regularization since the estimation problem is in general ill-posed (there are many \(\hat{Y}^{i}\) that will project down to a pixel-distance neighbor of \(\Xk\)).
+Irani \etal \cite{Irani1991ImprovingRB} also convolve the back-projection with a smoothing kernel as a form of regularization since the estimation problem is in general ill-posed (there are many \(\hat{Y}^{i}\) that will project down to a pixel-distance neighbor of \(\Xk\)).
 %
-It can be shown\cite{Elad1996} that for \(\varepsilon_k\) distributed \((0, R_k)\)-Normal, \(\hat{Y}\) is none other than the maximum likelihood MLE for \(Y\).
+It can be shown \cite{Elad1996} that for \(\varepsilon_k\) distributed \((0, R_k)\)-Normal, \(\hat{Y}\) is none other than the maximum likelihood MLE for \(Y\).
 %
-We can see this by recognizing that eqn.~\eqref{eqn:ibp} is just the Richardson iterative\cite{Anderssen:1972:RNM:891962} solution to the unconstrained optimization problem
+We can see this by recognizing that eqn.~\eqref{eqn:ibp} is just the Richardson iterative \cite{Anderssen:1972:RNM:891962} solution to the unconstrained optimization problem
 \begin{equation}
     L(Y) = \frac{1}{2} \abs{ \bm{X} -  \begin{bmatrix}
             D_1 \circ A_1 \\
@@ -203,11 +203,11 @@ since
     \iff
     \sum_{k=1}^K (D \circ A_k)^{-1}\left( (D \circ A_k)(Y) - \Xk \right) = 0
 \end{equation*}
-and therefore \(\hat{Y}_i \rightarrow \hat{Y}\) is the MLE (since MLE is the solution to least squares\cite{CaseBerg:01}).
+and therefore \(\hat{Y}_i \rightarrow \hat{Y}\) is the MLE (since MLE is the solution to least squares \cite{CaseBerg:01}).
 %
-Though this is one of the oldest SR algorithms it's recently been revisited and re-imagined as a deep neural network architecture (DNN)\cite{haris2018deep} (see section~\ref{subsubsec:dbpn}).
+Though this is one of the oldest SR algorithms it's recently been revisited and re-imagined as a deep neural network architecture (DNN) \cite{haris2018deep} (see section~\ref{subsubsec:dbpn}).
 \subsubsection{Kalman Filter}
-Another estimation technique employs a Kalman filter\cite{elad1999} to estimate \(Y\).
+Another estimation technique employs a Kalman filter \cite{elad1999} to estimate \(Y\).
 %
 Let \(\bm{x}_k = \text{vec}(\Xk)\) be the vectorization\anote{vectorize} of \(\Xk\) and \(\bm{y} = \text{vec}(Y)\) likewise.
 %
@@ -260,7 +260,7 @@ weights the contribution of the prediction and the measurement\anote{kalmanpredi
 %
 Note that in the Kalman framework \(D, H_k, A'_k, R_k, Q_k\) are all assumed to be known.
 %
-In Elad \etal\cite{elad1999} the assumption is \(D, H_k, R_k\) are known functions of camera parameters, \(A'_k\) can be estimated by an image registration algorithm and \(Q_k\) can be approximated:
+In Elad \etal \cite{elad1999} the assumption is \(D, H_k, R_k\) are known functions of camera parameters, \(A'_k\) can be estimated by an image registration algorithm and \(Q_k\) can be approximated:
 \begin{equation}
     Q_k \approx \alpha_k A'_k C_{k|k} (A'_k)^T
 \end{equation}
@@ -279,7 +279,7 @@ Then
             & = \underset{Y}{\text{argmax}} \int_{D, \bm{H}, \bm{A}} \frac{P\left(\bm{X} \middle| Y, D, \bm{H}, \bm{A} \right)P(Y) P(D, \bm{H}, \bm{A})}{P(\bm{X})}\label{eqn:indepym} \\
             & = \underset{Y}{\text{argmax}} \int_{D, \bm{H}, \bm{A}} P\left(\bm{X} \middle| Y, D, \bm{H}, \bm{A} \right)P(Y) P(D, \bm{H}, \bm{A}) \label{eqn:maxx}
 \end{align}
-where in eqn.~\eqref{eqn:indepym} we've used the independence of \(Y\) and \(D, \bm{H}, \bm{A}\)\cite{Hardie1997} and in eqn.~\eqref{eqn:maxx} we've used that \(\bm{X}\) is a constant with respect to the maximization.
+where in eqn.~\eqref{eqn:indepym} we've used the independence of \(Y\) and \(D, \bm{H}, \bm{A}\) \cite{Hardie1997} and in eqn.~\eqref{eqn:maxx} we've used that \(\bm{X}\) is a constant with respect to the maximization.
 %
 While there exist reasonable priors for \(Y\), marginalizing over \(D, \bm{H}, \bm{A}\) is still difficult due to the high-dimensionality of each.
 %
@@ -317,7 +317,7 @@ where here \(\bm{X} \coloneqq \left( \text{vec}(X_1), \mathellipsis, \text{vec}(
 %
 After a suitable choice for the prior it can be seen that eqn.~\eqref{eqn:logmap} is just regularized regression.
 %
-For example when choosing a Gibbs\cite{Hardie1997} distribution as the prior, i.e.,\begin{equation}
+For example when choosing a Gibbs \cite{Hardie1997} distribution as the prior, i.e.,\begin{equation}
     P(Y) \propto e^{-\alpha B(Y)}
     \label{eqn:gibbs}
 \end{equation}
@@ -356,19 +356,19 @@ Letting \(G = \hat{D} \hat{\bm{H}} \hat{\bm{A}}\) the closed-form solution to eq
     \hat{\by} = \left( G^T G + \lambda Q \right)^{-1} G^T\bX
     \label{eqn:closedform}
 \end{equation}
-Nguyen \etal\cite{milanfar2001} use cross-validation to determine the regularization parameter \(\lambda\) (by partitioning the pixels into a fit" and "validate set).
+Nguyen \etal \cite{milanfar2001} use cross-validation to determine the regularization parameter \(\lambda\) (by partitioning the pixels into a fit" and "validate set).
 %
 In general, rather than explicitly computing inverses in eqn.~\eqref{eqn:closedform}, in practice \(\hat{\bm{y}}\) is found by solving the regression problem via optimization (for high-dimensional matrices optimization is faster than inversion).
 %
 Nguyen \etal use conjugate gradient descent\anote{conjugategradients} to optimize eqn.~\eqref{eqn:tikminmap}.
 %
-They argue that \(\hat{D} \hat{\bm{H}} \hat{\bm{A}}\) is ill-conditioned\anote{illcondition} and to that end, since the convergence rate of conjugate gradients is dependent on the condition number\cite{vanderSluis1986}, propose pre-conditioners\anote{precondition} to improve the converge rate.
+They argue that \(\hat{D} \hat{\bm{H}} \hat{\bm{A}}\) is ill-conditioned\anote{illcondition} and to that end, since the convergence rate of conjugate gradients is dependent on the condition number \cite{vanderSluis1986}, propose pre-conditioners\anote{precondition} to improve the converge rate.
 
 \subsubsection{Huber Loss and TV Loss}\label{subsubsec:huberloss}
 
 An issue with the multivariate Normal prior is that it strongly enforces global smoothness, penalizing sharp edges.
 %
-One solution is to use Huber loss\cite{huber1964}
+One solution is to use Huber loss \cite{huber1964}
 \begin{equation}
     \mathcal{H}_{\delta }(a)\coloneqq {
         \begin{cases}
@@ -381,9 +381,9 @@ to explicitly parameterize the penalty for gradients (i.e.,high-frequency featur
 %
 Huber loss enforces local smoothness (since it's quadratic for \(\lvert a \rvert \leq \delta\)) but permits edges (since it's linear for \(\lvert a \rvert > \delta\)).
 %
-Capel \etal\cite{capel2000} implement this by composing \(L_{\delta }(a)\) with a first-order gradient operator\anote{gradientoperator} as the potential in eqn.~\eqref{eqn:gibbs}.
+Capel \etal \cite{capel2000} implement this by composing \(L_{\delta }(a)\) with a first-order gradient operator\anote{gradientoperator} as the potential in eqn.~\eqref{eqn:gibbs}.
 %
-Another gradient penalty that encourages sparse gradients (i.e.,local smoothness and steep edges) is Total Variation (TV) norm\cite{RUDIN1992259}:
+Another gradient penalty that encourages sparse gradients (i.e.,local smoothness and steep edges) is Total Variation (TV) norm \cite{RUDIN1992259}:
 \begin{equation}
     \abs{u}_{\operatorname {TV}}\,\coloneqq\int _{\Omega }\abs{\nabla u}\,d\Omega
 \end{equation}
@@ -394,7 +394,7 @@ In the context of SR this amounts to setting
     B(Y) = TV(Y) \coloneqq \abs{ \nabla Y }_1
 \end{equation}
 %
-Farsiu \etal\cite{farsiu} introduce a \textit{bilateral} TV norm
+Farsiu \etal \cite{farsiu} introduce a \textit{bilateral} TV norm
 \begin{equation}
     BTV(Y) \coloneqq \sum_{k=0}^{N} \sum_{l=0}^{N} \alpha^{k + l} \abs{ Y - S_x^k S_y^l Y }_1
 \end{equation}
@@ -402,7 +402,7 @@ where \(S_x^k, S_y^l\) are shift operators (i.e.,\(S_x^k\) shifts \(Y\) by \(k\)
 %
 The bilateral TV norm factors in gradients at several scales (\(Y - S_x^2 Y\) is an approximation of the horizontal gradient at twice the scale of \(Y - S_x^1 Y\)) and decays their contribution according to their spatial distance (\(\alpha^{k+l}\) decays as a function of shift distance).
 %
-It can also be shown to be equivalent\cite{elad2002} to filtering \(\bX\) by the bilateral kernel (see eqn.~\eqref{eqn:bilateralkernel}).
+It can also be shown to be equivalent \cite{elad2002} to filtering \(\bX\) by the bilateral kernel (see eqn.~\eqref{eqn:bilateralkernel}).
 
 Though there are many priors (or regularizers) that have been studied none really capture natural images in all of their variation.
 %
@@ -415,7 +415,7 @@ LR patches to HR patches based on a training set and then use that mapping to pr
 
 \subsubsection{Hidden Markov Random Field}
 
-Freeman \etal\cite{freeman2002example} argues that the most important features to reconstruct are the high-frequency features.
+Freeman \etal \cite{freeman2002example} argues that the most important features to reconstruct are the high-frequency features.
 %
 Therefore they store only the correspondence between high-pass filtered, contrast-normalized versions of example LR patches and HR patches.
 %
@@ -426,7 +426,7 @@ Naive mosaicing of these matching HR patches produces poor results due to noise 
 \begin{figure}
     \centering
     \includegraphics[width=\linewidth,keepaspectratio]{figures/classical/mrf.png}
-    \caption{Hidden Markov random field modeling spatial relationships between LR patches \(x_i\) and example LR patches \(y_i^{LR}\) and HR patches \(y_i\)\cite{freeman2002example}.}
+    \caption{Hidden Markov random field modeling spatial relationships between LR patches \(x_i\) and example LR patches \(y_i^{LR}\) and HR patches \(y_i\) \cite{freeman2002example}.}
     \label{fig:mrf}
 \end{figure}
 Their solution to this issue is using a hidden Markov random field\anote{hmrf} (HMRF) to model spatial consistency between adjacent HR patches \(y_i\) and between LR-HR patch pairs \(x_i, y_i\) (see figure~\ref{fig:mrf}).
@@ -455,10 +455,10 @@ An issue with the direct LR-HR patch pair technique is that it requires an enorm
 \begin{figure}
     \centering
     \includegraphics[width=\linewidth,keepaspectratio]{figures/classical/lle.png}
-    \caption{NNE algorithm from LR patches \(x_i\) to HR patches \(y_i\)\cite{Guillermophdthesis}.}
+    \caption{NNE algorithm from LR patches \(x_i\) to HR patches \(y_i\) \cite{Guillermophdthesis}.}
     \label{fig:lle}
 \end{figure}
-Chang \etal remedy this problem by using ideas from a manifold\anote{manifold} learning\anote{manifoldlearning} technique called locally linear embedding\cite{saul2000introduction} (LLE) that they call nearest neighbor embedding (NNE).
+Chang \etal remedy this problem by using ideas from a manifold\anote{manifold} learning\anote{manifoldlearning} technique called locally linear embedding \cite{saul2000introduction} (LLE) that they call nearest neighbor embedding (NNE).
 %
 First they imagine both the space of LR patches and HR patches as manifolds.
 %
@@ -471,7 +471,7 @@ One can characterize local geometry by finding convex reconstruction weights \(W
 \end{gather}
 where \(N(x_i)\) is the neighborhood of \(x_i\).
 %
-These weights \(W_{ij}\) are invariant with respect to rotation, rescaling, and translation of the LR patch and its neighborhood\cite{saul2000introduction} and therefore should remain valid in an embedding space (i.e.,the HR manifold) coordinate system (see figure~\ref{fig:lle}).
+These weights \(W_{ij}\) are invariant with respect to rotation, rescaling, and translation of the LR patch and its neighborhood \cite{saul2000introduction} and therefore should remain valid in an embedding space (i.e.,the HR manifold) coordinate system (see figure~\ref{fig:lle}).
 %
 The HR patches \(y_i\) in the HR manifold are then reconstructed using the same weights, i.e.,
 \begin{equation}
@@ -485,25 +485,25 @@ Chang \etal argue that this is what allows for better generalization i.e., much 
 \subsubsection{Sub-Band Energy Attenuation}\label{subsubsec:subband}
 Another issue with using LR-HR patch pairs to train NNE is the uncertainty associated with matching highly textured patches, i.e., those with large gradients.
 %
-Zontak \etal\cite{zontak2011internal} show that finding matches between image patches becomes more and more unlikely as the mean gradient magnitude per patch increases.
+Zontak \etal \cite{zontak2011internal} show that finding matches between image patches becomes more and more unlikely as the mean gradient magnitude per patch increases.
 %
 This is directly as a result of the fact that \(L_2\) distances between patches are primarily determined by prominent image structures.
 %
-Singh \etal\cite{singh2014} make this intuition rigorous by decomposing HR and SR patch pairs into oriented \textit{sub-bands} (i.e., gradient orientation bins) and demonstrating that low-energy sub-bands (i.e., those that contribute weakly to the decomposition) are more strongly attenuated (see figure~\ref{fig:subbands}).
+Singh \etal \cite{singh2014} make this intuition rigorous by decomposing HR and SR patch pairs into oriented \textit{sub-bands} (i.e., gradient orientation bins) and demonstrating that low-energy sub-bands (i.e., those that contribute weakly to the decomposition) are more strongly attenuated (see figure~\ref{fig:subbands}).
 \begin{figure}
     \centering
     \begin{adjustbox}{width=\linewidth}
         \centering
         \includegraphics{figures/classical/subbands.png}
     \end{adjustbox}
-    \caption{Oriented gradient attentuation sorted by energy\cite{singh2014}.}\label{fig:subbands}
+    \caption{Oriented gradient attentuation sorted by energy \cite{singh2014}.}\label{fig:subbands}
 \end{figure}
 To mitigate the effect of this insensitivity of the \(L_2\) metric, they learn the necessary gains to apply in order to recover such low energy patches (along with the matchings).
 
 \subsubsection{Sparse Coading}\label{subsubsec:sparsecoding}
 NNE also suffers from using a fixed number of nearest neighbors results in blurring (due to over-fitting or under-fitting).
 %
-Yang \etal\cite{yang2008} resolve this issue by using sparse coding (SC) as a framework for learning a sparse mapping from LR patches to HR patches (see figure~\ref{fig:hrpatchdict}).
+Yang \etal \cite{yang2008} resolve this issue by using sparse coding (SC) as a framework for learning a sparse mapping from LR patches to HR patches (see figure~\ref{fig:hrpatchdict}).
 %
 This enables them to essentially leave the number of nearest numbers unspecified (or, alternatively, learn the correct number of neighbors on a patch by patch basis\anote{pun}).
 %
@@ -523,9 +523,9 @@ Then given a new input LR patch \(\bx\) they compute the code for a featurized r
 \end{equation}
 where \(\epsilon\) is the reconstruction error tolerance and \(F\) is the feature extraction operator (first and second order gradients), and construct the HR image using the same sparsely represented HR patch (i.e.,\(\hat{\by} = D_{HR} \hat{\bm{\alpha}}\)).
 %
-As stated the optimization in eqn.~\eqref{eqn:constrainedrepr} is non-convex (due to \(\abs{ \bm{\alpha} }_0\)) and is in fact NP-hard\anote{nphard}\cite{tilman2015}.
+As stated the optimization in eqn.~\eqref{eqn:constrainedrepr} is non-convex (due to \(\abs{ \bm{\alpha} }_0\)) and is in fact NP-hard\anote{nphard} \cite{tilman2015}.
 %
-Fortunately the \(L_1\) (i.e.,\(\abs{ \bm{\alpha} }_1\)) relaxation is often good enough\cite{Donoho9446}:
+Fortunately the \(L_1\) (i.e.,\(\abs{ \bm{\alpha} }_1\)) relaxation is often good enough \cite{Donoho9446}:
 \begin{equation}
     \hat{\bm{\alpha}} = \underset{\bm{\alpha}}{\text{argmin}} \left[ \lambda\abs{ \bm{\alpha} }_1 + \frac{1}{2}\abs{ F\bx - FD_{LR}\bm{\alpha} }^2 \right]
     \label{eqn:lagrangerepr}
@@ -534,7 +534,7 @@ where we've also transformed to the unconstrained optimization using the Lagrang
 %
 Solving eqn.~\eqref{eqn:lagrangerepr} input-patch by input-patch does not enforce consistency between adjacent patches.
 %
-They use a raster-scan technique discussed in Freeman \etal\cite{freeman2002example} to enforce consistency.
+They use a raster-scan technique discussed in Freeman \etal \cite{freeman2002example} to enforce consistency.
 %
 They further comment that since eqn.~\eqref{eqn:constrainedrepr} doesn't demand equality between the LR patch \(\bx\) and its reconstruction \(D_{LR}\bm{\alpha}\) the reconstructed image \(Y\) might not satisfy the imaging model (see eqn.~\eqref{eqn:imagingmodel}).
 %
@@ -542,11 +542,11 @@ They resolve this by using iterative back projection (see eqn.~\eqref{eqn:ibp}) 
 %
 While the sparse representation approach mitigates issues having to do with local bias (fixed number \(K\) patch neighbors) it still requires a large database of raw image patches.
 %
-The same group's follow-on paper\cite{yang2010} addresses this issue directly by learning the LR, HR dictionaries with a fixed number of atoms \(K\).
+The same group's follow-on paper \cite{yang2010} addresses this issue directly by learning the LR, HR dictionaries with a fixed number of atoms \(K\).
 \begin{figure}
     \centering
     \includegraphics[width=\linewidth,keepaspectratio]{figures/classical/dictpatches.png}
-    \caption{512 entry \(9 \times 9\) atom HR image patch dictionary trained using 100,000 HR and LR image patch pairs\cite{yang2010}.}
+    \caption{512 entry \(9 \times 9\) atom HR image patch dictionary trained using 100,000 HR and LR image patch pairs \cite{yang2010}.}
     \label{fig:hrpatchdict}
 \end{figure}
 %
@@ -572,11 +572,11 @@ Though SC achieves good results for reasonably sized example sets and dictionary
 \begin{figure}
     \centering
     \includegraphics[width=\linewidth,keepaspectratio]{figures/classical/dictsizespeed.png}
-    \caption{Dictionary inference time as a function of dictionary size\cite{yang2010}.}
+    \caption{Dictionary inference time as a function of dictionary size \cite{yang2010}.}
     \label{fig:dictspeedspize}
 \end{figure}
 %
-Timofte \etal\cite{Timofte} argues that the chief inefficiency is the \(L_1\) norm on the code.
+Timofte \etal \cite{Timofte} argues that the chief inefficiency is the \(L_1\) norm on the code.
 %
 By relaxing the \(L_1\) norm in eqn.~\eqref{eqn:lagrangerepr} to the \(L_2\) norm they recover the Ridge regression form of the problem (see eqn.~\eqref{eqn:closedform}) and get a closed form solution for the code:
 \begin{equation}
@@ -606,12 +606,12 @@ They call these \(P_k\) \textit{anchored regressions} because they effectively w
 %
 For a new input LR patch \(x\) they find the nearest atom in the \(D_{LR}\) and recover the HR patch \(\by = P_k \bx\).
 %
-Note that ANR, just as in SC, does not operate on the raw image patches themselves but rather featurized image patches: they apply PCA to the first and seconder gradients of the patches and, as in Zeyde \etal\cite{Zeyde2012}, and keep only keep only components explaining 99.9\% of the variance.
+Note that ANR, just as in SC, does not operate on the raw image patches themselves but rather featurized image patches: they apply PCA to the first and seconder gradients of the patches and, as in Zeyde \etal \cite{Zeyde2012}, and keep only keep only components explaining 99.9\% of the variance.
 %
 This reduces the dimensions of their atoms to about 30.
 
 \subsubsection{SR Forests}
-Inspired by the anchored regressions of ANR Schulter \etal\cite{Schulter2015} propose a technique called Super-Resolution Forests: their point of departure is a data-dependent function \(W(\cdot)\) such that
+Inspired by the anchored regressions of ANR Schulter \etal \cite{Schulter2015} propose a technique called Super-Resolution Forests: their point of departure is a data-dependent function \(W(\cdot)\) such that
 \begin{equation}
     \hat{\by} = W(\bx) \cdot \bx
 \end{equation}
@@ -640,7 +640,7 @@ where \(\bX_t^l\) are only those LR patches that get routed to leaf \(l\) in tre
 \begin{figure}
     \centering
     \includegraphics[width=\linewidth,keepaspectratio]{figures/classical/FIRF.png}
-    \caption{A set of decision trees. Each decision tree recursively classifies the input LR patch into left or right child node, until a leaf node is reached. By using the linear regression models stored in the each leaf node, the input LR patch can be projected to the HR patch space\cite{Huang}.}
+    \caption{A set of decision trees. Each decision tree recursively classifies the input LR patch into left or right child node, until a leaf node is reached. By using the linear regression models stored in the each leaf node, the input LR patch can be projected to the HR patch space \cite{Huang}.}
     \label{fig:firf}
 \end{figure}
 %

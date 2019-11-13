@@ -53,9 +53,9 @@ For example the ANN specified in figure~\ref{fig:multiann} represents the functi
 %
 Layers are categorized as either \textit{hidden layers} or input-ouput layers: those layers that are not input or output layers are hidden layers.
 
-ANNs might seem like a very simple class of functions; for example, Minsky \etal\cite{minsky2017perceptrons} famously proved that ANNs that don't include a non-linear activation functions can't represent \(\operatorname{XOR}\)\anote{xor}. 
+ANNs might seem like a very simple class of functions; for example, Minsky \etal \cite{minsky2017perceptrons} famously proved that ANNs that don't include a non-linear activation functions can't represent \(\operatorname{XOR}\)\anote{xor}. 
 %
-On the contrary, strikingly, it's the case that ANNs that do include a non-linear activation function fulfill a \textit{universal approximation theorem}\cite{cybenko1989approximation}:
+On the contrary, strikingly, it's the case that ANNs that do include a non-linear activation function fulfill a \textit{universal approximation theorem} \cite{cybenko1989approximation}:
 %
 given any continuous function \(f\) (on some bounded interval \(I\)) there exists a sequence of ANNs (with at least one hidden layer and employing a non-linear activation function) whose limit approximates\anote{uniformconv} \(f\) to arbitrary precision.
 %
@@ -65,7 +65,7 @@ In general, ANN learning rules iterate on the the weights \(w_i\) given \(k \gg 
 %
 The \(\mathbf{x}_k\) are called the \(k\)th \textit{training samples} and \(t_k\) the  \textit{training targets}.
 %
-The most common such learning rule is a \textit{gradient descent} based rule called the Delta rule\cite{widrow1960adaptive}.
+The most common such learning rule is a \textit{gradient descent} based rule called the Delta rule \cite{widrow1960adaptive}.
 %
 It is derived from minimizing the \(L_2\) \textit{loss} with respect to each of the weights using gradient descent:
 \begin{equation}
@@ -88,7 +88,7 @@ where \(\alpha\) is a small constant called the \textit{learning rate} that cont
 In general computing the partial derivatives \(\pd{L}{w_i}\) for a deep (many layers) and wide (many neurons in each layer) network is onerous.
 %
 \input{figures/neural_networks/backprop.tex}
-To mitigate the effect of this combinatorial explosion of dependencies between the weights Rumelhart \etal\cite{rumelhart1988learning} popularlized a technique called \textit{back-propagation}\anote{backprop} or simply backprop (see figure~\ref{fig:backprop}).
+To mitigate the effect of this combinatorial explosion of dependencies between the weights Rumelhart \etal \cite{rumelhart1988learning} popularlized a technique called \textit{back-propagation}\anote{backprop} or simply backprop (see figure~\ref{fig:backprop}).
 %
 Another inefficiency of the Delta rule is that it requires evaluating the ANN on the entire set of samples in order to compute the update \(\Delta w_i\).
 %
@@ -141,7 +141,7 @@ Depending on whether the CNN is being employed to solve a generative task or a c
     \operatorname{max-pool}(f,g)[n, m]\coloneqq\\ \max_{i,j}\left[ f[i, j]g[n-i, m-j] \right]
     \label{eqn:2dpool}
 \end{multline}
-There are many other convolution operators (e.g., strided, dilated, transposed) that are beyond the scope of this survey\cite{dumoulin2016guide}.
+There are many other convolution operators (e.g., strided, dilated, transposed) that are beyond the scope of this survey \cite{dumoulin2016guide}.
 
 \subsubsection{Deep Neural Networks}\label{subsubsec:dnns}
 
@@ -168,7 +168,7 @@ Deep Learning is a collection of techniques that make training Deep Neural Netwo
 %
 \input{figures/neural_networks/batch_norm.tex}
 \input{figures/neural_networks/dropout.tex}
-In order to combat vanishing gradient Batch Normalization\cite{ioffe2015batch} is used to normalize outputs from linear layers prior to activation (see figure~\ref{fig:batchnorm}).
+In order to combat vanishing gradient Batch Normalization \cite{ioffe2015batch} is used to normalize outputs from linear layers prior to activation (see figure~\ref{fig:batchnorm}).
 %
 On a batch by batch basis inputs to each layer's activation function (i.e., the activation functions of all of the neurons in the layer) are \((0,1)-\)Normal normalized:
 \begin{align}
@@ -190,7 +190,7 @@ Another solution to the vanishing gradients problem is using \textit{skip connec
 %
 This has the effect that substantive gradients can be propagated farther back into the network more easily (since they skip being attenuated by intermediate layers).
 
-Overfitting is mititaged by using regularization; methods such as \(L_2\) regularization and \textit{dropout} have been shown to be effective against overfitting\cite{bengio2013}.
+Overfitting is mititaged by using regularization; methods such as \(L_2\) regularization and \textit{dropout} have been shown to be effective against overfitting \cite{bengio2013}.
 %
 \(L_2\) regularization incorporates a squared weight term \(\frac{\lambda}{2}\sum_{i=1}^n w_i^2\) into eqn.~\eqref{eqn:loss}, which translates into a \textit{weight decay} term \(\lambda w_i^{t-1}\) in the Delta rule (eqn.~\eqref{eqn:sgd}):
 \begin{equation}
@@ -203,9 +203,9 @@ The intuition being that not every neuron will have an opportunity to learn from
 
 Overfitting and vanishing gradients are not the only challenges encountered when training DNNs.
 %
-Hence there are many other best-practices techniques for training DNNs that are beyond the scope of this brief review; an accessible survey is Montavon \etal\cite{montavon2012neural}.
+Hence there are many other best-practices techniques for training DNNs that are beyond the scope of this brief review; an accessible survey is Montavon \etal \cite{montavon2012neural}.
 \subsubsection{Generative Adversarial Networks}\label{subsubsec:gan}
-A Generative Adversarial Network\cite{goodfellow2014generative} is a training regimen for networks that perform \textit{generative tasks}.
+A Generative Adversarial Network \cite{goodfellow2014generative} is a training regimen for networks that perform \textit{generative tasks}.
 %
 A generative task is one which calls for generating samples from a probability distribution represented by the training data.
 %
@@ -216,7 +216,7 @@ For example one might have many images of people and one might wish to generate 
         \centering
         \includegraphics[]{figures/neural_networks/stylegan.jpg}
     \end{adjustbox}
-    \caption{Uncurated set of images \textbf{generated} (i.e., none of the people depicted are real) using StyleGAN with the FFHQ dataset\cite{karras2018stylebased}.}\label{fig:stylegan}
+    \caption{Uncurated set of images \textbf{generated} (i.e., none of the people depicted are real) using StyleGAN with the FFHQ dataset \cite{karras2018stylebased}.}\label{fig:stylegan}
 \end{figure}
 %
 In general this is a highly non-trivial problem due to the dimensionality of the sample space.
@@ -226,7 +226,7 @@ The generator takes as input samples \(\bm{z}\) from the surrogate distribution 
 %
 The discriminator alternates between considering true samples \(\bm{x}\) from the desired distribution \(p_r\) and considering counterfeit samples \(G(\bm{z})\) produced by the generator; it therefore assesses the quality of \(G\)'s output with respect to its own understanding of the desired distribution.
 %
-To that end Goodfellow \etal\cite{goodfellow2014generative} propose a training framework that involves playing a \textit{mini-max game}\anote{minimax}:
+To that end Goodfellow \etal \cite{goodfellow2014generative} propose a training framework that involves playing a \textit{mini-max game}\anote{minimax}:
 \begin{equation}
     \min_G \max_D L(D, G)
 \end{equation}
@@ -253,7 +253,7 @@ Deep neural network architectures for single-image super-resolution abide a four
     \end{itemize}
 \end{framed}
 \subsubsection{SRCNN and Very Deep SR}\label{subsubsec:vdsr}
-The first successful foray of Deep Learning was the 2-layer Super-Resolution CNN (SRCNN) model\cite{Dong_2016}.
+The first successful foray of Deep Learning was the 2-layer Super-Resolution CNN (SRCNN) model \cite{Dong_2016}.
 %
 SRCNN is a CNN composed of two convolution layers, with the first layer consisting of 64 filters (per color channel), the second layer consisting of 32 filters, and both layers employing \(\operatorname{ReLU}\) activations.
 %
@@ -264,7 +264,7 @@ This is a common theme in the literature --- ANN architectures learning transfor
 
 Clearly, at least by modern standards, 2 layers isn't very deep; Dong \etal do experiment with an additional convolution layer but report difficulties maintaining reasonable convergence rates due to vanishing gradients.
 %
-Kim \etal\cite{Kim_2016} improve on SRCNN with Very Deep SRCNN (VDSR) by increasing the convolution layer count to a sum total of 20.
+Kim \etal \cite{Kim_2016} improve on SRCNN with Very Deep SRCNN (VDSR) by increasing the convolution layer count to a sum total of 20.
 %
 In order to overcome the training challenges faced by Dong \etal they use skip connections (see section~\ref{subsubsec:dnns}).
 %
@@ -282,7 +282,7 @@ Hence, their loss function measures the error between the HR image target and th
 \subsubsection{Super-Resolution GAN}\label{subsubsec:srgan}
 Single up-sampling networks forgo bicubic pre-processing and learn the up-sampling transformation as a component of the network.
 %
-The most interesting network in this class of networks is the Super-resolution Residual Network (SRResNet) along with its GAN trained counterpart SRGAN\cite{Ledig_2017}.
+The most interesting network in this class of networks is the Super-resolution Residual Network (SRResNet) along with its GAN trained counterpart SRGAN \cite{Ledig_2017}.
 %
 SRResNet takes as input LR images and similar to VDSR passes them through 16 individual ResBlocks (see figure~\ref{fig:resblock}) for feature extraction.
 %
@@ -303,13 +303,13 @@ Ledig \etal pre-train SRResNet using mean-squared-error (MSE) loss and then furt
         \centering
         \includegraphics[]{figures/neural_networks/perceptual_loss.png}
     \end{adjustbox}
-    \caption{Perceptual loss\cite{johnson2016perceptual}.}\label{fig:perceptualloss}
+    \caption{Perceptual loss \cite{johnson2016perceptual}.}\label{fig:perceptualloss}
 \end{figure}
 In addition to using the conventional GAN loss they add a term they call \textit{perceptual loss}:
 \begin{equation}
     \ell_{feat}^{\phi, j} \left( \hat{\bm{y}}, \bm{y}_c\right) \coloneqq \frac{1}{H_j W_j} \abs{\phi_j\left({\hat{\bm{y}}}\right) - \phi_j \left(\bm{y}_c\right)}^2
 \end{equation}
-where \(\phi_j\) is the \(j\)th layer activation of the VGG network\cite{simonyan2014very} pretrained on a large data set, \(\hat{\bm{y}}\) is the output of SRResNet, and \(\bm{y}_c\) is the target HR image (see figure~\ref{fig:perceptualloss}), and \(H_j, W_j\) are the dimensions of the \(j\)th layer activation of VGG.
+where \(\phi_j\) is the \(j\)th layer activation of the VGG network \cite{simonyan2014very} pretrained on a large data set, \(\hat{\bm{y}}\) is the output of SRResNet, and \(\bm{y}_c\) is the target HR image (see figure~\ref{fig:perceptualloss}), and \(H_j, W_j\) are the dimensions of the \(j\)th layer activation of VGG.
 %
 They argue that this loss is closer to perceptual similarity than MSE loss and therefore encourages reconstruction of high frequency content that MSE loss alone suppresses.
 \subsubsection{Laplacian Pyramid Super-Resolution Network}\label{subsubsec:lapsrn}
@@ -319,9 +319,9 @@ They argue that this loss is closer to perceptual similarity than MSE loss and t
         \centering
         \includegraphics{figures/neural_networks/lapsrn.png}
     \end{adjustbox}
-    \caption{LapSRN architecture\cite{Lai_2017}.}\label{fig:lapsrn}
+    \caption{LapSRN architecture \cite{Lai_2017}.}\label{fig:lapsrn}
 \end{figure}
-Lai \etal\cite{Lai_2017} propose a network that up-samples by predicting sub-band (see section~\ref{subsubsec:subband}) residuals at progressively finer and finer scales (i.e., higher and higher resolution).
+Lai \etal \cite{Lai_2017} propose a network that up-samples by predicting sub-band (see section~\ref{subsubsec:subband}) residuals at progressively finer and finer scales (i.e., higher and higher resolution).
 %
 Their network consists of \(\log_2(r)\), where \(r\) is the scaling factor, tiers of CNNs along two branches: a feature extraction branch and an image reconstruction branch (see figure~\ref{fig:lapsrn}).
 %
@@ -333,7 +333,7 @@ The image reconstruction branch, at a given tier, up-samples the input image (al
 %
 This structure emulates a Laplacian pyramid (see figure~\ref{fig:bertrand}) along both branches and as a result is called the Laplacian Pyramid Super-Resolution Network (LapSRN).
 
-They also identify \(L_2\) loss as a source of perceptual fidelity flaws and substitute Charbonnier loss\cite{charbonnier1994two} \(\rho(\bm{x})\) to train their network:
+They also identify \(L_2\) loss as a source of perceptual fidelity flaws and substitute Charbonnier loss \cite{charbonnier1994two} \(\rho(\bm{x})\) to train their network:
 \begin{equation}
     \rho(\bm{x}) \coloneqq \sqrt{\frac{\bm{x}\cdot \bm{x}}{\epsilon^2}+ 1}
 \end{equation}
@@ -346,7 +346,7 @@ Lie \etal train their network using \textit{deep supervision}; the loss function
 where \(\bm{t}_i \coloneqq (t_{\log_2{(r)}}, \dots, t_1)\) is the target HR image down-sampled and \(\bm{y} \coloneqq (y_1, \dots, y_{\log_2(r)})\) are the outputs of LapSRN at each of the tiers.
 \subsubsection{Deep Back-Projection Networks}\label{subsubsec:dbpn}
 \input{figures/neural_networks/dbpn.tex}
-Inspired by recent theories on the function of the human visual cortex\cite{kravitz2013ventral} Harris \etal\cite{haris2018deep} propose a deep neural network for SR that incorporates error-correcting feedback mechanisms.
+Inspired by recent theories on the function of the human visual cortex \cite{kravitz2013ventral} Harris \etal \cite{haris2018deep} propose a deep neural network for SR that incorporates error-correcting feedback mechanisms.
 %
 They build on the work of Irani \etal (see section~\ref{subsubsec:iterback}) and implement deep iterative back projections (DBPN) (see figure~\ref{subfig:dbpn}).
 %
@@ -360,7 +360,7 @@ Their Up-Projection units take the error \(e_t^l\) between a proposed up-samplin
 %
 Their Down-Projection units perform the same function but from HR to LR.
 %
-Using these units they achieve state of the art up-sampling all the way up to 8x\cite{timofte2018ntire}.
+Using these units they achieve state of the art up-sampling all the way up to 8x \cite{timofte2018ntire}.
 \subsection{Deep Neural Networks for MISR}
 MISR algorithms process a batch of LR images to generate a single HR image by aggregating non-redundant information across the LR images.
 %
@@ -370,7 +370,7 @@ In the context of neural networks this is framed as learning the time dependency
 %
 \subsubsection{Bi-directional Recurrent CNN}
 \input{figures/neural_networks/rnn.tex}
-Huang \etal\cite{huang2015bidirectional} learn the time dependency for complex motions jointly with the up-sampling transformation using a Bidirectional Recurrent CNN (BRCN). 
+Huang \etal \cite{huang2015bidirectional} learn the time dependency for complex motions jointly with the up-sampling transformation using a Bidirectional Recurrent CNN (BRCN). 
 %
 A Recurrent Neural Network (RNN) models time dependencies in sequences of data.
 %
@@ -385,7 +385,7 @@ It is the cells keep track of the dependencies between elements of the sequences
 
 \begin{figure}
     \includegraphics[width=.49\textwidth]{figures/neural_networks/brcn.png}
-    \caption{BRCN schematic diagram\cite{huang2015bidirectional}.}\label{subfig:brcn}
+    \caption{BRCN schematic diagram \cite{huang2015bidirectional}.}\label{subfig:brcn}
 \end{figure}
 BRCN uses two recurrent networks, a forward-propagating network and a backward-propagating network.
 %
@@ -397,15 +397,15 @@ BRCN achieved (at the time) state of the art reconstruction performance for \(t=
 \subsubsection{Video Efficient Sub-Pixel Networks}
 \begin{figure}
     \includegraphics[width=.49\textwidth]{figures/neural_networks/realtime_epscn.png}
-    \caption{Real-time MISR with motion compensation\cite{caballero2017real}. Motion compensation is performed two adjacent frames in a triplet and all three frames are then passed to up-sampling network.}\label{fig:realtimeepscn}
+    \caption{Real-time MISR with motion compensation \cite{caballero2017real}. Motion compensation is performed two adjacent frames in a triplet and all three frames are then passed to up-sampling network.}\label{fig:realtimeepscn}
 \end{figure}
 \begin{figure}
     \includegraphics[width=.49\textwidth]{figures/neural_networks/space_transformer.png}
-    \caption{Motion estimation\cite{caballero2017real}. \(\Delta^c\) is a coarse estimate (used to produce a coarsely registered intermediate image \(I_{t+1}^{'c}\)) and \(\Delta^f\) is a refined estimate (both are used to produce the final motion-compensated image \(I'_{t+1}\)).}\label{fig:spacetransformer}
+    \caption{Motion estimation \cite{caballero2017real}. \(\Delta^c\) is a coarse estimate (used to produce a coarsely registered intermediate image \(I_{t+1}^{'c}\)) and \(\Delta^f\) is a refined estimate (both are used to produce the final motion-compensated image \(I'_{t+1}\)).}\label{fig:spacetransformer}
 \end{figure}
 The first real-time DNN architecture (see figure~\ref{fig:realtimeepscn}) for MISR was based on \textit{space transformers} for motion compensation and efficient sub-pixel convolutions networks (ESPCN) for up-sampling (see section~\ref{subsubsec:srgan}).
 %
-A space transformer \cite{jaderberg2015spatial} is a component of a neural network that learns the optical flow estimate between a reference image and a displaced image and carries out the motion compensation (i.e., registers the images).
+A space transformer  \cite{jaderberg2015spatial} is a component of a neural network that learns the optical flow estimate between a reference image and a displaced image and carries out the motion compensation (i.e., registers the images).
 %
 In this case the space transformer learns a pair of displacement mappings \(\Delta_{t+1} \coloneqq (\Delta_{t+1}x, \Delta_{t+1} y)\) (parameterized by \(\theta\)) for each pixel in the images that minimize error between the reference image and the transformed-displaced image:
 \begin{equation}
@@ -423,7 +423,7 @@ Each fusion method applies convolutions to the sequence of images in either a ti
 %
 For example, early fusion applies convolutions to a sequence of images as if they were independent channels of one image (see figure~\ref{subfig:earlyfus}).
 %
-Slow fusion on the other hand applies applies the convolutions in tiers in order to incorporate time dependencies in the filters (see figure~\ref{subfig:slowfus}); note that if adjacent filter banks are made to share weights than as new frames come in operations can be recycled.
+Slow fusion on the other hand applies the convolutions in tiers in order to incorporate time dependencies in the filters (see figure~\ref{subfig:slowfus}); note that if adjacent filter banks are made to share weights than new incoming frames can recycle computations from earlier frames.
 % \subsubsection{Temporally Coherent GAN}\label{subsubsec:tecogan}
 % \subsubsection{Frame-Recurrent Video Super-Resolution}\label{subsubsec:frvsr}
 % \subsubsection{Recurrent Back-Projection Network}\label{subsubsec:rbpn}

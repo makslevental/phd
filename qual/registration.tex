@@ -24,9 +24,9 @@ The CPs are the data that will be used to estimate the transformation \(f\).
 Therefore, in order that the estimated transformation is accurate, CPs should be robust to noise and image degradation, sufficiently distributed throughout the image, and readily matched in the matching step.
 
 \subsubsection{Harris Corner Detection}
-Bentoutou \etal\cite{bentoutou2005automatic} use a Harris detector\cite{harris1988combined} to find corner points, arguing that corners are robust to noise and stable over multiple images.
+Bentoutou \etal \cite{bentoutou2005automatic} use a Harris detector \cite{harris1988combined} to find corner points, arguing that corners are robust to noise and stable over multiple images.
 %
-In order to understand the Harris detector we need to first understand the Moravec\cite{moravec1980obstacle} detector on which it improves.
+In order to understand the Harris detector we need to first understand the Moravec \cite{moravec1980obstacle} detector on which it improves.
 %
 The Moravec detector starts from an error function \(E_{x,y}(u,v)\) which computes the sum of the squared differences (SSD) between an \(m \times m\) weighted window around a pixel \(X(x, y)\) and weighted windows shifted by \(u,v\) pixels:
 \begin{multline}
@@ -112,7 +112,7 @@ Finally only the \(n\) corners with the highest strengths \(S\) are kept.
 \end{figure}
 One issue with Harris detectors is that they're not invariant to scale (see figure~\ref{fig:sift_harris}).
 %
-Zahra \etal\cite{zahrasift} resolves this issue by using the Scale Invariant Feature Transform\cite{lowe2004distinctive} (SIFT) to identify CPs that, as the name implies, are invariant across multiple scales.
+Zahra \etal \cite{zahrasift} resolves this issue by using the Scale Invariant Feature Transform \cite{lowe2004distinctive} (SIFT) to identify CPs that, as the name implies, are invariant across multiple scales.
 %
 SIFT identifies scale invariant and noise robust features of an image, called \textit{keypoints}, by first finding candidate points with high local curvature at multiple scales and then culling according to some heuristics.
 \input{figures/registration/sift/orientation_featurization.tex}
@@ -127,7 +127,7 @@ The algorithm consists of five steps:
 		\item \textbf{Keypoint detection}: candidate keypoints are points on edges with non-zero curvature, i.e.,extrema along scale and space dimensions in the LoG pyramid (see figure~\ref{fig:siftpyramid}).
 		\item \textbf{Keypoint selection}: candidate keypoints are more precisely localized using an iterative process. Keypoints of low-contrast (therefore sensitive to noise) or on edges of low curvature\footnotemark are culled.
 		\item \textbf{Keypoint orientation assignment}: orientation is assigned to each keypoint by taking a weighted majority vote of all gradient orientations in a neighborhood of the keypoint (see figure~\ref{fig:siftdescriptorb}). Large minority votes (80\% of majority) are used to create more keypoints at the same pixel point.
-		\item \textbf{Keypoint descriptor computation}: for each keypoint the descriptor is computed by partitioning the keypoint's neighborhood into \(2^k\) sub-neighborhoods, computing an 8-bin histogram of oriented gradients\footnotemark (HOG) in each sub-neighborhood, and concatenating (see figure~\ref{fig:siftdescriptord}). In Lowe \etal\cite{lowe2004distinctive} \(2^4=16\) sub-neighborhoods are used to produce an \(8\times16 = 128\) entry length descriptor. The descriptor is also normalized to unit length in order to make it invariant to luminance (intensity).
+		\item \textbf{Keypoint descriptor computation}: for each keypoint the descriptor is computed by partitioning the keypoint's neighborhood into \(2^k\) sub-neighborhoods, computing an 8-bin histogram of oriented gradients\footnotemark (HOG) in each sub-neighborhood, and concatenating (see figure~\ref{fig:siftdescriptord}). In Lowe \etal \cite{lowe2004distinctive} \(2^4=16\) sub-neighborhoods are used to produce an \(8\times16 = 128\) entry length descriptor. The descriptor is also normalized to unit length in order to make it invariant to luminance (intensity).
 	\end{enumerate}
 \end{framed}
 \addtocounter{footnote}{-3}
@@ -147,7 +147,7 @@ The algorithm consists of five steps:
 
 SIFT is indeed effective as a CP detector but unfortunately it is patented.
 %
-Alternatives include Binary Robust Invariant Scalable Keypoints\cite{leutenegger2011brisk}, and Oriented FAST and rotated BRIEF\cite{rublee2011orb} (which itself consists of applying Features from Accelerated Segment Test\cite{rosten2006machine} to detect points of interest and Binary Robust Independent Elementary Features\cite{calonder2010brief} to compute descriptors).
+Alternatives include Binary Robust Invariant Scalable Keypoints \cite{leutenegger2011brisk}, and Oriented FAST and rotated BRIEF \cite{rublee2011orb} (which itself consists of applying Features from Accelerated Segment Test \cite{rosten2006machine} to detect points of interest and Binary Robust Independent Elementary Features \cite{calonder2010brief} to compute descriptors).
 
 \subsection{Feature Matching}
 
@@ -161,7 +161,7 @@ In other cases the matching mechanism is not so straightforward; for a class of 
 
 \subsubsection{Convex Hull Edges}
 %
-One technique that matches features explicitly is Point Matching Using Convex Hull Edges\cite{Goshtasby1985}.
+One technique that matches features explicitly is Point Matching Using Convex Hull Edges \cite{Goshtasby1985}.
 %
 It operates on the principle that the convex hull\anote{convexhull} of a set of points is invariant under translation, rotation, and scaling.
 %
@@ -233,7 +233,7 @@ Then the inverse Fourier transform of eqn.~\eqref{eqn:singleexp}
 \]
 is a single peak (see figure~\ref{fig:phasecorr}) at \((\Delta x, \Delta y)\).
 %
-The simplest implementation of NCC only identifies translations but it can be extended to affine transforms\cite{berthilsson1998}.
+The simplest implementation of NCC only identifies translations but it can be extended to affine transforms \cite{berthilsson1998}.
 
 \subsubsection{Mutual Information}
 
@@ -255,7 +255,7 @@ In practice this is done using either Kernel Density Estimation\anote{kde} (KDE)
 %
 Searching for the registration parameters \(\theta\) that maximize \(I_{\theta} \coloneqq I(X_1,X_2(\theta))\) exhaustively is generally costly (especially if more than just translation parameters are required).
 %
-Ritter \etal\cite{ritter1999} use simulated annealing to efficiently search the space of all possible parameters.
+Ritter \etal \cite{ritter1999} use simulated annealing to efficiently search the space of all possible parameters.
 %
 Simulated annealing iterates on the current candidate minimum \(I_{\theta}\) by jumping to potentially new minima in a way that prioritizes near jumps but allows for the possibility of far jumps.
 %
@@ -318,13 +318,13 @@ The unknown parameters \((\theta, t_x, t_y)\) in eqn.~\eqref{eqn:rigidparams} ca
 	\end{split}
 	\label{eqn:rigidtaylor}
 \end{equation}
-Note that this is only valid for small angles \(\theta\) (the small-angle approximation\cite{keren1988}).
+Note that this is only valid for small angles \(\theta\) (the small-angle approximation \cite{keren1988}).
 %
 Truncating eqns.~\eqref{eqn:rigidtaylor} to first or second order and substituting data from matched features yields a system of linear equations.
 %
 Given that often there are many more matched features than unknowns in eqns.~\eqref{eqn:rigidtaylor} such a system is overdetermined; a unique solution can be determined using regularized least-squares.
 %
-In order to make this process more efficient and increase accuracy Keren \etal\cite{keren1988} use a Gaussian pyramid (see figure~\ref{fig:siftpyramid} and corresponding discussion in section~\ref{sec:sift}) to iteratively refine estimates at higher and higher resolutions.
+In order to make this process more efficient and increase accuracy Keren \etal \cite{keren1988} use a Gaussian pyramid (see figure~\ref{fig:siftpyramid} and corresponding discussion in section~\ref{sec:sift}) to iteratively refine estimates at higher and higher resolutions.
 %
 In the more general case of a projective transformation (a perspective shift) the transformed pixel coordinates are
 \begin{equation}
@@ -401,7 +401,7 @@ If we further assume that the intensity flow is incompressible (i.e., intensity 
 	\label{eqn:intensityconstr}
 \end{equation}
 
-Equation~\eqref{eqn:intensityconstr} is called the \textit{optical flow constraint equation}\cite{perez2013tv}.
+Equation~\eqref{eqn:intensityconstr} is called the \textit{optical flow constraint equation} \cite{perez2013tv}.
 %
 Note that the constraint equation is a single linear equation in two unknowns (the components of \(\mathbf{u}\)) and is therefore under-determined.
 %
@@ -416,13 +416,13 @@ then
 %
 Therefore additional constraints need to be imposed in order to uniquely determine \(\mathbf{u}\).
 %
-The first such additional constraint was the \textit{spatial coherence constraint} proposed by Lucas \etal\cite{lucas1981iterative}: assume a pixel's neighbors have the same velocity \(\mathbf{u}\).
+The first such additional constraint was the \textit{spatial coherence constraint} proposed by Lucas \etal \cite{lucas1981iterative}: assume a pixel's neighbors have the same velocity \(\mathbf{u}\).
 %
 For example using a \(5 \times 5\) window around a given pixel yields a \(5\times5 = 25\) equation over-determined system (solved using least-squares).
 
 Regularizers can also be used to resolve the aperture problem. 
 %
-Defining \(\rho(\mathbf{u})\) as the left-hand side of eqn.~\eqref{eqn:intensityconstr}, Horn \etal\cite{horn1993determining} propose the functional
+Defining \(\rho(\mathbf{u})\) as the left-hand side of eqn.~\eqref{eqn:intensityconstr}, Horn \etal \cite{horn1993determining} propose the functional
 \begin{equation}
 	E(\mathbf{u}) \coloneqq \int_R \left[ \abs{\rho(\mathbf{u})}^2 + \alpha \left( \abs{ \nabla u_1 }^2 + \abs{ \nabla u_2 }^2\right) \right] \dif R
 	\label{eqn:linearhorn}
@@ -446,7 +446,7 @@ Defining \(\rho'(\mathbf{u})\) as the left-hand side of eqn.~\eqref{eqn:nonlinea
 	\label{eqn:nonlinearhorn}
 \end{equation}
 %
-Perez \etal\cite{perez2013tv} further relax this to a convex loss:
+Perez \etal \cite{perez2013tv} further relax this to a convex loss:
 \begin{multline}
 	E_{\theta}(\mathbf{u}, \mathbf{v}) \coloneqq \\
 	\int_R \left[ \abs{ u_1 }^2 + \abs{ u_2 }^2 + \frac{1}{2\theta}\abs{ \mathbf{u} - \mathbf{v} }^2 + \lambda \abs{ \rho'(\mathbf{v}) }_1 \right] \dif R
@@ -477,7 +477,7 @@ For example if the spline is constrained to be maximally continuous (i.e., conti
 \]
 degrees of freedom. The spline construction naturally extends to dimensions greater than 1.
 
-Szeliski \etal \cite{szeliski1997spline} represent the velocity field \(\mathbf{u}\) as a two-dimensional spline controlled by a smaller number of displacement estimates \(\hat{\mathbf{u}}\) at control points, which lie on a coarser grid (see figure~\ref{fig:bsplinegrid}):
+Szeliski \etal  \cite{szeliski1997spline} represent the velocity field \(\mathbf{u}\) as a two-dimensional spline controlled by a smaller number of displacement estimates \(\hat{\mathbf{u}}\) at control points, which lie on a coarser grid (see figure~\ref{fig:bsplinegrid}):
 %
 \begin{equation}
 	\begin{bmatrix}
@@ -494,9 +494,9 @@ In particular they experiment with basis functions such as the biquadaritc B-spl
 \]
 where \(B_{j,2}\) is the quadratic B-spline (defined in the forthcoming and displayed in figure~\ref{fig:biquadspline}).
 
-As an alternative one can completely forgo optical flow and simply perform Free-Form Deformation\cite{xie2004} using \textit{Basis splines} (B-splines).
+As an alternative one can completely forgo optical flow and simply perform Free-Form Deformation \cite{xie2004} using \textit{Basis splines} (B-splines).
 %
-A B-spline is a spline defined as a linear combination of a particular set of basis functions (themselves called B-splines): the B-spline basis element \(B_{i, d+1}\) of order \(d+1\) (degree \(d\)) over knots \(k_i < \cdots < k_{i+d+1}\) is defined recursively according to the Cox-de Boor recursion formula\cite{de1971subroutine}:
+A B-spline is a spline defined as a linear combination of a particular set of basis functions (themselves called B-splines): the B-spline basis element \(B_{i, d+1}\) of order \(d+1\) (degree \(d\)) over knots \(k_i < \cdots < k_{i+d+1}\) is defined recursively according to the Cox-de Boor recursion formula \cite{de1971subroutine}:
 \begin{align}
 	B_{j,1} (x) &\coloneqq \mathbbm{1}_{[k_j, k_{j+1})} \\
 	B_{j,d+1} (x) &\coloneqq \frac{x-k_j}{k_{j+d} - k_j} B_{j,d} (x) \\
@@ -504,7 +504,7 @@ A B-spline is a spline defined as a linear combination of a particular set of ba
 \end{align}
 where \(\frac{x-k_j}{k_{j+d} - k_j}\) increases smoothly from zero to one as \(x\) goes from \(k_j\) to \(k_{j+d}\) and \(\frac{k_{j+d+1} - x}{k_{j+d+1} - k_{i+1}}\) decreases smoothly from one to zero as \(x\) goes from \(k_{i+1}\) to \(k_{j+d+1}\).
 %
-Xie \etal\cite{xie2004} fit hierarchical B-splines 
+Xie \etal \cite{xie2004} fit hierarchical B-splines 
 \begin{equation}
 	\mathbf{s}(x,y) \coloneqq \sum_{i=0}^m\sum_{j=0}^n \mathbf{P}_{ij} B_{i,3}(x) B_{j,3}(y)
 \end{equation}

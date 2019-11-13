@@ -3,7 +3,7 @@
 \subsection{Imaging systems}\label{subsec:imaging-systems}
 \begin{figure}
 	\includegraphics[width=\linewidth,keepaspectratio]{figures/background/bccd.png}
-	\caption{CCD buried channel MOS capacitor\cite{finaltestguideline}.}
+	\caption{CCD buried channel MOS capacitor \cite{finaltestguideline}.}
 	\label{fig:mos-cap}
 \end{figure}
 We begin with a practical discussion of imaging systems.
@@ -26,7 +26,7 @@ When photons are incident on a MOS capacitor some of the photons are absorbed, s
 %
 Those photons that are transmitted interact with electrons in the valence band of the silicon exciting them into the conduction band, and thereby create electron-hole pairs that either diffuse or recombine.
 %
-For high-quality silicon, the lifetime of such a pair is several milliseconds (before recombination)\cite{scientificccd}.
+For high-quality silicon, the lifetime of such a pair is several milliseconds (before recombination) \cite{scientificccd}.
 %
 The electrons of the electron-hole pairs that do not recombine diffuse into the potential well, while the holes migrate to the grounded substrate (i.e.,out of the sensor).
 %
@@ -37,7 +37,7 @@ CCD arrays consist of two sub-arrays: an image section and a readout section (se
 The image section is arranged with every third stripe of electrode tied electrically to form three sets of equipotentials.
 \begin{figure}
 	\includegraphics[width=\linewidth,keepaspectratio]{figures/background/ccd_array.png}
-	\caption{CCD array\cite{pawley1995handbook}.}
+	\caption{CCD array \cite{pawley1995handbook}.}
 	\label{fig:ccd-array}
 \end{figure}
 %
@@ -104,7 +104,7 @@ A microbolometer, on the other hand, measures the power in the infrared by expos
 \begin{figure}[b]
 	\center
 	\includegraphics[width=.7\linewidth,keepaspectratio]{figures/background/microbolometer2.png}
-	\caption{Bridge structure of Honeywell microbolometer\cite{KESIM2014245}.}
+	\caption{Bridge structure of Honeywell microbolometer \cite{KESIM2014245}.}
 	\label{fig:microbolometer}
 \end{figure}
 %
@@ -114,9 +114,9 @@ With the maturation of micro-machining techniques (such as for MEMS\anote{mems} 
 %
 These pixel packages are evacuated and therefore have good conduction, convection, radiation heat transfer properties.
 %
-The actual thermo-sensitive component consists of a thermistor, an absorber (which aids in transfer of heat to the thermistor), and a reflector that creates a Fabry–Pérot optical cavity\anote{fabryperot} (typically \({\sim}\lambda/4\)\cite{bolometer}) that traps the infrared light.
+The actual thermo-sensitive component consists of a thermistor, an absorber (which aids in transfer of heat to the thermistor), and a reflector that creates a Fabry–Pérot optical cavity\anote{fabryperot} (typically \({\sim}\lambda/4\) \cite{bolometer}) that traps the infrared light.
 %
-Typical materials for the thermistor are vanadium oxide and amorphous silicon owing to their high temperature coefficients of resistance\cite{bolometer}, which in effect transform small changes in temperature into large changes in resistance.
+Typical materials for the thermistor are vanadium oxide and amorphous silicon owing to their high temperature coefficients of resistance \cite{bolometer}, which in effect transform small changes in temperature into large changes in resistance.
 %
 Measurements of the thermistor are performed by a read-out integrated circuit adjacent to the bridge in the silicon substrate.
 %
@@ -183,7 +183,7 @@ While image registration is already challenging in the various domains where sam
 %
 Therefore, in principle, image registration and super-resolution cannot be decoupled, since image registration accuracy would be improved by operating on the estimated HR images;
 %
-Hardie \etal\cite{Hardie1997} use a Bayesian framework to jointly estimate image registration parameters and the high-resolution image\cite{Hardie1997}.
+Hardie \etal \cite{Hardie1997} use a Bayesian framework to jointly estimate image registration parameters and the high-resolution image \cite{Hardie1997}.
 %
 Alternatively one can marginalize over the HR image and estimate the registration parameters using maximum-likelihood estimation (MLE) (see section~\ref{subsubsec:gaussianprocess}).
 
@@ -199,7 +199,7 @@ We factor the OTF into three components:
 \end{equation}
 where \(u,v\) are horizontal and vertical spatial frequencies respectively (measured in cycles/mm), \(H_{\text{diff}}\) is blur due to diffraction, \(H_{\text{abr}}\) is blur due to lens aberrations, and \(H_{\text{int}}\) is blur due to imaging sensor shape (obtained by taking the Fourier transform of the shape an individual sensor in the imaging array).
 %
-Blur due to diffraction in most imaging systems is due to diffraction through a circular aperture\cite{goodman2005introduction}:
+Blur due to diffraction in most imaging systems is due to diffraction through a circular aperture \cite{goodman2005introduction}:
 \begin{equation*}
 	H_{\text{diff}}(u,v) =   \begin{cases}
 		\frac{2}{\pi} \left(\frac{1}{\cos(\tau)} - \tau \sqrt{1-\tau^2}\right) & \text{if } \tau < 0 \\
@@ -210,7 +210,7 @@ where \(\tau = \rho/\rho_c\), \(\rho=\sqrt{u^2 +v^2}\), \(\rho_c = 1/\lambda N\)
 %
 This is in fact the filter that produces the Airy pattern and therefore informs sensor array spacing in order to avoid aliasing.
 %
-Wavelength independent blurring due to aberrations can be induced by various imperfections in the lenses such as spherical aberration, comatic aberration\anote{coma}, or astigmatism. Furthermore, dispersion\anote{dispersion} blurs particular wavelengths of light. A good model for all of these effects is\cite{10.1117.12.946501}:
+Wavelength independent blurring due to aberrations can be induced by various imperfections in the lenses such as spherical aberration, comatic aberration\anote{coma}, or astigmatism. Furthermore, dispersion\anote{dispersion} blurs particular wavelengths of light. A good model for all of these effects is \cite{10.1117.12.946501}:
 \begin{equation*}
 	H_{\text{abr}}(u,v) =   \begin{cases}
 		1-\left(\frac{25}{65}\right)^2 \left(1-4\left(\tau - \frac{1}{2}\right)\right)^2 & \text{if } \tau < 0 \\
@@ -228,7 +228,7 @@ Notice also that like a typical transfer function the OTF is not flat and theref
 Simply applying gain to the image wouldn't solve the attenuation problems because of aliasing, but likewise this can be resolved after the effective sampling rate is increased using MISR.
 \begin{figure}
 	\includegraphics[width=\linewidth,keepaspectratio]{figures/background/mtf.png}
-	\caption{OTF magnitude cross-section for\cite{milanfar2017super}.}
+	\caption{OTF magnitude cross-section for \cite{milanfar2017super}.}
 	\label{fig:mtf}
 \end{figure}
 
