@@ -196,18 +196,18 @@ Figuratively one can imagine stretching a rubberband such that it contains all p
 \anotecontent{firstordergaussian}{The first derivative of the Gaussian expressed as a filter: \(\left[ -2,-1,0,1,2 \right]\).}
 
 % ann
-\anotecontent{ann}{Artificial neurons are loosely inspired by the spiking neuron model of biological neurons, where dendrites correspond to inputs, the soma corresponds to a linear sum of inputs, and the axon corresponds to the activation function (since it propagates an action potential measured in the soma depending on a threshold).}
-\anotecontent{bias}{The semantics of bias are inherited from from statistics where the bias of an \textit{estimator} is the extent to which the estimator, on average, differs from the value being estimated. Therefore, if we regard an artificial neuron as an estimator (i.e., a linear regression model), we see that the constant term \(w_0\) precisely determines its bias.
+\anotecontent{ann}{Artificial neurons are loosely inspired by the spiking neuron model of biological neurons, where dendrites correspond to inputs, soma corresponds to a linear sum of inputs, and axons corresponds to the activation function.}
+\anotecontent{bias}{The semantics of bias are inherited from from statistics, where the bias of an \textit{estimator} is the extent to which the estimator, on average, differs from the value being estimated. Therefore, if we regard an artificial neuron as an estimator (a non-linear regression), we see that the constant term \(b\) indeed determines its bias.
 }
-\anotecontent{xor}{Exclusive-Or \(\operatorname{XOR}(a,b)\) is a Boolean function (maps \(\{0,1\}\) to \(\{0,1\}\)) defined to be 1 when \(a = b\) and 0 otherwise.}
+\anotecontent{xor}{Exclusive-Or \(\operatorname{XOR}(a,b)\) is a Boolean function (maps \(\{0,1\}\) to \(\{0,1\}\)) defined to be 1 when \(a \neq b\) and 0 otherwise.}
 \anotecontent{backprop}{Backprop itself is a particular instance of a general technique called automatic differentiation (AD). AD computes exact derivatives of functions in either \textit{forward accumulation} or \textit{reverse accumulation} \cite{linnainmaa1976taylor}. Backprop corresponds to reverse mode. In reverse mode the dependent variable \(y\) to be differentiated is fixed and the derivative is computed with respect to each sub-expression \(z_i\) recursively:
 	\begin{multline*}
 		{\frac  {\partial y}{\partial w}}={\frac  {\partial y}{\partial z_{1}}}{\frac  {\partial z_{1}}{\partial w}}=\left({\frac  {\partial y}{\partial z_{2}}}{\frac  {\partial z_{2}}{\partial z_{1}}}\right){\frac  {\partial z_{1}}{\partial w}}=\\\left(\left({\frac  {\partial y}{\partial z_{3}}}{\frac  {\partial z_{3}}{\partial z_{2}}}\right){\frac  {\partial z_{2}}{\partial z_{1}}}\right){\frac  {\partial z_{1}}{\partial w}}=\cdots 
 	\end{multline*}
 }
 \anotecontent{universapprox}{Given enough layers and neurons ANNs with non-linear activations are able to represent functions of arbitrary complexity. Conversely, sans a non-linear activation function, ANNs are unable to represent functions as simple as even \(\operatorname{XOR}\).}
-\anotecontent{learn}{To learn, in this context, means to effectively approximate a function that effectively performs a task. For example in the case of an object recognition task, learning entails approximating a function that outputs high values when an object is recognized and low values otherwise.}
-\anotecontent{largeparams}{OpenAI’s Generative Pre-trained Transformer \cite{radford2018improving} natural language processing (NLP) network has approximately 150 million parameters (and takes 8 GPU-months of non-stop training).}
+\anotecontent{learn}{To learn, in this context, means to approximate a function that effectively performs a task. For example in the case of an object recognition task, learning entails approximating a function that outputs high values when an object is recognized and low values otherwise.}
+\anotecontent{largeparams}{OpenAI’s Generative Pre-trained Transformer (GPT) \cite{radford2018improving} natural language processing (NLP) network has approximately 150 million parameters (and takes 8 GPU-months of non-stop training).}
 \anotecontent{kldiv}{The Kullback–Leibler divergence of two probability distributions \(P,Q\) with densities \(p, q\) is defined
 	\begin{equation*}
 		\operatorname{D}_{\text{KL}}(P\parallel Q)\coloneqq\int _{-\infty }^{\infty }p(x)\log \left({\frac {p(x)}{q(x)}}\right)\,dx
@@ -218,13 +218,13 @@ Note that \(\operatorname{D}_{\text{KL}}\) is not symmetric and therefore not a 
 \end{equation*}
 In this form it is called the Jensen–Shannon divergence and is a true distance measure between probability distributions.
 }
-\anotecontent{minimax}{Strictly speaking mini-max is a decision rule --- a decision rule that leads to minimizing the possible loss for a worst case (maximum loss) scenario.}
-\anotecontent{uniformconv}{A sequence of functions \(F_n\), uniformly converges to \(f\) on a bounded interval \(I\) if given some \(\varepsilon > 0\) there exists \(n\) such that 
+\anotecontent{minimax}{Strictly speaking mini-max is a decision rule followed by each player of a game --- a decision rule that leads to minimizing the possible loss for a worst case (maximum loss) scenario.}
+\anotecontent{uniformconv}{A sequence of functions \(F_n\), \textit{uniformly converges} to \(f\) on a bounded interval \(I\) if given some \(\varepsilon > 0\) there exists \(n\) such that 
 \[
 	\abs{ F_n( x ) - f ( x ) } < \varepsilon
 \]
 for all \(x \in I\). Note the order of the quantifiers: there should be \textbf{one} \(n\) that satisfies the constraint at a given precision \(\varepsilon\) for \textbf{all} \(x \in I\) simultaneously.
 }
-\anotecontent{annealing}{Learning rate annealing imposes a scheduled decay of the learning rate \(\alpha_i\) over time. The intuition being that initially, prior to identifying a minimum, one can afford to take optimistically large steps \(\Delta w_i\) in parameter space but over time one should become more conservative in order to hone in on an identified minimum. Typically the annealing schedule is such that the learning out starts out large and is reduced by an order of magnitude (i.e., a factor of 10) every \(M\) epochs (where \(M\) is a divisor of the total number of epochs that one will train for).}
+\anotecontent{annealing}{Learning rate annealing imposes a scheduled decay of the learning rate \(\alpha_i\) over time. The intuition being that initially, prior to identifying a minimum, one can afford to take optimistically large steps \(\Delta w_i\) in parameter space but over time one should become more conservative in order to hone in on an identified minimum. Typically the annealing schedule is such that the learning rate out starts out large and is reduced by an order of magnitude (i.e., a factor of 10) every \(M\) epochs (where \(M\) is a divisor of the total number of epochs that one will train for).}
 \anotecontent{gradclip}{Exploding gradients is the opposite of vanishing gradients: gradients become so large that weights become unstable. That is, weight updates become large and oscillate around a minimum. Gradient clipping constrains \(\pd{L}{w_i}\) to be within a narrow range around 0; Kim \etal constrain the gradient to be within \(\left[ -\frac{\theta}{\alpha_i}, \frac{\theta}{\alpha_i} \right]\) for some small \(\theta\).}
-\anotecontent{ntire}{The performance of various techniques on SISR and MISR tasks are regularly evaluated at a competition held at the annual New Trends in Image Restoration and Enhancement (NTIRE) workshop. The competition\cite{nah2019ntire} has two tracks: a clean track that only assumes down-sampling test cases and a blur (or natural) track that assumes motion blur (in an effort to approximate real conditions). Many teams compete in both tracks.}
+\anotecontent{ntire}{The performances of various techniques on SISR and MISR tasks are evaluated at a competition held at the annual New Trends in Image Restoration and Enhancement (NTIRE) workshop. The competition \cite{nah2019ntire} has two tracks: a clean track that only assumes down-sampling test cases and a blur (or natural) track that assumes motion blur (in an effort to approximate real conditions). Many teams compete in both tracks.}

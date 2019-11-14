@@ -164,7 +164,7 @@ In general non-uniform interpolation techniques are intuitive and typically (rel
 Statistical estimation methods cast SR as an inference problem.
 %
 \subsubsection{Iterative Back-Projection}\label{subsubsec:iterback}
-One of the earliest successful SR algorithms \cite{Irani1991ImprovingRB} proposed an iterative scheme inspired by the back-projection method commonly used to reconstruct 2D objects from 1-D projections in computer-aided tomography.
+One of the earliest successful SR algorithms \cite{Irani1991ImprovingRB} proposed an iterative scheme inspired by the back-projection method commonly used to reconstruct 2D objects from 1D projections in computer-aided tomography.
 %
 Recall eqn.~\eqref{eqn:imagingmodel}.
 \begin{figure}[!htbp]
@@ -498,7 +498,7 @@ Singh \etal \cite{singh2014} make this intuition rigorous by decomposing HR and 
     \end{adjustbox}
     \caption{Oriented gradient attentuation sorted by energy \cite{singh2014}.}\label{fig:subbands}
 \end{figure}
-To mitigate the effect of this insensitivity of the \(L_2\) metric, they learn the necessary gains to apply in order to recover such low energy patches (along with the matchings).
+To mitigate the effect of this insensitivity of the \(L_2\) metric, they learn the necessary gains to apply (along with the matchings) in order to recover such low energy patches.
 
 \subsubsection{Sparse Coading}\label{subsubsec:sparsecoding}
 NNE also suffers from using a fixed number of nearest neighbors results in blurring (due to over-fitting or under-fitting).
