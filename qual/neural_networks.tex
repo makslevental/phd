@@ -1,4 +1,5 @@
 \section{Artificial Neural Networks}\label{sec:neural-networks}
+\input{figures/neural_networks/figures.tex}
 \localtableofcontents
 Artificial Neural Network (ANN or NN) algorithms for SR are all based on a Convolutional Neural Network (CNN) architecture.
 %
@@ -124,7 +125,6 @@ The one-dimensional (1-D) discrete convolution \((f*g)\) of 1-D discrete functio
     \label{eqn:1dconv}
 \end{equation}
 The convolution of a function \(f\) with a finite sequence of values \(g\) can be interpreted as filtering \(f\) with the filter \(g\); for example convolving a noisy \(f\) with a Heaviside function is effectively low-pass filtering \(f\) (see figure~\ref{fig:convfiltering}).
-\input{figures/neural_networks/convolution.tex}
 %
 The sequence of values that comprise \(g\) is called the \textit{kernel} of the filter \(g\) and the length of the sequence is called the \textit{bandwidth} of \(g\) (or simply the width).
 %
@@ -174,7 +174,6 @@ Vanishing gradients is an all but complete cessation of substantive updates to w
 Notice that if \(\abs{\sigma'} \ll 1\) then \(\Delta w_i\) will be very small.
 %
 This occurs for a single neuron when the input \textit{saturates} the activation function; for example for \(\operatorname{sig}\) this happens when \(\abs{x} > 5\) because the gradient \(\sigma'\) is very small (see figure~\ref{fig:activs}).
-\input{figures/neural_networks/activation.tex}
 %
 For multi-layer ANNs, such as DNNs, even if no single neuron saturates the activation function,
 due to the chain rule, weight updates for layers near the input potentially have products of very many factors that are less than one.
@@ -235,14 +234,6 @@ A Generative Adversarial Network \cite{goodfellow2014generative} is a training r
 A generative task is one which calls for generating samples from a probability distribution represented by the training data.
 %
 For example one might have many images of people and one might wish to generate new samples (see figure~\ref{fig:stylegan}) from the probability distribution of such images (i.e., new images of people).
-\begin{figure}
-    \centering
-    \begin{adjustbox}{width=\linewidth}
-        \centering
-        \includegraphics[]{figures/neural_networks/stylegan.jpg}
-    \end{adjustbox}
-    \caption{Uncurated set of images \textbf{generated} (i.e., none of the people depicted are real) using StyleGAN with the FFHQ dataset \cite{karras2018stylebased}.}\label{fig:stylegan}
-\end{figure}
 %
 In general this is a highly non-trivial problem due to the dimensionality of the sample space.
 
@@ -289,7 +280,6 @@ The first successful foray of Deep Learning was the 2-layer Super-Resolution CNN
 %
 SRCNN is a CNN composed of two convolution layers, with the first layer consisting of 64 filters (per color channel), the second layer consisting of 32 filters, and both layers employing \(\operatorname{ReLU}\) activations.
 %
-\input{figures/neural_networks/srcnn.tex}
 Dong \etal argue that their CNN architecture is equivalent to sparse coding SR (see figure~\ref{fig:srcnn}).
 %
 This is a common theme in the literature --- ANN architectures learning transformations equivalent to classical techniques --- owing to the universal approximation theorem.
@@ -328,7 +318,6 @@ SRResNet takes as input LR images and similar to VDSR passes them through 16 ind
 Where SRResNet differs from VDSR is the in-network up-sampling that it performs using \textit{sub-pixel convolutions}.
 %
 Sub-pixel convolutions are a way to learn up-sampling as a component of the ANN.
-\input{figures/neural_networks/subpixelconv.tex}
 %
 The up-sample in two phases: first \(r^2\) filters are convolved with the input, where \(r\) is up-sampling factor (e.g., 4 filters for 2x up-sampling), then a \textit{pixel shuffle} operation places the entries of the feature maps in an \(r\)-times higher resolution grid (see figure~\ref{subfig:pixelshuffle}).
 %
@@ -336,14 +325,6 @@ This operation is called a sub-pixel convolution because it can be interpreted a
 
 Ledig \etal pre-train SRResNet using mean-squared-error (MSE) loss and then further train using the GAN framework (see section~\ref{subsubsec:gan}).
 %
-\begin{figure}
-    \centering
-    \begin{adjustbox}{width=\linewidth}
-        \centering
-        \includegraphics[]{figures/neural_networks/perceptual_loss.png}
-    \end{adjustbox}
-    \caption{Perceptual loss \cite{johnson2016perceptual}.}\label{fig:perceptualloss}
-\end{figure}
 In addition to using the conventional GAN loss they add a term they call \textit{perceptual loss}:
 \begin{equation}
     \ell_{feat}^{\phi, j} \left( \hat{\bm{y}}, \bm{y}_c\right) \coloneqq \frac{1}{H_j W_j} \abs{\phi_j\left({\hat{\bm{y}}}\right) - \phi_j \left(\bm{y}_c\right)}^2
@@ -360,14 +341,6 @@ They argue that this loss is closer to perceptual similarity than MSE loss and t
 
 
 
-\begin{figure}
-    \centering
-    \begin{adjustbox}{width=\linewidth}
-        \centering
-        \includegraphics{figures/neural_networks/lapsrn.png}
-    \end{adjustbox}
-    \caption{LapSRN architecture \cite{Lai_2017}.}\label{fig:lapsrn}
-\end{figure}
 Lai \etal \cite{Lai_2017} propose a network that up-samples by predicting sub-band (see section~\ref{subsubsec:subband}) residuals at progressively finer and finer scales (i.e., higher and higher resolution).
 %
 Their network consists of \(\log_2(r)\), where \(r\) is the scaling factor, tiers of CNNs along two branches: a feature extraction branch and an image reconstruction branch (see figure~\ref{fig:lapsrn}).
@@ -400,7 +373,6 @@ where \(\bm{t}_i \coloneqq (t_{\log_2{(r)}}, \dots, t_1)\) is the target HR imag
 
 
 
-\input{figures/neural_networks/dbpn.tex}
 Inspired by recent theories on the function of the human visual cortex \cite{kravitz2013ventral} Harris \etal \cite{haris2018deep} propose a deep neural network for SR that incorporates error-correcting feedback mechanisms.
 %
 They build on the work of Irani \etal (see section~\ref{subsubsec:iterback}) and implement deep iterative back projections (DBPN) (see figure~\ref{subfig:dbpn}).
@@ -445,10 +417,6 @@ It is the cells keep track of the dependencies between elements of the sequences
 % As with all deep architectures RNN suffer from vanishing gradients; Long short-term memory (LSTM) cells address this problem by allowing gradients to flow through the cell unmediated (see figure~\ref{subfig:lstm}).
 %
 
-\begin{figure}
-    \includegraphics[width=.49\textwidth]{figures/neural_networks/brcn.png}
-    \caption{BRCN schematic diagram \cite{huang2015bidirectional}.}\label{subfig:brcn}
-\end{figure}
 BRCN uses two recurrent networks, a forward-propagating network and a backward-propagating network.
 %
 Each of BRCN's RNNs is composed of conventional (feed-forward) convolutions, which model up-sampling, and convolutions in time (what they call recurrent and conditional convolutions), which model time dependencies (see figure~\ref{subfig:brcn}).
@@ -463,7 +431,7 @@ BRCN achieved (at the time) state of the art reconstruction performance for \(t=
 \subsubsection{Interlude: Attention and Spatial Transformers}\label{subsubsec:spatialtrans}
 
 
-Attention mechanisms \cite{bahdanau2014neural} are neural networks modules that can conditionally suppress certain parts of data (either at the input layer or at intermediate layers in the network).
+Attention mechanisms \cite{bahdanau2014neural} are neural network modules that can conditionally suppress certain parts of data (either at the input layer or at intermediate layers in the network).
 %
 Let \(\bm{x} \in \mathbb{R}^d\) be a sample and \(\bm{z} \in \mathbb{R}^k\) be the output at some intermediate layer.
 %
@@ -471,29 +439,18 @@ Then \(f_\phi(\cdot) \in \left[0,1\right]^k\) is an attention network with learn
 %
 As defined \(f_\phi\) is a \textit{soft attention} mechanism; if \(f_\phi(\cdot) \in \left\{0,1\right\}^k\) (i.e., \(f_\phi\) learns a binary mask) then it is called a \textit{hard attention} mechanism.
 %
-\begin{figure*}
-    \centering
-    \includegraphics[width=\textwidth]{figures/neural_networks/attention.png}
-    \caption[]{Attention for image captioning \cite{xu2015attend}.}\label{fig:attention}
-\end{figure*}
-For example, \textit{Visual attention} (attention applied to images) can be used to improve image captioning (see figure~\ref{fig:attention}).
+For example, \textit{visual attention} (attention applied to images) can be used to improve image captioning (see figure~\ref{fig:attention}).
 
 A spatial transformer \cite{jaderberg2015spatial} is an attention mechanism that can also perform geometric transformations \(\mathcal{T}_{\bm{\theta}}\) of the data.
 %
 Note that the transformation is conditional on the input just like attention is conditional on the input.
 %
-\begin{figure}
-    \centering
-    \includegraphics[width=.49\textwidth]{figures/neural_networks/space_transformer.png}
-    \caption{Spatial Transformer \cite{jaderberg2015spatial}.}\label{fig:spacetransformer}
-\end{figure}
-\input{figures/neural_networks/space_transformer.tex}
-The transformer operates operates on input \(U\) to produce output \(V\) in three phases, each of which is implemented by a module (see figure~\ref{fig:spacetransformer}): 
+The transformer operates on input \(U\) to produce output \(V\) in three phases, each of which is implemented by a module (see figure~\ref{fig:spacetransformer}): 
 \begin{framed}
     \begin{enumerate}
-        \item \textbf{Localization}: a regression network \(f_{\text{loc}}(\cdot)\) that regresses the transformation parameters \(\bm{\theta}\) that parameterize the transformation \(\mathcal{T}_{\bm{\theta}}\). For example the six parameters that define an affine transformation (see figure~\ref{fig:affinetransformationa}) in homogenous coordinates.
-        \item \textbf{Grid generation}: a sampling grid network, which generates the set of points where the input should be sampled to produce the transformed output (see figure~\ref{fig:paramsampling}). In practice it takes \(\bm{\theta}\) as a fixed parameter and a coordinate system and generates a grid but in full generality this module can even learn the correct coordinate representation.
-        \item \textbf{Sampling}: a sampling kernel \(K\) that controls sampling strength on the transformed \((n,m)\) grid:
+        \item \textbf{Localization}: a regression network \(f_{\text{loc}}(\cdot)\) that regresses the transformation parameters \(\bm{\theta}\) that parameterize the transformation \(\mathcal{T}_{\bm{\theta}}\). For example the six parameters that define an affine transformation (see figure~\ref{fig:affinetransformation}) in homogenous coordinates.
+        \item \textbf{Grid generation}: a sampling grid network, which generates the set of points where the input should be sampled to produce the transformed output (see figure~\ref{fig:paramsampling}). In practice it takes \(\bm{\theta}\) and the coordinate system as fixed parameters and generates a grid but in full generality this module can learn the correct coordinate representation.
+        \item \textbf{Sampler}: a sampling kernel \(K\) that controls sampling strength on the transformed \((n,m)\) grid:
         \begin{equation*}
             V(x,y) = \sum_n \sum_m U(n,m) K(x-m, y-n)
         \end{equation*}
@@ -504,25 +461,17 @@ The transformer operates operates on input \(U\) to produce output \(V\) in thre
 \end{framed}
 
 
-
-
-
 \subsubsection{Video Efficient Sub-Pixel Networks}
 
 
 
-\begin{figure}
-    \includegraphics[width=.49\textwidth]{figures/neural_networks/realtime_epscn.png}
-    \caption{Real-time MISR with motion compensation \cite{caballero2017real}. Motion compensation is performed two adjacent frames in a triplet and all three frames are then passed to up-sampling network.}\label{fig:realtimeepscn}
-\end{figure}
-\begin{figure}
-    \centering
-    \includegraphics[width=.4\textwidth]{figures/neural_networks/motion_compensation.png}
-    \caption{Motion estimation module for BRCN \cite{caballero2017real}.}\label{fig:motion_estimation}
-\end{figure}
 The first real-time DNN architecture (see figure~\ref{fig:realtimeepscn}) for MISR was based on a spatial transformer (see section~\ref{subsubsec:spatialtrans}) for motion compensation and efficient sub-pixel convolutions networks (ESPCN) for up-sampling (see section~\ref{subsubsec:srgan}).
 %
-In this case only the localization network of the spatial transformer is used to learn a pair of displacement mappings \(\Delta_{t+1} \coloneqq (\Delta_{t+1}x, \Delta_{t+1} y)\) (parameterized by \(\bm{\theta}\)) for each pixel in the images:
+In this case only the localization network of the spatial transformer is used to learn a pair of displacement mappings 
+\begin{equation}
+    \Delta_{t+1} \coloneqq (\Delta_{t+1}x, \Delta_{t+1} y)
+\end{equation}
+parameterized by \(\bm{\theta}\), for each pixel in the images:
 \begin{equation}
     \hat{\bm{\theta}} \coloneqq \underset{\bm{\theta}}{\text{argmin}}\left[\abs{I_t - I'_{t+1}}^2 + \lambda \mathcal{H}\left( \partial_{x,y} \Delta_{x+1} \right)\right]
 \end{equation}
@@ -531,8 +480,7 @@ where the Huber loss \(\mathcal{H}\) is used as a regularizer (see section~\ref{
 In fact the spatial transformer used by Caballero \etal estimates the optical flow in a course to fine fashion (see figure~\ref{fig:spacetransformer}).
 
 
-\input{figures/neural_networks/fusion.tex}
-For the up-sampling itself Caballero \etal experiment with various incorporations of sub-pixel convolution architectures that they call \textit{fusion} methods.
+For the up-sampling itself Caballero \etal experiment with incorporating several sub-pixel convolution architectures that they call \textit{fusion} methods.
 %
 Each fusion method applies convolutions to the sequence of images in either a tiered or conventional fashion (see figure~\ref{fig:fusions}) and then reorders the pixels to produce the HR image.
 %
@@ -547,11 +495,7 @@ Slow fusion on the other hand applies the convolutions in tiers in order to inco
 
 
 
-The current state-of-the-art DNN solution for MISR is the Enhanced Deformable Convolutional Network architectures\cite{wang2019edvr}.
-\begin{figure}
-    \includegraphics[width=.49\textwidth]{figures/neural_networks/edvr.png}
-    \caption[]{Enhanced Deformable Convolutional Networks\cite{wang2019edvr}.}\label{fig:edvr}
-\end{figure}
+The current state-of-the-art DNN solution for MISR is the Enhanced Deformable Convolutional Network architectures (EDCN) \cite{wang2019edvr}.
 This architecture consists of three (or four) independent stages implemented as self-contained modules (see figure~\ref{fig:edvr}): 
 \begin{framed}
     \begin{enumerate}
@@ -561,3 +505,29 @@ This architecture consists of three (or four) independent stages implemented as 
         \item \textbf{Reconstruction}: a high-frequency image artefact restoration stage effected by a cascade of ResBlocks (see section~\ref{subsubsec:vdsr}).
     \end{enumerate}
 \end{framed}
+
+The PCD alignment module uses tiered \textit{deformable convolutions} in order to perform registration. 
+%
+A deformable convolution is a convolution with an irregularly shaped and spaced kernel or a convolution.
+%
+It's impelemented by learning the combination of a kernel and an offset field the stores the offsets of each of the kernel values (see figure~\ref{fig:deformconv}).
+%
+For EDCN the deformable convolution deforms, with kernel \(w\), and input image \(I\) to an aligned image \(I'_t\) (relative to a reference image) according to 
+\begin{equation}
+    I'_t(\bm{x}) = \sum_{\bm{p}} w(\bm{p}) I_t(\bm{x} + \bm{p} + \Delta \bm{p})
+\end{equation}
+where \(\bm{p} \in \left\{(-1,-1), (-1, 0), \dots, (0,1), (1,1)\right\}\) and \(\Delta \bm{p}\) is the learned offset.
+
+The TSA module \textit{attends} in time and space to the sequence of images.
+%
+It determines which frames should be attended to in time according a similarity measure:
+\begin{equation}
+    h(I_t, I_{t+i}) \coloneqq \operatorname{sig} \left(f(I_t)^T g(I_t)\right)
+\end{equation}
+where \(f,g\) are learned feature mappings (i.e., they anble the TSA module to measure similarity in lower dimensional feature space).
+%
+It then determines spatial attention on concatenations of all of the images in a pyramidal fashion.
+%
+The output of the TSA fusion is then passed to a reconstruction module consisting primarily of residual blocks.
+%
+EDCN trains using the Charbonnier loss on groups of 5 consecutive frames. 

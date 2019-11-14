@@ -1,7 +1,7 @@
 \section{Background}\label{sec:background}
 \localtableofcontents
 \subsection{Imaging systems}\label{subsec:imaging-systems}
-\begin{figure}
+\begin{figure}[!htbp]
 	\includegraphics[width=\linewidth,keepaspectratio]{figures/background/bccd.png}
 	\caption{CCD buried channel MOS capacitor \cite{finaltestguideline}.}
 	\label{fig:mos-cap}
@@ -35,7 +35,7 @@ Electrons created in this way are called \textit{photoelectrons}.
 CCD arrays consist of two sub-arrays: an image section and a readout section (see figure~\ref{fig:ccd-array}).
 %
 The image section is arranged with every third stripe of electrode tied electrically to form three sets of equipotentials.
-\begin{figure}
+\begin{figure}[!htbp]
 	\includegraphics[width=\linewidth,keepaspectratio]{figures/background/ccd_array.png}
 	\caption{CCD array \cite{pawley1995handbook}.}
 	\label{fig:ccd-array}
@@ -90,7 +90,7 @@ The high number of transistors needed per pixel in CMOS arrays has only recenty 
 This, along with such artifacts as the rolling shutter effect produced by rowline reading, are some of the drawbacks of CMOS arrays relative to CCD arrays.
 %
 Despite this CMOS arrays have become the most common imaging system in consumer goods such as cell phones and digital cameras due to their relatively simple mechanics.
-\begin{figure}
+\begin{figure}[!htbp]
 	\center
 	\includegraphics[width=.8\linewidth,keepaspectratio]{figures/background/cmos.png}
 	\caption{CMOS array of red, green, and blue pixels.}
@@ -101,7 +101,7 @@ Both CCD arrays and CMOS arrays only capture visible light.
 %
 A microbolometer, on the other hand, measures the power in the infrared by exposing a thermistor\anote{thermistor} to the incident light.
 %
-\begin{figure}[b]
+\begin{figure}[!htbp][b]
 	\center
 	\includegraphics[width=.7\linewidth,keepaspectratio]{figures/background/microbolometer2.png}
 	\caption{Bridge structure of Honeywell microbolometer \cite{KESIM2014245}.}
@@ -226,7 +226,7 @@ This in particular can be mitigated by effectively increasing sampling rate usin
 Notice also that like a typical transfer function the OTF is not flat and therefore attenuates high spatial frequencies.
 %
 Simply applying gain to the image wouldn't solve the attenuation problems because of aliasing, but likewise this can be resolved after the effective sampling rate is increased using MISR.
-\begin{figure}
+\begin{figure}[!htbp]
 	\includegraphics[width=\linewidth,keepaspectratio]{figures/background/mtf.png}
 	\caption{OTF magnitude cross-section for \cite{milanfar2017super}.}
 	\label{fig:mtf}

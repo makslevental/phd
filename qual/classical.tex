@@ -22,7 +22,7 @@ This naturally suggests interpolation in order to recover \(V\) (since \(\Xk\), 
 %
 Note in this context we use interpolation very broadly, i.e.,to connote filling in missing values using neighboring (in some sense --- not necessarily geometrically) values.
 %
-\begin{figure}
+\begin{figure}[!htbp]
     \centering
     \includegraphics[width=\linewidth,keepaspectratio]{figures/classical/hrgrid.png}
     \caption{LR image registration on an HR grid \cite{Lin}.}
@@ -38,7 +38,7 @@ This non-uniform interpolation is then followed by application of a Wiener filte
 %
 \subsubsection{Delaunay Triangulation}
 
-\begin{figure}
+\begin{figure}[!htbp]
     \centering
     \includegraphics[width=.7\linewidth]{figures/classical/delauney.png}
     \caption{Delaunay triangulation for fitting splines at LR pixels \cite{Lertrattanapanich}. \(v\) is an LR pixel. Note that \(v\) is at \(z\) equal to the pixel value.}
@@ -58,7 +58,7 @@ A more sophisticated method for non-uniform interpolation uses parametric models
 These weights are then used to average nearby pixel values.
 %
 The algorithm operates on a sliding \textit{estimation window} whose dimensions \(D_x, D_y\) are chosen such that the effective sampling rate exceeds the Nyquist rate for a given \(\rho_c\).
-\begin{figure}
+\begin{figure}[!htbp]
     \centering
     \includegraphics[width=.7\linewidth]{figures/classical/wiener.png}
     \caption{Wiener filter super resolution estimation window of dimension \(D_x \times D_y\) and observation window of dimension \(W_x \times W_y\) \cite{wiener}.}
@@ -110,13 +110,13 @@ where \(P\) indexes over all pixels in the HR grid and \(K\) is a \textit{kernel
 %
 Note that \(\hat{Z}(\bx)\) can also be seen as a weighted filtering of \(Y\).
 %
-\begin{figure}
+\begin{figure}[!htbp]
     \centering
     \includegraphics[width=.8\linewidth]{figures/classical/footprint.png}
     \caption{Kernel footprint as a function of sample density \cite{Takeda2007}.}
     \label{fig:footprint}
 \end{figure}
-\begin{figure}
+\begin{figure}[!htbp]
     \centering
     \includegraphics[width=\linewidth,keepaspectratio]{figures/classical/steering.png}
     \caption{Adapting kernel shape as a function of local directed structure \cite{Takeda2007}.}
@@ -167,7 +167,7 @@ Statistical estimation methods cast SR as an inference problem.
 One of the earliest successful SR algorithms \cite{Irani1991ImprovingRB} proposed an iterative scheme inspired by the back-projection method commonly used to reconstruct 2D objects from 1-D projections in computer-aided tomography.
 %
 Recall eqn.~\eqref{eqn:imagingmodel}.
-\begin{figure}
+\begin{figure}[!htbp]
     \centering
     \includegraphics[width=\linewidth,keepaspectratio]{figures/classical/iterative_back_projection.png}
     \caption{Iterative back projection \cite{Irani1991ImprovingRB}.}
@@ -423,7 +423,7 @@ Note that they pre-process the LR images by cubic-spline interpolating to the hi
 %
 Naive mosaicing of these matching HR patches produces poor results due to noise and the ill-posed nature of super-resolution.
 %
-\begin{figure}
+\begin{figure}[!htbp]
     \centering
     \includegraphics[width=\linewidth,keepaspectratio]{figures/classical/mrf.png}
     \caption{Hidden Markov random field modeling spatial relationships between LR patches \(x_i\) and example LR patches \(y_i^{LR}\) and HR patches \(y_i\) \cite{freeman2002example}.}
@@ -452,7 +452,7 @@ They compute the MAP estimate using belief propagation\anote{beliefpropagation}.
 \subsubsection{Nearest Neighbor Embedding}
 An issue with the direct LR-HR patch pair technique is that it requires an enormous database of patches in order for it to generalize.
 %
-\begin{figure}
+\begin{figure}[!htbp]
     \centering
     \includegraphics[width=\linewidth,keepaspectratio]{figures/classical/lle.png}
     \caption{NNE algorithm from LR patches \(x_i\) to HR patches \(y_i\) \cite{Guillermophdthesis}.}
@@ -490,7 +490,7 @@ Zontak \etal \cite{zontak2011internal} show that finding matches between image p
 This is directly as a result of the fact that \(L_2\) distances between patches are primarily determined by prominent image structures.
 %
 Singh \etal \cite{singh2014} make this intuition rigorous by decomposing HR and SR patch pairs into oriented \textit{sub-bands} (i.e., gradient orientation bins) and demonstrating that low-energy sub-bands (i.e., those that contribute weakly to the decomposition) are more strongly attenuated (see figure~\ref{fig:subbands}).
-\begin{figure}
+\begin{figure}[!htbp]
     \centering
     \begin{adjustbox}{width=\linewidth}
         \centering
@@ -543,7 +543,7 @@ They resolve this by using iterative back projection (see eqn.~\eqref{eqn:ibp}) 
 While the sparse representation approach mitigates issues having to do with local bias (fixed number \(K\) patch neighbors) it still requires a large database of raw image patches.
 %
 The same group's follow-on paper \cite{yang2010} addresses this issue directly by learning the LR, HR dictionaries with a fixed number of atoms \(K\).
-\begin{figure}
+\begin{figure}[!htbp]
     \centering
     \includegraphics[width=\linewidth,keepaspectratio]{figures/classical/dictpatches.png}
     \caption{512 entry \(9 \times 9\) atom HR image patch dictionary trained using 100,000 HR and LR image patch pairs \cite{yang2010}.}
@@ -569,7 +569,7 @@ where \(\bY \coloneqq \left( \by_1, \mathellipsis, \by_P \right)\) are the examp
 
 \subsubsection{Anchored Neigbhorhood Regression}
 Though SC achieves good results for reasonably sized example sets and dictionary sizes it suffers from the inherent computational complexity of solving the optimization problem (see figure~\ref{fig:dictspeedspize}).
-\begin{figure}
+\begin{figure}[!htbp]
     \centering
     \includegraphics[width=\linewidth,keepaspectratio]{figures/classical/dictsizespeed.png}
     \caption{Dictionary inference time as a function of dictionary size \cite{yang2010}.}
@@ -637,7 +637,7 @@ Since the objective in eqn.~\eqref{eqn:linearbasisregression} is linear in \(\pr
 \end{equation}
 where \(\bX_t^l\) are only those LR patches that get routed to leaf \(l\) in tree \(t\), similarly \(\bY_t^l\), and \(\Phi(\bX_t^l)\) is the matrix \(\left( \phi_i(\bx_j) \right)\) with \(\bx_j\) being one of \(\bX_t^l\).
 %
-\begin{figure}
+\begin{figure}[!htbp]
     \centering
     \includegraphics[width=\linewidth,keepaspectratio]{figures/classical/FIRF.png}
     \caption{A set of decision trees. Each decision tree recursively classifies the input LR patch into left or right child node, until a leaf node is reached. By using the linear regression models stored in the each leaf node, the input LR patch can be projected to the HR patch space \cite{Huang}.}
