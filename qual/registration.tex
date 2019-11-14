@@ -17,11 +17,11 @@ Feature detection and selection is the process of identifying features of the im
 %
 Note that here by features  we mean image artifacts (e.g. edges, contours, line intersections, or corners); in this context encodings or transformations of these image artifacts are called \textit{descriptors}.
 %
-Features are also known as control points 
+Features are also known as control points (CPs).
 %
 The CPs are the data that will be used to estimate the transformation \(f\).
 %
-Therefore, in order that the estimated transformation is accurate, CPs should be robust to noise and image degradation, sufficiently distributed throughout the image, and readily matched in the matching step.
+Therefore, in order that the estimated transformation is accurate, the CPs should be robust to noise, sufficiently distributed throughout the image, and readily matched in the matching step.
 
 \subsubsection{Harris Corner Detection}
 Bentoutou \etal \cite{bentoutou2005automatic} use a Harris detector \cite{harris1988combined} to find corner points, arguing that corners are robust to noise and stable over multiple images.
@@ -147,7 +147,7 @@ The algorithm consists of five steps:
 
 SIFT is indeed effective as a CP detector but unfortunately it is patented.
 %
-Alternatives include Binary Robust Invariant Scalable Keypoints \cite{leutenegger2011brisk}, and Oriented FAST and rotated BRIEF \cite{rublee2011orb} (which itself consists of applying Features from Accelerated Segment Test \cite{rosten2006machine} to detect points of interest and Binary Robust Independent Elementary Features \cite{calonder2010brief} to compute descriptors).
+Alternatives include Binary Robust Invariant Scalable Keypoints \cite{leutenegger2011brisk}, and Oriented FAST and rotated BRIEF \cite{rublee2011orb}.
 
 \subsection{Feature Matching}
 
@@ -204,7 +204,7 @@ where \(\hat{X}_1, \hat{X}_2\) are mean patch values.
 
 \input{figures/registration/cross-correlation/overlap.tex}
 %
-The NCC image registration technique performs a grid-search over possible shifts and compute the cross-correlation of the shifted images (see figure~\ref{fig:shiftedcat}) (usually over a fixed cross-correlation window rather than the entire image for the sake of computational efficiency).
+The NCC image registration technique performs a grid-search over possible shifts and computes the cross-correlation of the shifted images (see figure~\ref{fig:shiftedcat}) (usually over a fixed cross-correlation window rather than the entire image for the sake of computational efficiency).
 %
 The maximum response as a function \(\Delta x, \Delta y\) is the imputed translation between the images (see figure~\ref{fig:crosscorr}).
 %
