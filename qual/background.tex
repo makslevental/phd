@@ -133,15 +133,23 @@ Upper case plain latin \(X, Y\) each denote channel \(\times\) row \(\times\) co
 %
 Often for the sake of simplicity we consider greyscale images, in which case we omit the channel dimension.
 %
-Lower case plain latin \(x, y\) denote LR and HR \textit{patches}\anote{patch} respectively.
-%
 \(D, H, F, G\) variously refer to functions that operate on images.
 %
-Bolded uppercase latin \(\bm{X}, \bm{Y}\) are reserved for batches of images, i.e.,batch size \(\times\) channel \(\times\) row \(\times\) column tensors with \((0, 0, 0,0)\) corresponding to the top left corner of the first channel of first image in the batch.
+Bolded uppercase latin are reserved for batches of objects.
+%
+For example \(\bm{X}, \bm{Y}\) are batches of images, i.e., batch size \(\times\) channel \(\times\) row \(\times\) column tensors with \((0, 0, 0,0)\) corresponding to the top left corner of the first channel of first image in the batch.
 %
 Bolded lower case denote \(\bm{x}, \bm{y}, \bm{z}\) etc. denote conventional column or row vectors.
 %
+Subscripts are used most often to indicate sequences but occasionally indicate position.
+%
 The \(L_2\) norm is \(\abs{\cdot}\); other norms are indicated by a subscript e.g. \(\abs{\cdot}_1\) is the \(L_1\) norm.
+%
+New mathematical quantities are defined on first use by colon-equals \(\coloneqq\).
+%
+Hats denote computed estimators (e.g., \(\hat{X}\) is an estimate of \(X\) given noisy samples \(X_i\)).
+%
+All other notation is defined in situ.
 
 \subsection{Imaging model}\label{subsec:imaging-model}
 
