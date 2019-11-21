@@ -124,13 +124,13 @@ Figuratively one can imagine stretching a rubberband such that it contains all p
 \anotecontent{stokes}{
 	The integral of a differential form \(\omega\) on the boundary of some orientable manifold \(\Omega\)  is equal to the integral of its exterior derivative \(\dif \omega\) on \(\Omega\), i.e
 	\[
-		\int _{\partial \Omega }\omega =\int _{\Omega }\dif\omega
+		\int\limits _{\partial \Omega }\omega =\int\limits _{\Omega }\dif\omega
 	\]
 	In this instance \(R\) is the orientable manifold, \( \mathbf{j} \cdot \mathbf{n}\, \dif l \) is the differential form \(\omega\), and \( \nabla \cdot \mathbf{j}\, \dif R\) is the exterior derivative \(\dif \omega\) of \(\omega\).
 }
 \anotecontent{tvloss}{ Total variation is equivalent to the integral of the gradient magnitude:
 \[
-	\abs{u}_{\operatorname {TV}}=\int\abs{\nabla u}
+	\abs{u}_{\operatorname {TV}}=\int\limits\abs{\nabla u}
 \]
 }
 \anotecontent{indicator}{The indicator (or characteristic) \(\mathbbm{1}_{[a,b)}\) function is 1 on the interval \([a,b)\) and 0 otherwise.}
@@ -210,7 +210,7 @@ Figuratively one can imagine stretching a rubberband such that it contains all p
 \anotecontent{largeparams}{OpenAI’s Generative Pre-trained Transformer (GPT) \cite{radford2018improving} natural language processing (NLP) network has approximately 150 million parameters (and takes 8 GPU-months of non-stop training).}
 \anotecontent{kldiv}{The Kullback–Leibler divergence of two probability distributions \(P,Q\) with densities \(p, q\) is defined
 	\begin{equation*}
-		\operatorname{D}_{\text{KL}}(P\parallel Q)\coloneqq\int _{-\infty }^{\infty }p(x)\log \left({\frac {p(x)}{q(x)}}\right)\,dx
+		\operatorname{D}_{\text{KL}}(P\parallel Q)\coloneqq\int\limits _{-\infty }^{\infty }p(x)\log \left({\frac {p(x)}{q(x)}}\right)\,dx
 	\end{equation*}
 Note that \(\operatorname{D}_{\text{KL}}\) is not symmetric and therefore not a true distance measure. Fortunately it can be symmetrized:
 \begin{equation*}
@@ -228,3 +228,8 @@ for all \(x \in I\). Note the order of the quantifiers: there should be \textbf{
 \anotecontent{annealing}{Learning rate annealing imposes a scheduled decay of the learning rate \(\alpha_i\) over time. The intuition being that initially, prior to identifying a minimum, one can afford to take optimistically large steps \(\Delta w_i\) in parameter space but over time one should become more conservative in order to hone in on an identified minimum. Typically the annealing schedule is such that the learning rate out starts out large and is reduced by an order of magnitude (i.e., a factor of 10) every \(M\) epochs (where \(M\) is a divisor of the total number of epochs that one will train for).}
 \anotecontent{gradclip}{Exploding gradients is the opposite of vanishing gradients: gradients become so large that weights become unstable. That is, weight updates become large and oscillate around a minimum. Gradient clipping constrains \(\pd{L}{w_i}\) to be within a narrow range around 0; Kim \etal constrain the gradient to be within \(\left[ -\frac{\theta}{\alpha_i}, \frac{\theta}{\alpha_i} \right]\) for some small \(\theta\).}
 \anotecontent{ntire}{The performances of various techniques on SISR and MISR tasks are evaluated at a competition held at the annual New Trends in Image Restoration and Enhancement (NTIRE) workshop. The competition \cite{nah2019ntire} has two tracks: a clean track that only assumes down-sampling test cases and a blur (or natural) track that assumes motion blur (in an effort to approximate real conditions). Many teams compete in both tracks.}
+
+% conclusions
+\anotecontent{transfer}{Given a source domain and target domain, transfer learning sets out to accelerate learning for a task over the target domain given using learning already performed for a task over the source domain.}
+\anotecontent{tremor}{For example Physiologic tremor in the case of cell phone cameras. Physiologic tremor is a low amplitude tremor of a limb that presents at approximately 10Hz. It occurs in normal, healthy individuals.}
+\anotecontent{rl}{Reinforcement Learning is a paradigm of machine learning based on principles of operant conditioning, i.e., using punishment and reward.}

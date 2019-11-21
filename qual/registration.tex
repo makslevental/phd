@@ -354,13 +354,13 @@ Let \(X(x,y,t)\) be pixel intensity over a sequence of images (i.e., the images 
 
 \noindent Then define
 \begin{equation*}
-	Q(t) \coloneqq \iint_R X(x,y,t) \dif R
+	Q(t) \coloneqq \iint\limits_R X(x,y,t) \dif R
 \end{equation*}
 to be the total pixel intensity over some image region \(R\), and assume \(Q\) is differentiable in \(t\) (we deal with discretization in the forthcoming).
 %
 \(Q\) obeys an integral \textit{continuity equation}:
 \begin{equation}
-	\od{}{t} Q(t) + \oint_{\partial R} \mathbf{j} \cdot \mathbf{n}\, \dif l = \Sigma
+	\od{}{t} Q(t) + \oint\limits_{\partial R} \mathbf{j} \cdot \mathbf{n}\, \dif l = \Sigma
 	\label{eqn:intcontinuity}
 \end{equation}
 where \(\partial R\) is the closed boundary of \(R\), \(\dif l\) the differential line element of \(\partial R\), \(\mathbf{n}\) is unit length and normal to \(\partial R\), \(\mathbf{j}\) is the intensity flux (i.e., rate of flow of the intensity) through \(\partial R\), and \(\Sigma\) is the sum of all intensity sources and intensity sinks in \(R\).
@@ -369,15 +369,15 @@ Equation~\eqref{eqn:intcontinuity} expresses the fact that the change in total p
 %
 By the Stokes' theorem\anote{stokes} and interchanging the order of integration and differentiation
 %\begin{align}
-%	\od{}{t} Q(t) + \oint_{\partial R} \mathbf{j} \cdot \mathbf{n}\, \dif l &=  \\
-%	\od{}{t} \iint_R X(x,y,t) \dif R + \iint_R \nabla \cdot \mathbf{j}\, \dif R &= \\
-%	 \iint_R \pd{X}{t} \dif R + \iint_R \nabla \cdot \mathbf{j}\, \dif R &= \\
-%	\iint_R \pd{X}{t} + \nabla \cdot \mathbf{j}\,  \dif R &= \Sigma
+%	\od{}{t} Q(t) + \oint\limits_{\partial R} \mathbf{j} \cdot \mathbf{n}\, \dif l &=  \\
+%	\od{}{t} \iint\limits_R X(x,y,t) \dif R + \iint\limits_R \nabla \cdot \mathbf{j}\, \dif R &= \\
+%	 \iint\limits_R \pd{X}{t} \dif R + \iint\limits_R \nabla \cdot \mathbf{j}\, \dif R &= \\
+%	\iint\limits_R \pd{X}{t} + \nabla \cdot \mathbf{j}\,  \dif R &= \Sigma
 %\end{align}
 \begin{align*}
-	\od{}{t} Q(t) + \oint_{\partial R} \mathbf{j} \cdot \mathbf{n}\, \dif l & = \od{}{t} \iint_R X(x,y,t) \dif R + \iint_R \nabla \cdot \mathbf{j}\, \dif R \\
-	& = \iint_R \pd{X}{t} \dif R + \iint_R \nabla \cdot \mathbf{j}\, \dif R         \\
-	& = \iint_R \left[ \pd{X}{t} + \nabla \cdot \mathbf{j} \right]  \dif R = \Sigma
+	\od{}{t} Q(t) + \oint\limits\limits_{\partial R} \mathbf{j} \cdot \mathbf{n}\, \dif l & = \od{}{t} \iint\limits_R X(x,y,t) \dif R + \iint\limits_R \nabla \cdot \mathbf{j}\, \dif R \\
+	& = \iint\limits_R \pd{X}{t} \dif R + \iint\limits_R \nabla \cdot \mathbf{j}\, \dif R         \\
+	& = \iint\limits_R \left[ \pd{X}{t} + \nabla \cdot \mathbf{j} \right]  \dif R = \Sigma
 \end{align*}
 Then the differential form continuity equation corresponding to eqn.~\eqref{eqn:intcontinuity} is
 \begin{equation}
@@ -424,7 +424,7 @@ Regularizers can also be used to resolve the aperture problem.
 %
 Defining \(\rho(\mathbf{u})\) as the left-hand side of eqn.~\eqref{eqn:intensityconstr}, Horn \etal \cite{horn1993determining} propose the functional
 \begin{equation}
-	E(\mathbf{u}) \coloneqq \int_R \left[ \abs{\rho(\mathbf{u})}^2 + \alpha \left( \abs{ \nabla u_1 }^2 + \abs{ \nabla u_2 }^2\right) \right] \dif R
+	E(\mathbf{u}) \coloneqq \int\limits_R \left[ \abs{\rho(\mathbf{u})}^2 + \alpha \left( \abs{ \nabla u_1 }^2 + \abs{ \nabla u_2 }^2\right) \right] \dif R
 	\label{eqn:linearhorn}
 \end{equation}
 where \(\abs{ \nabla u_1 }^2\) is the \(L_2\) norm of \(\nabla u_1 = (\pd{u_1}{x}, \pd{u_1}{y})\).
@@ -442,14 +442,14 @@ In such cases eqn.~\eqref{eqn:intensityconstr} is replaced by \( X_k(\bx + \math
 \end{multline}
 Defining \(\rho'(\mathbf{u})\) as the left-hand side of eqn.~\eqref{eqn:nonlinearconstr}, the Horn smoother suitably adjusted is
 \begin{equation}
-	E'(\mathbf{u}) \coloneqq \int_R \left[ \abs{ u_1 }^2 + \abs{ u_2 }^2 + \lambda \abs{ \rho'(\mathbf{u}) }_1 \right] \dif R
+	E'(\mathbf{u}) \coloneqq \int\limits_R \left[ \abs{ u_1 }^2 + \abs{ u_2 }^2 + \lambda \abs{ \rho'(\mathbf{u}) }_1 \right] \dif R
 	\label{eqn:nonlinearhorn}
 \end{equation}
 %
 Perez \etal \cite{perez2013tv} further relax this to a convex loss:
 \begin{multline}
 	E_{\theta}(\mathbf{u}, \mathbf{v}) \coloneqq \\
-	\int_R \left[ \abs{ u_1 }^2 + \abs{ u_2 }^2 + \frac{1}{2\theta}\abs{ \mathbf{u} - \mathbf{v} }^2 + \lambda \abs{ \rho'(\mathbf{v}) }_1 \right] \dif R
+	\int\limits_R \left[ \abs{ u_1 }^2 + \abs{ u_2 }^2 + \frac{1}{2\theta}\abs{ \mathbf{u} - \mathbf{v} }^2 + \lambda \abs{ \rho'(\mathbf{v}) }_1 \right] \dif R
 	\label{eqn:relaxhorn}
 \end{multline}
 in order that they can alternate fixing one of \(\mathbf{u}, \mathbf{v}\) and minimizing with respect to the other.

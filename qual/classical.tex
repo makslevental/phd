@@ -275,9 +275,9 @@ Let \(\bm{H} \coloneqq \left( H_1, \mathellipsis, H_k \right)\) be the vector of
 Then
 \begin{align}
     \hat{Y} & \coloneqq \underset{Y}{\text{argmax}}~P\left( Y \middle| \bm{X} \right) \nonumber                                                                                        \\
-            & = \underset{Y}{\text{argmax}} \int_{D, \bm{H}, \bm{A}} P\left( Y, D, \bm{H}, \bm{A} \middle| \bm{X}\right) \nonumber                                                     \\
-            & = \underset{Y}{\text{argmax}} \int_{D, \bm{H}, \bm{A}} \frac{P\left(\bm{X} \middle| Y, D, \bm{H}, \bm{A} \right)P(Y) P(D, \bm{H}, \bm{A})}{P(\bm{X})}\label{eqn:indepym} \\
-            & = \underset{Y}{\text{argmax}} \int_{D, \bm{H}, \bm{A}} P\left(\bm{X} \middle| Y, D, \bm{H}, \bm{A} \right)P(Y) P(D, \bm{H}, \bm{A}) \label{eqn:maxx}
+            & = \underset{Y}{\text{argmax}} \int\limits_{D, \bm{H}, \bm{A}} P\left( Y, D, \bm{H}, \bm{A} \middle| \bm{X}\right) \nonumber                                                     \\
+            & = \underset{Y}{\text{argmax}} \int\limits_{D, \bm{H}, \bm{A}} \frac{P\left(\bm{X} \middle| Y, D, \bm{H}, \bm{A} \right)P(Y) P(D, \bm{H}, \bm{A})}{P(\bm{X})}\label{eqn:indepym} \\
+            & = \underset{Y}{\text{argmax}} \int\limits_{D, \bm{H}, \bm{A}} P\left(\bm{X} \middle| Y, D, \bm{H}, \bm{A} \right)P(Y) P(D, \bm{H}, \bm{A}) \label{eqn:maxx}
 \end{align}
 where in eqn.~\eqref{eqn:indepym} we've used the independence of \(Y\) and \(D, \bm{H}, \bm{A}\) \cite{Hardie1997} and in eqn.~\eqref{eqn:maxx} we've used that \(\bm{X}\) is a constant with respect to the maximization.
 %
@@ -385,7 +385,7 @@ Capel \etal \cite{capel2000} implement this by composing \(L_{\delta }(a)\) with
 %
 Another gradient penalty that encourages sparse gradients (i.e.,local smoothness and steep edges) is Total Variation (TV) norm \cite{RUDIN1992259}:
 \begin{equation}
-    \abs{u}_{\operatorname {TV}}\,\coloneqq\int _{\Omega }\abs{\nabla u}\,d\Omega
+    \abs{u}_{\operatorname {TV}}\,\coloneqq\int\limits _{\Omega }\abs{\nabla u}\,d\Omega
 \end{equation}
 where \(u\) is a smooth image of bounded variation (i.e.,such that the integral converges) over domain \(\Omega\).
 %

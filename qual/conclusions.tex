@@ -1,0 +1,20 @@
+\section{Conclusions and Future Work}\label{sec:conclusions}
+\noindent{\vrule width \columnwidth height 0.4pt}
+
+We have here reviewed the context of super resolution, the challenges thereof, and some of the techniques.
+%
+Of unique interest are the challenges as they pertain to MISR in unconventional sensing environments, for example, in the long wave infrared (LWIR) portion of the spectrum, and as they pertain to object detection and recognition tasks.
+
+In the former case, the primary challenge (particularly for learning algorithms) is a dearth of training data; affordable consumer LWIR sensors have only recently become available.
+%
+To that end one might imagine transfer learning\anote{transfer} could be employed in bootstrapping an effective SR technique for LWIR using existing solutions for the visible spectrum.
+%
+A straitforward approach is to triplicate LWIR (grayscale) images in order that they have three channels and simply operate on these contrived images using visible spectrum techniques.
+%
+Results along this direction have so far been decidely mediocre; this is an area of future research for us.
+%
+Some initial (as of yet unexplored) new ideas include using style-transfer networks to color LWIR images in order to transform them into suitable inputs for already trained DNNs.
+
+In the latter case, the case of challenges involved in improving performance for detection and recognition tasks, there is preliminary work in the literature suggesting it is possible: Shermeyer \etal \cite{effectssuperres} investigate improved object recognition for satellite imagery. It is still unknown to us whether their approach will generalize to LWIR, profile-view imagery (as opposed to plan-view such as in satellite imagery).
+
+In general, it is our belief that the primary challenge of MISR is the non-uniform manner in which non-redundant data is sampled; images collected by devices that implement SR typically rely on circumstances\anote{tremor} to collect offset images. To that end, an especially interesting direction of future research is using Reinforcement Learning techniques\anote{rl} to steer this non-uniform sampling in such a way that maximum non-redundant information between multiple frames is extracted.
