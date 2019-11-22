@@ -75,7 +75,7 @@ This implies
 	\end{bmatrix} \label{eqn:structurematrix}
 \end{align}
 %
-The matrix in eqn.~\eqref{eqn:structurematrix}, called the \textit{structor tensor} or \textit{second-moment matrix} \(M\), is the quantity Harris investigated.
+The matrix in eqn.~\eqref{eqn:structurematrix}, called the \textit{structure tensor} or \textit{second-moment matrix} \(M\), is the quantity Harris investigated.
 %
 Harris reasoned that the cases of Moravec correspond to conditions on the eigenvalues \(\lambda_1, \lambda_2\) of \(M\):
 \begin{framed}
@@ -85,7 +85,7 @@ Harris reasoned that the cases of Moravec correspond to conditions on the eigenv
 		\item \(\lambda_1 \approx \lambda_2 > 0\) then \(X(x,y)\) is on a corner.
 	\end{enumerate}
 \end{framed}
-Notice that if \(w_{ij} = 1\) then this is just the gradient covariance of the image and the Harris detector is essentially a local Principle Components Analysis (PCA).
+Notice that if \(w_{ij} = 1\) then this is just the gradient covariance of the image and the Harris detector is essentially a local Principal Components Analysis (PCA).
 %
 In fact Harris doesn't actually compute the eigenvalues but instead a related quantity called the \textit{strength}:
 \begin{align}
@@ -237,7 +237,7 @@ The simplest implementation of NCC only identifies translations but it can be ex
 
 \subsubsection{Mutual Information}
 
-In general NCC fails for noisy images (i.e., the to-be-registered image is much noisier than the reference image).
+In general, NCC fails for noisy images (i.e., the to-be-registered image is much noisier than the reference image).
 %
 Mutual information (MI) methods have been successfully employed in such cases; MI is also robust to changes in light intensity, pixel color, and can fit large displacement transformations.
 %
@@ -251,7 +251,7 @@ In this context \(X_1\) is the reference image and \(X_2\) is the to-be-register
 %
 The central challenge in computing MI is in estimating joint \(H(X_1,X_2)\) and marginal \(H(X_1)\) entropies (which are functions of the joint \(P(X_1,X_2)\) and marginal \(P(X_1)\) probabilities).
 %
-In practice this is done using either Kernel Density Estimation\anote{kde} (KDE) or the joint histogram (i.e.,number of common pixel values at same pixel coordinates normalized by total number of pixels).
+In practice this is done using either Kernel Density Estimation\anote{kde} (KDE) or the joint histogram (i.e.,number of common pixel values at the same pixel coordinates normalized by the total number of pixels).
 %
 Searching for the registration parameters \(\theta\) that maximize \(I_{\theta} \coloneqq I(X_1,X_2(\theta))\) exhaustively is generally costly (especially if more than just translation parameters are required).
 %
@@ -277,7 +277,7 @@ This is accomplished by accepting or rejecting the proposed jump with probabilit
 
 \subsection{Transform Estimation}
 \input{figures/registration/transforms/transform.tex}
-After feature matching is sucessfully completed the transformation function \(f\) is constructed (see eqn.~\eqref{eqn:registration}).
+After feature matching is successfully completed the transformation function \(f\) is constructed (see eqn.~\eqref{eqn:registration}).
 %
 This consists of choosing a transformation type (see figure~\ref{fig:transformations}) and estimating the parameters necessary to uniquely determine the transformation.
 %
@@ -322,7 +322,7 @@ Note that this is only valid for small angles \(\theta\) (the small-angle approx
 %
 Truncating eqns.~\eqref{eqn:rigidtaylor} to first or second order and substituting data from matched features yields a system of linear equations.
 %
-Given that often there are many more matched features than unknowns in eqns.~\eqref{eqn:rigidtaylor} such a system is overdetermined; a unique solution can be determined using regularized least-squares.
+Given that there are often many more matched features than unknowns in eqns.~\eqref{eqn:rigidtaylor} such a system is overdetermined; a unique solution can be determined using regularized least-squares.
 %
 In order to make this process more efficient and increase accuracy Keren \etal \cite{keren1988} use a Gaussian pyramid (see figure~\ref{fig:siftpyramid} and corresponding discussion in section~\ref{sec:sift}) to iteratively refine estimates at higher and higher resolutions.
 %
@@ -407,7 +407,7 @@ Note that the constraint equation is a single linear equation in two unknowns (t
 %
 \input{figures/registration/optical_flow/aperture.tex}
 %
-This is called the \textit{aperture problem} or the Barber-poll illusion (see figure~\ref{fig:barberpoll}) because any motion perpendicular to image gradients \(\nabla X\) (i.e., edges) isn't captured by the constraint: to wit if 
+This is called the \textit{aperture problem} or the Barber-pole illusion (see figure~\ref{fig:barberpoll}) because any motion perpendicular to image gradients \(\nabla X\) (i.e., edges) isn't captured by the constraint: to wit if 
 \[\mathbf{u}' \cdot \nabla X= 0\] 
 then 
 \[
@@ -418,7 +418,7 @@ Therefore additional constraints need to be imposed in order to uniquely determi
 %
 The first such additional constraint was the \textit{spatial coherence constraint} proposed by Lucas \etal \cite{lucas1981iterative}: assume a pixel's neighbors have the same velocity \(\mathbf{u}\).
 %
-For example using a \(5 \times 5\) window around a given pixel yields a \(5\times5 = 25\) equation over-determined system (solved using least-squares).
+For example using a \(5 \times 5\) window around a given pixel yields a \(5\times5 = 25\) equation overdetermined system (solved using least-squares).
 
 Regularizers can also be used to resolve the aperture problem. 
 %
@@ -431,7 +431,7 @@ where \(\abs{ \nabla u_1 }^2\) is the \(L_2\) norm of \(\nabla u_1 = (\pd{u_1}{x
 %
 \(E(\mathbf{u})\) acts a smoothing regularizer, constraining the acceleration of the flow (recall that \(\mathbf{u}\) is the velocity of the flow).
 %
-Note that \(\nabla u_1\) is not the first component of \(\nabla \cdot \mathbf{u} = (\pd{u_1}{x}, \pd{u_2}{y})\) and therefore not identitically zero (despite the assumption that  \(\nabla \cdot \mathbf{u} = 0\)).
+Note that \(\nabla u_1\) is not the first component of \(\nabla \cdot \mathbf{u} = (\pd{u_1}{x}, \pd{u_2}{y})\) and therefore not identically zero (despite the assumption that  \(\nabla \cdot \mathbf{u} = 0\)).
 
 Although eqn.~\eqref{eqn:intensityconstr}, along with Horn smoother, is an effective resolution to the problem of computing optical flows in continuous time it is unsuitable for images sampled discretely in time.
 %
@@ -461,7 +461,7 @@ One issue with optical flow methods is that they are very compute intensive; ite
 %
 Splines offer an efficient alternative to estimating \(\mathbf{u}\) at every pixel.
 %
-A \textit{spline} is a piece-wise defined polynomial function. For example a simple \textit{order} \(d+1\) spline \(s\) could be defined
+A \textit{spline} is a piecewise defined polynomial function. For example a simple \textit{order} \(d+1\) spline \(s\) could be defined
 \[
 		s(x) \coloneqq \sum_{i=0}^d \mathbbm{1}_{[k_j, k_{j+1})}P_{ij} \cdot (x - k_j)^i
 \]

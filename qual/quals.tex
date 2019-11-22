@@ -1,5 +1,6 @@
 \PassOptionsToPackage{intlimits}{amsmath}
-\documentclass[journal,intlimits]{IEEEtran}
+% \documentclass[journal,draft]{IEEEtran}
+\documentclass[journal]{IEEEtran}
 \include{preamble}
 \input{footnotes.tex}
 
@@ -15,26 +16,31 @@
 	%
 	In particular we look towards super resolving images collected using longwave infrared cameras since high resolution sensors for such cameras do not currently exist.
 	%
-	We present an exposition of motivations and concepts of super resolution in general and current techniques, with a qualitative comparison of such techniques.
+	We present an exposition of motivations and concepts of super resolution in general, and current techniques, with a qualitative comparison of such techniques.
 	%
 	Finally we suggest directions for future research.
 \end{abstract}
+% \newpage
 \tableofcontents
 
+% \newpage
 \input{introduction.tex}
 
+% \newpage
 \input{background.tex}
 
+% \newpage
 \input{registration.tex}
 
+% \newpage
 \input{classical.tex}
 
+% \newpage
 \input{neural_networks.tex}
 
+% \newpage
 \input{conclusions.tex}
 
-%\section{Future Research}\label{sec:future-research}
-%\section{Conclusion}\label{sec:conclusion}
 %\section{Appendix}\label{sec:appendix}
 %TODO: work out diffraction circular aperture
 %
@@ -43,6 +49,10 @@
 %TODO: workout conjugate gradients
 %
 %TODO: workout belief propagation
+%
+%TODO: workout auto diff
+%
+%TODO: workout splines
 %
 %\section*{Acknowledgments}
 \newpage

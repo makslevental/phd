@@ -30,7 +30,7 @@ Note in this context we use interpolation very broadly, i.e.,to connote filling 
 \end{figure}
 This class of techniques proceed by first registering images on a high resolution grid (see figure~\ref{fig:hrgrid}) then interpolating at the missing pixels in the HR grid to recover \(V\), and finally denoising and deconvolution (of \(H\)) to recover \(Y\).
 %
-Since in general consecutive \(\Xk\) have non-uniform shifts (relative to \(X_1\)) the interpolation is non-uniform and improvisations on this theme use various weighting schemes for adjacent LR pixels\anote{lrpixel}.
+Since, in general, consecutive \(\Xk\) have non-uniform shifts (relative to \(X_1\)) the interpolation is non-uniform and improvisations on this theme use various weighting schemes for adjacent LR pixels\anote{lrpixel}.
 
 For example Alam \text{et al.} \cite{Alam2000} uses weighted nearest neighbors: for every pixel to be interpolated the three nearest pixels are weighted inversely by their distance (according to HR grid distance) and then their weighted sum is assigned to that pixel.
 %
@@ -157,7 +157,7 @@ An alternative kernel is the bilateral kernel \cite{Tomasi:1998:BFG:938978.93919
 \end{equation}
 where \(\sigma_S\) parameterizes spatial distance weight and \(\sigma_R\) parameterizes radiometric distance weight.
 
-In general non-uniform interpolation techniques are intuitive and typically (relatively) computationally efficient but they assume an unrealistic observation model (namely that of affine motion).
+In general, non-uniform interpolation techniques are intuitive and typically (relatively) computationally efficient but they assume an unrealistic observation model (namely that of affine motion).
 
 \subsection{Estimation}\label{subsec:estimation}
 
@@ -183,7 +183,7 @@ where \(\hat{Y}^i\) is the current estimate of the blurred HR image, \((D \circ 
 %
 This process iterates until convergence i.e.,\(\lvert (D \circ A_k)(\hat{Y}^i) - \Xk \rvert < \delta\) for some \(\delta\).
 %
-Irani \etal \cite{Irani1991ImprovingRB} also convolve the back-projection with a smoothing kernel as a form of regularization since the estimation problem is in general ill-posed (there are many \(\hat{Y}^{i}\) that will project down to a pixel-distance neighbor of \(\Xk\)).
+Irani \etal \cite{Irani1991ImprovingRB} also convolve the back-projection with a smoothing kernel as a form of regularization, since the estimation problem is, in general, ill-posed (there are many \(\hat{Y}^{i}\) that will project down to a pixel-distance neighbor of \(\Xk\)).
 %
 It can be shown \cite{Elad1996} that for \(\varepsilon_k\) distributed \((0, R_k)\)-Normal, \(\hat{Y}\) is none other than the maximum likelihood MLE for \(Y\).
 %
@@ -362,7 +362,7 @@ In general, rather than explicitly computing inverses in eqn.~\eqref{eqn:closedf
 %
 Nguyen \etal use conjugate gradient descent\anote{conjugategradients} to optimize eqn.~\eqref{eqn:tikminmap}.
 %
-They argue that \(\hat{D} \hat{\bm{H}} \hat{\bm{A}}\) is ill-conditioned\anote{illcondition} and to that end, since the convergence rate of conjugate gradients is dependent on the condition number \cite{vanderSluis1986}, propose pre-conditioners\anote{precondition} to improve the converge rate.
+They argue that \(\hat{D} \hat{\bm{H}} \hat{\bm{A}}\) is ill-conditioned\anote{illcondition} and to that end, since the convergence rate of conjugate gradients is dependent on the condition number \cite{vanderSluis1986}, propose preconditioners\anote{precondition} to improve the convergence rate.
 
 \subsubsection{Huber Loss and TV Loss}\label{subsubsec:huberloss}
 
@@ -464,7 +464,7 @@ First they imagine both the space of LR patches and HR patches as manifolds.
 %
 Then based on the intuition that a well-sampled smooth manifold is locally linear (i.e.,an LR patch \(x_i\) on the LR manifold and its neighbors \(x_j, x_k, \mathellipsis\) lie in a locally linear subspace of the manifold) they characterize the local geometry.
 %
-One can characterize local geometry by finding convex reconstruction weights \(W_{ij}\) of any \(x_i\) from only its neighbors by minimizing reconstruction error, i.e.,\begin{gather}
+One can characterize local geometry by finding convex reconstruction weights \(W_{ij}\) of any \(x_i\) from its neighbors by minimizing reconstruction error, i.e.,\begin{gather}
     \hat{W} \coloneqq \underset{W_{ij}}{\text{argmin}} \sum_i \abs{ x_i - \sum_{x_j \in N(x_i)} W_{ij} x_j  }^2 \nonumber \\
     \text{s.t.} \\
     \sum_{x_j \in N(x_i)} W_{ij} = 1 \text{ for all }i \nonumber
@@ -496,18 +496,18 @@ Singh \etal \cite{singh2014} make this intuition rigorous by decomposing HR and 
         \centering
         \includegraphics{figures/classical/subbands.png}
     \end{adjustbox}
-    \caption{Oriented gradient attentuation sorted by energy \cite{singh2014}.}\label{fig:subbands}
+    \caption{Oriented gradient attenuation sorted by energy \cite{singh2014}.}\label{fig:subbands}
 \end{figure}
 To mitigate the effect of this insensitivity of the \(L_2\) metric, they learn the necessary gains to apply (along with the matchings) in order to recover such low energy patches.
 
-\subsubsection{Sparse Coading}\label{subsubsec:sparsecoding}
+\subsubsection{Sparse Coding}\label{subsubsec:sparsecoding}
 NNE also suffers from using a fixed number of nearest neighbors results in blurring (due to over-fitting or under-fitting).
 %
 Yang \etal \cite{yang2008} resolve this issue by using sparse coding (SC) as a framework for learning a sparse mapping from LR patches to HR patches (see figure~\ref{fig:hrpatchdict}).
 %
 This enables them to essentially leave the number of nearest numbers unspecified (or, alternatively, learn the correct number of neighbors on a patch by patch basis\anote{pun}).
 %
-To be precise, let \(D \in \mathbb{R}^{n \times K}\) be an \textit{over-complete dictionary}\anote{overcompletedictionary} of \(K\) atoms \(\bm{d}_i \in \mathbb{R}^n\), and suppose a signal \(\by \in \mathbb{R}^n\) can be represented as a sparse linear combination of these atoms i.e.,\begin{equation}
+To be precise, let \(D \in \mathbb{R}^{n \times K}\) be an \textit{overcomplete dictionary}\anote{overcompletedictionary} of \(K\) atoms \(\bm{d}_i \in \mathbb{R}^n\), and suppose a signal \(\by \in \mathbb{R}^n\) can be represented as a sparse linear combination of these atoms i.e.,\begin{equation}
     \by = D\bm{\alpha}
 \end{equation}
 such that \(\abs{ \bm{\alpha} }_0 \ll K\) (few non-zero entries).
@@ -550,7 +550,7 @@ The same group's follow-on paper \cite{yang2010} addresses this issue directly b
     \label{fig:hrpatchdict}
 \end{figure}
 %
-In general dictionary learning minimizes the reconstruction error of the codes across all \(J\) example inputs \(\bm{Z} \coloneqq \left( \bm{z}_1, \mathellipsis, \bm{z}_J \right)\):
+In general, dictionary learning minimizes the reconstruction error of the codes across all \(J\) example inputs \(\bm{Z} \coloneqq \left( \bm{z}_1, \mathellipsis, \bm{z}_J \right)\):
 \begin{equation}
     \hat{D} \coloneqq \underset{D, \bm{A}}{\text{argmin}} \abs{ \bm{Z} - D\bm{A} }^2 + \lambda \abs{ \bm{A} }_1
 \end{equation}
@@ -567,7 +567,7 @@ Yang \etal jointly learn \(D_{LR}, D_{HR}\) by making the identifications
 \end{equation*}
 where \(\bY \coloneqq \left( \by_1, \mathellipsis, \by_P \right)\) are the example HR patches, \(\bX\) similarly the example LR patches, and \(N, M\) are the number of HR and LR pixels respectively in each example patch pair \(\byi, \bxi\) (in order to normalize the error between \(\byi, \bxi\)).
 
-\subsubsection{Anchored Neigbhorhood Regression}
+\subsubsection{Anchored Neighborhood Regression}
 Though SC achieves good results for reasonably sized example sets and dictionary sizes it suffers from the inherent computational complexity of solving the optimization problem (see figure~\ref{fig:dictspeedspize}).
 \begin{figure}[!htbp]
     \centering
@@ -640,7 +640,7 @@ where \(\bX_t^l\) are only those LR patches that get routed to leaf \(l\) in tre
 \begin{figure}[!htbp]
     \centering
     \includegraphics[width=\linewidth,keepaspectratio]{figures/classical/FIRF.png}
-    \caption{A set of decision trees. Each decision tree recursively classifies the input LR patch into left or right child node, until a leaf node is reached. By using the linear regression models stored in the each leaf node, the input LR patch can be projected to the HR patch space \cite{Huang}.}
+    \caption{A set of decision trees. Each decision tree recursively classifies the input LR patch into left or right child node, until a leaf node is reached. By using the linear regression models stored in each leaf node, the input LR patch can be projected to the HR patch space \cite{Huang}.}
     \label{fig:firf}
 \end{figure}
 %
@@ -668,7 +668,7 @@ At each node they select the splitting function parameters \(i, j, \tau\) by eva
     Q(\bX, \bY) \coloneqq \sum_k \left( \abs{ \by_k - \hat{\by}_k }^2 + \alpha\abs{ \bx_k - \bar{\bx} }^2 \right)
     \label{eqn:qualitymeasure}
 \end{equation}
-where \(\hat{\by}_k\) is the estimate produced by the linear regression fit using data that's arrived at that node (and \(\alpha\) is a scale regularization parameter).
+where \(\hat{\by}_k\) is the estimate produced by the linear regression fit using data that has arrived at that node (and \(\alpha\) is a scale regularization parameter).
 %
 The first term in eqn.~\eqref{eqn:qualitymeasure} measures fitting error and the second term is the clustering regularizer.
 %

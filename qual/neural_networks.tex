@@ -18,9 +18,9 @@ For example, the simplest function that qualifies as a neuron is a linear functi
     z(\mathbf{x}) = w_1 x_1 + w_2 x_2 = \sum_i w_i x_i
     \label{eqn:simpleann}
 \end{equation}
-where the the activation function is the trivial one i.e., the identity.
+where the activation function is the trivial one i.e., the identity.
 %
-Common non-trivial, i.e., non-linear, activation functions are the sigmoid function
+Common non-trivial, i.e., nonlinear, activation functions are the sigmoid function
 \begin{equation}
     \operatorname{sig}(x)={\frac {1}{1+e^{-x}}}={\frac {e^{x}}{e^{x}+1}}
 \end{equation}
@@ -28,7 +28,7 @@ the hyperbolic tangent function
 \begin{equation}
     \tanh x={\frac {\sinh x}{\cosh x}}={\frac {e^{x}-e^{-x}}{e^{x}+e^{-x}}}={\frac {e^{2x}-1}{e^{2x}+1}}
 \end{equation}
-and the piece-wise defined \textit{rectified linear unit} (\(\operatorname{ReLU}\))
+and the piecewise defined \textit{rectified linear unit} (\(\operatorname{ReLU}\))
 \begin{align}
     \operatorname{ReLU}(x) & \coloneqq \begin{cases}x&{\text{if }}x>0,\\0&{\text{otherwise}}\end{cases} \\
                            & = \max(0, x)
@@ -52,13 +52,13 @@ For example the ANN specified in figure~\ref{fig:multiann} represents the functi
     \end{split}
 \end{equation}
 %
-Layers are categorized as either \textit{hidden layers} or input-ouput layers: those layers that are not input or output layers are hidden layers.
+Layers are categorized as either \textit{hidden layers} or input-output layers: those layers that are not input or output layers are hidden layers.
 
-ANNs might seem like a very simple class of functions; for example, Minsky \etal \cite{minsky2017perceptrons} famously proved that ANNs that don't include a non-linear activation function can't represent \(\operatorname{XOR}\)\anote{xor}. 
+ANNs might seem like a very simple class of functions; for example, Minsky \etal \cite{minsky2017perceptrons} famously proved that ANNs that don't include a nonlinear activation function can't represent \(\operatorname{XOR}\)\anote{xor}. 
 %
-On the contrary, strikingly, it's the case that ANNs that do include a non-linear activation function satisfy a \textit{universal approximation theorem} \cite{cybenko1989approximation}:
+On the contrary, strikingly, it's the case that ANNs that do include a nonlinear activation function satisfy a \textit{universal approximation theorem} \cite{cybenko1989approximation}:
 %
-given any continuous function \(f\) (on some bounded interval \(I\)) there exists a sequence of ANNs (with at least one hidden layer and employing a non-linear activation function) whose limit approximates\anote{uniformconv} \(f\) to arbitrary precision.
+given any continuous function \(f\) (on some bounded interval \(I\)) there exists a sequence of ANNs (with at least one hidden layer and employing a nonlinear activation function) whose limit approximates\anote{uniformconv} \(f\) to arbitrary precision.
 %
 A critical component of the universal approximation theorem is finding the correct sequence of ANNs; in the parlance of ML an ANN demands a \textit{learning rule}.
 %
@@ -75,7 +75,7 @@ and hence
 \begin{equation}
     \pd{L}{w_i} = - \sum_k(t_k-y(\bm{x}_k))\cdot y'\cdot x_{ik}
 \end{equation}
-where here by \(y' \coloneqq \sigma'\) we mean the derivative of the activation function with respect to its argument and by \(x_{ik}\) we mean the \(i\)th input \(x_i\) of the \(k\)th training sample \(\bm{x}_k\).
+where by \(y' \coloneqq \sigma'\) we mean the derivative of the activation function with respect to its argument and by \(x_{ik}\) we mean the \(i\)th input \(x_i\) of the \(k\)th training sample \(\bm{x}_k\).
 %
 Hence, by gradient descent, the weights \(w_i\) should be adjusted in the opposite direction of \(\pd{L}{w_i}\) and so we have the weight update rule
 \begin{equation}
@@ -231,13 +231,13 @@ The intuitive reason for learning \(\beta, \gamma\) instead of just fixing them 
 %
 \input{figures/neural_networks/gan.tex}
 \input{figures/neural_networks/resblock.tex}
-Another solution to the vanishing gradients problem is using \textit{skip connections}: outputs from a layer can be make to skip adjacent layers early on in training (see figure~\ref{fig:skipconnections}).
+Another solution to the vanishing gradients problem is using \textit{skip connections}: outputs from a layer can be made to skip adjacent layers early on in training (see figure~\ref{fig:skipconnections}).
 %
 This has the effect that substantive gradients can be propagated farther back into the network during the initial part of training when weights should be changing the most (since they're ostensibly far from a minimum).
 
-Overfitting in some sense is a problem opposite of vanshing gradients; while vanishing gradients prevent the DNN from learning, overfitting means the DNN is learning too easily.
+Overfitting in some sense is a problem opposite of vanishing gradients; while vanishing gradients prevent the DNN from learning, overfitting means the DNN is learning too easily.
 %
-Naturall then, overfitting is mititaged by using regularization; methods such as \(L_2\) regularization and \textit{dropout} have been shown to be effective against overfitting \cite{bengio2013}.
+Naturally then, overfitting is mitigated by using regularization; methods such as \(L_2\) regularization and \textit{dropout} have been shown to be effective against overfitting \cite{bengio2013}.
 %
 \(L_2\) regularization incorporates a squared weight term \(\frac{\lambda}{2}\sum_{i=1}^n w_i^2\) into eqn.~\eqref{eqn:loss}, which translates into a \textit{weight decay} term \(\lambda w_i^{t-1}\) in the Delta rule (eqn.~\eqref{eqn:sgd}):
 \begin{equation}
@@ -274,7 +274,7 @@ For example one might have many images of people and one might wish to generate 
 %
 Super-resolution can be cast as a generative task: knowing the condtional distribution of high-frequency components in an image, one could recover said high-frequency components by drawing from that distribution.
 %
-In general this is a highly non-trivial problem due to the dimensionality of the sample space.
+In general, this is a highly non-trivial problem due to the dimensionality of the sample space.
 
 GANs solve this problem by pitting a \textit{generator} \(G\), that learns to transform samples from a readily available high-dimensional surrogate distribution (Normal or Uniform), against a \textit{discriminator} \(D\).
 The generator takes as input samples \(\bm{z}\) from the surrogate distribution \(p_{z}\) and outputs putative samples \(G(\bm{z})\) from the real distribution \(p_r\).
@@ -511,7 +511,7 @@ That is to say, for a given \(t\) length sequence of data an RNN might respond d
 %
 They are able to model such non-stationary dependencies by using \textit{loop unrolling} (see figure~\ref{fig:unrolledrnn}): a \(t\) length recursion is represented as \(t\) layers composed of \textit{cells}.
 %
-It is these cells thatkeep track of the dependencies between elements of the sequences over arbitrary time intervals.
+It is these cells that keep track of the dependencies between elements of the sequences over arbitrary time intervals.
 %
 % As with all deep architectures RNN suffer from vanishing gradients; Long short-term memory (LSTM) cells address this problem by allowing gradients to flow through the cell unmediated (see figure~\ref{subfig:lstm}).
 %
@@ -561,7 +561,7 @@ The transformer operates on input \(U\) to produce output \(V\) in three phases,
 \end{figure}
 \begin{framed}
     \begin{enumerate}
-        \item \textbf{Localization}: a regression network \(f_{\text{loc}}(\cdot)\) that regresses the transformation parameters \(\bm{\theta}\) that parameterize the transformation \(\mathcal{T}_{\bm{\theta}}\). For example the six parameters that define an affine transformation (see figure~\ref{fig:affinetransformation}) in homogenous coordinates.
+        \item \textbf{Localization}: a regression network \(f_{\text{loc}}(\cdot)\) that regresses the transformation parameters \(\bm{\theta}\) that parameterize the transformation \(\mathcal{T}_{\bm{\theta}}\). For example the six parameters that define an affine transformation (see figure~\ref{fig:affinetransformation}) in homogeneous coordinates.
         \item \textbf{Grid generation}: a sampling grid network, which generates the set of points where the input should be sampled to produce the transformed output (see figure~\ref{fig:paramsampling}). In practice it takes \(\bm{\theta}\) and the coordinate system as fixed parameters and generates a grid but in full generality this module can learn the correct coordinate representation.
         \item \textbf{Sampler}: a sampling kernel \(K\) that controls sampling strength on the transformed \((n,m)\) grid:
         \begin{equation*}

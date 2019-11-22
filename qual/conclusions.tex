@@ -3,15 +3,15 @@
 
 We have here reviewed the context of super resolution, the challenges thereof, and some of the techniques.
 %
-Of unique interest are the challenges as they pertain to MISR in unconventional sensing environments, for example, in the long wave infrared (LWIR) portion of the spectrum, and as they pertain to object detection and recognition tasks.
+Of unique interest are the challenges as they pertain to MISR in unconventional sensing environments, for example, in the LWIR portion of the spectrum, and as they pertain to object detection and recognition tasks.
 
 In the former case, the primary challenge (particularly for learning algorithms) is a dearth of training data; affordable consumer LWIR sensors have only recently become available.
 %
 To that end one might imagine transfer learning\anote{transfer} could be employed in bootstrapping an effective SR technique for LWIR using existing solutions for the visible spectrum.
 %
-A straitforward approach is to triplicate LWIR (grayscale) images in order that they have three channels and simply operate on these contrived images using visible spectrum techniques.
+A straightforward approach is to triplicate LWIR (grayscale) images in order that they have three channels and simply operate on these contrived images using visible spectrum techniques.
 %
-Results along this direction have so far been decidely mediocre; this is an area of future research for us.
+Results along this direction have so far been decidedly mediocre; this is an area of future research for us.
 %
 Some initial (as of yet unexplored) new ideas include using style-transfer networks to color LWIR images in order to transform them into suitable inputs for already trained DNNs.
 
