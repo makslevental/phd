@@ -6,129 +6,139 @@
 	\caption{CCD buried channel MOS capacitor \cite{finaltestguideline}.}
 	\label{fig:mos-cap}
 \end{figure}
+
 We begin with a practical discussion of imaging systems.
+%
+An imaging system consists of an imaging sensor and optics. 
 %
 An imaging sensor is a device that converts an optical image into a digital signal.
 %
-Charge-coupled devices (CCD) and complementary metal-oxide-semiconductor (CMOS) devices are the most common imaging sensors;
-%
-CCDs have better performance while CMOS devices are newer and less expensive.
+Charge-coupled devices (CCD) and complementary metal-oxide-semiconductor (CMOS) devices are the most common imaging sensors; CCDs have better performance while CMOS devices are newer and less expensive.
 %
 A third type that's of particular interest to us is the microbolometer, which is used as a sensor in thermal cameras.
+
 \subsubsection{CCD Devices}
-CCDs consist of densely packed two-dimensional arrays of buried channel\anote{buriedchannel} MOS capacitors (see figure~\ref{fig:mos-cap}) with an individual MOS capacitor being the fundamental photon detecting element.
+
+CCDs consist of two components: an imaging component and a readout component.
 %
-Individual MOS capacitors are biased by a gate voltage such that a potential well is produced in the n-type silicon (referred to as the n-channel).
+The imaging component is arranged with every third stripe of electrode tied electrically to form three sets of equipotentials.
+%
+These equipotentials taken together constitute a \textit{vertical register} (VR) (see figure~\ref{fig:ccd-array}).
+\begin{figure*}[!htbp]
+	\centering
+	\includegraphics[width=.8\textwidth,keepaspectratio]{figures/background/ccd_array.png}
+	\caption{CCD array with both image and readout components \cite{pawley1995handbook}. Note that all electrodes intersecting \(\Phi i\) for some \(i\) are at the same potential (voltage).}
+	\label{fig:ccd-array}
+\end{figure*}
+%
+A vertical register moves the collected photoelectrons down one electrode line at a time, using charge coupling, with the aid of channel stops (which function to prevent diffusion of charge across channels).
+
+More precisely the imaging component of a CCD consists of densely packed two-dimensional arrays of buried channel\anote{buriedchannel} metal-oxide-semiconductor (MOS) capacitors (see figure~\ref{fig:mos-cap}).
+%
+Individual MOS capacitors are biased by a gate voltage such that a potential well develops in the n-type\anote{ntype} silicon.
 %
 This potential well acts as a storage system for charge induced by the inner photoelectric effect\anote{innerphotoelectric}.
 %
-When photons are incident on a MOS capacitor some of the photons are absorbed, some are scattered, and some are transmitted.
+When photons are incident on a MOS capacitor some of the photons are absorbed at the surface, some are scattered at the surface, and some are transmitted into the bulk material.
 %
-Those photons that are transmitted interact with electrons in the valence band of the silicon exciting them into the conduction band, and thereby create electron-hole pairs that either diffuse or recombine.
+Those photons that are transmitted interact with electrons in the valence band of the silicon substrate and thereby excite them into the semiconductor's conduction band.
+%
+This creates electron-hole pairs that either diffuse or recombine (in the silicon).
 %
 For high-quality silicon, the lifetime of such a pair is several milliseconds (before recombination) \cite{scientificccd}.
 %
-The electrons of the electron-hole pairs that do not recombine diffuse into the potential well, while the holes migrate to the grounded substrate (i.e.,out of the sensor).
+The electrons of the electron-hole pairs (that do not recombine) then diffuse into the potential well, while the holes migrate to the grounded substrate (i.e., out of the sensor).
 %
 Electrons created in this way are called \textit{photoelectrons}.
 
-CCD arrays consist of two sub-arrays: an image section and a readout section (see figure~\ref{fig:ccd-array}).
-%
-The image section is arranged with every third stripe of electrode tied electrically to form three sets of equipotentials.
-\begin{figure}[!htbp]
-	\includegraphics[width=\linewidth,keepaspectratio]{figures/background/ccd_array.png}
-	\caption{CCD array \cite{pawley1995handbook}.}
-	\label{fig:ccd-array}
-\end{figure}
-%
-In figure~\ref{fig:ccd-array} these equi-potentials are labeled \(\Phi1, \Phi2, \Phi3\), and taken together constitute a vertical register (VR).
-%
-They function to move the collected photo-electrons down one electrode line at a time, using charge coupling, while the channel stops function to prevent diffusion of charge across channels.
-%
-The VR mechanism that shifts collected charge operates as follows:
+Suppose the VR is in a state such that there's a collection of photoelectrons on each channel at equipotential \(\Phi1\) and only \(\Phi1\). Note this means \(\Phi2, \Phi3\) are at \(0\)v (again just as in figure~\ref{fig:mos-cap}). The VR mechanism that shifts collected charge operates as follows:
 \begin{framed}
 \begin{enumerate}
-	\item Suppose initially there's a collection of photo-electrons on each channel at \(\Phi1\) and only \(\Phi1\). Note this means \(\Phi2, \Phi3\) are at \(0\)v (again just as in figure~\ref{fig:mos-cap}).
-	\item \(\Phi2\) is positively biased to \(10\)V. This diffuses the collection of charge under both \(\Phi1\) and \(\Phi2\).
-	\item \(\Phi1\) is set to \(0\)v. This concentrates the collection of charge under \(\Phi2\).
-	\item The same is repeated with \(\Phi2, \Phi3\) and \(\Phi3, \Phi1\).
-	\item The entire process repeats thereby shifting the charge three lines (or one pixel row) at a time.
+	\item \(\Phi2\) is positively biased to \(10\)V. This causes redistribution of charge such that it is diffused underneath both \(\Phi1\) and \(\Phi2\).
+	\item \(\Phi1\) is set to \(0\)v. This concentrates the charge exclusively under \(\Phi2\).
+	\item The same redistribution is repeated vis-à-vis \(\Phi2, \Phi3\) and \(\Phi3, \Phi1\).
+	\item The entire process repeats thereby shifting the charge three electrode lines (or one pixel row) at a time.
+	\item At the bottom of the image section \(\Phi3\) transfers all charge to the horizontal register which functions much like the VR except faster.
 \end{enumerate}
 \end{framed}
-At the bottom of the image section \(\Phi3\) transfers all signal charges to the horizontal register (HR) which functions much like the VR except faster: the HR must transfer every line of pixels independently of all other lines to the read-out node.
 %
-An obvious challenge faced by this system is how to prevent errant charge from accumulating out of sync with the shift process i.e.,how to prevent new photoelectrons from being produced at intermediate lines while far lines are being shifted.
+An obvious challenge faced by this system is how to prevent errant charge from accumulating out of sync with the shift process, i.e., how to prevent new photoelectrons from being produced at intermediate electrode lines while far lines are being shifted.
 %
 The solution is to have interstitial dedicated shift channels in between columns of sensors, with the shift channels being masked off from exposure to light.
 %
 This type of reading is called \textit{interline transfer} because the accumulated charge is first moved one line over, into the shift channels.
 %
-Naturally interline transfer shrinks photosensitive area by half and despite possible solutions (e.g micro-lenses being used to focus most of the light onto the unmasked sensors) this is one of the drawbacks of CCDs that CMOS imaging systems do not share.
+Naturally, interline transfer shrinks photosensitive area by half and despite possible solutions (e.g, micro-lenses being used to focus most of the light onto the unmasked sensors) this is one of the drawbacks of CCDs relative to CMOS devices.
+
 \subsubsection{CMOS Devices}
-CMOS sensors consist of arrays of photodiodes (see figure~\ref{fig:photodiode.png}).
+
+CMOS devices consist of arrays of photodiodes (see figure~\ref{fig:photodiode.png}).
 \input{figures/background/cmos/cmos.tex}
-A photodiode is a p-n junction\anote{pnjunction} operated in reverse bias mode\anote{reversebias}.
+A photodiode is a \textit{p-n junction}\anote{pnjunction} operated in reverse bias mode\anote{reversebias}.
 %
-When a photon of sufficient energy is absorbed by the diode, it creates an electron-hole pair.
+When a photon of sufficient energy is absorbed by the diode, it creates an electron-hole pair (as a result of the photoelectron effect).
 %
-If the creation event happens within the active region then the hole moves out through the p-type material and the electron moves out through the n-type material.
+If the creation event happens within the active region then the hole migrates out through the p-type material and the electron migrates out through the n-type material.
 %
-This establishes a \textit{photocurrent} that can be read by a reading circuit (see figure~\ref{fig:3tpixel}).
+This establishes a \textit{photocurrent} that can be interrogated by a reading circuit (see figure~\ref{fig:3tpixel}).
 
 CMOS sensor arrays do not shift the charge from row to row like CCD arrays.
 %
 In a CMOS sensor array, each pixel contains a transistor M\textsubscript{sel} controlled by the voltage applied across a row (see figure~\ref{fig:cmosarray}).
 %
-In order to read one row of pixels, a row line is raised high to turn on (close) all the M\textsubscript{sel} transistors in the row.
+In order to read one row of pixels, a rowline is raised high to turn on (close) all the M\textsubscript{sel} transistors in the row.
 %
-This brings the signals from all the pixels in that row to the shifter register below by way of the column lines.
+This brings the signals from all the pixels in that row to the shift register below by way of the column lines.
 %
 The shift register then outputs the values of the pixels.
+
+The high number of transistors needed per pixel in CMOS arrays has only recently become feasible for semiconductor foundries to manufacture.
 %
-The high number of transistors needed per pixel in CMOS arrays has only recently been manageable for semiconductor foundries.
+This, along with such artifacts as the rolling shutter effect produced by rowline reading, are some of the drawbacks of CMOS devices relative to CCD devices.
 %
-This, along with such artifacts as the rolling shutter effect produced by rowline reading, are some of the drawbacks of CMOS arrays relative to CCD arrays.
-%
-Despite this CMOS arrays have become the most common imaging system in consumer goods such as cell phones and digital cameras due to their relatively simple mechanics.
+Despite this CMOS devices have become the most common imaging system in consumer goods such as cell phones and digital cameras due to their relatively simple mechanics.
 \begin{figure}[!htbp]
 	\center
 	\includegraphics[width=.8\linewidth,keepaspectratio]{figures/background/cmos.png}
 	\caption{CMOS array of red, green, and blue pixels.}
 	\label{fig:cmosarray}
 \end{figure}
+
 \subsubsection{Microbolometers}
-Both CCD arrays and CMOS arrays only capture visible light.
+
+Despite their ubiquity in visible spectrum devices, neither CCD arrays nor CMOS arrays can be adapted to capture any portion of the infrared spectrum.
 %
 A microbolometer, on the other hand, measures the power in the infrared by exposing a thermistor\anote{thermistor} to the incident light.
 %
-\begin{figure}[!htbp][b]
+\begin{figure}[!htbp]
 	\center
-	\includegraphics[width=.7\linewidth,keepaspectratio]{figures/background/microbolometer2.png}
+	\includegraphics[width=\linewidth,keepaspectratio]{figures/background/microbolometer2.png}
 	\caption{Bridge structure of Honeywell microbolometer \cite{KESIM2014245}.}
 	\label{fig:microbolometer}
 \end{figure}
 %
 Since a thermistor's resistance changes as a function of its temperature, a key issue in the design of a microbolometer is the thermal isolation of the thermistor.
 %
-With the maturation of micro-machining techniques (such as for MEMS\anote{mems} devices) over the last few years, two level microbolometers consisting of a thermo-sensitive component suspended above (and insulated from) silicon have been built (see figure~\ref{fig:microbolometer}).
+With the maturation of micro-machining techniques (such as for MEMS\anote{mems} devices) over the last few years efficient microbolometers have become possible.
 %
-These pixel packages are evacuated and therefore have good conduction, convection, radiation heat transfer properties.
+There are now many consumer thermal cameras on the consumer market powered by two-level microbolometer pixels consisting of a thermo-sensitive component suspended above (and insulated from) silicon (see figure~\ref{fig:microbolometer}).
+
+These pixel packages are evacuated in order that they have good conduction, convection, and radiation heat transfer properties.
 %
 The actual thermo-sensitive component consists of a thermistor, an absorber (which aids in the transfer of heat to the thermistor), and a reflector that creates a Fabry–Pérot optical cavity\anote{fabryperot} (typically \({\sim}\lambda/4\) \cite{bolometer}) that traps the infrared light.
 %
-Typical materials for the thermistor are vanadium oxide and amorphous silicon owing to their high temperature coefficients of resistance \cite{bolometer}, which in effect transform small changes in temperature into large changes in resistance.
+Typical materials for the thermistor are vanadium oxide and amorphous silicon owing to their high temperature coefficients of resistance \cite{bolometer}, which, in effect transform small changes in temperature into large changes in resistance.
 %
 Measurements of the thermistor are performed by a read-out integrated circuit adjacent to the bridge in the silicon substrate.
 %
-All told microbolometers are designed much differently from either CCD or CMOS arrays.
+It is plain to see that microbolometers are designed much differently from either CCD or CMOS arrays.
 %
-It is as a result of this fact that high-resolution infrared cameras are not available.
-
-Across all of these imaging systems there are ample avenues for the introductions of the kinds of errors that degrade image quality and across all of these imaging systems there are structures that impose limitations on resolving power.
+As a result of this fact, high-resolution infrared imaging systems are not as of yet available on the consumer market and hence our interest in applying super-resolution to images collected by such systems.
 %
 With that in mind, we now proceed to formalizing the problem of super-resolution.
 
-\subsection{Mathematical notation}\label{subsec:notation}
+\subsection{Interlude: Mathematical Notation}\label{subsec:notation}
+
 Upper case plain latin \(X, Y\) each denote channel \(\times\) row \(\times\) column \textit{tensors}\anote{tensor} representing LR and HR images respectively, with \((0, 0,0)\) corresponding to the top left corner of the first channel of image.
 %
 Often for the sake of simplicity we consider grayscale images, in which case we omit the channel dimension.
@@ -139,11 +149,13 @@ Bolded uppercase latin are reserved for batches of objects.
 %
 For example \(\bm{X}, \bm{Y}\) are batches of images, i.e., batch size \(\times\) channel \(\times\) row \(\times\) column tensors with \((0, 0, 0,0)\) corresponding to the top left corner of the first channel of first image in the batch.
 %
-Bolded lower case denote \(\bm{x}, \bm{y}, \bm{z}\) etc. denote conventional column or row vectors.
+Bolded lower case latin such as \(\bm{x}, \bm{y}, \bm{z}\) denotes a conventional column or row vector.
 %
-Subscripts are used most often to indicate sequences but occasionally indicate position.
+Subscripts are used most often to indicate sequences (e.g., \(X_1, X_2, \dots\)) but occasionally indicate position (e.g., \((U_x, U_y)\)).
 %
-The \(L_2\) norm is \(\abs{\cdot}\); other norms are indicated by a subscript e.g. \(\abs{\cdot}_1\) is the \(L_1\) norm.
+The \(L_2\) norm is indicated by unadorned \(\abs{\cdot}\).
+%
+All other norms are indicated by a subscript (e.g. \(\abs{\cdot}_1\) is the \(L_1\) norm).
 %
 New mathematical quantities are defined on first use by colon-equals \(\coloneqq\).
 %
