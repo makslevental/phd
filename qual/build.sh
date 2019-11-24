@@ -1,6 +1,6 @@
 ./clean.sh
 set -e
-pdflatex  quals.tex
-pdflatex  quals.tex
+pdflatex -shell-escape quals.tex
+pdflatex -shell-escape quals.tex
 biber quals
-pdflatex quals.tex
+pdflatex -shell-escape quals.tex

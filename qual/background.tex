@@ -17,7 +17,7 @@ Charge-coupled devices (CCD) and complementary metal-oxide-semiconductor (CMOS) 
 %
 A third type that's of particular interest to us is the microbolometer, which is used as a sensor in thermal cameras.
 
-\subsubsection{CCD Devices}
+\subsubsection{Charge Coupled Devices}
 
 CCDs consist of two components: an imaging component and a readout component.
 %
@@ -52,7 +52,7 @@ The electrons of the electron-hole pairs (that do not recombine) then diffuse in
 Electrons created in this way are called \textit{photoelectrons}.
 
 Suppose the VR is in a state such that there's a collection of photoelectrons on each channel at equipotential \(\Phi1\) and only \(\Phi1\). Note this means \(\Phi2, \Phi3\) are at \(0\)v (again just as in figure~\ref{fig:mos-cap}). The VR mechanism that shifts collected charge operates as follows:
-\begin{framed}
+\begin{mdframed}
 \begin{enumerate}
 	\item \(\Phi2\) is positively biased to \(10\)V. This causes redistribution of charge such that it is diffused underneath both \(\Phi1\) and \(\Phi2\).
 	\item \(\Phi1\) is set to \(0\)v. This concentrates the charge exclusively under \(\Phi2\).
@@ -60,7 +60,7 @@ Suppose the VR is in a state such that there's a collection of photoelectrons on
 	\item The entire process repeats thereby shifting the charge three electrode lines (or one pixel row) at a time.
 	\item At the bottom of the image section \(\Phi3\) transfers all charge to the horizontal register which functions much like the VR except faster.
 \end{enumerate}
-\end{framed}
+\end{mdframed}
 %
 An obvious challenge faced by this system is how to prevent errant charge from accumulating out of sync with the shift process, i.e., how to prevent new photoelectrons from being produced at intermediate electrode lines while far lines are being shifted.
 %
@@ -76,7 +76,7 @@ CMOS devices consist of arrays of photodiodes (see figure~\ref{fig:photodiode.pn
 \input{figures/background/cmos/cmos.tex}
 A photodiode is a \textit{p-n junction}\anote{pnjunction} operated in reverse bias mode\anote{reversebias}.
 %
-When a photon of sufficient energy is absorbed by the diode, it creates an electron-hole pair (as a result of the photoelectron effect).
+When a photon of sufficient energy is absorbed by the photodiode, it creates an electron-hole pair (as a result of the photoelectron effect).
 %
 If the creation event happens within the active region then the hole migrates out through the p-type material and the electron migrates out through the n-type material.
 %
@@ -84,19 +84,17 @@ This establishes a \textit{photocurrent} that can be interrogated by a reading c
 
 CMOS sensor arrays do not shift the charge from row to row like CCD arrays.
 %
-In a CMOS sensor array, each pixel contains a transistor M\textsubscript{sel} controlled by the voltage applied across a row (see figure~\ref{fig:cmosarray}).
+Instead each pixel contains a transistor controlled by the voltage applied across a row (see figure~\ref{fig:cmosarray}).
 %
-In order to read one row of pixels, a rowline is raised high to turn on (close) all the M\textsubscript{sel} transistors in the row.
+In order to read one row of pixels, a \textit{rowline} is raised high to turn on (close) all the transistors in the row.
 %
-This brings the signals from all the pixels in that row to the shift register below by way of the column lines.
+This transmits the signals from all the pixels in that row to the shift register below by way of the column lines.
 %
 The shift register then outputs the values of the pixels.
 
-The high number of transistors needed per pixel in CMOS arrays has only recently become feasible for semiconductor foundries to manufacture.
+The large number of transistors per unit area and image artifacts (such as rolling shutter) historically made CMOS devices inferior to CCDs.
 %
-This, along with such artifacts as the rolling shutter effect produced by rowline reading, are some of the drawbacks of CMOS devices relative to CCD devices.
-%
-Despite this CMOS devices have become the most common imaging system in consumer goods such as cell phones and digital cameras due to their relatively simple mechanics.
+Recently it has become feasible for semiconductor foundries to manufacture high density transistor packages, leading to CMOS devices becoming the most common imaging system in consumer devices (e.g., cell phones and digital cameras).
 \begin{figure}[!htbp]
 	\center
 	\includegraphics[width=.8\linewidth,keepaspectratio]{figures/background/cmos.png}
@@ -108,7 +106,7 @@ Despite this CMOS devices have become the most common imaging system in consumer
 
 Despite their ubiquity in visible spectrum devices, neither CCD arrays nor CMOS arrays can be adapted to capture any portion of the infrared spectrum.
 %
-A microbolometer, on the other hand, measures the power in the infrared by exposing a thermistor\anote{thermistor} to the incident light.
+A \textit{microbolometer} measures power in the infrared by exposing a heat sensitive component to the incident light.
 %
 \begin{figure}[!htbp]
 	\center
@@ -117,15 +115,17 @@ A microbolometer, on the other hand, measures the power in the infrared by expos
 	\label{fig:microbolometer}
 \end{figure}
 %
-Since a thermistor's resistance changes as a function of its temperature, a key issue in the design of a microbolometer is the thermal isolation of the thermistor.
+A primary challenge in the design of a microbolometer is thermal isolation (since the intent is to measure heat transmitted by the incident light rather than ambient heat).
 %
-With the maturation of micro-machining techniques (such as for MEMS\anote{mems} devices) over the last few years efficient microbolometers have become possible.
+Historically, this made manufacture of high resolution infrared imaging systems impossible.
 %
-There are now many consumer thermal cameras on the consumer market powered by two-level microbolometer pixels consisting of a thermo-sensitive component suspended above (and insulated from) silicon (see figure~\ref{fig:microbolometer}).
+Recently, the maturation of micro-machining techniques have contributed to the availability of various consumer thermal imaging systems.
 
-These pixel packages are evacuated in order that they have good conduction, convection, and radiation heat transfer properties.
+Consumer thermal imaging systems consist of arrays of two-level microbolometer pixels (see figure~\ref{fig:microbolometer}). 
 %
-The actual thermo-sensitive component consists of a thermistor, an absorber (which aids in the transfer of heat to the thermistor), and a reflector that creates a Fabry–Pérot optical cavity\anote{fabryperot} (typically \({\sim}\lambda/4\) \cite{bolometer}) that traps the infrared light.
+Each pixel consists of a thermo-sensitive component suspended, in a vacuum (in order that it have good conduction, convection, and radiation heat transfer properties), above silicon.
+%
+The thermo-sensitive component is composed of a thermistor\anote{thermistor}, an absorber (which aids in the transfer of heat to the thermistor), and a reflector that creates a Fabry–Pérot optical cavity\anote{fabryperot} (typically \({\sim}\lambda/4\) \cite{bolometer}) that traps the infrared light.
 %
 Typical materials for the thermistor are vanadium oxide and amorphous silicon owing to their high temperature coefficients of resistance \cite{bolometer}, which, in effect transform small changes in temperature into large changes in resistance.
 %
@@ -133,33 +133,35 @@ Measurements of the thermistor are performed by a read-out integrated circuit ad
 %
 It is plain to see that microbolometers are designed much differently from either CCD or CMOS arrays.
 %
-As a result of this fact, high-resolution infrared imaging systems are not as of yet available on the consumer market and hence our interest in applying super-resolution to images collected by such systems.
+As a result, high-resolution infrared imaging systems are not as of yet readily available and hence our interest in applying super-resolution to images collected by such systems.
 %
 With that in mind, we now proceed to formalizing the problem of super-resolution.
 
-\subsection{Interlude: Mathematical Notation}\label{subsec:notation}
+\subsection{Prelude: Mathematical Notation}\label{subsec:notation}
 
-Upper case plain latin \(X, Y\) each denote channel \(\times\) row \(\times\) column \textit{tensors}\anote{tensor} representing LR and HR images respectively, with \((0, 0, 0)\) corresponding to the top left corner of the first channel of image.
+Upper case plain \(X, Y\) are strictly reserved for LR and HR images respectively.
 %
-Often for the sake of simplicity we consider grayscale images, in which case we omit the channel dimension.
+Each denotes a (channels\(\,\times\,\)height\(\,\times\,\)width)-dimensional array, with \((0, 0, 0)\) corresponding to the top left corner of the first channel of image.
 %
-\(D, H, F, G\) variously refer to functions that operate on images.
+Often, for the sake of simplicity, we consider grayscale images and hence omit the channel dimension.
 %
-Bolded uppercase latin are reserved for batches of objects.
+Upper case plain \(D, H, F, G\) variously refer to functions that operate on images \(X,Y\).
 %
-For example \(\bm{X}, \bm{Y}\) are batches of images, i.e., batch size \(\times\) channel \(\times\) row \(\times\) column tensors with \((0, 0, 0, 0)\) corresponding to the top left corner of the first channel of first image in the batch.
+Bolded upper case is reserved for batches of objects.
 %
-Bolded lower case latin such as \(\bm{x}, \bm{y}, \bm{z}\) denotes a conventional column or row vector.
+For example \(\bm{X}, \bm{Y}\) are batches of images, i.e., (batch\(\,\times\,\)channels\(\,\times\,\)height\(\,\times\,\)width)-dimensional arrays with \((0, 0, 0, 0)\) corresponding to the top left corner of the first channel of first image in the batch.
 %
+Bolded lower case, such as \(\bm{x}, \bm{y}, \bm{z}\), denotes a conventional column or row vector.
+
 Subscripts are used most often to indicate sequences (e.g., \(X_1, X_2, \dots\)) but occasionally indicate position (e.g., \((U_x, U_y)\)).
 %
 The \(L_2\) norm is indicated by unadorned \(\abs{\cdot}\).
 %
-All other norms are indicated by a subscript (e.g. \(\abs{\cdot}_1\) is the \(L_1\) norm).
+All other norms are explicitly indicated by a subscript (e.g. \(\abs{\cdot}_1\) is the \(L_1\) norm).
 %
 New mathematical quantities are defined on first use by colon-equals \(\coloneqq\).
 %
-Hats denote computed estimators (e.g., \(\hat{X}\) is an estimate of \(X\) given noisy samples \(X_i\)).
+Hats denote estimators (e.g., \(\hat{X}\) is an estimate of \(X\) given noisy samples \(X_i\)).
 %
 All other notation is defined in situ.
 
@@ -167,45 +169,47 @@ All other notation is defined in situ.
 
 Figure~\ref{fig:bertrand} shows a conceptual model of the imaging process as carried out by an imaging system.
 %
-The input to the system is a natural scene that is in effect sampled by the imaging system.
+The input to the system is a natural scene that is, in effect, sampled by the imaging system.
 %
-In the idealized case, the sampling is done at (or above) the Nyquist rate and no aliasing occurs.
+In the idealized case, the sampling is done at (or above) the Nyquist rate\anote{nyquist} and no aliasing occurs.
 %
-In practice there is noise and loss introduced at every step of the process: atmospheric turbulence plays a role at large distances, motion produces multiple views of the same scene but also induces blur, imperfections of the lenses further blur the image, and finally down-sampling by the sensor elements into pixels produces aliasing artifacts\anote{ccd}.
+In practice there is noise and loss introduced at every step of the process: atmospheric turbulence noises the image at large distances, motion induces blur, imperfect lenses further blur the image, and down-sampling produces aliasing artifacts\anote{ccd}.
 %
-The noisy, blurry, down-sampled images are then further degraded by sensor noise.
+The noisy, blurry, and down-sampled images are then further degraded by sensor noise.
 %
 Each such image we call an LR sample.
 \input{figures/background/bertrand/bertrand.tex}
 Let \(Y\) denote an idealized HR image of the scene from some fixed vantage point and assume the imaging system collects \(K\) LR samples \(\Xk\) of \(Y\).
 %
-Formally the \(\Xk\) are related to \(Y\) by
+Formally the \(\Xk\) are related to \(Y\) by a series of composed operations:
 \begin{equation}
 	\Xk = (D \circ H_k \circ A_k) (Y) + \varepsilon_k
 	\label{eqn:imagingmodel}
 \end{equation}
-where for the \(k\)th LR sample, \(A_k\) (of \(K\)) is the operator representing motion, \(H_k\) represents the blur operator, \(D\) represents the down-sampling operator (constant in time since it's typically a digital component of the imaging system), and \(\varepsilon_k\) represents the composite noise (environment and sensor noise).
+where, for the \(k\)-th LR sample, \(A_k\) represents the motion operator, \(H_k\) represents the blur operator, \(D\) represents the down-sampling operator, and \(\varepsilon_k\) represents additive (environment and sensor) noise. We treat motion and blur in turn and omit down-sampling (since it is a fixed component of the imaging system).
 
 \subsubsection{Motion}
 
 In the case of MISR, high-resolution images are constructed by exploiting distinct scene data among multiple low-resolution images.
 %
-Such distinct data are produced by the relative motion of the imaging system and the scene and therefore precise and accurate image \textit{registration}\anote{registration} is paramount.
+Such distinct data are produced by the relative motion of the imaging system vis-à-vis the scene and therefore precise \textit{image registration}\anote{registration} is paramount.
 %
-Successful registration is effected by producing a transformation \(f\) that maps pixels at coordinates \((x',y')\) in sample \(\Xkone\) to coordinates \((x,y)\) in sample \(X_j\)
+Successful registration is effected by constructing a transformation \(f\) that maps pixels at coordinates \((x,y)\) in sample \(\Xkone\) to coordinates \((x',y')\) in sample \(X_j\)
 \begin{equation}
-	\Xkone(f(x', y')) = X_j(x,y)
+	\Xkone(f(x, y)) = X_j(x',y')
 	\label{eqn:registration}
 \end{equation}
-where we use index \(j\) to indicate the possibility of registering all samples relative to a fixed reference image (e.g. \(j=0\) the first sample) or successive/relative registration (i.e.,with \(j=k\)).
+where we use index \(j\) to indicate the possibility of registering all samples relative to a fixed reference image (e.g. \(j=0\) the first sample) or successive/relative registration (i.e., with \(j=k\)).
 %
-While image registration is already challenging in the various domains where samples are treated as canonical, such as remote sensing and medical imaging, in SR it is further complicated by the fact that the images to be registered are assumed uncertain.
+While image registration is already challenging in the various domains where samples are treated as canonical, such as remote sensing and medical imaging, in SR it is further complicated by the inherently noisy source images. 
 %
-Therefore, in principle, image registration and super-resolution cannot be decoupled, since image registration accuracy would be improved by operating on the estimated HR images;
-%
-Hardie \etal \cite{Hardie1997} use a Bayesian framework to jointly estimate image registration parameters and the high-resolution image \cite{Hardie1997}.
-%
-Alternatively one can marginalize over the HR image and estimate the registration parameters using maximum-likelihood estimation (MLE) (see section~\ref{subsubsec:gaussianprocess}).
+We address this in the forthcoming (see section~\ref{sec:registration}).
+% %	
+% Therefore, in principle, image registration and super-resolution cannot be decoupled, since image registration accuracy would be improved by operating on the estimated HR images;
+% %
+% Hardie \etal use a Bayesian framework to jointly estimate image registration parameters and the high-resolution image \cite{Hardie1997}.
+% %
+% Alternatively one can marginalize over the HR image and estimate the registration parameters using maximum-likelihood estimation (MLE) (see section~\ref{subsubsec:gaussianprocess}).
 
 \subsubsection{Blur}
 
@@ -228,32 +232,32 @@ Blur due to diffraction in most imaging systems is due to diffraction through a 
 \end{equation*}
 where \(\tau = \rho/\rho_c\), \(\rho=\sqrt{u^2 +v^2}\), \(\rho_c = 1/\lambda N\) is the radial cutoff frequency of the aperture, \(N\) is the f-number\anote{fnumber} of the optics, and \(\lambda\) is the wavelength of light being diffracted.
 %
-This is in fact the filter that produces the Airy pattern and therefore informs sensor array spacing in order to avoid aliasing.
-%
-Wavelength independent blurring due to aberrations can be induced by various imperfections in the lenses such as spherical aberration, comatic aberration\anote{coma}, or astigmatism. Furthermore, dispersion\anote{dispersion} blurs particular wavelengths of light. A good model for all of these effects is \cite{10.1117.12.946501}:
+This is in fact the source of the Airy pattern (see figure~\ref{fig:rayleigh}) and therefore informs sensor array spacing in order to avoid aliasing.
+
+Wavelength independent blurring due to aberrations can be induced by various imperfections in the lenses such as spherical aberration, comatic aberration\anote{coma}, or astigmatism. Furthermore, dispersion\anote{dispersion} blurs particular wavelengths of light. A model for all of these effects \cite{10.1117.12.946501} is:
 \begin{equation*}
 	H_{\text{abr}}(u,v) =   \begin{cases}
 		1-\left(\frac{25}{65}\right)^2 \left(1-4\left(\tau - \frac{1}{2}\right)\right)^2 & \text{if } \tau < 0 \\
 		0                                                                                & \text{otherwise}
 	\end{cases}
 \end{equation*}
-Figure~\ref{fig:mtf} shows an example OTF for an imaging system with a sensor spacing of 0.050 mm and therefore sampling frequency of 20 cycles/mm and \(\rho_c = 83.3~\text{cycles}/\text{mm}\) (\(F=3\) and \(\lambda = 4\mu\text{m}\) i.e.,near infrared).
+Figure~\ref{fig:mtf} shows an example OTF for an imaging system with a sensor spacing of 0.050mm.
 %
-Notice that \(\rho_c\) is much greater than the Nyquist rate (\(\frac{1}{2} \times 20~\text{cycles}/\text{mm} = 10~\text{cycles}/\text{mm}\)) and therefore many frequencies that are within the radial cutoff frequency will be aliased.
+Notice that \(\rho_c\) is much greater than the Nyquist rate (\(\frac{1}{2} \times 20~\text{cycles}/\text{mm} = 10~\text{cycles}/\text{mm}\)) and therefore many frequencies that are within the radial cutoff frequency will be aliased by the corresponding imaging system.
 %
-This in particular can be mitigated by effectively increasing sampling rate using MISR.
+The aliasing of high frequency components due to this undersampling is in fact what MISR mitigates (by effectively increasing sampling rate).
 %
-Notice also that like a typical transfer function the OTF is not flat and therefore attenuates high spatial frequencies.
+Notice also, like a typical transfer function, the OTF is not flat and therefore attenuates high frequencies.
 %
 Simply applying gain to the image wouldn't solve the attenuation problems because of aliasing, but likewise this can be resolved after the effective sampling rate is increased using MISR.
 \begin{figure}[!htbp]
 	\includegraphics[width=\linewidth,keepaspectratio]{figures/background/mtf.png}
-	\caption{OTF magnitude cross-section for \cite{milanfar2017super}.}
+	\caption{OTF magnitude cross-section for sampling frequency 20 cycles/mm and \(\rho_c = 83.3~\text{cycles}/\text{mm}\) (\(F=3\) and \(\lambda = 4\mu\text{m}\) i.e., near infrared)      \cite{milanfar2017super}.}
 	\label{fig:mtf}
 \end{figure}
 
-The challenge of super-resolution is to solve the inverse problem of finding \(Y\) from one or several \(\Xk\).
+In summary, formally, the task of super-resolution is to solve an inverse problem: invert eqn.~\eqref{eqn:imagingmodel} given one or more \(\Xk\).
 %
 In general, since \(A_k, H_k, D_k\) are highly degenerate functions, the corresponding inverse problems are ill-posed without regularization and conditioning.
 %
-The techniques that have been brought to bear on the problem range from interpolation to statistical estimation to example based learning.
+Effective techniques for solving this inverse problem can be categorized as either classical or neural-networks based. We first discuss image registration as a necessary precursor to SR and then proceed to techniques per se.

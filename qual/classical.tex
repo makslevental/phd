@@ -1,18 +1,23 @@
 \section{Classical Algorithms}\label{sec:classical-algorithms}
 \localtableofcontents
+
+Once registration has been successfully performed, and all LR images have registered to a common HR grid, inference of missing pixels and reconstruction of degraded features can proceed.
+%
+Classical techniques that have been brought to bear on the problem range from interpolation to statistical estimation to example based learning. We explore each class of techniques by tracing the historical development of primary contributions in chronological order.
+
 \subsection{Interpolation}\label{subsec:interpolation}
 
 Suppose that \(H_k\) is linear spatial\anote{lsi} and time invariant.
 %
 Suppose further that \(A_k\) is affine.
 %
-Then \(H \coloneqq H_k\) commutes with \(A_k\) \cite{meladcommute} and eqn.~\eqref{eqn:commuteimagingmodel} becomes
+Then \(H \coloneqq H_k\) commutes with \(A_k\) \cite{meladcommute} and eqn.~\eqref{eqn:imagingmodel} becomes
 \begin{equation}
     \label{eqn:commuteimagingmodel}
     \begin{split}
-        \Xk &= (D \circ A_k \circ H) (Y) + \varepsilon \\
-        &= (D \circ A_k) (H(Y)) + \varepsilon \\
-        &= (D \circ A_k) (V) + \varepsilon
+        \Xk &= (D \circ A_k \circ H) (Y) + \varepsilon_k \\
+        &= (D \circ A_k) (H(Y)) + \varepsilon_k \\
+        &= (D \circ A_k) (V) + \varepsilon_k
     \end{split}
 \end{equation}
 %
@@ -34,7 +39,7 @@ Since, in general, consecutive \(\Xk\) have non-uniform shifts (relative to \(X_
 
 For example Alam \text{et al.} \cite{Alam2000} uses weighted nearest neighbors: for every pixel to be interpolated the three nearest pixels are weighted inversely by their distance (according to HR grid distance) and then their weighted sum is assigned to that pixel.
 %
-This non-uniform interpolation is then followed by application of a Wiener filter whose design is informed by the OTF of the particular imaging system they study (which they do not estimate i.e.,they assume they can model accurately).
+This non-uniform interpolation is then followed by application of a Wiener filter whose design is informed by the OTF of the particular imaging system they study (which they do not estimate i.e., they assume they can model accurately).
 %
 \subsubsection{Delaunay Triangulation}
 
@@ -49,7 +54,7 @@ Lertrattanapanich \text{et al.} \cite{Lertrattanapanich} base their algorithm on
     \vec{n} = \sum_{i=1}^m \frac{B_j \vec{n_j}}{B}   & \text{ where } B=\sum_{i=1}^m B_i                              \\
     \frac{\partial z}{\partial x} = -\frac{n_x}{n_z} & \text{ and }  \frac{\partial z}{\partial y} = -\frac{n_y}{n_z}
 \end{align*}
-where \(B_i\) is the area of the \(i\)th Delaunay cell.
+where \(B_i\) is the area of the \(i\)-th Delaunay cell.
 %
 Unfortunately this intricate solution is not robust to noise in real images.
 \subsubsection{Wiener Filter}
@@ -487,7 +492,7 @@ Another issue with using LR-HR patch pairs to train NNE is the uncertainty assoc
 %
 Zontak \etal \cite{zontak2011internal} show that finding matches between image patches becomes more and more unlikely as the mean gradient magnitude per patch increases.
 %
-This is directly as a result of the fact that \(L_2\) distances between patches are primarily determined by prominent image structures.
+This is directly as a result of \(L_2\) distances between patches being primarily determined by prominent image structures.
 %
 Singh \etal \cite{singh2014} make this intuition rigorous by decomposing HR and SR patch pairs into oriented \textit{sub-bands} (i.e., gradient orientation bins) and demonstrating that low-energy sub-bands (i.e., those that contribute weakly to the decomposition) are more strongly attenuated (see figure~\ref{fig:subbands}).
 \begin{figure}[!htbp]
@@ -659,7 +664,7 @@ Schulter \etal train the trees on example LR-HR patch pairs \(\bx, \by\) by recu
         \end{cases}
     }
 \end{equation}
-where \(\text{vec}(\bx)\left[ i \right]\) is the \(i\)th pixel of \(\text{vec}(\bx)\) and similarly \(\text{vec}(\bx)\left[ j \right]\).
+where \(\text{vec}(\bx)\left[ i \right]\) is the \(i\)-th pixel of \(\text{vec}(\bx)\) and similarly \(\text{vec}(\bx)\left[ j \right]\).
 %
 The tree is grown as a function of the splitting function, current depth, and current goodness of fit.
 %

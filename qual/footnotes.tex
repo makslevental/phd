@@ -15,11 +15,10 @@
 	%
 	The column-major vectorization \(bm{x}\) of the image is the \(NM\) length vector defined as \(\bm{x}(Mm + n) = X(n, m)\).}
 \anotecontent{patch}{\(m \times m\) pixel window, e.g. \(3 \times 3\).}
-\anotecontent{tensor}{A multidimensional array \cite{Goodfellow:2016:DL:3086952}.
-	%
-	Not to be confused with the algebraic object.}
+\anotecontent{tensor}{A multidimensional array. Not to be confused with the algebraic object.}
 %\anotecontent{deep-depletion}{The depletion layer is the region at the Si-SiO\(_2\) interface that is characterized by few charge carriers (electrons and holes) that occurs when a gate voltage higher than the flat-band voltage is applied. Deep-depletion is characterized by a depletion region width that is greater than that at equilibrium \cite{semiconductorbook}.}
 %\anotecontent{inversion}{The term inversion means that the surface is inverted from P type to N type, or electron rich. This process is a slow thermal equilibration \cite{ccdarkcurrent}, is called dark current and at various temperatures/exposure times is a source of noise.}
+\anotecontent{nyquist}{Twice the frequency of the lowest frequency component in the image. Sampling at a rate below this leads to aliasing of high frequency components as low frequency components.}
 \anotecontent{depletion}{By applying a positive voltage to the gate holes are repelled and migrate through the body to ground.
 	%
 	This leaves a depleted region near the Si-SiO\(_2\) interface that acts as an insulator.}
@@ -28,7 +27,7 @@
 	In surface channel the signal charge is stored at the Si-SiO\(_2\) interface, which can lead to charge trapping during the charge transfer process \cite{Bass:2009:HOT:1594759}.}
 \anotecontent{ntype}{Semiconductors are classified as either \textit{n-type} or \textit{p-type}, the former being doped with negative charge carriers and the latter being doped with positive charge carriers (holes).}
 \anotecontent{ccd}{CCD arrays, for example, employ \(2\times 2\) or \(3\times 3\) pixel binning, which is the practice of collapsing windows of pixels down to one pixel.}
-\anotecontent{pnjunction}{The interface between a p-type semiconductor and an n-type semiconductor.}
+\anotecontent{pnjunction}{The interface between a p-type semiconductor and a n-type semiconductor.}
 \anotecontent{reversebias}{With the p-type material at a lower voltage than the n-type.
 	%
 	This causes both the holes and the electrons to flow away from the junction creating a depletion zone.}
@@ -43,7 +42,7 @@
 	%
 	Spatial here means periodic in space rather than in time.}
 \anotecontent{coma}{Off-axis point sources appearing to have a tail (coma), due to variation in magnification in the image of the aperture stop.}
-\anotecontent{dispersion}{E.g. the cover of Pink Floyd's The Dark Side of the Moon.}
+\anotecontent{dispersion}{A well known example of this phenomenon is the cover of Pink Floyd's classic album The Dark Side of the Moon.}
 \anotecontent{fnumber}{The ratio of the system's focal length to the diameter of the aperture.}
 \anotecontent{registration}{The process of aligning two or more images of the scene on a common pixel grid.}
 %registration
@@ -54,7 +53,7 @@
 	%
 	Since in practice this approximates a noisy signal (second derivative), smoothing by a Gaussian is a necessary prerequisite.
 	%
-	Therefore the Laplace of Gaussians (\(LoG\)) filter is the Laplacian composed with the Gaussian: \begin{equation*} LoG(x,y, \sigma) \coloneqq -\frac{1}{\pi \sigma^4}\left[ 1 - \frac{x^2+y^2}{2\sigma^2} \exp \left\{ - \frac{x^2+y^2}{2\sigma^2} \right\} \right]
+	Therefore the Laplacian of Gaussians (\(LoG\)) filter is the Laplacian composed with the Gaussian: \begin{equation*} LoG(x,y, \sigma) \coloneqq -\frac{1}{\pi \sigma^4}\left[ 1 - \frac{x^2+y^2}{2\sigma^2} \exp \left\{ - \frac{x^2+y^2}{2\sigma^2} \right\} \right]
 	\end{equation*}}
 \anotecontent{smallcurvature}{The ratio of the eigenvalues of the spatial Hessian of \(D\) (i.e., only along dimensions \(x,y\)).
 	%
@@ -67,9 +66,9 @@
 	%
 	RANSAC iterates by repeatedly random sampling the putative matching keypoint pairs and fitting a transform model.
 	%
-	At a given iteration the fitted transform model is tested against the unused keypoint pairs and evaluated (according to goodness of fit on a subset called the \textit{consensus set}).}
+	At a given iteration the fitted transform model is tested against the heldout keypoint pairs and evaluated (according to goodness of fit on a subset called the \textit{consensus set}).}
 \anotecontent{gridsearch}{Searching a space by taking regular incremental steps along each dimension. For example, search \(U \subset \mathbb{R}^2\) by checking all \(x = \Delta x + x_0, y = \Delta y + y_0\) for \((x_0, y_0) \in U\) and for fixed \(\Delta x, \Delta y\).}
-\anotecontent{fouriershift}{If \(\mathcal{F}\{\left[ x_n \right] \}_{k}=X_{k}\) is the \(k\)th frequency component of the discrete signal
+\anotecontent{fouriershift}{If \(\mathcal{F}\{\left[ x_n \right] \}_{k}=X_{k}\) is the \(k\)-th frequency component of the discrete signal
 \(\left[ x_n \right]\) then shifting \(\left[ x_n \right]\) by \(m\) steps implies
 \[
 	\mathcal{F}\left\{\left[ x_{n-m} \right]\right\}_{k} = X_{k}\cdot e^{-{\frac {i2\pi }{N}}km}
@@ -125,9 +124,9 @@ Figuratively one can imagine stretching a rubber band such that it contains all 
 \anotecontent{stokes}{
 	The integral of a differential form \(\omega\) on the boundary of some orientable manifold \(\Omega\)  is equal to the integral of its exterior derivative \(\dif \omega\) on \(\Omega\), i.e
 	\[
-		\int\limits _{\partial \Omega }\omega =\int\limits _{\Omega }\dif\omega
+		\oint\limits _{\partial \Omega }\omega =\int\limits _{\Omega }\dif\omega
 	\]
-	In this instance \(R\) is the orientable manifold, \( \mathbf{j} \cdot \mathbf{n}\, \dif l \) is the differential form \(\omega\), and \( \nabla \cdot \mathbf{j}\, \dif R\) is the exterior derivative \(\dif \omega\) of \(\omega\).
+	In this instance \(\Omega = R\), \(\omega = \mathbf{j} \cdot \mathbf{n}\, \dif l \) and \( \dif \omega = \nabla \cdot \mathbf{j}\, \dif R\).
 }
 \anotecontent{tvloss}{ Total variation is equivalent to the integral of the gradient magnitude:
 \[
@@ -141,7 +140,7 @@ Figuratively one can imagine stretching a rubber band such that it contains all 
 
 
 %classical
-\anotecontent{lsi}{In analogy with Linear Time Invariant (i.e.,linear and constant in space).}
+\anotecontent{lsi}{In analogy with Linear Time Invariant (i.e., linear and constant in space).}
 \anotecontent{lrpixel}{An LR pixel is one sampled from an LR image and embedded in an HR grid.
 	%
 	An HR pixel is a pixel in an HR grid.}

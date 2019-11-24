@@ -75,7 +75,7 @@ and hence
 \begin{equation}
     \pd{L}{w_i} = - \sum_k(t_k-y(\bm{x}_k))\cdot y'\cdot x_{ik}
 \end{equation}
-where by \(y' \coloneqq \sigma'\) we mean the derivative of the activation function with respect to its argument and by \(x_{ik}\) we mean the \(i\)th input \(x_i\) of the \(k\)th training sample \(\bm{x}_k\).
+where by \(y' \coloneqq \sigma'\) we mean the derivative of the activation function with respect to its argument and by \(x_{ik}\) we mean the \(i\)-th input \(x_i\) of the \(k\)-th training sample \(\bm{x}_k\).
 %
 Hence, by gradient descent, the weights \(w_i\) should be adjusted in the opposite direction of \(\pd{L}{w_i}\) and so we have the weight update rule
 \begin{equation}
@@ -299,14 +299,14 @@ On the other hand the inverse holds for \(G\) with respect to \(\mathbb{E}_{\bm{
 Goodfellow \etal prove that for the generator this loss criterion is equivalent to minimizing the Jensen–Shannon divergence\anote{kldiv} between the distribution that it models and the true distribution of the data.
 \subsection{Deep Neural Networks for SISR}
 Deep neural network architectures for single-image super-resolution abide a four tiered hierarchy (according to complexity) which roughly parallels the chronological order of the innovations that have contributed to the current state of the art:
-\begin{framed}
+\begin{mdframed}
     \begin{itemize}
         \item \textbf{Pre-defined up-sampling}: networks that expect the image to already have been up-sampled (e.g., using bicubic interpolation). These networks chiefly restore high-frequency features that are omitted by the classical up-sampling technique.
         \item \textbf{Single up-sampling}: networks that perform the up-sampling themselves (in addition to performing restoration).
         \item \textbf{Progressive up-sampling}: networks that up-sample in phases, performing restoration at every phase.
         \item \textbf{Iterative up-sampling}: networks that up-sample and then assess the goodness of the result by down-sampling to original low-resolution (see section~\ref{subsubsec:iterback} for the classical analogue).
     \end{itemize}
-\end{framed}
+\end{mdframed}
 
 
 
@@ -399,7 +399,7 @@ In addition to using the conventional GAN loss they add a term called \textit{pe
 \begin{equation}
     \ell_{feat}^{\phi, j} \left( \hat{\bm{y}}, \bm{y}_c\right) \coloneqq \frac{1}{H_j W_j} \abs{\phi_j\left({\hat{\bm{y}}}\right) - \phi_j \left(\bm{y}_c\right)}^2
 \end{equation}
-where \(\phi_j\) is the \(j\)th layer activation of the VGG network \cite{simonyan2014very} pretrained on a large data set, \(\hat{\bm{y}}\) is the output of SRResNet, and \(\bm{y}_c\) is the target HR image (see figure~\ref{fig:perceptualloss}), and \(H_j, W_j\) are the dimensions of the \(j\)th layer activation of VGG.
+where \(\phi_j\) is the \(j\)-th layer activation of the VGG network \cite{simonyan2014very} pretrained on a large data set, \(\hat{\bm{y}}\) is the output of SRResNet, and \(\bm{y}_c\) is the target HR image (see figure~\ref{fig:perceptualloss}), and \(H_j, W_j\) are the dimensions of the \(j\)-th layer activation of VGG.
 \begin{figure}[!htbp]
     \centering
     \begin{adjustbox}{width=\linewidth}
@@ -492,7 +492,7 @@ MISR algorithms process a batch of LR images to generate a single HR image by ag
 %
 In order to effectively perform this task they must compensate for motion between the LR images by registering them to a common pixel grid (see section~\ref{sec:registration}).
 %
-In the context of neural networks this is framed as learning the time dependency from the training data (LR-HR image pair sequences) and then inferring such a time dependency for new samples.
+In the context of neural networks this is mdframed as learning the time dependency from the training data (LR-HR image pair sequences) and then inferring such a time dependency for new samples.
 %
 
 
@@ -559,7 +559,7 @@ The transformer operates on input \(U\) to produce output \(V\) in three phases,
     \includegraphics[width=.49\textwidth]{figures/neural_networks/space_transformer.png}
     \caption{Spatial Transformer \cite{jaderberg2015spatial}.}\label{fig:spacetransformer}
 \end{figure}
-\begin{framed}
+\begin{mdframed}
     \begin{enumerate}
         \item \textbf{Localization}: a regression network \(f_{\text{loc}}(\cdot)\) that regresses the transformation parameters \(\bm{\theta}\) that parameterize the transformation \(\mathcal{T}_{\bm{\theta}}\). For example the six parameters that define an affine transformation (see figure~\ref{fig:affinetransformation}) in homogeneous coordinates.
         \item \textbf{Grid generation}: a sampling grid network, which generates the set of points where the input should be sampled to produce the transformed output (see figure~\ref{fig:paramsampling}). In practice it takes \(\bm{\theta}\) and the coordinate system as fixed parameters and generates a grid but in full generality this module can learn the correct coordinate representation.
@@ -571,7 +571,7 @@ The transformer operates on input \(U\) to produce output \(V\) in three phases,
             K(i, j) \coloneqq \max(0, 1-\abs{i})\cdot \max(0, 1- \abs{j})
         \end{equation*}
     \end{enumerate}
-\end{framed}
+\end{mdframed}
 \begin{figure*}[!htbp]
     \centering
     \begin{subfigure}[b]{.39\textwidth}
@@ -659,14 +659,14 @@ This architecture consists of three (or four\anote{ntire}) independent stages im
     \includegraphics[width=\textwidth]{figures/neural_networks/edvr.png}
     \caption[]{Enhanced Deformable Convolutional Networks \cite{wang2019edvr}.}\label{fig:edvr}
 \end{figure*}
-\begin{framed}
+\begin{mdframed}
     \begin{enumerate}
         \item \textbf{De-blur}: an optional pre-processing stage for deblurring images and potentially improving registration accuracy.
         \item \textbf{Registration}: an image registration stage effected by a Pyramid, Cascading and Deformable (PCD) alignment module.
         \item \textbf{Fusion}: a non-redundant information extraction stage effected by a Temporal and Spatial Attention (TSA) fusion module.
-        \item \textbf{Reconstruction}: a high-frequency image artefact restoration stage effected by a cascade of ResBlocks (see section~\ref{subsubsec:vdsr}).
+        \item \textbf{Reconstruction}: a high-frequency image artifact restoration stage effected by a cascade of ResBlocks (see section~\ref{subsubsec:vdsr}).
     \end{enumerate}
-\end{framed}
+\end{mdframed}
 
 The PCD alignment module uses tiered \textit{deformable convolutions} in order to perform registration. 
 %
