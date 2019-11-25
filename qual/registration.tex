@@ -434,7 +434,7 @@ Perez \etal \cite{perez2013tv} further relax this to a convex loss:
 in order that they can alternate fixing one of \(\mathbf{u}, \mathbf{v}\) and minimizing with respect to the other.
 %
 Note that fixing \(\theta\) in eqn.~\eqref{eqn:relaxhorn} to be small pushes \(E_{\theta}(\mathbf{u}, \mathbf{v})\) to be small when \(\mathbf{u}\approx \mathbf{v}\) and therefore effectively minimizes eqn.~\eqref{eqn:nonlinearhorn}.
-\paragraph{Splines}
+\paragraph{Splines}\label{pgraph:splines}
 \input{figures/registration/splines/splines.tex}
 One issue with optical flow methods is that they are very compute intensive; iteratively minimizing either eqn.~\eqref{eqn:nonlinearhorn} or eqn.~\eqref{eqn:relaxhorn} requires evaluations at every pixel.
 %

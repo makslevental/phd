@@ -140,10 +140,13 @@ Figuratively one can imagine stretching a rubber band such that it contains all 
 
 
 %classical
+\anotecontent{delauney}{The Delaunay triangulation for a set of points \(P\) is a triangulation such that no point in \(P\) is inside the circumcircle of any triangle in the triangulation. Equivalently it is the triangulation that maximizes the minimum angle of all of the triangles in the triangulation.}
+\anotecontent{estiminterp}{This blurring of the distinction between interpolation and estimation is to be expected since estimation is a type of regression.}
+\anotecontent{gp}{A Gaussian process is a sequence of random variables such that any finite subset is distributed multivariate Normal.}
 \anotecontent{lsi}{In analogy with Linear Time Invariant (i.e., linear and constant in space).}
-\anotecontent{lrpixel}{An LR pixel is one sampled from an LR image and embedded in an HR grid.
+\anotecontent{lrpixel}{An LR pixel is one sampled from an LR image and embedded in the HR grid.
 	%
-	An HR pixel is a pixel in an HR grid.}
+	An HR pixel is a pixel in the HR grid.}
 \anotecontent{vectorize}{
 	\begin{multline*}
 		\text{vec}\left(
@@ -162,14 +165,16 @@ Figuratively one can imagine stretching a rubber band such that it contains all 
 	This is in close affinity with how generative machines such as variational auto-encoders and generative adversarial networks are understood.}
 %
 \anotecontent{gpassumptions}{Namely \(\bm{y}_1\) is distributed \((0, W)\)-Normal and independent of \(\eta_1\).}
-\anotecontent{kalmanprediction}{This is better understood in the more general linear dynamic systems case where \(\bm{y}_k = A_k\bm{y}_k + B_k \bm{u}_k + \varepsilon_k\) and \(B_k \bm{u}_k\) is known as ``controlled'' input.
+\anotecontent{kalmanprediction}{This is better understood in the more general linear dynamic systems case where \(\bm{y}_k = A_k\cdot\bm{y}_k + B_k \cdot \bm{u}_k + \varepsilon_k\) and \(B_k \cdot \bm{u}_k\) is known as controlled input.
 	%
-	Then the prediction includes a \(B_k \bm{u}_{k-1}\) term and the Kalman gain effectively mediates between controlled and uncontrolled inputs.
+	Then the prediction includes a \(B_k \cdot \bm{u}_{k-1}\) term and the Kalman gain effectively mediates between controlled and uncontrolled inputs.
 }
-\anotecontent{hmrf}{A Markov random field (MRF) is a collection of random variables \(x_i, y_j, \mathellipsis\) with conditional dependence represented by pairings and satisfying the \textit{pairwise Markov} property: any two random variables that aren't paired are conditionally independent of each other given (conditioned on) all other variables.
+\anotecontent{hmrf}{A Markov Random Field (MRF) is a collection of random variables \(x_i, y_j, \mathellipsis\) with conditional dependence represented by pairings and satisfying the \textit{pairwise Markov} property: any two random variables that aren't paired are conditionally independent of each other given (conditioned on) all other variables.
 	%
-	A \textit{hidden} Markov random field is simply a MRF where some of the random variables aren't observed.
+	A \textit{Hidden} Markov Random Field is simply a MRF where some of the random variables aren't observed.
 }
+\anotecontent{locallinear}{An LR patch \(x_i\) on the LR manifold and its neighbors \(x_j, x_k, \mathellipsis\) lie in a locally linear subspace of the manifold.}
+\anotecontent{forest}{A tree is a graph in which any pair vertices is connected by exactly one or zero edges. A forest is a disjoint collection of trees.}
 \anotecontent{positivedef}{A symmetric real matrix \(Q\) is positive definite if \(\bm{y}^T Q \bm{y} > 0 \) for all non-zero \(\bm{y}\).}
 \anotecontent{conjugategradients}{Two vectors \(\bm{u}, \bm{v}\) are conjugate with respect to \(G\) if \(\bm{u}^T G \bm{v} = 0\).
 	%
