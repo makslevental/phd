@@ -239,3 +239,18 @@ for all \(x \in I\). Note the order of the quantifiers: there should be \textbf{
 \anotecontent{tremor}{For example Physiologic tremor in the case of cell phone cameras. Physiologic tremor is a low amplitude tremor of a limb that presents at approximately 10Hz. It occurs in normal, healthy individuals.}
 \anotecontent{rl}{Reinforcement Learning is a paradigm of machine learning based on principles of operant conditioning, i.e., using punishment and reward.}
 \anotecontent{rnn}{A Recurrent Neural Network (RNN) models time dependencies in sequences of data.}
+
+% appendix
+\anotecontent{diracdelta}{A generalized function is a function that can only be integrated against. Let 
+\begin{equation*}
+	\delta_\epsilon(x) \coloneqq \frac{1}{\epsilon \sqrt{\pi}}	e^{-x^2/\epsilon^2}
+\end{equation*}
+Then for any continuous \(\phi(x)\)
+\begin{equation*}
+	\lim_{\epsilon\rightarrow 0} \left[\int\limits_{-\infty}^{\infty} \phi(x)\delta_{\epsilon}(x-x_0) \right] = \lim_{\epsilon\rightarrow 0} \left[ \phi(x_0)\int\limits_{-\infty}^{\infty} \delta_{\epsilon}(x-x_0) \right] = \phi(x_0)
+\end{equation*}
+and hence \(\delta(x)\) is defined as the limit of this behavior
+\begin{equation*}
+	\int\limits_{-\infty}^{\infty} \phi(x)\delta(x-x_0) = \phi(x_0)
+\end{equation*}
+}

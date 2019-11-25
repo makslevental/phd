@@ -23,28 +23,68 @@
 
 \newcommand*{\E}{\bm{E}}
 \newcommand*{\B}{\bm{B}}
+\newcommand*{\rr}{\bm{r}}
+\newcommand*{\Ef}{\textit{\textbf{E}} }
 
-Starting with Maxwell's equations in differential form:
+Starting with Maxwell's equations in a vacuum (in differential form) for the electric field \(\E(x,y,z, t)\) and the magnetic field \(\B(x,y,z, t)\):
+%
 \begin{align}
-    \nabla \cdot \B = 0 \\
-    \nabla \cdot \E = 0 \\
     \nabla \times \B = \frac{1}{c^2} \frac{\partial \E}{\partial t} \\
     \nabla \times \E = - \frac{\partial \B}{\partial t} 
 \end{align}
+%
 Note that 
+%
 \begin{equation}
     \nabla \times \left( \nabla \times \E \right) = \pd{}{t} \left( \nabla \times \B\right) = \frac{1}{c^2} \pdv[2]{\E}{t}
 \end{equation}
-and with the identity \(\nabla \times \nabla \times \E = \nabla (\nabla\cdot \E) - \Delta \E\) (where \(\Delta \coloneqq \nabla^2\) is the Laplacian) we have the vector E-field \textit{wave equation}
+%
+and with the identity \(\nabla \times \nabla \times \E = \nabla (\nabla\cdot \E) - \nabla^2 \E\) we have the vector E-field \textit{vector wave equation}:
+%
 \begin{equation}
-    \Delta \E = \frac{1}{c^2} \pdv[2]{\E}{t}
+    \nabla^2 \E = \frac{1}{c^2} \pdv[2]{\E}{t}
 \end{equation}
+%
 This decouples each components of the \textit{\textbf{E}} field. We therefore arbitrarily choose the \(z\) component and solve the \textit{scalar wave equation} for \(E \coloneqq E_z\)
+%
 \begin{equation}
-    \Delta E = \frac{1}{c^2} \pdv[2]{E}{t}\label{eqn:scalarwaveeqn}
+    \nabla^2 E = \frac{1}{c^2} \pdv[2]{E}{t}\label{eqn:scalarwaveeqn}
 \end{equation}
-In a medium with refractive index \(n \coloneqq c/v\) (where \(v\) is the speed of light in the medium) eqn.~\eqref{eqn:scalarwaveeqn} becomes
+
+We seek \textit{monochromatic wave solutions} of eqn ~\eqref{eqn:scalarwaveeqn}, i.e., those that are of such a form
+%
 \begin{equation}
-    \Delta E = \frac{n^2}{c^2} \pdv[2]{E}{t}\label{eqn:scalarwaveeqnmed}
+    E(\rr, t) = \psi(\rr) e^{-i \omega t}\label{eqn:monochromsol}
 \end{equation}
-We seek \textit{monochromatic} solutions, i.e., 
+%
+that the oscillatory component, \(e^{i \omega t}\) is only a function of \(\omega \coloneqq 2 \pi c / \lambda\) (\(\lambda\) is \textit{wavelength} of the solution) and the \textit{wave field} \(\psi(\rr)\) is only a function of \(\rr \coloneqq (x, y, z)\) spatial coordinates.
+%
+If \textit{E} obeys eqn~\eqref{eqn:scalarwaveeqn} then \(\psi\) obeys the \textit{Helmholtz equation}:
+%
+\begin{equation}
+    (\nabla^2 + k^2) \psi(\rr) = 0\label{eqn:helmholtz}
+\end{equation}
+%
+where \(k \coloneqq \omega / c\) is the \textit{wavenumber} .
+%
+To solve the Helmholtz equation for \(\psi\) we use the method of \textit{Green's functions}; we look for a solution \(G(\rr, \rr')\)
+%
+\begin{equation}
+    \nabla^2 G(\rr, \rr') + k^2 G(\rr, \rr') = -4 \pi \delta(\rr -\rr')\label{eqn:greenshelm}
+\end{equation}
+%
+where \(\delta\) is the Dirac delta \textit{generalized function}\anote{diracdelta}.
+%
+Equation~\eqref{eqn:greenshelm} corresponds to a single point source at the position \(\rr' \coloneqq (x', y', z')\).
+%
+If we assume that \(G\) is only a function of displacement \(\bm{\rho} \coloneqq \rr - \rr'\) then we can introduce the Fourier integral representation \(\mathcal{G}\) of \(G\):
+%
+\begin{equation}
+   G(\rr) = \int\limits \mathcal{G}(\bm{\kappa})e^{i \bm{\kappa}\cdot \rho} \dif^{3}\kappa
+\end{equation}
+%
+Then using the fact that \(\mathcal{F} \left\{ \delta(\bm{\rho}) \right\} = 1\) we have
+%
+\begin{equation}
+    \mathcal{G}(\bm{\kappa}) = \frac{1}{2 \pi^2 } \frac{1}{\abs{\bm{\kappa}}^2 - k^2} 
+\end{equation}
