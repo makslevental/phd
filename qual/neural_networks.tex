@@ -3,13 +3,13 @@
 \localtableofcontents
 Artificial Neural Network (ANN or simply NN) algorithms for SR are all based on a Convolutional Neural Network (CNN) architecture.
 %
-We first briefly review ANNs in general, CNNs in particular, powerful architectures called Deep Neural Networks (DNNs), and a training methodology for networks called Generative Adversarial Networks (GANs).
+We first, briefly, review ANNs in general, CNNs in particular, powerful architectures called Deep Neural Networks (DNNs), and a training methodology for networks called Generative Adversarial Networks (GANs).
 %
 We then proceed to review applications of ANNs to super resolution.
 %
 \subsection{Basics}
 \input{figures/neural_networks/mlp.tex}
-An ANN is a function specified by compositions of elementary functions called \textit{artificial neurons}\anote{ann} (or simply neurons).
+An ANN is a function specified by composing elementary functions called \textit{artificial neurons}\anote{ann} (or simply neurons).
 %
 Neurons consist of a set of inputs \(\mathbf{x} \coloneqq (x_1, x_2, \dots, x_n)\), a set of parameters called weights \(w_i\), and an \textit{activation function} \(\sigma\), which acts as a thresholding mechanism.
 %
@@ -18,9 +18,9 @@ For example, the simplest function that qualifies as a neuron is a linear functi
     z(\mathbf{x}) = w_1 x_1 + w_2 x_2 = \sum_i w_i x_i
     \label{eqn:simpleann}
 \end{equation}
-where the activation function is the trivial one i.e., the identity.
+where the activation function is the trivial one the identity.
 %
-Common non-trivial, i.e., nonlinear, activation functions are the sigmoid function
+Common non-trivial activation functions are the sigmoid function
 \begin{equation}
     \operatorname{sig}(x)={\frac {1}{1+e^{-x}}}={\frac {e^{x}}{e^{x}+1}}
 \end{equation}
@@ -28,18 +28,17 @@ the hyperbolic tangent function
 \begin{equation}
     \tanh x={\frac {\sinh x}{\cosh x}}={\frac {e^{x}-e^{-x}}{e^{x}+e^{-x}}}={\frac {e^{2x}-1}{e^{2x}+1}}
 \end{equation}
-and the piecewise defined \textit{rectified linear unit} (\(\operatorname{ReLU}\))
+and the piecewise defined \textit{rectified linear unit} (\(\operatorname{ReLU}\)):
 \begin{align}
-    \operatorname{ReLU}(x) & \coloneqq \begin{cases}x&{\text{if }}x>0,\\0&{\text{otherwise}}\end{cases} \\
-                           & = \max(0, x)
+    \operatorname{ReLU}(x) & \coloneqq \begin{cases}x&{\text{if }}x>0,\\0&{\text{otherwise}}\end{cases} 
+                        %    & = \max(0, x)
 \end{align}
-%
 Note that eqn.~\eqref{eqn:simpleann} passes through the origin \((0,0,0)\) since it has no constant term; in the parlance of machine learning (ML) the neuron is missing a bias term\anote{bias} \(b\):
 \begin{equation}
     z(\mathbf{x}) = \sum_i w_i x_i + b
     \label{eqn:linearregr}
 \end{equation}
-%
+
 Neurons can be represented as directed graphs, where a vertex represents an input and edges represent the weights (see figure~\ref{fig:singleann}).
 %
 ANNs are then assemblies of neurons grouped into \textit{layers} with the layers composed by applying neurons to outputs from immediately preceding layers.
@@ -54,12 +53,12 @@ For example the ANN specified in figure~\ref{fig:multiann} represents the functi
 %
 Layers are categorized as either \textit{hidden layers} or input-output layers: those layers that are not input or output layers are hidden layers.
 
-ANNs might seem like a very simple class of functions; for example, Minsky \etal \cite{minsky2017perceptrons} famously proved that ANNs that don't include a nonlinear activation function can't represent \(\operatorname{XOR}\)\anote{xor}. 
+ANNs seem like a very simple class of functions; for example, Minsky \etal \cite{minsky2017perceptrons} famously proved that ANNs that don't include a nonlinear activation function can't represent \(\operatorname{XOR}\)\anote{xor}. 
 %
-On the contrary, strikingly, it's the case that ANNs that do include a nonlinear activation function satisfy a \textit{universal approximation theorem} \cite{cybenko1989approximation}:
+On the contrary, strikingly, ANNs that do include a nonlinear activation function satisfy a \textit{universal approximation theorem} \cite{cybenko1989approximation}:
 %
 given any continuous function \(f\) (on some bounded interval \(I\)) there exists a sequence of ANNs (with at least one hidden layer and employing a nonlinear activation function) whose limit approximates\anote{uniformconv} \(f\) to arbitrary precision.
-%
+
 A critical component of the universal approximation theorem is finding the correct sequence of ANNs; in the parlance of ML an ANN demands a \textit{learning rule}.
 %
 In general, ANN learning rules iterate on the weights \(w_i\) given \(k \gg 1\) \textit{training} pairs of known \textit{samples} and \textit{targets} \(\left\{ \bm{x}_k, t_k \right\}\) of \(f\). 
@@ -77,18 +76,18 @@ and hence
 \end{equation}
 where by \(y' \coloneqq \sigma'\) we mean the derivative of the activation function with respect to its argument and by \(x_{ik}\) we mean the \(i\)-th input \(x_i\) of the \(k\)-th training sample \(\bm{x}_k\).
 %
-Hence, by gradient descent, the weights \(w_i\) should be adjusted in the opposite direction of \(\pd{L}{w_i}\) and so we have the weight update rule
+Hence, by gradient descent, the weights \(w_i\) should be adjusted in the opposite direction of \(\pd{L}{w_i}\) and we have the weight update rule
 \begin{equation}
     \Delta w_i \coloneqq \alpha \cdot \sum_k(t_k-y(\mathbf{x}_k))\cdot \sigma'\cdot x_{ik}
     \label{eqn:batchupdate}
 \end{equation}
-where \(\alpha\) is a small constant called the \textit{learning rate} that controls the rate of convergence of the ANN.
+where \(\alpha\) is a small constant called the \textit{learning rate} (that controls the rate of convergence of the ANN).
 
-In general, computing the partial derivatives \(\pd{L}{w_i}\) for a multi-layer, wide (many neurons in each layer) network is difficult due to dependencies between weights in adjacent layers.
+In general, deriving the partial derivatives \(\pd{L}{w_i}\) for a multi-layer, wide (many neurons in each layer) network is compute intensive due to dependencies between weights in adjacent layers.
 %
 \input{figures/neural_networks/backprop.tex}
 Fortunately traversing the derivative-dependency graph in a particular order, a technique called \textit{back-propagation}\anote{backprop} or simply backprop (see figure~\ref{fig:backprop}), makes this tractable.
-%
+
 Another inefficiency of the Delta rule is that it requires evaluating the ANN on the entire set of samples in order to compute the update \(\Delta w_i\).
 %
 For large training sets (on the order of millions of samples) this is infeasible due to memory limitations.
@@ -159,7 +158,7 @@ For 2D convolutions the kernels are most often square and therefore the kernel d
 Notice that eqns.~\eqref{eqn:1dconv} and~\eqref{eqn:2dconv} are completely linear in their inputs \(f[i]\) (\(f[i,j]\)) with weights \(w_i = g[n-i]\) (\(w_{ij} = g[n-i, m-j]\)) and hence naturally constitute a neuron (layer of neurons); a \textit{convolution layer} in a multi-layer ANN is either eqn.~\eqref{eqn:1dconv} or eqn.~\eqref{eqn:2dconv} with kernel values being iteratively updated by the learning rule.
 %
 Hence, a CNN is an ANN with one or more convolution layers; CNNs consisting of 2D convolutions are particularly effective for tasks that operate on images (since image patches have more structure than image slices).
-%
+
 In practice multiple filters are applied to the same input and then stacked to produce a higher-dimensional output (see figure~\ref{fig:multconvs}), each dimension of which is called a \textit{feature map}.
 \input{figures/neural_networks/multconvs.tex}
 %
@@ -246,7 +245,7 @@ Naturally then, overfitting is mitigated by using regularization; methods such a
 \end{equation}
 On the other hand dropout enforces regularization by selectively disabling neurons in the network (see figure~\ref{fig:dropout}); on each forward pass through the network a neuron is either passed input or not according to some probability \(p\) (usually \(p = 0.5\)).
 %
-The intuition being that not every neuron will have an opportunity to learn from every sample thereby limiting its ability to memorize patterns unique to the training samples.
+The intuition being that not every neuron will have an opportunity to learn from every sample thereby limiting the capacity of the ANN to memorize patterns unique to the training samples.
 
 There are many other best-practices techniques for training DNNs that are beyond the scope of this brief review; an accessible survey is Montavon \etal \cite{montavon2012neural}.
 
@@ -286,15 +285,15 @@ To that end Goodfellow \etal \cite{goodfellow2014generative} propose a training 
     \min_G \max_D L(D, G)
 \end{equation}
 where
-\begin{multline}
-    L(D, G) \coloneqq \mathbb{E}_{\bm{x} \sim p_{r}} [\log D(\bm{x})] + \\ \mathbb{E}_{\bm{z} \sim p_{z} } [\log(1 - D(G(\bm{z})))]
+\begin{equation}
+    L(D, G) \coloneqq \mathbb{E}_{\bm{x} \sim p_{r}} [\log D(\bm{x})] + \mathbb{E}_{\bm{z} \sim p_{z} } [\log(1 - D(G(\bm{z})))]
     \label{eqn:ganloss}
-\end{multline}
-Since the discriminator seeks to maximize \(L(D, G)\), the term \(\mathbb{E}_{\bm{x} \sim p_{r}} [\log D(\bm{x})]\) encourages that it is able to correctly identify (i.e., score high) true samples.
+\end{equation}
+Since the discriminator seeks to maximize \(L(D, G)\), the term \(\mathbb{E}_{\bm{x} \sim p_{r}} [\log D(\bm{x})]\) ensures that it is able to correctly identify (i.e., score high) true samples.
 %
-Simultaneously the term \(\mathbb{E}_{\bm{z} \sim p_{z} } [\log(1 - D(G(\bm{z})))] \) encourages that it is able to correctly identify (i.e., score low) counterfeit samples produced by \(G\).
+Simultaneously the term \(\mathbb{E}_{\bm{z} \sim p_{z} } [\log(1 - D(G(\bm{z})))] \) ensures that it is able to correctly identify (i.e., score low) counterfeit samples produced by \(G\).
 %
-On the other hand the inverse holds for \(G\) with respect to \(\mathbb{E}_{\bm{z} \sim p_{z} } [\log(1 - D(G(\bm{z})))]\) (the first term in eqn.~\eqref{eqn:ganloss}) does not play a role when optimizing \(G\)) and so \(G\) is encouraged to improve its ability to fool the discriminator (i.e., produce plausible samples from the real distribution).
+Conversely, \(\mathbb{E}_{\bm{z} \sim p_{z} } [\log(1 - D(G(\bm{z})))]\) (the first term in eqn.~\eqref{eqn:ganloss}) does not play a role when optimizing \(G\)) and so \(G\) is encouraged to improve its ability to fool the discriminator (i.e., produce plausible samples from the real distribution).
 %
 Goodfellow \etal prove that for the generator this loss criterion is equivalent to minimizing the Jensen–Shannon divergence\anote{kldiv} between the distribution that it models and the true distribution of the data.
 \subsection{Deep Neural Networks for SISR}
@@ -373,7 +372,7 @@ Where SRResNet differs from VDSR is the in-network up-sampling that it performs 
 %
 Sub-pixel convolutions are a way to learn up-sampling as a component of the ANN.
 %
-They up-sample in two phases: first \(r^2\) filters are convolved with the input, where \(r\) is up-sampling factor (e.g., 4 filters for 2x up-sampling), then a \textit{pixel shuffle} operation reorders the elements of the feature maps into an \(r\)-times higher resolution grid (see figure~\ref{subfig:pixelshuffle}).
+They up-sample in two phases: first \(r^2\) filters are convolved with the input, where \(r\) is the up-sampling factor (e.g., 4 filters for 2x up-sampling), then a \textit{pixel shuffle} operation reorders the elements of the feature maps into an \(r\)-times higher resolution grid (see figure~\ref{subfig:pixelshuffle}).
 \begin{figure}[!htbp]
     \centering
     \newcommand*{\subfigwidth}{.49\textwidth}
@@ -436,7 +435,7 @@ Their network consists of \(\log_2(r)\), where \(r\) is the scaling factor, tier
     \caption{Motion estimation module for BRCN \cite{caballero2017real}.}\label{fig:motion_estimation}
 \end{figure}
 %
-For a given tier the feature extraction branch extracts the gradients that comprise the residual and performs a 2x up-sampling (using transposed convolution). 
+For a given tier the feature extraction branch extracts the high-frequency components that comprise the residual and performs a 2x up-sampling (using transposed convolution). 
 %
 The output of the feature extraction branch, at a given tier, is then passed on to the next feature extraction tier and simultaneously to the corresponding image reconstruction tier.
 %
@@ -480,19 +479,21 @@ These iterative back-projections are in effect repeated up-down-up sampling modu
 %
 In classical iterative back projection a sequence of LR images is used to estimate an HR image.
 %
-Harris \etal use only a single input LR image and produce multiple candidate HR images uses multiple learned up-sampling operators (deconvolutions).
+Harris \etal use only a single input LR image and produce multiple candidate HR images using multiple learned up-sampling operators.
 %
 Their Up-Projection module takes the error \(e_t^l\) between a proposed up-sampling \(H_0^t\) and the back-projection \(L_0^t\) and feeds it back into the proposed up-sampling, i.e., the error-correcting feedback is the difference between the back-projection and LR input.
 %
 Their Down-Projection module performs the same function but from HR to LR.
 %
 Using these modules they achieve state of the art up-sampling all the way up to 8x \cite{timofte2018ntire}.
+
 \subsection{Deep Neural Networks for MISR}
+
 MISR algorithms process a batch of LR images to generate a single HR image by aggregating non-redundant information across the LR images.
 %
 In order to effectively perform this task they must compensate for motion between the LR images by registering them to a common pixel grid (see section~\ref{sec:registration}).
 %
-In the context of neural networks this is mdframed as learning the time dependency from the training data (LR-HR image pair sequences) and then inferring such a time dependency for new samples.
+In the context of neural networks this is framed as learning the time dependency from the training data (LR-HR image pair sequences) and then inferring such a time dependency for new samples.
 %
 
 
@@ -503,11 +504,10 @@ In the context of neural networks this is mdframed as learning the time dependen
 
 
 \input{figures/neural_networks/rnn.tex}
-Huang \etal \cite{huang2015bidirectional} learn the time dependency for complex motions jointly with the up-sampling transformation using a Bidirectional Recurrent CNN (BRCN). 
+Huang \etal \cite{huang2015bidirectional} learn the time dependency for complex motions jointly with the up-sampling transformation using a Bidirectional Recurrent\anote{rnn} CNN (BRCN). 
 %
-A Recurrent Neural Network (RNN) models time dependencies in sequences of data.
-%
-That is to say, for a given \(t\) length sequence of data an RNN might respond differently than a different \(t\) length sequence of data depending on the differing time dependencies intra-sequence.
+% %
+% That is to say, for a given \(t\) length sequence of data an RNN might respond differently than for a different \(t\) length sequence of data depending on the differing time dependencies intra-sequence.
 %
 They are able to model such non-stationary dependencies by using \textit{loop unrolling} (see figure~\ref{fig:unrolledrnn}): a \(t\) length recursion is represented as \(t\) layers composed of \textit{cells}.
 %
@@ -515,10 +515,9 @@ It is these cells that keep track of the dependencies between elements of the se
 %
 % As with all deep architectures RNN suffer from vanishing gradients; Long short-term memory (LSTM) cells address this problem by allowing gradients to flow through the cell unmediated (see figure~\ref{subfig:lstm}).
 %
-
 BRCN uses two recurrent networks, a forward-propagating network and a backward-propagating network.
 %
-Each of BRCN's RNNs is composed of conventional (feed-forward) convolutions, which model up-sampling, and convolutions in time (what they call recurrent and conditional convolutions), which model time dependencies (see figure~\ref{fig:brcn}).
+Each of BRCN's RNNs is composed of conventional (feed-forward) convolutions, which model up-sampling, and convolutions in time (that they call recurrent and conditional convolutions), which model time dependencies (see figure~\ref{fig:brcn}).
 \begin{figure}[!htbp]
     \includegraphics[width=.49\textwidth]{figures/neural_networks/brcn.png}
     \caption{BRCN schematic diagram \cite{huang2015bidirectional}.}\label{fig:brcn}
@@ -567,7 +566,7 @@ The transformer operates on input \(U\) to produce output \(V\) in three phases,
         \begin{equation*}
             V(x,y) = \sum_n \sum_m U(n,m) K(x-m, y-n)
         \end{equation*}
-        Note that the kernel only need  be differentiable such as, for example, the bilinear kernel \begin{equation*}
+        Note that the kernel only need be a differentiable function such as, for example, the bilinear kernel \begin{equation*}
             K(i, j) \coloneqq \max(0, 1-\abs{i})\cdot \max(0, 1- \abs{j})
         \end{equation*}
     \end{enumerate}
@@ -598,7 +597,7 @@ The first real-time DNN architecture (see figure~\ref{fig:realtimeepscn}) for MI
     \caption{Real-time MISR with motion compensation \cite{caballero2017real}. Motion compensation is performed two adjacent frames in a triplet and all three frames are then passed to up-sampling network.}\label{fig:realtimeepscn}
 \end{figure*}
 %
-In this case only the localization network of the spatial transformer is used to learn a pair of displacement mappings 
+In this use only the localization network of the spatial transformer is used to learn a pair of displacement mappings 
 \begin{equation}
     \Delta_{t+1} \coloneqq (\Delta_{t+1}x, \Delta_{t+1} y)
 \end{equation}
@@ -643,7 +642,9 @@ Each fusion method applies convolutions to the sequence of images in either a ti
 %
 For example, early fusion applies convolutions to a sequence of images as if they were independent channels of one image (see figure~\ref{subfig:earlyfus}).
 %
-Slow fusion on the other hand applies the convolutions in tiers in order to incorporate time dependencies in the filters (see figure~\ref{subfig:slowfus}); note that if adjacent filter banks are made to share weights than new incoming frames can recycle computations from earlier frames.
+Slow fusion, on the other hand, applies the convolutions in tiers in order to incorporate time dependencies in the filters (see figure~\ref{subfig:slowfus}).
+%
+Note that if adjacent filter banks are made to share weights then new incoming frames can recycle computations from earlier frames.
 
 
 
@@ -672,7 +673,7 @@ The PCD alignment module uses tiered \textit{deformable convolutions} in order t
 %
 A deformable convolution is a convolution with an irregularly shaped and spaced convolution kernel.
 %
-It is impelemented by learning the combination of a conventional kernel and an offset field the stores the offsets of each of the kernel values (see figure~\ref{fig:deformconv}).
+It is impelemented by learning the combination of a conventional kernel and an offset field that stores the offsets of each of the kernel values (see figure~\ref{fig:deformconv}).
 \begin{figure}[!htbp]
     \centering
     \begin{subfigure}[b]{.49\textwidth}
@@ -689,7 +690,7 @@ It is impelemented by learning the combination of a conventional kernel and an o
     \caption[]{Deformable convolutions \cite{Dai_2017}.}\label{fig:deformconv}
 \end{figure}
 %
-For EDCN the deformable convolution deforms, with kernel \(w\), and input image \(I\) to an aligned image \(I'_t\) (relative to a reference image) according to 
+For EDCN the deformable convolution deforms, with kernel \(w\), the input image \(I\) to an aligned image \(I'_t\) (relative to a reference image) according to 
 \begin{equation}
     I'_t(\bm{x}) = \sum_{\bm{p}} w(\bm{p}) I_t(\bm{x} + \bm{p} + \Delta \bm{p})
 \end{equation}
