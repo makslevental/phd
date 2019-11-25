@@ -252,7 +252,7 @@ By definition the MMSE \(\hat{\bm{y}}_{k|s}\) of \(\bm{y}_{k|s}\) is \(\bar{\bm{
 %
 The Kalman filter proceeds in two steps: an \textit{a priori} (before measurement) prediction step and an \textit{a posteriori} (after measurement) update step.
 %
-The prediction step iterates on the estimate (and its covariance) given all previous measurements:
+First, the prediction step iterates on the estimate (and its covariance) given all previous measurements:
 \begin{align}
     \hat{\bm{y}}_{k|k-1} & = A'_k \cdot \hat{\bm{y}}_{k-1|k-1}     \\
     C_{k|k-1}            & = A'_k C_{k-1|k-1} (A'_k)^T + Q_k
@@ -521,7 +521,7 @@ NNE also suffers from using a fixed number of nearest neighbors, which results i
 %
 Yang \etal \cite{yang2008} resolve this issue by using sparse coding (SC) as a framework for learning a sparse mapping from LR patches to HR patches (see figure~\ref{fig:hrpatchdict}).
 %
-This enables them to essentially leave the number of nearest numbers unspecified (or, alternatively, learn the correct number of neighbors on a patch by patch basis).
+This enables them to essentially leave the number of nearest numbers unspecified (or, alternatively, learn the correct number of neighbors on a patch-by-patch basis).
 %
 To be precise, let \(D \coloneqq \left(\bm{d}_1, \dots, \bm{d}_K \right) \in \mathbb{R}^{n \times K}\) be an \textit{overcomplete dictionary}\anote{overcompletedictionary} of \(K\) atoms \(\bm{d}_i\), and suppose a signal \(\by \in \mathbb{R}^n\) can be represented as a sparse linear combination of these atoms:
 \begin{equation}
@@ -626,7 +626,7 @@ Timofte \etal call these \(P_k\) \textit{anchored regressions} because they effe
 %
 For a new input LR patch \(x\) they find the nearest atom in \(D_{LR}\) and recover the HR patch \(\by = P_k \cdot \bx\).
 %
-Note that ANR, just as in SC, does not operate on the raw image patches themselves but rather featurized image patches: Timofte \etal apply PCA to the first and second order gradients of the patches and, as in Zeyde \etal \cite{Zeyde2012}, and keep only keep only components explaining 99.9\% of the variance.
+Note that ANR, just as in SC, does not operate on the raw image patches themselves but rather featurized image patches: Timofte \etal apply PCA to the first and second order gradients of the patches and, as in Zeyde \etal \cite{Zeyde2012}, and keep only those components explaining 99.9\% of the variance.
 %
 This reduces the dimensions of their atoms to about 30.
 
@@ -691,7 +691,7 @@ At each node they select the splitting function parameters \(i, j, \tau\) by eva
     Q(\bX, \bY) \coloneqq \sum_k \left( \abs{ \by_k - \hat{\by}_k }^2 + \alpha\abs{ \bx_k - \bar{\bx} }^2 \right)
     \label{eqn:qualitymeasure}
 \end{equation}
-where \(\hat{\by}_k\) is the estimate produced by the linear regression fit using data that has arrived at that node (and \(\alpha\) is a scale regularization parameter).
+where \(\hat{\by}_k\) is the estimate produced by the linear regression fit using data that has arrived at that node (\(\alpha\) is a scale regularization parameter).
 %
 The first term in eqn.~\eqref{eqn:qualitymeasure} measures fitting error and the second term is the clustering regularizer.
 %

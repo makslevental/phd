@@ -1,6 +1,7 @@
 \section{Artificial Neural Networks}\label{sec:neural-networks}
 \input{figures/neural_networks/figures.tex}
 \localtableofcontents
+
 Artificial Neural Network (ANN or simply NN) algorithms for SR are all based on a Convolutional Neural Network (CNN) architecture.
 %
 We first, briefly, review ANNs in general, CNNs in particular, powerful architectures called Deep Neural Networks (DNNs), and a training methodology for networks called Generative Adversarial Networks (GANs).
@@ -41,7 +42,7 @@ Note that eqn.~\eqref{eqn:simpleann} passes through the origin \((0,0,0)\) since
 
 Neurons can be represented as directed graphs, where a vertex represents an input and edges represent the weights (see figure~\ref{fig:singleann}).
 %
-ANNs are then assemblies of neurons grouped into \textit{layers} with the layers composed by applying neurons to outputs from immediately preceding layers.
+ANNs are, then, assemblies of neurons grouped into \textit{layers} with the layers composed by applying neurons to outputs from immediately preceding layers.
 %
 For example the ANN specified in figure~\ref{fig:multiann} represents the function
 \begin{equation}
@@ -53,7 +54,7 @@ For example the ANN specified in figure~\ref{fig:multiann} represents the functi
 %
 Layers are categorized as either \textit{hidden layers} or input-output layers: those layers that are not input or output layers are hidden layers.
 
-ANNs seem like a very simple class of functions; for example, Minsky \etal \cite{minsky2017perceptrons} famously proved that ANNs that don't include a nonlinear activation function can't represent \(\operatorname{XOR}\)\anote{xor}. 
+ANNs seem like a very simple class of functions; for example, Minsky \etal \cite{minsky2017perceptrons} famously proved that single-layer ANNs that don't include a nonlinear activation function can't represent \(\operatorname{XOR}\)\anote{xor}. 
 %
 On the contrary, strikingly, ANNs that do include a nonlinear activation function satisfy a \textit{universal approximation theorem} \cite{cybenko1989approximation}:
 %
@@ -226,7 +227,7 @@ In fact Batch normalization actually has two parameters \(\gamma, \beta\) that i
 \begin{equation}
     \bm{y} \coloneqq \gamma \bm{\hat{x}} + \beta 
 \end{equation}
-The intuitive reason for learning \(\beta, \gamma\) instead of just fixing them to be \(0,1\) is that \((0,1)-\)Normal normalization isn't necessarily correct in all cases (so why not learn the \((\beta,\gamma)-\)Normal normalization as informed by training data).
+The intuitive reason for learning \(\beta, \gamma\) instead of just fixing them to be \(0,1\) is that \((0,1)\)-Normal normalization isn't necessarily correct in all cases (so why not learn the \((\beta,\gamma)\)-Normal normalization as informed by training data).
 %
 \input{figures/neural_networks/gan.tex}
 \input{figures/neural_networks/resblock.tex}
@@ -471,7 +472,7 @@ They build on the work of Irani \etal (see section~\ref{subsubsec:iterback}) and
     \caption{End-to-end DBPN network.}\label{fig:dbpn}
 \end{figure*}
 %
-These iterative back-projections are in effect repeated up-down-up sampling modules, implemented using skip connections and deconvolutions, that minimize reconstruction error (see figure~\ref{fig:updowndbpn}).
+These iterative back-projections are, in effect, repeated up-down-up sampling modules, implemented using skip connections and deconvolutions, that minimize reconstruction error (see figure~\ref{fig:updowndbpn}).
 \begin{figure}[!htbp]
     \includegraphics[width=.49\textwidth,keepaspectratio]{figures/neural_networks/up_down_up.png}
     \caption{DBPN Up, Down projection unit components implementing error correction.}\label{fig:updowndbpn}
@@ -517,7 +518,11 @@ It is these cells that keep track of the dependencies between elements of the se
 %
 BRCN uses two recurrent networks, a forward-propagating network and a backward-propagating network.
 %
-Each of BRCN's RNNs is composed of conventional (feed-forward) convolutions, which model up-sampling, and convolutions in time (that they call recurrent and conditional convolutions), which model time dependencies (see figure~\ref{fig:brcn}).
+Each of BRCN's RNNs is composed of two types of convolutions. 
+%
+The first are conventional (feed-forward) convolutions that model up-sampling.
+%
+The second, called recurrent and conditional convolutions, are convolutions in time that model time dependencies (see figure~\ref{fig:brcn}).
 \begin{figure}[!htbp]
     \includegraphics[width=.49\textwidth]{figures/neural_networks/brcn.png}
     \caption{BRCN schematic diagram \cite{huang2015bidirectional}.}\label{fig:brcn}
@@ -550,7 +555,7 @@ For example, \textit{spatial attention} (attention applied to images) can be use
 
 A spatial transformer \cite{jaderberg2015spatial} is an attention mechanism that can also perform geometric transformations \(\mathcal{T}_{\bm{\theta}}\) of the data.
 %
-Note that the transformation is conditional on the input just like attention is conditional on the input.
+Note that the transformation is conditional on the input, just as attention is conditional on the input.
 %
 The transformer operates on input \(U\) to produce output \(V\) in three phases, each of which is implemented by a module (see figure~\ref{fig:spacetransformer}): 
 \begin{figure}[!htbp]

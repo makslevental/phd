@@ -1,0 +1,50 @@
+%
+%TODO: work out diffraction circular aperture
+%
+%TODO: workout poisson noise
+%
+%TODO: workout conjugate gradients
+%
+%TODO: workout ransac
+%
+%TODO: workout belief propagation
+%
+%TODO: workout auto diff
+%
+%TODO: workout delauney
+%
+%TODO: workout splines
+%
+
+\section{Appendix}\label{sec:appendix}
+\localtableofcontents
+
+\subsubsection{Rayleigh Criterion}
+
+\newcommand*{\E}{\bm{E}}
+\newcommand*{\B}{\bm{B}}
+
+Starting with Maxwell's equations in differential form:
+\begin{align}
+    \nabla \cdot \B = 0 \\
+    \nabla \cdot \E = 0 \\
+    \nabla \times \B = \frac{1}{c^2} \frac{\partial \E}{\partial t} \\
+    \nabla \times \E = - \frac{\partial \B}{\partial t} 
+\end{align}
+Note that 
+\begin{equation}
+    \nabla \times \left( \nabla \times \E \right) = \pd{}{t} \left( \nabla \times \B\right) = \frac{1}{c^2} \pdv[2]{\E}{t}
+\end{equation}
+and with the identity \(\nabla \times \nabla \times \E = \nabla (\nabla\cdot \E) - \Delta \E\) (where \(\Delta \coloneqq \nabla^2\) is the Laplacian) we have the vector E-field \textit{wave equation}
+\begin{equation}
+    \Delta \E = \frac{1}{c^2} \pdv[2]{\E}{t}
+\end{equation}
+This decouples each components of the \textit{\textbf{E}} field. We therefore arbitrarily choose the \(z\) component and solve the \textit{scalar wave equation} for \(E \coloneqq E_z\)
+\begin{equation}
+    \Delta E = \frac{1}{c^2} \pdv[2]{E}{t}\label{eqn:scalarwaveeqn}
+\end{equation}
+In a medium with refractive index \(n \coloneqq c/v\) (where \(v\) is the speed of light in the medium) eqn.~\eqref{eqn:scalarwaveeqn} becomes
+\begin{equation}
+    \Delta E = \frac{n^2}{c^2} \pdv[2]{E}{t}\label{eqn:scalarwaveeqnmed}
+\end{equation}
+We seek \textit{monochromatic} solutions, i.e., 

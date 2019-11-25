@@ -235,8 +235,11 @@ Blur due to diffraction in most imaging systems is due to diffraction through a 
 where \(\tau = \rho/\rho_c\), \(\rho=\sqrt{u^2 +v^2}\), \(\rho_c = 1/\lambda N\) is the radial cutoff frequency of the aperture, \(N\) is the f-number\anote{fnumber} of the optics, and \(\lambda\) is the wavelength of light being diffracted.
 %
 This is in fact the source of the Airy pattern (see figure~\ref{fig:rayleigh}) and therefore informs sensor array spacing in order to avoid aliasing.
-
-Wavelength independent blurring due to aberrations can be induced by various imperfections in the lenses such as spherical aberration, comatic aberration\anote{coma}, or astigmatism. Furthermore, dispersion\anote{dispersion} blurs particular wavelengths of light. A model for all of these effects \cite{10.1117.12.946501} is:
+\begin{figure}
+	\includegraphics[width=\linewidth,keepaspectratio]{figures/background/dispersion.png}
+	\caption[]{Chromatic dispersion.}\label{fig:dispersion}
+\end{figure}
+Wavelength independent blurring due to aberrations can be induced by various imperfections in the lenses such as spherical aberration, comatic aberration\anote{coma}, or astigmatism. Furthermore, dispersion blurs particular wavelengths of light (see figure~\ref{fig:dispersion}). A model for all of these effects \cite{10.1117.12.946501} is:
 \begin{equation*}
 	H_{\text{abr}}(u,v) =   \begin{cases}
 		1-\left(\frac{25}{65}\right)^2 \left(1-4\left(\tau - \frac{1}{2}\right)\right)^2 & \text{if } \tau < 0 \\
