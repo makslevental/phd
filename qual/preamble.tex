@@ -51,7 +51,12 @@
 \usepackage{adjustbox}
 \usepackage{mathtools}
 \usepackage{physics}
-
+\usepackage{mleftright}
+\NewDocumentCommand{\evalat}{sO{\big}mm}{%
+  \IfBooleanTF{#1}
+   {\mleft. #3 \mright|_{#4}}
+   {#3#2|_{#4}}%
+}
 \usepackage{breqn}
 \usepackage{subcaption}
 
