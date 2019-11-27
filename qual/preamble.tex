@@ -1,5 +1,6 @@
 \usepackage{etoolbox}
 \usepackage{amsmath}
+\usepackage{imakeidx}
 \usepackage{transparent}
 \usepackage[style=2,everyline=true,footnoteinside=true]{mdframed}
 \usepackage{tabularx,booktabs}
@@ -69,6 +70,9 @@
 \usepackage[backend=biber, bibencoding=utf8, style=ieee, backref=true]{biblatex}
 \usepackage[hyperfootnotes=false,hyperindex=true]{hyperref}
 \usepackage[utf8]{inputenc}
+\makeindex
+
+
 \setlength{\cftsubsecindent}{0pt}% Remove indent for \subsection
 \setlength{\cftsubsubsecindent}{10pt}% Remove indent for \subsubsection
 \setlength{\cftparaindent}{20pt}% Remove indent for \paragraph
@@ -120,6 +124,8 @@
 		\draw[fill = black] (1.85ex, .25ex) circle (.3ex);
 	\end{tikzpicture}%
 }
+
+\newcommand{\newterm}[1]{\textit{#1}\index{#1}}
 
 \newfootnotes{a}
 \hypersetup{
@@ -215,3 +221,4 @@
 }
 
 \input{figures/nn_init.tex}
+\newtheorem{theorem}{Theorem}

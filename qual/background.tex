@@ -23,7 +23,7 @@ CCDs consist of two components: an imaging component and a readout component.
 %
 The imaging component is arranged with every third stripe of electrode tied electrically to form three sets of equipotentials.
 %
-These equipotentials taken together constitute a \textit{vertical register} (VR) (see figure~\ref{fig:ccd-array}).
+These equipotentials taken together constitute a \newterm{vertical register} (VR) (see figure~\ref{fig:ccd-array}).
 \begin{figure*}[!htbp]
 	\centering
 	\includegraphics[width=.8\textwidth,keepaspectratio]{figures/background/ccd_array.png}
@@ -49,7 +49,7 @@ For high-quality silicon, the lifetime of such a pair is several milliseconds (b
 %
 The electrons of the electron-hole pairs (that do not recombine) then diffuse into the potential well, while the holes migrate to the grounded substrate (i.e., out of the sensor).
 %
-Electrons created in this way are called \textit{photoelectrons}.
+Electrons created in this way are called \newterm{photoelectrons}.
 
 Suppose the VR is in a state such that there's a collection of photoelectrons on each channel at equipotential \(\Phi1\) and only \(\Phi1\). Note this means \(\Phi2, \Phi3\) are at \(0\)v (again just as in figure~\ref{fig:mos-cap}). The VR mechanism that shifts collected charge operates as follows:
 \begin{mdframed}
@@ -66,7 +66,7 @@ An obvious challenge faced by this system is how to prevent errant charge from a
 %
 The solution is to have interstitial dedicated shift channels in between columns of sensors, with the shift channels being masked off from exposure to light.
 %
-This type of reading is called \textit{interline transfer} because the accumulated charge is first moved one line over, into the shift channels.
+This type of reading is called \newterm{interline transfer} because the accumulated charge is first moved one line over, into the shift channels.
 %
 Naturally, interline transfer shrinks photosensitive area by half and despite possible solutions (e.g, micro-lenses being used to focus most of the light onto the unmasked sensors) this is one of the drawbacks of CCDs relative to CMOS devices.
 
@@ -74,19 +74,19 @@ Naturally, interline transfer shrinks photosensitive area by half and despite po
 
 CMOS devices consist of arrays of photodiodes (see figure~\ref{fig:photodiode.png}).
 \input{figures/background/cmos/cmos.tex}
-A photodiode is a \textit{p-n junction}\anote{pnjunction} operated in reverse bias mode\anote{reversebias}.
+A photodiode is a \newterm{p-n junction}\anote{pnjunction} operated in reverse bias mode\anote{reversebias}.
 %
 When a photon of sufficient energy is absorbed by the photodiode, it creates an electron-hole pair (as a result of the photoelectron effect).
 %
 If the creation event happens within the active region then the hole migrates out through the p-type material and the electron migrates out through the n-type material.
 %
-This establishes a \textit{photocurrent} that can be interrogated by a reading circuit (see figure~\ref{fig:3tpixel}).
+This establishes a \newterm{photocurrent} that can be interrogated by a reading circuit (see figure~\ref{fig:3tpixel}).
 
 CMOS sensor arrays do not shift the charge from row to row like CCD arrays.
 %
 Instead each pixel contains a transistor controlled by the voltage applied across a row (see figure~\ref{fig:cmosarray}).
 %
-In order to read one row of pixels, a \textit{rowline} is raised high to turn on (close) all the transistors in the row.
+In order to read one row of pixels, a \newterm{rowline} is raised high to turn on (close) all the transistors in the row.
 %
 This transmits the signals from all the pixels in that row to the shift register below by way of the column lines.
 %
@@ -106,7 +106,7 @@ Recently it has become feasible for semiconductor foundries to manufacture high 
 
 Despite their ubiquity in visible spectrum devices, neither CCD arrays nor CMOS arrays can be adapted to capture any portion of the infrared spectrum.
 %
-A \textit{microbolometer} measures power in the infrared by exposing a heat sensitive component to the incident light.
+A \newterm{microbolometer} measures power in the infrared by exposing a heat sensitive component to the incident light.
 %
 \begin{figure}[!htbp]
 	\center
@@ -194,7 +194,7 @@ where, for the \(k\)-th LR sample, \(A_k\) represents the motion operator, \(H_k
 
 In the case of MISR, high-resolution images are constructed by exploiting distinct scene data among multiple low-resolution images.
 %
-Such distinct data are produced by the relative motion of the imaging system vis-à-vis the scene and therefore precise \textit{image registration}\anote{registration} is paramount.
+Such distinct data are produced by the relative motion of the imaging system vis-à-vis the scene and therefore precise \newterm{image registration}\anote{registration} is paramount.
 %
 Successful registration is effected by constructing a transformation \(f\) that maps pixels at coordinates \((x,y)\) in sample \(\Xkone\) to coordinates \((x',y')\) in sample \(X_j\)
 \begin{equation}

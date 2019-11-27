@@ -39,41 +39,41 @@
 %     \nabla \times \left( \nabla \times \E \right) = \pd{}{t} \left( \nabla \times \B\right) = \frac{1}{c^2} \pdv[2]{\E}{t}
 % \end{equation}
 % %
-% and with the identity \(\nabla \times \nabla \times \E = \nabla (\nabla\cdot \E) - \nabla^2 \E\) we have the vector E-field \textit{vector wave equation}:
+% and with the identity \(\nabla \times \nabla \times \E = \nabla (\nabla\cdot \E) - \nabla^2 \E\) we have the vector E-field \newterm{vector wave equation}:
 % %
 % \begin{equation}
 %     \nabla^2 \E = \frac{1}{c^2} \pdv[2]{\E}{t}
 % \end{equation}
 % %
-% This decouples each components of the \textit{\textbf{E}} field. We therefore arbitrarily choose the \(z\) component and solve the \textit{scalar wave equation} for \(E \coloneqq E_z\)
+% This decouples each components of the \newterm{\textbf{E}} field. We therefore arbitrarily choose the \(z\) component and solve the \newterm{scalar wave equation} for \(E \coloneqq E_z\)
 % %
 % \begin{equation}
 %     \nabla^2 E = \frac{1}{c^2} \pdv[2]{E}{t}\label{eqn:scalarwaveeqn}
 % \end{equation}
 
-% We seek \textit{monochromatic wave solutions} of eqn ~\eqref{eqn:scalarwaveeqn}, i.e., those that are of such a form
+% We seek \newterm{monochromatic wave solutions} of eqn ~\eqref{eqn:scalarwaveeqn}, i.e., those that are of such a form
 % %
 % \begin{equation}
 %     E(\rr, t) = \psi(\rr) e^{-i \omega t}\label{eqn:monochromsol}
 % \end{equation}
 % %
-% that the oscillatory component, \(e^{i \omega t}\) is only a function of \(\omega \coloneqq 2 \pi c / \lambda\) (\(\lambda\) is \textit{wavelength} of the solution) and the \textit{wave field} \(\psi(\rr)\) is only a function of \(\rr \coloneqq (x, y, z)\) spatial coordinates.
+% that the oscillatory component, \(e^{i \omega t}\) is only a function of \(\omega \coloneqq 2 \pi c / \lambda\) (\(\lambda\) is \newterm{wavelength} of the solution) and the \newterm{wave field} \(\psi(\rr)\) is only a function of \(\rr \coloneqq (x, y, z)\) spatial coordinates.
 % %
-% If \textit{E} obeys eqn~\eqref{eqn:scalarwaveeqn} then \(\psi\) obeys the \textit{Helmholtz equation}:
+% If \newterm{E} obeys eqn~\eqref{eqn:scalarwaveeqn} then \(\psi\) obeys the \newterm{Helmholtz equation}:
 % %
 % \begin{equation}
 %     (\nabla^2 + k^2) \psi(\rr) = 0\label{eqn:helmholtz}
 % \end{equation}
 % %
-% where \(k \coloneqq \omega / c\) is the \textit{wavenumber} .
+% where \(k \coloneqq \omega / c\) is the \newterm{wavenumber} .
 % %
-% To solve the Helmholtz equation for \(\psi\) we use the method of \textit{Green's functions}; we look for a solution \(G(\rr, \rr')\)
+% To solve the Helmholtz equation for \(\psi\) we use the method of \newterm{Green's functions}; we look for a solution \(G(\rr, \rr')\)
 % %
 % \begin{equation}
 %     \nabla^2 G(\rr, \rr') + k^2 G(\rr, \rr') = -4 \pi \delta(\rr -\rr')\label{eqn:greenshelm}
 % \end{equation}
 % %
-% where \(\delta\) is the Dirac delta \textit{generalized function}\anote{diracdelta}.
+% where \(\delta\) is the Dirac delta \newterm{generalized function}\anote{diracdelta}.
 % %
 % Equation~\eqref{eqn:greenshelm} corresponds to a single point source at the position \(\rr' \coloneqq (x', y', z')\).
 % %
@@ -89,217 +89,339 @@
 %     \mathcal{G}(\bm{\kappa}) = \frac{1}{2 \pi^2 } \frac{1}{\abs{\bm{\kappa}}^2 - k^2}
 % \end{equation}
 
-\subsubsection{Automatic Differentiation}
-Let
-%
-\begin{align*}
-    F\colon\; \bx \in \mathbb{R}^n \mapsto y \in \mathbb{R}
-\end{align*}
-%
-and decompose \(F\) as
-\begin{equation*}
-    F = D \circ C \circ B \circ A
-\end{equation*}
-%
-where
-%
-\begin{align*}
-    A & \colon\; \bx \in \mathbb{R}^n \mapsto  \bm{a} \in \mathbb{R}^m    \\
-    B & \colon\; \bm{a} \in \mathbb{R}^m \mapsto  \bm{b} \in \mathbb{R}^k \\
-    C & \colon\; \bm{b} \in \mathbb{R}^k \mapsto  \bm{c} \in \mathbb{R}^j \\
-    D & \colon\; \bm{c} \in \mathbb{R}^j \mapsto  y \in \mathbb{R}
-\end{align*}
-%
-Let \(y_0 = F(\bm{x}_0)\) where \(\bx_0 \coloneqq \left( x_{01}, \dots, x_{0n}\right)\).
-%
-Then the gradient of \(F\) evaluated at \(\bx_0\) is
-\begin{equation*}
-    F'(\bm{x}_0) = \evalat[\bigg]{\pdv{y}{\bm{x}}}{\bx = \bx_0}
-    = \left(
-    \evalat[\bigg]{\pdv{y}{x_1}}{x_1 = x_{01}},
-    \;\dots\dots\;,
-    \evalat[\bigg]{\pdv{y}{x_n}}{x_n = x_{0n}}
-    \right)
-\end{equation*}
-%
-Note we are implicitly defining the parameter of \(F' = \pdv{y}{\bx}\) to be \(\bx\).
-%
-This is fine because parameters can be renamed at will\anote{boundvariable} but it's important to keep in mind that \(F'\) is wholly different from \(F\) and could have any other parameter.
-%
-By the chain rule
-\begin{equation*}
-    F'(\bm{x}_0) =  D'(C'(B'(A'(\bx_0))))
-\end{equation*}
-%
-or if we define intermediate values
-%
-\begin{align*}
-    \bm{a}_0 & = A(\bx_0)    \\
-    \bm{b}_0 & = B(\bm{a}_0) \\
-    \bm{c}_0 & = C(\bm{b}_0) \\
-    y_0      & = D(\bm{c}_0)
-\end{align*}
-%
-then
+% \subsubsection{Automatic Differentiation}
+% Let
+% %
+% \begin{align*}
+%     F\colon\; \bx \in \mathbb{R}^n \mapsto y \in \mathbb{R}
+% \end{align*}
+% %
+% and decompose \(F\) as
+% \begin{equation*}
+%     F = D \circ C \circ B \circ A
+% \end{equation*}
+% %
+% where
+% %
+% \begin{align*}
+%     A & \colon\; \bx \in \mathbb{R}^n \mapsto  \bm{a} \in \mathbb{R}^m    \\
+%     B & \colon\; \bm{a} \in \mathbb{R}^m \mapsto  \bm{b} \in \mathbb{R}^k \\
+%     C & \colon\; \bm{b} \in \mathbb{R}^k \mapsto  \bm{c} \in \mathbb{R}^j \\
+%     D & \colon\; \bm{c} \in \mathbb{R}^j \mapsto  y \in \mathbb{R}
+% \end{align*}
+% %
+% Let \(y_0 = F(\bm{x}_0)\) where \(\bx_0 \coloneqq \left( x_{01}, \dots, x_{0n}\right)\).
+% %
+% Then the gradient of \(F\) evaluated at \(\bx_0\) is
+% \begin{equation*}
+%     F'(\bm{x}_0) = \evalat[\bigg]{\pdv{y}{\bm{x}}}{\bx = \bx_0}
+%     = \left(
+%     \evalat[\bigg]{\pdv{y}{x_1}}{x_1 = x_{01}},
+%     \;\dots\dots\;,
+%     \evalat[\bigg]{\pdv{y}{x_n}}{x_n = x_{0n}}
+%     \right)
+% \end{equation*}
+% %
+% Note we are implicitly defining the parameter of \(F' = \pdv{y}{\bx}\) to be \(\bx\).
+% %
+% This is fine because parameters can be renamed at will\anote{boundvariable} but it's important to keep in mind that \(F'\) is wholly different from \(F\) and could have any other parameter.
+% %
+% By the chain rule
+% \begin{equation*}
+%     F'(\bm{x}_0) =  D'(C'(B'(A'(\bx_0))))
+% \end{equation*}
+% %
+% or if we define intermediate values
+% %
+% \begin{align*}
+%     \bm{a}_0 & = A(\bx_0)    \\
+%     \bm{b}_0 & = B(\bm{a}_0) \\
+%     \bm{c}_0 & = C(\bm{b}_0) \\
+%     y_0      & = D(\bm{c}_0)
+% \end{align*}
+% %
+% then
+% %
+% \begin{equation}
+%     F'(\bm{x}_0) =  \evalat[\bigg]{\pdv{y}{\bm{c}}}{\bm{c}=\bm{c}_0} \times\;
+%     \evalat[\bigg]{\pdv{\bm{c}}{\bm{b}}}{\bm{b}=\bm{b}_0} \times\;
+%     \evalat[\bigg]{\pdv{\bm{b}}{\bm{a}}}{\bm{a}=\bm{a}_0} \times\;
+%     \evalat[\bigg]{\pdv{\bm{a}}{\bm{x}}}{\bx=\bx_0} \label{eqn:chainruleproduct}
+% \end{equation}
+% %
+% where now a term like \(\evalat[\big]{\pdv{\bm{b}}{\bm{a}}}{\bm{a}=\bm{a}_0}\) is the \newterm{Jacobian} of \(B\) evaluated at \(\bm{a}_0\):
+% %
+% \begin{align*}
+%     \evalat[\bigg]{\pdv{\bm{b}}{\bm{a}}}{\bm{a}=\bm{a}_0}
+%      & = \evalat*{
+%         \begin{bmatrix}
+%             \pdv{b_1}{a_1} & \cdots & \pdv{b_1}{a_m} \\
+%             \vdots         & \ddots & \vdots         \\
+%             \pdv{b_k}{a_1} & \cdots & \pdv{b_k}{a_m}
+%         \end{bmatrix}
+%     }{\bm{a}=\bm{a}_0} \\
+%      & \coloneqq
+%     \begin{bmatrix}
+%         \evalat[\Big]{\pdv{b_1}{a_1}}{a_1 = a_{01}} & \cdots & \evalat[\Big]{\pdv{b_1}{a_m}}{a_m = a_{0m}} \\
+%         \\
+%         \vdots                                      & \ddots & \vdots                                      \\
+%         \\
+%         \evalat[\Big]{\pdv{b_k}{a_1}}{a_1 = a_{01}} & \cdots & \evalat[\Big]{\pdv{b_k}{a_m}}{a_m = a_{0m}} \\
+%     \end{bmatrix}
+% \end{align*}
+% %
+
+% The right hand side (RHS) of eqn.~\eqref{eqn:chainruleproduct} is associative; if we want to compute \(F'\) in general we can accumulate products starting from the right or starting from the left:
+% %
+% \begin{align}
+%     F' & = \pdv{y}{\bm{c}}
+%     \left( \pdv{\bm{c}}{\bm{b}}
+%     \left( \pdv{\bm{b}}{\bm{a}}
+%     \pdv{\bm{a}}{\bm{x}}\right)\right) \label{eqn:forwardaccum} \\
+%     F' & =  \left( \left( \pdv{y}{\bm{c}}
+%     \pdv{\bm{c}}{\bm{b}} \right)
+%     \pdv{\bm{b}}{\bm{a}} \right)
+%     \pdv{\bm{a}}{\bm{x}} \label{eqn:reverseaccum}
+% \end{align}
+% %
+% Computing \(F'\) as in eqn.~\eqref{eqn:forwardaccum} is called \newterm{forward accumulation} (because it parallels the evaluation order of \(F\)) and, conversely, deriving \(F'\) as in eqn.~\eqref{eqn:reverseaccum} is called \newterm{reverse accumulation}.
+% %
+% Notice that since \(F\colon\; \mathbb{R}^n  \rightarrow \mathbb{R}\) it's the case that while \(\pdv{\bm{b}}{\bm{a}}\cdot \pdv{\bm{a}}{\bm{x}}\) is a jacobian--jacobian product
+% \begin{equation}
+%     \pdv{\bm{b}}{\bm{a}}\cdot
+%     \pdv{\bm{a}}{\bm{x}} =         \begin{bmatrix}
+%         \pdv{b_1}{a_1} & \cdots & \pdv{b_1}{a_m} \\
+%         \vdots         & \ddots & \vdots         \\
+%         \pdv{b_k}{a_1} & \cdots & \pdv{b_k}{a_m}
+%     \end{bmatrix}
+%     \cdot
+%     \begin{bmatrix}
+%         \pdv{a_1}{x_1} & \cdots & \pdv{a_1}{x_n} \\
+%         \vdots         & \ddots & \vdots         \\
+%         \pdv{a_m}{x_1} & \cdots & \pdv{a_m}{x_n}
+%     \end{bmatrix}
+% \end{equation}
+% %
+% while \(\pdv{y}{\bm{c}}\cdot \pdv{\bm{c}}{\bm{b}}\) is a vector--Jacobian product (called a VJP)
+% %
+% \begin{equation}
+%     \pdv{y}{\bm{c}}\cdot
+%     \pdv{\bm{c}}{\bm{b}} = \left( \pdv{y}{c_1}, \dots,  \pdv{y}{c_j} \right)
+%     \cdot
+%     \begin{bmatrix}
+%         \pdv{c_1}{b_1} & \cdots & \pdv{c_1}{b_k} \\
+%         \vdots         & \ddots & \vdots         \\
+%         \pdv{c_j}{b_1} & \cdots & \pdv{c_j}{b_k}
+%     \end{bmatrix}
+% \end{equation}
+% %
+% All intermediate products will also be VJPs (for reverse accumulation); in general reverse accumulation is more efficient when the dimension of the domain is greater than the dimension of the range.
+
+% \subsubsection{Pushforwards and Pullbacks}\label{subsubsec:diffgeo}
+
+% Define a diffeomorphism \(\phi\) such that
+% %
+% \begin{equation}
+%     \phi\colon (r, \theta) \mapsto (r \cos \theta, r \sin \theta)
+% \end{equation}
+% %
+% The Jacobian of \(\phi\)
+% %
+% \begin{equation}
+%     \operatorname{J}
+%     =
+%     \begin{bmatrix}
+%         \pdv{\phi_1}{r} & \pdv{\phi_1}{\theta} \\
+%         \pdv{\phi_2}{r} & \pdv{\phi_2}{\theta}
+%     \end{bmatrix}
+%     =
+%     \begin{bmatrix}
+%         \cos \theta & -r \sin \theta \\
+%         \sin \theta & r \cos \theta
+%     \end{bmatrix}
+% \end{equation}
+% %
+% Note that \(\det \operatorname{J} = r\) and so \(\phi\) is a diffeomorphism iff \(r \neq 0\).
+% %
+% Given a vector field
+% %
+% \begin{equation}
+%     v = a(r, \theta) \partial_r + b(r, \theta)\partial_\theta \coloneqq a(r, \theta) \pdv{}{r} + b(r, \theta)\pdv{}{\theta}
+% \end{equation}
+% %
+% we can compute the \newterm{pushforward} \(\phi_*\) wrt the \(\partial_x, \partial_y\) basis
+% \begin{equation}
+%     \phi_* (v)
+%     =
+%     \begin{bmatrix}
+%         \cos (\theta) & -r \sin (\theta) \\
+%         \sin (\theta) & r \cos (\theta)
+%     \end{bmatrix}
+%     \cdot
+%     \begin{pmatrix}
+%         a \\ b
+%     \end{pmatrix}
+%     =
+%     \begin{pmatrix}
+%         a \cos (\theta) - br \sin (\theta) \\
+%         a\sin (\theta) + br \cos (\theta)
+%     \end{pmatrix}
+% \end{equation}
+% Hence, explicitly
+% \begin{equation}
+%     \phi_* (v) = (a \cos (\theta) - br \sin (\theta))\partial_x + (a\sin (\theta) + br \cos (\theta))\partial_y
+% \end{equation}
+
+% Since \(\operatorname{J}\) is invertible we can investigate which vector fields map to \(\partial_x\)
+% %
+% \begin{equation}
+%     \phi_* v = \partial_x  \iff v = \phi_{*}^{-1} \partial_x
+% \end{equation}
+% %
+% Let \(v = a \partial_r + b \partial_\theta\).
+% %
+% Then
+% \begin{equation}
+%     v
+%     =
+%     \begin{bmatrix}
+%         \cos (\theta)            & \sin (\theta)           \\
+%         -\frac{\sin (\theta)}{r} & \frac{\cos (\theta)}{r} \\
+%     \end{bmatrix}
+%     \cdot
+%     \begin{pmatrix}
+%         1 \\ 0
+%     \end{pmatrix} \\
+%     =
+%     \begin{pmatrix}
+%         \cos(\theta) \\ -\frac{\sin (\theta)}{r}
+%     \end{pmatrix}
+% \end{equation}
+% However we need to write \(r, \theta\) in terms of \(x, y\)
+% \begin{equation}
+%      \phi_{*}^{-1} \partial_x = \frac{x}{\sqrt{x^2+y^2}}\partial_r + \frac{y}{x^2 + y^2} \partial_\theta
+% \end{equation}
+% %
+% \(\phi_{*}^{-1}\) is called the \newterm{pullback} \(\phi^*\) of the vector field \(\partial_x\) along \(\phi\).
+
+\subsection{Differential Geometry}
+
+\subsubsection{Directional Derivative}
+
+Elements of the \newterm{tangent space} \(T_p (\mathbb{R}^n)\) anchored at a point \(p = (p^1, \dots, p^n) \in \mathbb{R}^n\) are called \newterm{tangent vectors}
 %
 \begin{equation}
-    F'(\bm{x}_0) =  \evalat[\bigg]{\pdv{y}{\bm{c}}}{\bm{c}=\bm{c}_0} \times\;
-    \evalat[\bigg]{\pdv{\bm{c}}{\bm{b}}}{\bm{b}=\bm{b}_0} \times\;
-    \evalat[\bigg]{\pdv{\bm{b}}{\bm{a}}}{\bm{a}=\bm{a}_0} \times\;
-    \evalat[\bigg]{\pdv{\bm{a}}{\bm{x}}}{\bx=\bx_0} \label{eqn:chainruleproduct}
+    \bm{v} 
+    = 
+    \begin{bmatrix}
+        v^1 \\ \vdots \\ v^n    
+    \end{bmatrix}  
+    =
+    \begin{bmatrix}
+        v^1, \dots, v^n    
+    \end{bmatrix}
 \end{equation}
 %
-where now a term like \(\evalat[\big]{\pdv{\bm{b}}{\bm{a}}}{\bm{a}=\bm{a}_0}\) is the \textit{Jacobian} of \(B\) evaluated at \(\bm{a}_0\):
+The line through a point \(p\) with direction \(\bm{v}\) has parameterization
 %
-\begin{align*}
-    \evalat[\bigg]{\pdv{\bm{b}}{\bm{a}}}{\bm{a}=\bm{a}_0}
-     & = \evalat*{
-        \begin{bmatrix}
-            \pdv{b_1}{a_1} & \cdots & \pdv{b_1}{a_m} \\
-            \vdots         & \ddots & \vdots         \\
-            \pdv{b_k}{a_1} & \cdots & \pdv{b_k}{a_m}
-        \end{bmatrix}
-    }{\bm{a}=\bm{a}_0} \\
-     & \coloneqq
-    \begin{bmatrix}
-        \evalat[\Big]{\pdv{b_1}{a_1}}{a_1 = a_{01}} & \cdots & \evalat[\Big]{\pdv{b_1}{a_m}}{a_m = a_{0m}} \\
-        \\
-        \vdots                                      & \ddots & \vdots                                      \\
-        \\
-        \evalat[\Big]{\pdv{b_k}{a_1}}{a_1 = a_{01}} & \cdots & \evalat[\Big]{\pdv{b_k}{a_m}}{a_m = a_{0m}} \\
-    \end{bmatrix}
-\end{align*}
+\begin{equation}
+    c(t) = \left( p^1 + t v^1, \dots, p^n + t v^n \right) 
+\end{equation}
 %
-
-The right hand side (RHS) of eqn.~\eqref{eqn:chainruleproduct} is associative; if we want to compute \(F'\) in general we can accumulate products starting from the right or starting from the left:
+If \(f \in C^\infty\) in a neighborhood of \(p\) and \(\bm{v}\) is a tangent vector at \(p\), the \newterm{directional derivative} of \(f\) in the direction of \(\bm{v}\) at \(p\) is defined
+%
+\begin{equation}
+   D_{\bm{v}} f 
+   = 
+   \lim_{t\rightarrow 0}\, \frac{f(c(t)) - f(p)}{t} 
+   = 
+   \evalat[\bigg]{\dv{}{t} f(c(t))}{t=0}
+\end{equation}
+%
+By the chain rule 
 %
 \begin{align}
-    F' & = \pdv{y}{\bm{c}}
-    \left( \pdv{\bm{c}}{\bm{b}}
-    \left( \pdv{\bm{b}}{\bm{a}}
-    \pdv{\bm{a}}{\bm{x}}\right)\right) \label{eqn:forwardaccum} \\
-    F' & =  \left( \left( \pdv{y}{\bm{c}}
-    \pdv{\bm{c}}{\bm{b}} \right)
-    \pdv{\bm{b}}{\bm{a}} \right)
-    \pdv{\bm{a}}{\bm{x}} \label{eqn:reverseaccum}
+   D_{\bm{v}} f &= \sum_{i=1}^{n} \evalat[\bigg]{\pdv{f}{x^i}}{p} \evalat[\bigg]{\dv{c^i}{t}}{t=0} \\
+   &= \sum_{i=1}^{n} \evalat[\bigg]{\dv{c^i}{t}}{t=0} \evalat[\bigg]{\pdv{f}{x^i}}{p}  \\
+   &= \sum_{i=1}^{n} v^i \evalat[\bigg]{\pdv{f}{x^i}}{p}\label{eqn:chainrule}  \\
 \end{align}
 %
-Computing \(F'\) as in eqn.~\eqref{eqn:forwardaccum} is called \textit{forward accumulation} (because it parallels the evaluation order of \(F\)) and, conversely, deriving \(F'\) as in eqn.~\eqref{eqn:reverseaccum} is called \textit{reverse accumulation}.
-%
-Notice that since \(F\colon\; \mathbb{R}^n  \rightarrow \mathbb{R}\) it's the case that while \(\pdv{\bm{b}}{\bm{a}}\cdot \pdv{\bm{a}}{\bm{x}}\) is a jacobian--jacobian product
-\begin{equation}
-    \pdv{\bm{b}}{\bm{a}}\cdot
-    \pdv{\bm{a}}{\bm{x}} =         \begin{bmatrix}
-        \pdv{b_1}{a_1} & \cdots & \pdv{b_1}{a_m} \\
-        \vdots         & \ddots & \vdots         \\
-        \pdv{b_k}{a_1} & \cdots & \pdv{b_k}{a_m}
-    \end{bmatrix}
-    \cdot
-    \begin{bmatrix}
-        \pdv{a_1}{x_1} & \cdots & \pdv{a_1}{x_n} \\
-        \vdots         & \ddots & \vdots         \\
-        \pdv{a_m}{x_1} & \cdots & \pdv{a_m}{x_n}
-    \end{bmatrix}
-\end{equation}
-%
-while \(\pdv{y}{\bm{c}}\cdot \pdv{\bm{c}}{\bm{b}}\) is a vector--Jacobian product (called a VJP)
+The directional derivative operator at \(p\) is defined
 %
 \begin{equation}
-    \pdv{y}{\bm{c}}\cdot
-    \pdv{\bm{c}}{\bm{b}} = \left( \pdv{y}{c_1}, \dots,  \pdv{y}{c_j} \right)
-    \cdot
-    \begin{bmatrix}
-        \pdv{c_1}{b_1} & \cdots & \pdv{c_1}{b_k} \\
-        \vdots         & \ddots & \vdots         \\
-        \pdv{c_j}{b_1} & \cdots & \pdv{c_j}{b_k}
-    \end{bmatrix}
+    D_{\bm{v}} = \sum_{i=1}^{n} v^i \evalat[\bigg]{\pdv{}{x^i}}{p}
 \end{equation}
 %
-All intermediate products will also be VJPs (for reverse accumulation); in general reverse accumulation is more efficient when the dimension of the domain is greater than the dimension of the range.
+The association \(\bm{v} \mapsto D_{\bm{v}}\) offers a way to characterize tangent vectors as operators on functions.
 
-\subsubsection{Pushforwards and Pullbacks}\label{subsubsec:diffgeo}
+\subsubsection{Germs}
 
-Define a diffeomorphism \(\phi\) such that
+Consider the set of all pairs \((f, U)\), where \(U\) is a neighborhood of \(p\) and \(f\colon U \rightarrow \mathbb{R}\) is a \(C^\infty\) function. 
 %
-\begin{equation}
-    \phi\colon (r, \theta) \mapsto (r \cos \theta, r \sin \theta)
-\end{equation}
+We say that \((f, U) \sim (g, U')\) if there is an open \(W\) such that \(p \in W \subset U \cap U'\) and \(f = g\) when restricted to \(W\).
 %
-The Jacobian of \(\phi\)
+The equivalence class of \((f, U)\) is the \newterm{germ} of \(f\) at \(p\).
 %
-\begin{equation}
-    \operatorname{J}
-    =
-    \begin{bmatrix}
-        \pdv{\phi_1}{r} & \pdv{\phi_1}{\theta} \\
-        \pdv{\phi_2}{r} & \pdv{\phi_2}{\theta}
-    \end{bmatrix}
-    =
-    \begin{bmatrix}
-        \cos \theta & -r \sin \theta \\
-        \sin \theta & r \cos \theta
-    \end{bmatrix}
-\end{equation}
-%
-Note that \(\det \operatorname{J} = r\) and so \(\phi\) is a diffeomorphism iff \(r \neq 0\).
-%
-Given a vector field
-%
-\begin{equation}
-    v = a(r, \theta) \partial_r + b(r, \theta)\partial_\theta \coloneqq a(r, \theta) \pdv{}{r} + b(r, \theta)\pdv{}{\theta}
-\end{equation}
-%
-we can compute the \textit{pushforward} \(\phi_*\) wrt the \(\partial_x, \partial_y\) basis
-\begin{equation}
-    \phi_* (v)
-    =
-    \begin{bmatrix}
-        \cos (\theta) & -r \sin (\theta) \\
-        \sin (\theta) & r \cos (\theta)
-    \end{bmatrix}
-    \cdot
-    \begin{pmatrix}
-        a \\ b
-    \end{pmatrix}
-    =
-    \begin{pmatrix}
-        a \cos (\theta) - br \sin (\theta) \\
-        a\sin (\theta) + br \cos (\theta)
-    \end{pmatrix}
-\end{equation}
-Hence, explicitly
-\begin{equation}
-    \phi_* (v) = (a \cos (\theta) - br \sin (\theta))\partial_x + (a\sin (\theta) + br \cos (\theta))\partial_y
-\end{equation}
+We write \(C_p^\infty(\mathbb{R}^n)\) for the set all germs of \(C^\infty\) functions on \(\mathbb{R}^n\) at \(p\).
 
-Since \(\operatorname{J}\) is invertible we can investigate which vector fields map to \(\partial_x\)
+An \newterm{algebra} over \newterm{field} \(K\) is a vector space \(A\) over \(K\) with a multiplication map 
 %
 \begin{equation}
-    \phi_* v = \partial_x  \iff v = \phi_{*}^{-1} \partial_x
+    \mu\colon A \times A \rightarrow A 
 \end{equation}
 %
-Let \(v = a \partial_r + b \partial_\theta\).
+usually written \(\mu(a,b)=a \cdot b\), such that \(\mu\) is associative, distributive, homogeneous
 %
-Then
 \begin{equation}
-    v
-    =
-    \begin{bmatrix}
-        \cos (\theta)            & \sin (\theta)           \\
-        -\frac{\sin (\theta)}{r} & \frac{\cos (\theta)}{r} \\
-    \end{bmatrix}
-    \cdot
-    \begin{pmatrix}
-        1 \\ 0
-    \end{pmatrix} \\
-    =
-    \begin{pmatrix}
-        \cos(\theta) \\ -\frac{\sin (\theta)}{r}
-    \end{pmatrix}
-\end{equation}
-However we need to write \(r, \theta\) in terms of \(x, y\)
-\begin{equation}
-     \phi_{*}^{-1} \partial_x = \frac{x}{\sqrt{x^2+y^2}}\partial_r + \frac{y}{x^2 + y^2} \partial_\theta
+    r(a\cdot b) = (ra \cdot b) = (a\cdot rb)
 \end{equation}
 %
-\(\phi_{*}^{-1}\) is called the \textit{pullback} \(\phi^*\) of the vector field \(\partial_x\) along \(\phi\).
+Let \(L\) be a \(K-\)\newterm{linear operator} \(L\colon V \rightarrow W\). 
+%
+If \(A, A'\) are algebras then an \newterm{algebra homomorphism} is a linear operator \(L\) that respects algebra multiplication \(L(ab) = L(a)L(b)\).
+%
+It's the case that addition and multiplication of functions induce addition and multiplication on the set of germs \(C_p^\infty\), making it into an \(\mathbb{R}-\)algebra of germs.
+
+\subsubsection{Derivations}
+
+For each tangent vector \(\bm{v}\) at a point \(p \in \mathbb{R}^n\), the directional derivative at \(p\) gives a map of vector spaces
+%
+\begin{equation*}
+    D_{\bm{v}} \colon C_p^\infty \rightarrow \mathbb{R}
+\end{equation*}
+%
+By eqn.~\eqref{eqn:chainrule}, \(D_{\bm{v}}\) is a linear map that satisfies the \newterm{Leibniz rule}
+%
+\begin{equation}
+    D_{\bm{v}}(fg) = (D_{\bm{v}}f)g(p) + f(p) (D_{\bm{v}}g)
+\end{equation}
+%
+In general, any linear map \(L\colon C_p^\infty \rightarrow \mathbb{R}\) that satisfies the Leibniz rule is called a \newterm{derivation} at \(p\) or a \textit{point derivation} of \(C_p^\infty\). 
+%
+Denote the set of all derivations at \(p\) by \(\mathcal{D}_p(\mathbb{R}^n)\)
+%
+This set is also a real vector space.
+%
+Thus, there is a map
+\begin{align*}
+    \phi\colon T_p(\mathbb{R}^n) &\rightarrow \mathcal{D}_p (\mathbb{R}^n) \\
+    \bm{v} &\mapsto D_{\bm{v}}
+\end{align*}
+%
+\begin{theorem}
+    The linear map \(\phi\) is an \newterm{isomorphism} of vector spaces
+\end{theorem}
+%
+What this means is we may identify tangent vectors at \(p\) with derivations at \(p\) (by way of directional derivatives against germs).
+%
+Under this isomorphism \(T_p(\mathbb{R}^n) \simeq \mathcal{D}_p(\mathbb{R}^n)\), the standard basis \(\left\{ e_1, \dots, e_n \right\}\) for \(T_p(\mathbb{R}^n)\) maps to
+%
+\begin{equation*}
+    \left\{\evalat[\bigg]{\pdv{}{x^1}}{p}, \dots, \evalat[\bigg]{\pdv{}{x^n}}{p}  \right\} 
+\end{equation*}
+%
+hence from now on we write
+%
+\begin{equation}
+   \bm{v} = \sum_{i=1}^{n} v^i \evalat[\bigg]{\pdv{}{x^i}}{p}
+\end{equation}

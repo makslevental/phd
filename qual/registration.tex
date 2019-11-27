@@ -15,7 +15,7 @@ The estimation process can be divided into three distinct phases: feature detect
 
 Feature detection and selection is the process of identifying features of the image that are presumed to be invariant across the multiple images to be registered.
 %
-Note that here by features we mean image artifacts (e.g. edges, contours, line intersections, or corners); in this context encodings or transformations of these image artifacts are called \textit{descriptors}.
+Note that here by features we mean image artifacts (e.g. edges, contours, line intersections, or corners); in this context encodings or transformations of these image artifacts are called \newterm{descriptors}.
 %
 Features are also known as control points (CPs).
 %
@@ -60,7 +60,7 @@ Moravec assigns a corner score according to the following reasoning (see figure~
 		\item If a pixel is on a corner, then \(E_{x,y}(u,v)\) is high for both \(u > 0\) and \(v > 0\).
 	\end{enumerate}
 \end{mdframed}
-The Moravec detector then assigns a \textit{corner score} at pixel coordinate \((x,y)\) equal to \(\min_{u,v} E_{x,y}(u,v)\) in order to select for the third case; high corner scores indicate strong evidence of a corner detection.
+The Moravec detector then assigns a \newterm{corner score} at pixel coordinate \((x,y)\) equal to \(\min_{u,v} E_{x,y}(u,v)\) in order to select for the third case; high corner scores indicate strong evidence of a corner detection.
 %
 Moravec comments that this corner score is not isotropic, i.e., if edges aren't aligned with either the pixel axes or diagonals then \(E_{x,y}(u,v)\) will (incorrectly) be low.
 %
@@ -87,7 +87,7 @@ This implies
 	\end{bmatrix} \label{eqn:structurematrix}
 \end{align}
 %
-The matrix in eqn.~\eqref{eqn:structurematrix}, called the \textit{structure tensor} or \textit{second-moment matrix} \(M\), is the quantity Harris investigated.
+The matrix in eqn.~\eqref{eqn:structurematrix}, called the \newterm{structure tensor} or \newterm{second-moment matrix} \(M\), is the quantity Harris investigated.
 %
 Harris reasons that the cases of Moravec correspond to conditions on the eigenvalues \(\lambda_1, \lambda_2\) of \(M\):
 \begin{mdframed}
@@ -99,7 +99,7 @@ Harris reasons that the cases of Moravec correspond to conditions on the eigenva
 \end{mdframed}
 Notice that if \(w_{ij} = 1\) then this is just the gradient covariance of the image and the Harris detector is essentially a local Principal Components Analysis (PCA).
 %
-In fact Harris doesn't actually compute the eigenvalues but instead a related quantity called the \textit{strength}:
+In fact Harris doesn't actually compute the eigenvalues but instead a related quantity called the \newterm{strength}:
 \begin{align}
 	S & \coloneqq \lambda_1 \lambda_2 - \kappa (\lambda_1 + \lambda_2)^2 \\
 	  & = \det(M) - \kappa \operatorname{trace}^2(M)
@@ -120,9 +120,9 @@ One issue with corners is that they're not invariant to scale (see figure~\ref{f
 %
 Zahra \etal \cite{zahrasift} resolve this issue by using the Scale Invariant Feature Transform \cite{lowe2004distinctive} (SIFT) to identify CPs that, as the name implies, are invariant across multiple scales.
 %
-SIFT identifies scale invariant and noise robust features of an image, called \textit{keypoints}, by first finding candidate points with high local curvature at multiple scales and then culling according to heuristics.
+SIFT identifies scale invariant and noise robust features of an image, called \newterm{keypoints}, by first finding candidate points with high local curvature at multiple scales and then culling according to heuristics.
 %
-It then \textit{describes} these keypoints by a rotation invariant and noise robust representation.
+It then \newterm{describes} these keypoints by a rotation invariant and noise robust representation.
 %
 The algorithm consists of five distinct steps:
 %
@@ -188,7 +188,7 @@ The NCC image registration technique performs a grid-search over possible shifts
 %
 The \(\Delta x, \Delta y\) that correspond to the maximum response is the imputed translation between the images (see figure~\ref{fig:crosscorr}).
 %
-An alternative but closely related method is \textit{phase correlation}, based on the Fourier shift theorem\anote{fouriershift}  (whose advantage is the availability of highly optimized algorithms for computing the Fourier transform).
+An alternative but closely related method is \newterm{phase correlation}, based on the Fourier shift theorem\anote{fouriershift}  (whose advantage is the availability of highly optimized algorithms for computing the Fourier transform).
 %
 Let \(\mathcal{X}_1(u,v) \coloneqq \mathcal{F}\{X_1(x,y)\}, \; \mathcal{X}_2(u,v) \coloneqq \mathcal{F}\{X_2(x,y)\}\) be the Fourier transforms of the images.
 %
@@ -198,7 +198,7 @@ Then
 \]
 where \(N,M\) are the dimensions of the images.
 %
-Define \textit{normalized cross-power spectrum}:
+Define \newterm{normalized cross-power spectrum}:
 \begin{align}
 	R(u,v) & \coloneqq \frac{\mathcal{X}_1\odot \mathcal{X}_2^{*}}{\abs{\mathcal{X}_1 }\abs{\mathcal{X}_2^{*} }}                                                                                                                                          \\
 	       & = \frac{\mathcal{X}_1\odot \mathcal{X}_1^{*} \, e^{2 \pi i \left(\frac{u \Delta x}{M} + \frac{v \Delta y}{N}\right)}}{\abs{\mathcal{X}_1 }\abs{\mathcal{X}_1^{*} \, e^{-2 \pi i \left(\frac{u \Delta x}{M} + \frac{v \Delta y}{N}\right)} }} \\
@@ -243,11 +243,11 @@ They use the Cauchy distribution as the jump proposal function:
 \[
 	G_k(d) \coloneqq \frac{t_k}{\pi \left( d^2 + t_k^2 \right)}
 \]
-where \(t_k\) is a parameter that over time encourages near jumps more and more strongly (called the \textit{temperature}), and \(d\) is the parameter jump distance.
+where \(t_k\) is a parameter that over time encourages near jumps more and more strongly (called the \newterm{temperature}), and \(d\) is the parameter jump distance.
 %
 To allow escape from local minima of \(I_{\theta}\) it is necessary to occasionally make a jump from the current parameter estimate \(\theta_k\) to a proposed value \(\theta_{k+1}\) that is worse (i.e., for which \(I(\theta_{k+1}) < I(\theta_{k}) \)).
 %
-This is accomplished by accepting or rejecting the proposed jump with probability determined by an \textit{acceptance function} \(A_k\):
+This is accomplished by accepting or rejecting the proposed jump with probability determined by an \newterm{acceptance function} \(A_k\):
 \[
 	A_k(\theta_{k}, \theta_{k+1}) \coloneqq \begin{cases}
 		1                                                  & \text{if } I(\theta_{k+1}) \geq I(\theta_{k}) \\
@@ -319,7 +319,7 @@ and similarly the unknowns (\(a,b,\dots, i\)) can be estimated from matched feat
 \subsubsection{Local Algorithms}
 \paragraph{Optical Flow}
 \input{figures/registration/optical_flow/flow.tex}
-The most general and most interesting framing of the problem of local transformation is \textit{optical flow}.
+The most general and most interesting framing of the problem of local transformation is \newterm{optical flow}.
 %
 Optical flow is the apparent motion of objects, surfaces, and edges in a scene caused by the relative motion between an observer and a scene.
 %
@@ -327,7 +327,7 @@ It is represented as a velocity field over the individual point sources in the s
 %
 This velocity field can be used to define a mapping between pixels in the displaced image and the reference image (in a sense propagating the pixels backwards in time).
 
-One approach to computing optical flow is based on treating pixel intensity as a \textit{conserved quantity}.
+One approach to computing optical flow is based on treating pixel intensity as a \newterm{conserved quantity}.
 %
 Let \(X(x,y,t)\) be pixel intensity over a sequence of images.
 %
@@ -337,7 +337,7 @@ Then define
 \end{equation*}
 to be the total pixel intensity over some image region \(R\), and assume \(Q\) is differentiable in \(t\) (we deal with discretization in the forthcoming).
 %
-\(Q\) obeys an integral \textit{continuity equation}:
+\(Q\) obeys an integral \newterm{continuity equation}:
 \begin{equation}
 	\od{}{t} Q(t) + \oint\limits_{\partial R} \mathbf{j} \cdot \mathbf{n}\, \dif l = \Sigma
 	\label{eqn:intcontinuity}
@@ -380,13 +380,13 @@ If we further assume that the intensity flow is incompressible (i.e., intensity 
 	\label{eqn:intensityconstr}
 \end{equation}
 
-Equation~\eqref{eqn:intensityconstr} is called the \textit{optical flow constraint equation} \cite{perez2013tv}.
+Equation~\eqref{eqn:intensityconstr} is called the \newterm{optical flow constraint equation} \cite{perez2013tv}.
 %
 Note that the constraint equation is a single linear equation in two unknowns (the components of \(\mathbf{u}\)) and is therefore under-determined.
 %
 \input{figures/registration/optical_flow/aperture.tex}
 %
-This is called the \textit{aperture problem} or the Barber-pole illusion (see figure~\ref{fig:barberpoll}) because any motion perpendicular to image gradients \(\nabla X\) (i.e., edges) isn't captured by the constraint: to wit if
+This is called the \newterm{aperture problem} or the Barber-pole illusion (see figure~\ref{fig:barberpoll}) because any motion perpendicular to image gradients \(\nabla X\) (i.e., edges) isn't captured by the constraint: to wit if
 \[\mathbf{u}' \cdot \nabla X= 0\]
 then
 \[
@@ -395,7 +395,7 @@ then
 %
 Therefore additional constraints need to be imposed in order to uniquely determine \(\mathbf{u}\).
 %
-The first such additional constraint was the \textit{spatial coherence constraint} proposed by Lucas \etal \cite{lucas1981iterative}: assume a pixel's neighbors have the same velocity \(\mathbf{u}\).
+The first such additional constraint was the \newterm{spatial coherence constraint} proposed by Lucas \etal \cite{lucas1981iterative}: assume a pixel's neighbors have the same velocity \(\mathbf{u}\).
 %
 For example using a \(5 \times 5\) window around a given pixel yields a \(5\times5 = 25\) equation overdetermined system (solved using least-squares).
 
@@ -440,11 +440,11 @@ One issue with optical flow methods is that they are very compute intensive; ite
 %
 Splines offer an efficient alternative to estimating \(\mathbf{u}\) at every pixel.
 %
-A \textit{spline} is a piecewise defined polynomial function. For example a simple \textit{order} \(d+1\) spline \(s\) could be defined
+A \newterm{spline} is a piecewise defined polynomial function. For example a simple \newterm{order} \(d+1\) spline \(s\) could be defined
 \[
 	s(x) \coloneqq \sum_{i=0}^d \mathbbm{1}_{[k_j, k_{j+1})}P_{ij} \cdot (x - k_j)^i
 \]
-where the \(n+1\) increasing \textit{knots} \(k_0 < \cdots < k_n\) bracket \(n\) intervals over which the component polynomials are defined, and the \((d+1)\) polynomial coefficients \(P_{ij}\) define the spline (see figure~\ref{fig:cubicspline}) for \(x \in [k_j, k_{j+1})\) (\(\mathbbm{1}\) enforces this\anote{indicator}).
+where the \(n+1\) increasing \newterm{knots} \(k_0 < \cdots < k_n\) bracket \(n\) intervals over which the component polynomials are defined, and the \((d+1)\) polynomial coefficients \(P_{ij}\) define the spline (see figure~\ref{fig:cubicspline}) for \(x \in [k_j, k_{j+1})\) (\(\mathbbm{1}\) enforces this\anote{indicator}).
 %
 Splines need not be differentiable (nor even continuous) at the knots but can be specified with such continuity constraints (at the knots).
 %
@@ -465,7 +465,7 @@ Szeliski \etal  \cite{szeliski1997spline} represent the velocity field \(\mathbf
 		\hat{u}_{1j}(x,y) \\ \hat{u}_{2j}(x,y)
 	\end{bmatrix} B_j(x, y)
 \end{equation}
-where \(B_j\) are \textit{basis functions}.
+where \(B_j\) are \newterm{basis functions}.
 %
 In particular they experiment with basis functions such as the biquadaritc B-spline:
 \[
@@ -473,7 +473,7 @@ In particular they experiment with basis functions such as the biquadaritc B-spl
 \]
 where \(B_{j,2}\) is the quadratic B-spline (defined in the forthcoming and displayed in figure~\ref{fig:biquadspline}).
 
-As an alternative one can completely forgo optical flow and simply perform Free-Form Deformation \cite{xie2004} using \textit{Basis splines} (B-splines).
+As an alternative one can completely forgo optical flow and simply perform Free-Form Deformation \cite{xie2004} using \newterm{Basis splines} (B-splines).
 %
 A B-spline is a spline defined as a linear combination of a particular set of basis functions (themselves called B-splines): the B-spline basis element \(B_{i, d+1}\) of order \(d+1\) (degree \(d\)) over knots \(k_i < \cdots < k_{i+d+1}\) is defined recursively according to the Cox-de Boor recursion formula \cite{de1971subroutine}:
 \begin{align}

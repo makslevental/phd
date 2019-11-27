@@ -61,16 +61,16 @@ Unfortunately this intricate solution is not robust to noise in real images.
 \subsubsection{Wiener Filter}
 A more sophisticated interpolation estimates filter weights \cite{wiener} in order to average neighboring pixel values.
 %
-The algorithm operates on a sliding \textit{estimation window}, whose dimensions \(D_x, D_y\) are chosen such that the effective sampling rate exceeds the Nyquist rate for a given \(\rho_c\).
+The algorithm operates on a sliding \newterm{estimation window}, whose dimensions \(D_x, D_y\) are chosen such that the effective sampling rate exceeds the Nyquist rate for a given \(\rho_c\).
 \begin{figure}[!htbp]
     \centering
     \includegraphics[width=.7\linewidth]{figures/classical/wiener.png}
     \caption{Wiener filter super resolution estimation window of dimension \(D_x \times D_y\) and observation window of dimension \(W_x \times W_y\) \cite{wiener}.}
     \label{fig:wiener}
 \end{figure}
-The pixel values for the estimation window are a function of the filter weights of nearby LR pixels within an \textit{observation window} whose dimensions \(W_x, W_y\) are an integer multiple of \(D_x, D_y\) (see figure~\ref{fig:wiener}).
+The pixel values for the estimation window are a function of the filter weights of nearby LR pixels within an \newterm{observation window} whose dimensions \(W_x, W_y\) are an integer multiple of \(D_x, D_y\) (see figure~\ref{fig:wiener}).
 %
-The weights \(\bm{w}\) are defined as the solution to the minimum mean squared error (MMSE) filter problem, i.e., the finite impulse response (FIR) \textit{Wiener filter}:
+The weights \(\bm{w}\) are defined as the solution to the minimum mean squared error (MMSE) filter problem, i.e., the finite impulse response (FIR) \newterm{Wiener filter}:
 \begin{equation}
     \bm{w} = R^{-1}\bm{p}
 \end{equation}
@@ -98,20 +98,20 @@ The scheme is effective but suffers from issues with the spatial isotropy of the
 
 \subsubsection{Steering Kernels}
 
-Steering kernels (see figure~\ref{fig:steering}) address the intrinsic spatial anisotropy of images using using \textit{kernel regression} to construct an estimator\anote{estiminterp}.
+Steering kernels (see figure~\ref{fig:steering}) address the intrinsic spatial anisotropy of images using using \newterm{kernel regression} to construct an estimator\anote{estiminterp}.
 %
 Kernel regression treats pixel values \(Y(\bxi)\) at pixel coordinates \(\bxi \coloneqq (x, y)\) as the measured data pairs \((\bxi, Y(\bxi))\) and estimates \(Y\) as a function of \(\bx\):
 \begin{equation}
     Y(\bxi) = Z(\bxi) + \varepsilon
 \end{equation}
-where \(Z\) is the \textit{regression function}.
+where \(Z\) is the \newterm{regression function}.
 %
 One such regression function is the Nadaraya–Watson estimator (NWE) \cite{Nadaraya} \(\hat{Z}\):
 \begin{equation}
     \hat{Z}(\bx) \coloneqq \frac{\sum_{i=1}^{P}K(\delx)Y(\bxi)}{\sum_{i=1}^{P}K(\delx)}
     \label{eqn:kernelregression}
 \end{equation}
-where \(P\) indexes over all pixels in the HR grid and \(K\) is a \textit{kernel function} whose purpose is to attentuate the contribution of \(\bxi\) according to distance from \(\bx\).
+where \(P\) indexes over all pixels in the HR grid and \(K\) is a \newterm{kernel function} whose purpose is to attentuate the contribution of \(\bxi\) according to distance from \(\bx\).
 %
 \begin{figure}[!htbp]
     \centering
@@ -125,11 +125,11 @@ where \(P\) indexes over all pixels in the HR grid and \(K\) is a \textit{kernel
     \caption{Adapting kernel shape as a function of local directed structure \cite{Takeda2007}.}
     \label{fig:steering}
 \end{figure}
-\(K\) is any non-negative, symmetric, unimodal \cite{wand1994kernel} function parameterized by a parameter \(h\) parameter that controls the \textit{bandwidth} or \textit{footprint} of the kernel:
+\(K\) is any non-negative, symmetric, unimodal \cite{wand1994kernel} function parameterized by a parameter \(h\) parameter that controls the \newterm{bandwidth} or \newterm{footprint} of the kernel:
 \begin{equation}
     K_h(\delx) \coloneqq \frac{1}{h}K\left( h^{-1}(\delx) \right)
 \end{equation}
-This bandwidth parameter \(h\) can be generalized to a \textit{smoothing kernel} \(H\) in order to make \(K = K_H\) adaptive to the local structure of the pixels.
+This bandwidth parameter \(h\) can be generalized to a \newterm{smoothing kernel} \(H\) in order to make \(K = K_H\) adaptive to the local structure of the pixels.
 %
 This enables \(K_H\) to have larger footprints in sparsely sampled regions and smaller footprints in densely sampled regions (see figure~\ref{fig:footprint}).
 %
@@ -188,7 +188,7 @@ Recall eqn.~\eqref{eqn:imagingmodel}; the idea is to consider \(\hat{Y}^{i}\) an
     \hat{Y}^{i+1} = \hat{Y}^i + \sum_{k=1}^K (D \circ A_k)^{-1}\left( (D \circ A_k)(\hat{Y}^i) - \Xk \right)
     \label{eqn:ibp}
 \end{equation}
-where \(\hat{Y}^i\) is the current estimate of the blurred HR image, \((D \circ A_k)(\hat{Y}^i)\) is the projection of the current estimate to low resolution, and \((D \circ A_k)^{-1}\left( (D \circ A_k)(\hat{Y}^i) - \Xk \right)\) is the \textit{back-projection}.
+where \(\hat{Y}^i\) is the current estimate of the blurred HR image, \((D \circ A_k)(\hat{Y}^i)\) is the projection of the current estimate to low resolution, and \((D \circ A_k)^{-1}\left( (D \circ A_k)(\hat{Y}^i) - \Xk \right)\) is the \newterm{back-projection}.
 Notice that the estimate is corrected when it is grossly different from the LR samples (see figure~\ref{fig:iterbackproj}).
 %
 This process iterates until convergence.
@@ -250,7 +250,7 @@ and covariance
 %
 By definition the MMSE \(\hat{\bm{y}}_{k|s}\) of \(\bm{y}_{k|s}\) is \(\bar{\bm{y}}_{k|s}\) and therefore \(C_{k|s}\) is the covariance of the error of the estimate \(\hat{\bm{y}}_{k|s}\).
 %
-The Kalman filter proceeds in two steps: an \textit{a priori} (before measurement) prediction step and an \textit{a posteriori} (after measurement) update step.
+The Kalman filter proceeds in two steps: an \newterm{a priori} (before measurement) prediction step and an \newterm{a posteriori} (after measurement) update step.
 %
 First, the prediction step iterates on the estimate (and its covariance) given all previous measurements:
 \begin{align}
@@ -337,7 +337,7 @@ For example when choosing a Gibbs \cite{Hardie1997} distribution as the prior
     P(Y) \propto e^{-\alpha B(Y)}
     \label{eqn:gibbs}
 \end{equation}
-where \(B(Y)\) is called the \textit{potential}, eqn.~\eqref{eqn:logmap} becomes
+where \(B(Y)\) is called the \newterm{potential}, eqn.~\eqref{eqn:logmap} becomes
 \begin{equation}
     \hat{\bm{y}} = \underset{\bm{y}}{\text{argmin}}\left[ \abs{ \bm{X} - \hat{D} \hat{\bm{H}} \hat{\bm{A}} \bm{y} }^2 +\lambda B(Y)\right]
     \label{eqn:minmap}
@@ -410,7 +410,7 @@ In the context of SR this amounts to setting
     B(Y) = TV(Y) \coloneqq \abs{ \nabla Y }_1
 \end{equation}
 %
-Farsiu \etal \cite{farsiu} introduce the related \textit{bilateral} TV norm
+Farsiu \etal \cite{farsiu} introduce the related \newterm{bilateral} TV norm
 \begin{equation}
     BTV(Y) \coloneqq \sum_{k=0}^{N} \sum_{l=0}^{N} \alpha^{k + l} \abs{ Y - S_x^k S_y^l Y }_1
 \end{equation}
@@ -426,7 +426,7 @@ For that we need to actually learn from real data.
 
 \subsection{Example Based}\label{subsec:example-based}
 
-Example based techniques \textit{learn} a mapping from
+Example based techniques \newterm{learn} a mapping from
 LR patches to HR patches based on a training set and then use that mapping to predict details in new (unseen) images. 
 
 \subsubsection{Hidden Markov Random Field}
@@ -505,7 +505,7 @@ Zontak \etal \cite{zontak2011internal} show that finding matches between image p
 %
 This is directly as a result of \(L_2\) distances between patches being primarily determined by prominent image structures.
 %
-Singh \etal \cite{singh2014} make this intuition rigorous by decomposing HR and SR patch pairs into oriented \textit{sub-bands} (i.e., gradient orientation bins) and demonstrating that low-energy sub-bands (i.e., those that contribute weakly to the decomposition) are more strongly attenuated (see figure~\ref{fig:subbands}).
+Singh \etal \cite{singh2014} make this intuition rigorous by decomposing HR and SR patch pairs into oriented \newterm{sub-bands} (i.e., gradient orientation bins) and demonstrating that low-energy sub-bands (i.e., those that contribute weakly to the decomposition) are more strongly attenuated (see figure~\ref{fig:subbands}).
 \begin{figure}[!htbp]
     \centering
     \begin{adjustbox}{width=\linewidth}
@@ -523,7 +523,7 @@ Yang \etal \cite{yang2008} resolve this issue by using sparse coding (SC) as a f
 %
 This enables them to essentially leave the number of nearest numbers unspecified (or, alternatively, learn the correct number of neighbors on a patch-by-patch basis).
 %
-To be precise, let \(D \coloneqq \left(\bm{d}_1, \dots, \bm{d}_K \right) \in \mathbb{R}^{n \times K}\) be an \textit{overcomplete dictionary}\anote{overcompletedictionary} of \(K\) atoms \(\bm{d}_i\), and suppose a signal \(\by \in \mathbb{R}^n\) can be represented as a sparse linear combination of these atoms:
+To be precise, let \(D \coloneqq \left(\bm{d}_1, \dots, \bm{d}_K \right) \in \mathbb{R}^{n \times K}\) be an \newterm{overcomplete dictionary}\anote{overcompletedictionary} of \(K\) atoms \(\bm{d}_i\), and suppose a signal \(\by \in \mathbb{R}^n\) can be represented as a sparse linear combination of these atoms:
 \begin{equation}
     \by = D\bm{\alpha}
 \end{equation}
@@ -622,7 +622,7 @@ Thus for every atom in the dictionary, they find its \(K' < K\) nearest neighbor
 \end{equation}
 where \(D_{LR}^k, D_{HR}^k\) are the neighborhood of the LR atom and the neighborhood of its corresponding HR atom.
 %
-Timofte \etal call these \(P_k\) \textit{anchored regressions} because they effectively weight the contributions of LR and HR dictionary atoms.
+Timofte \etal call these \(P_k\) \newterm{anchored regressions} because they effectively weight the contributions of LR and HR dictionary atoms.
 %
 For a new input LR patch \(x\) they find the nearest atom in \(D_{LR}\) and recover the HR patch \(\by = P_k \cdot \bx\).
 %
@@ -640,7 +640,7 @@ Their point of departure is a data-dependent function \(W(\cdot)\) that obeys
 \end{equation}
 This is similar to eqn.~\eqref{eqn:mappinglr}.
 %
-They model \(W(\cdot)\) as an \(n\)-tree regression \textit{forest}\anote{forest}.
+They model \(W(\cdot)\) as an \(n\)-tree regression \newterm{forest}\anote{forest}.
 %
 Putting aside for the moment how the trees are trained, each tree \(T_t\) independently splits LR patch space into disjoint subspaces by routing patches down the tree (see figure~\ref{fig:firf}).
 %
@@ -695,7 +695,7 @@ where \(\hat{\by}_k\) is the estimate produced by the linear regression fit usin
 %
 The first term in eqn.~\eqref{eqn:qualitymeasure} measures fitting error and the second term is the clustering regularizer.
 %
-They decide whether to actually split according to the \textit{error reduction} in performing the split:
+They decide whether to actually split according to the \newterm{error reduction} in performing the split:
 \begin{multline*}
     R\left(i, j, \tau, \bX, \bY \right) \coloneqq \\ Q(\bX, \bY) - \sum_{c\in\left\{L, R\right\}} \frac{\abs{\bX^c}}{\abs{\bX}} Q(\bX^c, \bY^c)
 \end{multline*}

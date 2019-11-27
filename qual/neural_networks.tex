@@ -10,9 +10,9 @@ We then proceed to review applications of ANNs to super resolution.
 %
 \subsection{Basics}
 \input{figures/neural_networks/mlp.tex}
-An ANN is a function specified by composing elementary functions called \textit{artificial neurons}\anote{ann} (or simply neurons).
+An ANN is a function specified by composing elementary functions called \newterm{artificial neurons}\anote{ann} (or simply neurons).
 %
-Neurons consist of a set of inputs \(\mathbf{x} \coloneqq (x_1, x_2, \dots, x_n)\), a set of parameters called weights \(w_i\), and an \textit{activation function} \(\sigma\), which acts as a thresholding mechanism.
+Neurons consist of a set of inputs \(\mathbf{x} \coloneqq (x_1, x_2, \dots, x_n)\), a set of parameters called weights \(w_i\), and an \newterm{activation function} \(\sigma\), which acts as a thresholding mechanism.
 %
 For example, the simplest function that qualifies as a neuron is a linear function:
 \begin{equation}
@@ -29,7 +29,7 @@ the hyperbolic tangent function
 \begin{equation}
     \tanh x={\frac {\sinh x}{\cosh x}}={\frac {e^{x}-e^{-x}}{e^{x}+e^{-x}}}={\frac {e^{2x}-1}{e^{2x}+1}}
 \end{equation}
-and the piecewise defined \textit{rectified linear unit} (\(\operatorname{ReLU}\)):
+and the piecewise defined \newterm{rectified linear unit} (\(\operatorname{ReLU}\)):
 \begin{align}
     \operatorname{ReLU}(x) & \coloneqq \begin{cases}x&{\text{if }}x>0,\\0&{\text{otherwise}}\end{cases} 
                         %    & = \max(0, x)
@@ -42,7 +42,7 @@ Note that eqn.~\eqref{eqn:simpleann} passes through the origin \((0,0,0)\) since
 
 Neurons can be represented as directed graphs, where a vertex represents an input and edges represent the weights (see figure~\ref{fig:singleann}).
 %
-ANNs are, then, assemblies of neurons grouped into \textit{layers} with the layers composed by applying neurons to outputs from immediately preceding layers.
+ANNs are, then, assemblies of neurons grouped into \newterm{layers} with the layers composed by applying neurons to outputs from immediately preceding layers.
 %
 For example the ANN specified in figure~\ref{fig:multiann} represents the function
 \begin{equation}
@@ -52,19 +52,19 @@ For example the ANN specified in figure~\ref{fig:multiann} represents the functi
     \end{split}
 \end{equation}
 %
-Layers are categorized as either \textit{hidden layers} or input-output layers: those layers that are not input or output layers are hidden layers.
+Layers are categorized as either \newterm{hidden layers} or input-output layers: those layers that are not input or output layers are hidden layers.
 
 ANNs seem like a very simple class of functions; for example, Minsky \etal \cite{minsky2017perceptrons} famously proved that single-layer ANNs that don't include a nonlinear activation function can't represent \(\operatorname{XOR}\)\anote{xor}. 
 %
-On the contrary, strikingly, ANNs that do include a nonlinear activation function satisfy a \textit{universal approximation theorem} \cite{cybenko1989approximation}:
+On the contrary, strikingly, ANNs that do include a nonlinear activation function satisfy a \newterm{universal approximation theorem} \cite{cybenko1989approximation}:
 %
 given any continuous function \(f\) (on some bounded interval \(I\)) there exists a sequence of ANNs (with at least one hidden layer and employing a nonlinear activation function) whose limit approximates\anote{uniformconv} \(f\) to arbitrary precision.
 
-A critical component of the universal approximation theorem is finding the correct sequence of ANNs; in the parlance of ML an ANN demands a \textit{learning rule}.
+A critical component of the universal approximation theorem is finding the correct sequence of ANNs; in the parlance of ML an ANN demands a \newterm{learning rule}.
 %
-In general, ANN learning rules iterate on the weights \(w_i\) given \(k \gg 1\) \textit{training} pairs of known \textit{samples} and \textit{targets} \(\left\{ \bm{x}_k, t_k \right\}\) of \(f\). 
+In general, ANN learning rules iterate on the weights \(w_i\) given \(k \gg 1\) \newterm{training} pairs of known \newterm{samples} and \newterm{targets} \(\left\{ \bm{x}_k, t_k \right\}\) of \(f\). 
 %
-The most common such learning rule is a \textit{gradient descent} based rule called the Delta rule \cite{widrow1960adaptive}.
+The most common such learning rule is a \newterm{gradient descent} based rule called the Delta rule \cite{widrow1960adaptive}.
 %
 It is derived from minimizing the \(L_2\) loss with respect to each of the weights using gradient descent:
 \begin{equation}
@@ -82,29 +82,29 @@ Hence, by gradient descent, the weights \(w_i\) should be adjusted in the opposi
     \Delta w_i \coloneqq \alpha \cdot \sum_k(t_k-y(\mathbf{x}_k))\cdot \sigma'\cdot x_{ik}
     \label{eqn:batchupdate}
 \end{equation}
-where \(\alpha\) is a small constant called the \textit{learning rate} (that controls the rate of convergence of the ANN).
+where \(\alpha\) is a small constant called the \newterm{learning rate} (that controls the rate of convergence of the ANN).
 
 In general, deriving the partial derivatives \(\pd{L}{w_i}\) for a multi-layer, wide (many neurons in each layer) network is compute intensive due to dependencies between weights in adjacent layers.
 %
 \input{figures/neural_networks/backprop.tex}
-Fortunately traversing the derivative-dependency graph in a particular order, a technique called \textit{back-propagation}\anote{backprop} or simply backprop (see figure~\ref{fig:backprop}), makes this tractable.
+Fortunately traversing the derivative-dependency graph in a particular order, a technique called \newterm{back-propagation}\anote{backprop} or simply backprop (see figure~\ref{fig:backprop}), makes this tractable.
 
 Another inefficiency of the Delta rule is that it requires evaluating the ANN on the entire set of samples in order to compute the update \(\Delta w_i\).
 %
 For large training sets (on the order of millions of samples) this is infeasible due to memory limitations.
 %
-Stochastic Gradient Descent (SGD) replaces computing the total loss in eqn.~\eqref{eqn:batchupdate} with computing a partial loss called the \textit{batch loss}:
+Stochastic Gradient Descent (SGD) replaces computing the total loss in eqn.~\eqref{eqn:batchupdate} with computing a partial loss called the \newterm{batch loss}:
 \begin{equation}
     \Delta w_i^t = w_i^t - w_i^{t-1} \coloneqq \alpha \cdot \sum_j (t_j-y(\mathbf{x}_j))\cdot \sigma'\cdot x_{ij}
     \label{eqn:sgd}
 \end{equation}
-where the sum on the right-hand side is now over a subset of samples called a \textit{batch}.
+where the sum on the right-hand side is now over a subset of samples called a \newterm{batch}.
 %
 This in effect computes the weight update \(\Delta w_i\) incrementally and saves having to hold all training data in memory concurrently.
 %
 The disadvantage of using SGD is that the batch loss is a noisy estimate of the total loss; in order to assure convergence one typically trains and retrains ANNs on random shufflings of the training data.
 %
-Each such training episode is called an \textit{epoch}.
+Each such training episode is called an \newterm{epoch}.
 %
 % Equation~\eqref{eqn:sgd} is evaluated for each of the \(k\) samples sequentially and therefore saves having to store all training samples in memory.
 
@@ -144,7 +144,7 @@ The convolution of a function \(f\) with a finite sequence of values \(g\) can b
     \caption{Convolution as filtering.}\label{fig:convfiltering}
 \end{figure}
 %
-The sequence of values that comprise \(g\) is called the \textit{kernel} of the \(g\) and the length of the sequence is called the \textit{bandwidth} of the kernel (or simply width).
+The sequence of values that comprise \(g\) is called the \newterm{kernel} of the \(g\) and the length of the sequence is called the \newterm{bandwidth} of the kernel (or simply width).
 %
 The two-dimensional (2D) discrete convolution \((f*g)\) of 2D discrete functions \(f,g\) is defined
 \begin{equation}
@@ -156,14 +156,14 @@ and can be interpreted in exactly the same way as 1D convolutions.
 For 2D convolutions the kernels are most often square and therefore the kernel dimensions are specified rather than just width (see figure~\ref{fig:2dconv}).
 \input{figures/neural_networks/2dconvolutions.tex}
 
-Notice that eqns.~\eqref{eqn:1dconv} and~\eqref{eqn:2dconv} are completely linear in their inputs \(f[i]\) (\(f[i,j]\)) with weights \(w_i = g[n-i]\) (\(w_{ij} = g[n-i, m-j]\)) and hence naturally constitute a neuron (layer of neurons); a \textit{convolution layer} in a multi-layer ANN is either eqn.~\eqref{eqn:1dconv} or eqn.~\eqref{eqn:2dconv} with kernel values being iteratively updated by the learning rule.
+Notice that eqns.~\eqref{eqn:1dconv} and~\eqref{eqn:2dconv} are completely linear in their inputs \(f[i]\) (\(f[i,j]\)) with weights \(w_i = g[n-i]\) (\(w_{ij} = g[n-i, m-j]\)) and hence naturally constitute a neuron (layer of neurons); a \newterm{convolution layer} in a multi-layer ANN is either eqn.~\eqref{eqn:1dconv} or eqn.~\eqref{eqn:2dconv} with kernel values being iteratively updated by the learning rule.
 %
 Hence, a CNN is an ANN with one or more convolution layers; CNNs consisting of 2D convolutions are particularly effective for tasks that operate on images (since image patches have more structure than image slices).
 
-In practice multiple filters are applied to the same input and then stacked to produce a higher-dimensional output (see figure~\ref{fig:multconvs}), each dimension of which is called a \textit{feature map}.
+In practice multiple filters are applied to the same input and then stacked to produce a higher-dimensional output (see figure~\ref{fig:multconvs}), each dimension of which is called a \newterm{feature map}.
 \input{figures/neural_networks/multconvs.tex}
 %
-Depending on whether the CNN is being employed to solve a generative task or a classification task the activation function might be either a \(\operatorname{ReLU}\) (applied element-wise to the output of the convolution layer) or a \textit{max-pooling} filter:
+Depending on whether the CNN is being employed to solve a generative task or a classification task the activation function might be either a \(\operatorname{ReLU}\) (applied element-wise to the output of the convolution layer) or a \newterm{max-pooling} filter:
 \begin{multline}
     \operatorname{max-pool}(f,g)[n, m]\coloneqq\\ \max_{i,j}\left[ f[i, j]g[n-i, m-j] \right]
     \label{eqn:2dpool}
@@ -183,15 +183,15 @@ There are many other convolution operators (e.g., strided, dilated, transposed) 
 %
 Deep Neural Networks (DNNs) are ANNs that have multiple layers and many neurons in each layer.
 %
-Intuitively the advantage of deep networks (over shallow networks) is they learn\anote{learn} hierarchies of concepts (called \textit{features}); for example in facial recognition tasks, layers proximal to the input layer learn to recognize elementary features such as edges, layers distal to the input layer learn abstractions of elementary features, such as arrangements of edges that comprise eyes or noses, and layers even more distal to the input layer learn entire faces.
+Intuitively the advantage of deep networks (over shallow networks) is they learn\anote{learn} hierarchies of concepts (called \newterm{features}); for example in facial recognition tasks, layers proximal to the input layer learn to recognize elementary features such as edges, layers distal to the input layer learn abstractions of elementary features, such as arrangements of edges that comprise eyes or noses, and layers even more distal to the input layer learn entire faces.
 
-Training DNNs presents many challenges; due to their depth they suffer from issues such as \textit{vanishing gradients} and \textit{overfitting}.
+Training DNNs presents many challenges; due to their depth they suffer from issues such as \newterm{vanishing gradients} and \newterm{overfitting}.
 %
 Vanishing gradients is an all but complete cessation of substantive updates to weights; consider the partial derivative of the activation function \(\sigma'\) in eqn.~\eqref{eqn:batchupdate}.
 %
 Notice that if \(\abs{\sigma'} \ll 1\) then \(\Delta w_i\) will be very small.
 %
-This occurs for a single neuron when the input \textit{saturates} the activation function; for example for \(\operatorname{sig}\) this happens when \(\abs{x} > 5\) because the gradient \(\sigma'\) is very small (see figure~\ref{fig:activs}).
+This occurs for a single neuron when the input \newterm{saturates} the activation function; for example for \(\operatorname{sig}\) this happens when \(\abs{x} > 5\) because the gradient \(\sigma'\) is very small (see figure~\ref{fig:activs}).
 \begin{figure}[!htbp]
     \centering
     \includegraphics[width=\linewidth]{figures/neural_networks/activation_grads.png}
@@ -231,15 +231,15 @@ The intuitive reason for learning \(\beta, \gamma\) instead of just fixing them 
 %
 \input{figures/neural_networks/gan.tex}
 \input{figures/neural_networks/resblock.tex}
-Another solution to the vanishing gradients problem is using \textit{skip connections}: outputs from a layer can be made to skip adjacent layers early on in training (see figure~\ref{fig:skipconnections}).
+Another solution to the vanishing gradients problem is using \newterm{skip connections}: outputs from a layer can be made to skip adjacent layers early on in training (see figure~\ref{fig:skipconnections}).
 %
 This has the effect that substantive gradients can be propagated farther back into the network during the initial part of training when weights should be changing the most (since they're ostensibly far from a minimum).
 
 Overfitting in some sense is a problem opposite of vanishing gradients; while vanishing gradients prevent the DNN from learning, overfitting means the DNN is learning too easily.
 %
-Naturally then, overfitting is mitigated by using regularization; methods such as \(L_2\) regularization and \textit{dropout} have been shown to be effective against overfitting \cite{bengio2013}.
+Naturally then, overfitting is mitigated by using regularization; methods such as \(L_2\) regularization and \newterm{dropout} have been shown to be effective against overfitting \cite{bengio2013}.
 %
-\(L_2\) regularization incorporates a squared weight term \(\frac{\lambda}{2}\sum_{i=1}^n w_i^2\) into eqn.~\eqref{eqn:loss}, which translates into a \textit{weight decay} term \(\lambda w_i^{t-1}\) in the Delta rule (eqn.~\eqref{eqn:sgd}):
+\(L_2\) regularization incorporates a squared weight term \(\frac{\lambda}{2}\sum_{i=1}^n w_i^2\) into eqn.~\eqref{eqn:loss}, which translates into a \newterm{weight decay} term \(\lambda w_i^{t-1}\) in the Delta rule (eqn.~\eqref{eqn:sgd}):
 \begin{equation}
     \Delta w_i^t = \alpha \cdot \sum_j (t_j-y(\mathbf{x}_j))\cdot \sigma'\cdot x_{ij} + \lambda w_i^{t-1}
     \label{eqn:weightdecaydelta}
@@ -258,7 +258,7 @@ There are many other best-practices techniques for training DNNs that are beyond
 
 
 
-A Generative Adversarial Network \cite{goodfellow2014generative} is a training regimen for networks that perform \textit{generative tasks}.
+A Generative Adversarial Network \cite{goodfellow2014generative} is a training regimen for networks that perform \newterm{generative tasks}.
 %
 A generative task is one which calls for generating samples from a probability distribution represented by the training data.
 %
@@ -276,12 +276,12 @@ Super-resolution can be cast as a generative task: knowing the condtional distri
 %
 In general, this is a highly non-trivial problem due to the dimensionality of the sample space.
 
-GANs solve this problem by pitting a \textit{generator} \(G\), that learns to transform samples from a readily available high-dimensional surrogate distribution (Normal or Uniform), against a \textit{discriminator} \(D\).
+GANs solve this problem by pitting a \newterm{generator} \(G\), that learns to transform samples from a readily available high-dimensional surrogate distribution (Normal or Uniform), against a \newterm{discriminator} \(D\).
 The generator takes as input samples \(\bm{z}\) from the surrogate distribution \(p_{z}\) and outputs putative samples \(G(\bm{z})\) from the real distribution \(p_r\).
 %
 The discriminator alternates between considering true samples \(\bm{x}\) from the real distribution and considering counterfeit samples \(G(\bm{z})\) produced by the generator; it therefore assesses the quality of \(G\)'s output with respect to its own understanding of the real distribution.
 %
-To that end Goodfellow \etal \cite{goodfellow2014generative} propose a training framework that involves \(D\) and \(G \) playing a \textit{mini-max game}\anote{minimax}:
+To that end Goodfellow \etal \cite{goodfellow2014generative} propose a training framework that involves \(D\) and \(G \) playing a \newterm{mini-max game}\anote{minimax}:
 \begin{equation}
     \min_G \max_D L(D, G)
 \end{equation}
@@ -343,9 +343,9 @@ Kim \etal \cite{Kim_2016} improve on SRCNN with Very Deep SRCNN (VDSR) by increa
 %
 In order to overcome the training challenges faced by Dong \etal they use skip connections (see section~\ref{subsubsec:dnns}).
 %
-They also use learning rate \textit{annealing}\anote{annealing} and implement gradient clipping to prevent \textit{exploding gradients}\anote{gradclip}.
+They also use learning rate \newterm{annealing}\anote{annealing} and implement gradient clipping to prevent \newterm{exploding gradients}\anote{gradclip}.
 %
-They further argue that an SR network need only learn \textit{residuals} \(\bm{r} \coloneqq \bm{t} - \bm{x}\).
+They further argue that an SR network need only learn \newterm{residuals} \(\bm{r} \coloneqq \bm{t} - \bm{x}\).
 %
 In this context, residuals have the significance of being the high-frequency components of an image, since the bicubic up-sampled input \(\bm{x}\) can be interpreted as a low-pass filtered version of the high-resolution image.
 %
@@ -369,11 +369,11 @@ The most interesting network in this class of networks is the Super-resolution R
 %
 SRResNet takes as input LR images and similar to VDSR passes them through 16 individual ResBlocks (see figure~\ref{fig:resblock}) for feature extraction.
 %
-Where SRResNet differs from VDSR is the in-network up-sampling that it performs using \textit{sub-pixel convolutions}.
+Where SRResNet differs from VDSR is the in-network up-sampling that it performs using \newterm{sub-pixel convolutions}.
 %
 Sub-pixel convolutions are a way to learn up-sampling as a component of the ANN.
 %
-They up-sample in two phases: first \(r^2\) filters are convolved with the input, where \(r\) is the up-sampling factor (e.g., 4 filters for 2x up-sampling), then a \textit{pixel shuffle} operation reorders the elements of the feature maps into an \(r\)-times higher resolution grid (see figure~\ref{subfig:pixelshuffle}).
+They up-sample in two phases: first \(r^2\) filters are convolved with the input, where \(r\) is the up-sampling factor (e.g., 4 filters for 2x up-sampling), then a \newterm{pixel shuffle} operation reorders the elements of the feature maps into an \(r\)-times higher resolution grid (see figure~\ref{subfig:pixelshuffle}).
 \begin{figure}[!htbp]
     \centering
     \newcommand*{\subfigwidth}{.49\textwidth}
@@ -395,7 +395,7 @@ This operation is called a sub-pixel convolution because it can be interpreted a
 
 Ledig \etal pre-train SRResNet using mean-squared-error (MSE) loss and then further train using the GAN framework (see section~\ref{subsubsec:gan}).
 %
-In addition to using the conventional GAN loss they add a term called \textit{perceptual loss}:
+In addition to using the conventional GAN loss they add a term called \newterm{perceptual loss}:
 \begin{equation}
     \ell_{feat}^{\phi, j} \left( \hat{\bm{y}}, \bm{y}_c\right) \coloneqq \frac{1}{H_j W_j} \abs{\phi_j\left({\hat{\bm{y}}}\right) - \phi_j \left(\bm{y}_c\right)}^2
 \end{equation}
@@ -450,7 +450,7 @@ They also identify \(L_2\) loss as a source of perceptual fidelity flaws but unl
 \end{equation}
 where \(\epsilon\) is a scale parameter that they empirically set to \(10^{-3}\). 
 %
-Lie \etal train their network using \textit{deep supervision}; the loss function they optimize compares the result at every tier of the network against the target HR image (the HR image is down-sampled to produce targets at multiple scales):
+Lie \etal train their network using \newterm{deep supervision}; the loss function they optimize compares the result at every tier of the network against the target HR image (the HR image is down-sampled to produce targets at multiple scales):
 \begin{equation}
     L(\bm{t}, \bm{y}) \coloneqq \sum_{i=1}^{\log_2(r)} \rho(\bm{t}_i - \bm{y}_i)
 \end{equation}
@@ -510,7 +510,7 @@ Huang \etal \cite{huang2015bidirectional} learn the time dependency for complex 
 % %
 % That is to say, for a given \(t\) length sequence of data an RNN might respond differently than for a different \(t\) length sequence of data depending on the differing time dependencies intra-sequence.
 %
-They are able to model such non-stationary dependencies by using \textit{loop unrolling} (see figure~\ref{fig:unrolledrnn}): a \(t\) length recursion is represented as \(t\) layers composed of \textit{cells}.
+They are able to model such non-stationary dependencies by using \newterm{loop unrolling} (see figure~\ref{fig:unrolledrnn}): a \(t\) length recursion is represented as \(t\) layers composed of \newterm{cells}.
 %
 It is these cells that keep track of the dependencies between elements of the sequences over arbitrary time intervals.
 %
@@ -542,11 +542,11 @@ Attention mechanisms \cite{bahdanau2014neural} are neural network modules that c
 %
 Let \(\bm{x} \in \mathbb{R}^d\) be a sample and \(\bm{z} \in \mathbb{R}^k\) be the output at some intermediate layer.
 %
-Then \(f_\phi(\cdot) \in \left[0,1\right]^k\) is an attention network with learnable parameters \(\phi\), \(\bm{a} \coloneqq f_\phi (\bm{x})\) is an \textit{attention vector}, and \(g = a \odot \bm{z}\) is an \textit{attention glimpse} of \(\bm{z}\) (\(\odot\) is the Hadamard product).
+Then \(f_\phi(\cdot) \in \left[0,1\right]^k\) is an attention network with learnable parameters \(\phi\), \(\bm{a} \coloneqq f_\phi (\bm{x})\) is an \newterm{attention vector}, and \(g = a \odot \bm{z}\) is an \newterm{attention glimpse} of \(\bm{z}\) (\(\odot\) is the Hadamard product).
 %
-As defined \(f_\phi\) is a \textit{soft attention} mechanism; if \(f_\phi(\cdot) \in \left\{0,1\right\}^k\) (i.e., \(f_\phi\) learns a binary mask) then it is called a \textit{hard attention} mechanism.
+As defined \(f_\phi\) is a \newterm{soft attention} mechanism; if \(f_\phi(\cdot) \in \left\{0,1\right\}^k\) (i.e., \(f_\phi\) learns a binary mask) then it is called a \newterm{hard attention} mechanism.
 %
-For example, \textit{spatial attention} (attention applied to images) can be used to improve image captioning (see figure~\ref{fig:attention}).
+For example, \newterm{spatial attention} (attention applied to images) can be used to improve image captioning (see figure~\ref{fig:attention}).
 \begin{figure*}[!htbp]
     \centering
     \includegraphics[width=\textwidth]{figures/neural_networks/attention.png}
@@ -620,7 +620,7 @@ In fact the spatial transformer used by Caballero \etal estimates the optical fl
 \end{figure}
 
 
-For the up-sampling itself Caballero \etal experiment with incorporating several sub-pixel convolution architectures that they call \textit{fusion} methods.
+For the up-sampling itself Caballero \etal experiment with incorporating several sub-pixel convolution architectures that they call \newterm{fusion} methods.
 %
 Each fusion method applies convolutions to the sequence of images in either a tiered or conventional fashion (see figure~\ref{fig:fusions}) and then reorders the pixels to produce the HR image.
 \begin{figure}[!htbp]
@@ -674,7 +674,7 @@ This architecture consists of three (or four\anote{ntire}) independent stages im
     \end{enumerate}
 \end{mdframed}
 
-The PCD alignment module uses tiered \textit{deformable convolutions} in order to perform registration. 
+The PCD alignment module uses tiered \newterm{deformable convolutions} in order to perform registration. 
 %
 A deformable convolution is a convolution with an irregularly shaped and spaced convolution kernel.
 %
@@ -701,7 +701,7 @@ For EDCN the deformable convolution deforms, with kernel \(w\), the input image 
 \end{equation}
 where \(\bm{p} \in \left\{(-1,-1), (-1, 0), \dots, (0,1), (1,1)\right\}\) and \(\Delta \bm{p}\) is the learned offset.
 
-The TSA module \textit{attends} in time and space to the sequence of images.
+The TSA module \newterm{attends} in time and space to the sequence of images.
 %
 It determines which frames should be attended to in time according a similarity measure:
 \begin{equation}
