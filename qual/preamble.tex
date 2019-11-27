@@ -1,5 +1,7 @@
 \usepackage{etoolbox}
 \usepackage{amsmath}
+\usepackage[textwidth=7in,textheight=9.5in]{geometry} 
+\usepackage{amsthm}
 \usepackage{imakeidx}
 \usepackage{transparent}
 \usepackage[style=2,everyline=true,footnoteinside=true]{mdframed}
@@ -72,6 +74,7 @@
 \usepackage[utf8]{inputenc}
 \makeindex
 
+\setlength{\columnsep}{1cm}
 
 \setlength{\cftsubsecindent}{0pt}% Remove indent for \subsection
 \setlength{\cftsubsubsecindent}{10pt}% Remove indent for \subsubsection
@@ -81,16 +84,16 @@
 \setcounter{secnumdepth}{5}
 \setcounter{tocdepth}{5}
 \renewcommand\thesection{\arabic{section}}
-\renewcommand\thesectiondis{\arabic{section}}
+% \renewcommand\thesectiondis{\arabic{section}}
 
 \renewcommand\thesubsection{\thesection.\arabic{subsection}}
-\renewcommand\thesubsectiondis{\thesectiondis.\arabic{subsection}}
+% \renewcommand\thesubsectiondis{\thesectiondis.\arabic{subsection}}
 
 \renewcommand\thesubsubsection{\thesubsection.\arabic{subsubsection}}
-\renewcommand\thesubsubsectiondis{\thesubsectiondis.\arabic{subsubsection}}
+% \renewcommand\thesubsubsectiondis{\thesubsectiondis.\arabic{subsubsection}}
 
 \renewcommand{\theparagraph}{\thesubsubsection.\arabic{paragraph}}
-\renewcommand{\theparagraphdis}{\thesubsubsectiondis.\arabic{paragraph}}
+% \renewcommand{\theparagraphdis}{\thesubsubsectiondis.\arabic{paragraph}}
 
 %\makeatletter
 %\newcounter{subparagraph}[paragraph]
