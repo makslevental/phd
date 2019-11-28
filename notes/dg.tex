@@ -1,0 +1,237 @@
+
+
+% \subsubsection{Pushforwards and Pullbacks}\label{subsubsec:diffgeo}
+
+% Define a diffeomorphism \(\phi\) such that
+% %
+% \begin{equation}
+%     \phi\colon (r, \theta) \mapsto (r \cos \theta, r \sin \theta)
+% \end{equation}
+% %
+% The Jacobian of \(\phi\)
+% %
+% \begin{equation}
+%     \operatorname{J}
+%     =
+%     \begin{bmatrix}
+%         \pdv{\phi_1}{r} & \pdv{\phi_1}{\theta} \\
+%         \pdv{\phi_2}{r} & \pdv{\phi_2}{\theta}
+%     \end{bmatrix}
+%     =
+%     \begin{bmatrix}
+%         \cos \theta & -r \sin \theta \\
+%         \sin \theta & r \cos \theta
+%     \end{bmatrix}
+% \end{equation}
+% %
+% Note that \(\det \operatorname{J} = r\) and so \(\phi\) is a diffeomorphism iff \(r \neq 0\).
+% %
+% Given a vector field
+% %
+% \begin{equation}
+%     v = a(r, \theta) \partial_r + b(r, \theta)\partial_\theta \coloneqq a(r, \theta) \pdv{}{r} + b(r, \theta)\pdv{}{\theta}
+% \end{equation}
+% %
+% we can compute the \newterm{pushforward} \(\phi_*\) wrt the \(\partial_x, \partial_y\) basis
+% \begin{equation}
+%     \phi_* (v)
+%     =
+%     \begin{bmatrix}
+%         \cos (\theta) & -r \sin (\theta) \\
+%         \sin (\theta) & r \cos (\theta)
+%     \end{bmatrix}
+%     \cdot
+%     \begin{pmatrix}
+%         a \\ b
+%     \end{pmatrix}
+%     =
+%     \begin{pmatrix}
+%         a \cos (\theta) - br \sin (\theta) \\
+%         a\sin (\theta) + br \cos (\theta)
+%     \end{pmatrix}
+% \end{equation}
+% Hence, explicitly
+% \begin{equation}
+%     \phi_* (v) = (a \cos (\theta) - br \sin (\theta))\partial_x + (a\sin (\theta) + br \cos (\theta))\partial_y
+% \end{equation}
+
+% Since \(\operatorname{J}\) is invertible we can investigate which vector fields map to \(\partial_x\)
+% %
+% \begin{equation}
+%     \phi_* v = \partial_x  \iff v = \phi_{*}^{-1} \partial_x
+% \end{equation}
+% %
+% Let \(v = a \partial_r + b \partial_\theta\).
+% %
+% Then
+% \begin{equation}
+%     v
+%     =
+%     \begin{bmatrix}
+%         \cos (\theta)            & \sin (\theta)           \\
+%         -\frac{\sin (\theta)}{r} & \frac{\cos (\theta)}{r} \\
+%     \end{bmatrix}
+%     \cdot
+%     \begin{pmatrix}
+%         1 \\ 0
+%     \end{pmatrix} \\
+%     =
+%     \begin{pmatrix}
+%         \cos(\theta) \\ -\frac{\sin (\theta)}{r}
+%     \end{pmatrix}
+% \end{equation}
+% However we need to write \(r, \theta\) in terms of \(x, y\)
+% \begin{equation}
+%      \phi_{*}^{-1} \partial_x = \frac{x}{\sqrt{x^2+y^2}}\partial_r + \frac{y}{x^2 + y^2} \partial_\theta
+% \end{equation}
+% %
+% \(\phi_{*}^{-1}\) is called the \newterm{pullback} \(\phi^*\) of the vector field \(\partial_x\) along \(\phi\).
+
+\section{Differential Geometry}\label{sec:dg}
+\localtableofcontents
+
+\subsection{Directional Derivative}
+
+Elements of the \newterm{tangent space} \(T_p (\mathbb{R}^n)\) anchored at a point \(p = (p^1, \dots, p^n) \in \mathbb{R}^n\) can be visualized as arrows emanating from \(p\).
+%
+These arrows are called \newterm{tangent vectors} and represented by column vectors:
+%
+\begin{equation}
+    \bm{v}
+    =
+    \begin{bmatrix}
+        v^1 \\ \vdots \\ v^n
+    \end{bmatrix}
+    % =
+    % \begin{bmatrix}
+    %     v^1, \dots, v^n    
+    % \end{bmatrix}
+\end{equation}
+%
+The line through a point \(p\) with direction \(\bm{v}\) has parameterization
+%
+\begin{equation}
+    c(t) = \left( p^1 + t v^1, \dots, p^n + t v^n \right)
+\end{equation}
+%
+If \(f \in C^\infty\) in a neighborhood of \(p\) and \(\bm{v}\) is a tangent vector at \(p\), the \newterm{directional derivative} of \(f\) in the direction of \(\bm{v}\) at \(p\) is defined
+%
+\begin{equation}
+    D_{\bm{v}} f
+    =
+    \lim_{t\rightarrow 0}\, \frac{f(c(t)) - f(p)}{t}
+    =
+    \evalat[\bigg]{\dv{}{t} f(c(t))}{t=0}
+\end{equation}
+%
+By the chain rule
+%
+\begin{align}
+    D_{\bm{v}} f & = \sum_{i=1}^{n} \evalat[\bigg]{\pdv{f}{x^i}}{p} \evalat[\bigg]{\dv{c^i}{t}}{t=0} \\
+                 & = \sum_{i=1}^{n} \evalat[\bigg]{\dv{c^i}{t}}{t=0} \evalat[\bigg]{\pdv{f}{x^i}}{p} \\
+                 & = \sum_{i=1}^{n} v^i \evalat[\bigg]{\pdv{f}{x^i}}{p}\label{eqn:chainrule}         \\
+\end{align}
+%
+The directional derivative operator at \(p\) is defined
+%
+\begin{equation}
+    D_{\bm{v}} = \sum_{i=1}^{n} v^i \evalat[\bigg]{\pdv{}{x^i}}{p}
+\end{equation}
+%
+The association \(\bm{v} \mapsto D_{\bm{v}}\) offers a way to \newterm{isomorphically} identify tangent vectors with operators on functions.
+%
+The following makes this rigorous.
+
+\subsection{Derivations}
+
+For each tangent vector \(\bm{v}\) at a point \(p \in \mathbb{R}^n\), the directional derivative at \(p\) gives a map of vector spaces
+%
+\begin{equation*}
+    D_{\bm{v}} \colon C_p^\infty \rightarrow \mathbb{R}
+\end{equation*}
+%
+\(D_{\bm{v}}\) is a linear map that satisfies the \newterm{Leibniz rule}
+%
+\begin{equation}
+    D_{\bm{v}}(fg) = (D_{\bm{v}}f)g(p) + f(p) (D_{\bm{v}}g)
+\end{equation}
+%
+because the partial derivative satisfy the product rule.
+%
+In general, any linear map \(L\colon C_p^\infty \rightarrow \mathbb{R}\) that satisfies the Leibniz rule is called a \newterm{derivation} at \(p\).
+% or a \textit{point derivation} of \(C_p^\infty\). 
+%
+Denote the set of all derivations at \(p\) by \(\mathcal{D}_p(\mathbb{R}^n)\).
+%
+\textbf{This set is also a real vector space}.
+%
+
+So far we know directional derivatives \(D_{\bm{v}}\) at \(p\) are derivations at \(p\).
+%
+Thus, there is a map
+\begin{align*}
+    \phi\colon T_p(\mathbb{R}^n) & \rightarrow \mathcal{D}_p (\mathbb{R}^n) \\
+    \bm{v}                       & \mapsto D_{\bm{v}}
+\end{align*}
+%
+\begin{theorem}
+    The linear map \(\phi\) is an isomorphism of vector spaces.
+\end{theorem}
+%
+\noindent The implication is that we may identify tangent vectors at \(p\) with derivations at \(p\) (by way of directional derivatives against germs).
+%
+Under this isomorphism \(T_p(\mathbb{R}^n) \simeq \mathcal{D}_p(\mathbb{R}^n)\), the standard basis \(\left\{ e_1, \dots, e_n \right\}\) for \(T_p(\mathbb{R}^n)\) maps to
+%
+\begin{equation}
+    \left\{\evalat[\bigg]{\pdv{}{x^1}}{p}, \dots, \evalat[\bigg]{\pdv{}{x^n}}{p}  \right\}\label{eqn:tangentbasis}
+\end{equation}
+%
+Therefore from now on we write a tangent vector as
+%
+\begin{equation}
+    \bm{v} = \sum_{i=1}^{n} v^i \evalat[\bigg]{\pdv{}{x^i}}{p}
+\end{equation}
+%
+The point being that, while not as geometrically intuitive as arrows, \(\mathcal{D}_p (\mathbb{R}^n)\) generalizes to manifolds.
+
+\subsection{Vector Fields}
+
+A \newterm{vector field} \(X\) on an open \(U \subset \mathbb{R}^n\) is function that assigns to \(p \in U\) a tangent vector \(X_p \in T_p(\mathbb{R}^n)\).
+%
+Notice, carefully, that the vector field assigns at each point a vector in the tangent space anchored at that point.
+%
+Using the tangent basis (eqn.~\eqref{eqn:tangentbasis})
+%
+\begin{equation}
+    X\colon p \mapsto \sum_i a^i(p) \evalat[\bigg]{\pdv{}{x^i}}{p}
+\end{equation}
+%
+Note that both the coefficients \textbf{and} the partial derivatives are evaluated at \(p\).
+%
+Having said that, we often omit \(p\) in the specification of a vector field when it clear from context.
+%
+\begin{example}
+    On \(\mathbb{R}^n - \{\bm{0}\}\), let \(p = (x,y)\). Then
+    \begin{align*}
+        X & = \frac{-y}{\sqrt{x^2+y^2}} \pdv{}{x} + \frac{x}{\sqrt{x^2+y^2}} \pdv{}{y} \\
+          & = \begin{bmatrix}
+            \frac{-y}{\sqrt{x^2+y^2}} \\ \frac{x}{\sqrt{x^2+y^2}}
+        \end{bmatrix}                                               \\
+          & = \begin{bmatrix}
+            \frac{-y}{\sqrt{x^2+y^2}} & \frac{x}{\sqrt{x^2+y^2}}
+        \end{bmatrix}^T
+    \end{align*}
+\end{example}
+%
+See figure~\ref{fig:vectorfields}
+% \loadfig{vecfields}
+
+In general we can identify vector fields with parameterized column vectors
+%
+\begin{equation}
+    X = \sum_i a^i(p) \evalat[\bigg]{\pdv{}{x^i}}{p} 
+    \leftrightarrow 
+    \begin{bmatrix}
+        a^1(p) \\ \vdots \\ a^n(p)
+    \end{bmatrix}
+\end{equation}

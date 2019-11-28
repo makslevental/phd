@@ -1,0 +1,71 @@
+\section{Appendix}\label{sec:appendix}
+\localtableofcontents
+
+\subsection{Definitions}
+
+\subsubsection{Linear Operator}\label{subsubsec:linearoperator}
+
+A map \(L \colon V \rightarrow W\) between vector spaces over a field \(K\) is a \newterm{linear operator} if 
+%
+\begin{enumerate}
+    \item \textbf{distributivity}: \(L(u+v) = L(u) + L(v)\)
+    \item \textbf{homogeneity}: \(L(rv) = r L(v)\)
+\end{enumerate}
+%
+To emphasize the field, \(L\) is said to be \(K-\)linear.
+
+\subsubsection{Germs}
+
+Consider the set of all pairs \((f, U)\), where \(U\) is a neighborhood of \(p\) and \(f\colon U \rightarrow \mathbb{R}\) is a \(C^\infty\) function.
+%
+We say that \((f, U) \sim (g, U')\) if there is an open \(W\) such that \(p \in W \subset U \cap U'\) and \(f = g\) when restricted to \(W\).
+%
+The equivalence class \([(f, U)]\) of \((f, U)\) is the \newterm{germ} of \(f\) at \(p\).
+%
+We write
+%
+\begin{equation}
+    C_p^\infty(\mathbb{R}^n) \coloneqq \{[(f, U)]\}
+\end{equation}
+%
+for the set all germs of \(C^\infty\) functions on \(\mathbb{R}^n\) at \(p\).
+
+\subsubsection{Algebra}\label{subsubsec:algebra}
+
+An \newterm{algebra} over \newterm{field} \(K\) is a vector space \(A\) over \(K\) with a multiplication map
+%
+\begin{equation}
+    \mu\colon A \times A \rightarrow A
+\end{equation}
+%
+usually written \(\mu(a,b)=a \cdot b\), such that \(\mu\) is associative, distributive, and homogeneous, where homogeneity is defined:
+%
+\begin{enumerate}
+    \item \textbf{associativity}: \((a\cdot b)\cdot c = a \cdot (b \cdot c) \)
+    \item \textbf{distributivity}: \((a+b)\cdot c = a\cdot c + b \cdot c\) and \(a\cdot b + a \cdot c\)
+    \item \textbf{homogeneity}: \(r(a\cdot b) = (ra)\cdot b = a\cdot (rb)\)
+\end{enumerate}
+%
+If \(A, A'\) are algebras then an \newterm{algebra homomorphism} is a linear operator \(L\) that respects algebra multiplication \(L(ab) = L(a)L(b)\).
+%
+It's the case that addition and multiplication of functions \textbf{induces addition and multiplication on the set of germs} \(C_p^\infty\), making it into an algebra over \(\mathbb{R}^n\).
+
+\subsubsection{Module}
+
+If \(R\) is a communicative ring with identity, then a (left) \(R-\)\newterm{module} is an abelian group \(A\) with a scalar multiplication map 
+%
+\begin{equation}
+    \mu \colon R\times A \rightarrow A 
+\end{equation}
+%
+such that \(\mu\) is
+%
+\begin{enumerate}
+    \item \textbf{associative}: \((rs)a = r (sa)\) for \(r,s \in R\)
+    \item \textbf{identity}: \(1 \in R \implies 1a=a\)
+    \item \textbf{distributive}: \((r+s)a = ra + sa\) and \(r(a+b) = ra + rb\)
+\end{enumerate}
+%
+If \(R\) is a field, then an \(R-\)module is a vector space over \(R\); in this sense modules generalize vector space to scalars from a ring rather than a field.
+
+Let \(A, A'\) be \(R-\)modules. An \newterm{\(R-\)module homomorphism} \(f\colon A \rightarrow A'\) is a map that preserves both addition and scalar multiplication.

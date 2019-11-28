@@ -1,0 +1,55 @@
+\usepackage{catchfilebetweentags}
+\newcommand{\loadeqn}[1]{%
+    \ExecuteMetaData[equations.tex]{eq#1}%
+}
+\newcommand{\loadfig}[1]{%
+    \ExecuteMetaData[figures.tex]{fig#1}%
+}
+\usepackage[margin=0.7in]{geometry}
+\usepackage[parfill]{parskip}
+\usepackage[backend=biber, bibencoding=utf8, style=ieee, backref=true]{biblatex}
+\usepackage[hyperfootnotes=false,hyperindex=true]{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,amsfonts,amsthm} % math
+\usepackage{bm} % \bm 
+\usepackage{physics} % \pdv
+\usepackage{mathtools} % coloneqq
+\usepackage{imakeidx} % index
+\usepackage{etoc} % localtabelofcontents
+\usepackage{tikz}
+\usetikzlibrary{}
+
+\usepackage{pgfplots}
+\usepackage{subcaption}
+\DeclareCaptionFormat{subfig}{#1#2#3}
+\DeclareCaptionSubType{figure}
+\captionsetup[subfigure]{format=subfig,labelsep=space,labelformat=parens}
+
+
+\newcommand{\newterm}[1]{\textit{#1}\index{#1}}
+\newcommand{\Xk}{X_k}
+\newcommand{\Xkone}{X_{k+1}}
+\newcommand{\bx}{\bm{x}}
+\newcommand{\bX}{\bm{X}}
+\newcommand{\bxi}{\bm{x}_i}
+\newcommand{\delx}{\bx - \bxi}
+\newcommand{\by}{\bm{y}}
+\newcommand{\bY}{\bm{Y}}
+\newcommand{\byi}{\bm{y}_i}
+\newcommand{\dely}{\by - \byi}
+\newcommand{\zbx}{Z(\bx)}
+\newcommand{\zbxi}{Z(\bxi)}
+\newcommand{\bb}{\bm{\beta}}
+\newcommand{\hzbx}{\hat{Z}(\bx)}
+\NewDocumentCommand{\evalat}{sO{\big}mm}{%
+  \IfBooleanTF{#1}
+   {\mleft. #3 \mright|_{#4}}
+   {#3#2|_{#4}}%
+}
+\theoremstyle{definition}
+\newtheorem{theorem}{Theorem}[section]
+\theoremstyle{definition}
+\newtheorem{example}{Example}[section]
+
+
+\makeindex
