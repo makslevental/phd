@@ -9,8 +9,6 @@
 %
 %TODO: workout belief propagation
 %
-%TODO: workout auto diff
-%
 %TODO: workout delauney
 %
 %TODO: workout splines
@@ -89,130 +87,158 @@
 %     \mathcal{G}(\bm{\kappa}) = \frac{1}{2 \pi^2 } \frac{1}{\abs{\bm{\kappa}}^2 - k^2}
 % \end{equation}
 
-\subsubsection{Automatic Differentiation}\label{subsubsec:autodiff}
-Let
-%
-\begin{align*}
-    F\colon\; \bx \in \mathbb{R}^n \mapsto y \in \mathbb{R}
-\end{align*}
-%
-and decompose \(F\) as
-\begin{equation*}
-    F = D \circ C \circ B \circ A
-\end{equation*}
-%
-where
-%
-\begin{align*}
-    A & \colon\; \bx \in \mathbb{R}^n \mapsto  \bm{a} \in \mathbb{R}^m    \\
-    B & \colon\; \bm{a} \in \mathbb{R}^m \mapsto  \bm{b} \in \mathbb{R}^k \\
-    C & \colon\; \bm{b} \in \mathbb{R}^k \mapsto  \bm{c} \in \mathbb{R}^j \\
-    D & \colon\; \bm{c} \in \mathbb{R}^j \mapsto  y \in \mathbb{R}
-\end{align*}
-%
-Let \(y_0 = F(\bm{x}_0)\) where \(\bx_0 \coloneqq \left( x_{01}, \dots, x_{0n}\right)\).
-%
-Then the gradient of \(F\) evaluated at \(\bx_0\) is
-\begin{equation*}
-    F'(\bm{x}_0) = \evalat[\bigg]{\pdv{y}{\bm{x}}}{\bx = \bx_0}
-    = \left(
-    \evalat[\bigg]{\pdv{y}{x_1}}{x_1 = x_{01}},
-    \;\dots\dots\;,
-    \evalat[\bigg]{\pdv{y}{x_n}}{x_n = x_{0n}}
-    \right)
-\end{equation*}
-%
-Note we are implicitly defining the parameter of \(F' = \pdv{y}{\bx}\) to be \(\bx\).
-%
-This is fine because parameters can be renamed at will\anote{boundvariable} but it's important to keep in mind that \(F'\) is wholly different from \(F\) and could have any other parameter.
-%
-By the chain rule
-\begin{equation*}
-    F'(\bm{x}_0) =  D'(C'(B'(A'(\bx_0))))
-\end{equation*}
-%
-or if we define intermediate values
-%
-\begin{align*}
-    \bm{a}_0 & = A(\bx_0)    \\
-    \bm{b}_0 & = B(\bm{a}_0) \\
-    \bm{c}_0 & = C(\bm{b}_0) \\
-    y_0      & = D(\bm{c}_0)
-\end{align*}
-%
-then
-%
-\begin{equation}
-    F'(\bm{x}_0) =  \evalat[\bigg]{\pdv{y}{\bm{c}}}{\bm{c}=\bm{c}_0} \times\;
-    \evalat[\bigg]{\pdv{\bm{c}}{\bm{b}}}{\bm{b}=\bm{b}_0} \times\;
-    \evalat[\bigg]{\pdv{\bm{b}}{\bm{a}}}{\bm{a}=\bm{a}_0} \times\;
-    \evalat[\bigg]{\pdv{\bm{a}}{\bm{x}}}{\bx=\bx_0} \label{eqn:chainruleproduct}
-\end{equation}
-%
-where now a term like \(\evalat[\big]{\pdv{\bm{b}}{\bm{a}}}{\bm{a}=\bm{a}_0}\) is the \newterm{Jacobian} of \(B\) evaluated at \(\bm{a}_0\):
-%
-\begin{align*}
-    \evalat[\bigg]{\pdv{\bm{b}}{\bm{a}}}{\bm{a}=\bm{a}_0}
-     & = \evalat*{
-        \begin{bmatrix}
-            \pdv{b_1}{a_1} & \cdots & \pdv{b_1}{a_m} \\
-            \vdots         & \ddots & \vdots         \\
-            \pdv{b_k}{a_1} & \cdots & \pdv{b_k}{a_m}
-        \end{bmatrix}
-    }{\bm{a}=\bm{a}_0} \\
-     & \coloneqq
-    \begin{bmatrix}
-        \evalat[\Big]{\pdv{b_1}{a_1}}{a_1 = a_{01}} & \cdots & \evalat[\Big]{\pdv{b_1}{a_m}}{a_m = a_{0m}} \\
-        \\
-        \vdots                                      & \ddots & \vdots                                      \\
-        \\
-        \evalat[\Big]{\pdv{b_k}{a_1}}{a_1 = a_{01}} & \cdots & \evalat[\Big]{\pdv{b_k}{a_m}}{a_m = a_{0m}} \\
-    \end{bmatrix}
-\end{align*}
-%
+\subsection{Automatic Differentiation}\label{subsubsec:autodiff}
 
-The right hand side (RHS) of eqn.~\eqref{eqn:chainruleproduct} is associative; if we want to compute \(F'\) in general we can accumulate products starting from the right or starting from the left:
+% Let
+% %
+% \begin{align*}
+%     F\colon\; \bx \in \mathbb{R}^n \mapsto y \in \mathbb{R}
+% \end{align*}
+% %
+% and decompose \(F\) as
+% \begin{equation*}
+%     F = D \circ C \circ B \circ A
+% \end{equation*}
+% %
+% where
+% %
+% \begin{align*}
+%     A & \colon\; \bx \in \mathbb{R}^n \mapsto  \bm{a} \in \mathbb{R}^m    \\
+%     B & \colon\; \bm{a} \in \mathbb{R}^m \mapsto  \bm{b} \in \mathbb{R}^k \\
+%     C & \colon\; \bm{b} \in \mathbb{R}^k \mapsto  \bm{c} \in \mathbb{R}^j \\
+%     D & \colon\; \bm{c} \in \mathbb{R}^j \mapsto  y \in \mathbb{R}
+% \end{align*}
+% %
+% Let \(y_0 = F(\bm{x}_0)\) where \(\bx_0 \coloneqq \left( x_{01}, \dots, x_{0n}\right)\).
+% %
+% Then the gradient of \(F\) evaluated at \(\bx_0\) is
+% \begin{equation*}
+%     F'(\bm{x}_0) = \evalat[\bigg]{\pdv{y}{\bm{x}}}{\bx = \bx_0}
+%     = \left(
+%     \evalat[\bigg]{\pdv{y}{x_1}}{x_1 = x_{01}},
+%     \;\dots\dots\;,
+%     \evalat[\bigg]{\pdv{y}{x_n}}{x_n = x_{0n}}
+%     \right)
+% \end{equation*}
+% %
+% Note we are implicitly defining the parameter of \(F' = \pdv{y}{\bx}\) to be \(\bx\).
+% %
+% This is fine because parameters can be renamed at will\anote{boundvariable} but it's important to keep in mind that \(F'\) is wholly different from \(F\) and could have any other parameter.
+% %
+% By the chain rule
+% \begin{equation*}
+%     F'(\bm{x}_0) =  D'(C'(B'(A'(\bx_0))))
+% \end{equation*}
+% %
+% or if we define intermediate values
+% %
+% \begin{align*}
+%     \bm{a}_0 & = A(\bx_0)    \\
+%     \bm{b}_0 & = B(\bm{a}_0) \\
+%     \bm{c}_0 & = C(\bm{b}_0) \\
+%     y_0      & = D(\bm{c}_0)
+% \end{align*}
+% %
+% then
+% %
+% \begin{equation}
+%     F'(\bm{x}_0) =  \evalat[\bigg]{\pdv{y}{\bm{c}}}{\bm{c}=\bm{c}_0} \times\;
+%     \evalat[\bigg]{\pdv{\bm{c}}{\bm{b}}}{\bm{b}=\bm{b}_0} \times\;
+%     \evalat[\bigg]{\pdv{\bm{b}}{\bm{a}}}{\bm{a}=\bm{a}_0} \times\;
+%     \evalat[\bigg]{\pdv{\bm{a}}{\bm{x}}}{\bx=\bx_0} \label{eqn:chainruleproduct}
+% \end{equation}
+% %
+% where now a term like \(\evalat[\big]{\pdv{\bm{b}}{\bm{a}}}{\bm{a}=\bm{a}_0}\) is the \newterm{Jacobian} of \(B\) evaluated at \(\bm{a}_0\):
+% %
+% \begin{align*}
+%     \evalat[\bigg]{\pdv{\bm{b}}{\bm{a}}}{\bm{a}=\bm{a}_0}
+%      & = \evalat*{
+%         \begin{bmatrix}
+%             \pdv{b_1}{a_1} & \cdots & \pdv{b_1}{a_m} \\
+%             \vdots         & \ddots & \vdots         \\
+%             \pdv{b_k}{a_1} & \cdots & \pdv{b_k}{a_m}
+%         \end{bmatrix}
+%     }{\bm{a}=\bm{a}_0} \\
+%      & \coloneqq
+%     \begin{bmatrix}
+%         \evalat[\Big]{\pdv{b_1}{a_1}}{a_1 = a_{01}} & \cdots & \evalat[\Big]{\pdv{b_1}{a_m}}{a_m = a_{0m}} \\
+%         \\
+%         \vdots                                      & \ddots & \vdots                                      \\
+%         \\
+%         \evalat[\Big]{\pdv{b_k}{a_1}}{a_1 = a_{01}} & \cdots & \evalat[\Big]{\pdv{b_k}{a_m}}{a_m = a_{0m}} \\
+%     \end{bmatrix}
+% \end{align*}
+% %
+
+% The right hand side (RHS) of eqn.~\eqref{eqn:chainruleproduct} is associative; if we want to compute \(F'\) in general we can accumulate products starting from the right or starting from the left:
+% %
+% \begin{align}
+%     F' & = \pdv{y}{\bm{c}}
+%     \left( \pdv{\bm{c}}{\bm{b}}
+%     \left( \pdv{\bm{b}}{\bm{a}}
+%     \pdv{\bm{a}}{\bm{x}}\right)\right) \label{eqn:forwardaccum} \\
+%     F' & =  \left( \left( \pdv{y}{\bm{c}}
+%     \pdv{\bm{c}}{\bm{b}} \right)
+%     \pdv{\bm{b}}{\bm{a}} \right)
+%     \pdv{\bm{a}}{\bm{x}} \label{eqn:reverseaccum}
+% \end{align}
+% %
+% Computing \(F'\) as in eqn.~\eqref{eqn:forwardaccum} is called \newterm{forward accumulation} (because it parallels the evaluation order of \(F\)) and, conversely, deriving \(F'\) as in eqn.~\eqref{eqn:reverseaccum} is called \newterm{reverse accumulation}.
+% %
+% Notice that since \(F\colon\; \mathbb{R}^n  \rightarrow \mathbb{R}\) it's the case that while \(\pdv{\bm{b}}{\bm{a}}\cdot \pdv{\bm{a}}{\bm{x}}\) is a jacobian--jacobian product
+% \begin{equation}
+%     \pdv{\bm{b}}{\bm{a}}\cdot
+%     \pdv{\bm{a}}{\bm{x}} =         \begin{bmatrix}
+%         \pdv{b_1}{a_1} & \cdots & \pdv{b_1}{a_m} \\
+%         \vdots         & \ddots & \vdots         \\
+%         \pdv{b_k}{a_1} & \cdots & \pdv{b_k}{a_m}
+%     \end{bmatrix}
+%     \cdot
+%     \begin{bmatrix}
+%         \pdv{a_1}{x_1} & \cdots & \pdv{a_1}{x_n} \\
+%         \vdots         & \ddots & \vdots         \\
+%         \pdv{a_m}{x_1} & \cdots & \pdv{a_m}{x_n}
+%     \end{bmatrix}
+% \end{equation}
+% %
+% while \(\pdv{y}{\bm{c}}\cdot \pdv{\bm{c}}{\bm{b}}\) is a vector--Jacobian product (called a VJP)
+% %
+% \begin{equation}
+%     \pdv{y}{\bm{c}}\cdot
+%     \pdv{\bm{c}}{\bm{b}} = \left( \pdv{y}{c_1}, \dots,  \pdv{y}{c_j} \right)
+%     \cdot
+%     \begin{bmatrix}
+%         \pdv{c_1}{b_1} & \cdots & \pdv{c_1}{b_k} \\
+%         \vdots         & \ddots & \vdots         \\
+%         \pdv{c_j}{b_1} & \cdots & \pdv{c_j}{b_k}
+%     \end{bmatrix}
+% \end{equation}
+% %
+% All intermediate products will also be VJPs (for reverse accumulation); in general reverse accumulation is more efficient when the dimension of the domain is greater than the dimension of the range.
+
+\subsection{Splines}\label{subsubsec:splines}
+
+A \newterm{spline} is a piecewise defined polynomial function. For example a simple \newterm{order} \(d+1\) spline \(s\) could be defined
+\[
+	s(x) \coloneqq \sum_{i=0}^d \mathbbm{1}_{[k_j, k_{j+1})}P_{ij} \cdot (x - k_j)^i
+\]
+where the \(n+1\) increasing \newterm{knots} \(k_0 < \cdots < k_n\) bracket \(n\) intervals over which the component polynomials are defined, and the \((d+1)\) polynomial coefficients \(P_{ij}\) define the spline (see figure~\ref{fig:cubicspline}) for \(x \in [k_j, k_{j+1})\) (\(\mathbbm{1}\) enforces this\anote{indicator}).
 %
+Splines need not be differentiable (nor even continuous) at the knots but can be specified with such continuity constraints (at the knots).
+%
+The number of degrees of freedom of a spline over \(n+1\) knots and of order \(d+1\) (i.e., the dimension of the vector space\anote{vectorspace} of such splines) is the number of polynomial coefficients minus the number of continuity conditions.
+%
+For example if the spline is constrained to be maximally continuous (i.e., continuous and differentiable \(d-1\) times\anote{splinecontconstr}) then the spline has \(d+1\) polynomial coefficients for every one of the \(n\) knot intervals and \(d\) continuity constraints at every one of the \(n-1\) interior knots (continuity constraints cannot be specified at the boundary knots), which implies
+\[
+	n(d+1) - (n-1)d = n+d
+\]
+degrees of freedom. The spline construction naturally extends to dimensions greater than 1.
+
+A B-spline is a spline defined as a linear combination of a particular set of basis functions (themselves called B-splines): the B-spline basis element \(B_{i, d+1}\) of order \(d+1\) (degree \(d\)) over knots \(k_i < \cdots < k_{i+d+1}\) is defined recursively according to the Cox-de Boor recursion formula \cite{de1971subroutine}:
 \begin{align}
-    F' & = \pdv{y}{\bm{c}}
-    \left( \pdv{\bm{c}}{\bm{b}}
-    \left( \pdv{\bm{b}}{\bm{a}}
-    \pdv{\bm{a}}{\bm{x}}\right)\right) \label{eqn:forwardaccum} \\
-    F' & =  \left( \left( \pdv{y}{\bm{c}}
-    \pdv{\bm{c}}{\bm{b}} \right)
-    \pdv{\bm{b}}{\bm{a}} \right)
-    \pdv{\bm{a}}{\bm{x}} \label{eqn:reverseaccum}
+	B_{j,1} (x)   & \coloneqq \mathbbm{1}_{[k_j, k_{j+1})}                                   \\
+	B_{j,d+1} (x) & \coloneqq \frac{x-k_j}{k_{j+d} - k_j} B_{j,d} (x)                        \\
+	              & \quad+ \frac{k_{j+d+1} - x}{k_{j+d+1} - k_{i+1}} B_{j+1,d} \nonumber (x)
 \end{align}
+where \(\frac{x-k_j}{k_{j+d} - k_j}\) increases smoothly from zero to one as \(x\) goes from \(k_j\) to \(k_{j+d}\) and \(\frac{k_{j+d+1} - x}{k_{j+d+1} - k_{i+1}}\) decreases smoothly from one to zero as \(x\) goes from \(k_{i+1}\) to \(k_{j+d+1}\).
 %
-Computing \(F'\) as in eqn.~\eqref{eqn:forwardaccum} is called \newterm{forward accumulation} (because it parallels the evaluation order of \(F\)) and, conversely, deriving \(F'\) as in eqn.~\eqref{eqn:reverseaccum} is called \newterm{reverse accumulation}.
-%
-Notice that since \(F\colon\; \mathbb{R}^n  \rightarrow \mathbb{R}\) it's the case that while \(\pdv{\bm{b}}{\bm{a}}\cdot \pdv{\bm{a}}{\bm{x}}\) is a jacobian--jacobian product
-\begin{equation}
-    \pdv{\bm{b}}{\bm{a}}\cdot
-    \pdv{\bm{a}}{\bm{x}} =         \begin{bmatrix}
-        \pdv{b_1}{a_1} & \cdots & \pdv{b_1}{a_m} \\
-        \vdots         & \ddots & \vdots         \\
-        \pdv{b_k}{a_1} & \cdots & \pdv{b_k}{a_m}
-    \end{bmatrix}
-    \cdot
-    \begin{bmatrix}
-        \pdv{a_1}{x_1} & \cdots & \pdv{a_1}{x_n} \\
-        \vdots         & \ddots & \vdots         \\
-        \pdv{a_m}{x_1} & \cdots & \pdv{a_m}{x_n}
-    \end{bmatrix}
-\end{equation}
-%
-while \(\pdv{y}{\bm{c}}\cdot \pdv{\bm{c}}{\bm{b}}\) is a vector--Jacobian product (called a VJP)
-%
-\begin{equation}
-    \pdv{y}{\bm{c}}\cdot
-    \pdv{\bm{c}}{\bm{b}} = \left( \pdv{y}{c_1}, \dots,  \pdv{y}{c_j} \right)
-    \cdot
-    \begin{bmatrix}
-        \pdv{c_1}{b_1} & \cdots & \pdv{c_1}{b_k} \\
-        \vdots         & \ddots & \vdots         \\
-        \pdv{c_j}{b_1} & \cdots & \pdv{c_j}{b_k}
-    \end{bmatrix}
-\end{equation}
-%
-All intermediate products will also be VJPs (for reverse accumulation); in general reverse accumulation is more efficient when the dimension of the domain is greater than the dimension of the range.

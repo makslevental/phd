@@ -434,27 +434,14 @@ Perez \etal \cite{perez2013tv} further relax this to a convex loss:
 in order that they can alternate fixing one of \(\mathbf{u}, \mathbf{v}\) and minimizing with respect to the other.
 %
 Note that fixing \(\theta\) in eqn.~\eqref{eqn:relaxhorn} to be small pushes \(E_{\theta}(\mathbf{u}, \mathbf{v})\) to be small when \(\mathbf{u}\approx \mathbf{v}\) and therefore effectively minimizes eqn.~\eqref{eqn:nonlinearhorn}.
+
 \paragraph{Splines}\label{pgraph:splines}
+
 \input{figures/registration/splines/splines.tex}
 One issue with optical flow methods is that they are very compute intensive; iteratively minimizing either eqn.~\eqref{eqn:nonlinearhorn} or eqn.~\eqref{eqn:relaxhorn} requires evaluations at every pixel.
 %
 Splines offer an efficient alternative to estimating \(\mathbf{u}\) at every pixel.
 %
-A \newterm{spline} is a piecewise defined polynomial function. For example a simple \newterm{order} \(d+1\) spline \(s\) could be defined
-\[
-	s(x) \coloneqq \sum_{i=0}^d \mathbbm{1}_{[k_j, k_{j+1})}P_{ij} \cdot (x - k_j)^i
-\]
-where the \(n+1\) increasing \newterm{knots} \(k_0 < \cdots < k_n\) bracket \(n\) intervals over which the component polynomials are defined, and the \((d+1)\) polynomial coefficients \(P_{ij}\) define the spline (see figure~\ref{fig:cubicspline}) for \(x \in [k_j, k_{j+1})\) (\(\mathbbm{1}\) enforces this\anote{indicator}).
-%
-Splines need not be differentiable (nor even continuous) at the knots but can be specified with such continuity constraints (at the knots).
-%
-The number of degrees of freedom of a spline over \(n+1\) knots and of order \(d+1\) (i.e., the dimension of the vector space\anote{vectorspace} of such splines) is the number of polynomial coefficients minus the number of continuity conditions.
-%
-For example if the spline is constrained to be maximally continuous (i.e., continuous and differentiable \(d-1\) times\anote{splinecontconstr}) then the spline has \(d+1\) polynomial coefficients for every one of the \(n\) knot intervals and \(d\) continuity constraints at every one of the \(n-1\) interior knots (continuity constraints cannot be specified at the boundary knots), which implies
-\[
-	n(d+1) - (n-1)d = n+d
-\]
-degrees of freedom. The spline construction naturally extends to dimensions greater than 1.
 
 Szeliski \etal  \cite{szeliski1997spline} represent the velocity field \(\mathbf{u}\) as a two-dimensional spline controlled by a smaller number of displacement estimates \(\hat{\mathbf{u}}\) at control points, which lie on a coarser grid (see figure~\ref{fig:bsplinegrid}):
 %
@@ -474,14 +461,6 @@ In particular they experiment with basis functions such as the biquadaritc B-spl
 where \(B_{j,2}\) is the quadratic B-spline (defined in the forthcoming and displayed in figure~\ref{fig:biquadspline}).
 
 As an alternative one can completely forgo optical flow and simply perform Free-Form Deformation \cite{xie2004} using \newterm{Basis splines} (B-splines).
-%
-A B-spline is a spline defined as a linear combination of a particular set of basis functions (themselves called B-splines): the B-spline basis element \(B_{i, d+1}\) of order \(d+1\) (degree \(d\)) over knots \(k_i < \cdots < k_{i+d+1}\) is defined recursively according to the Cox-de Boor recursion formula \cite{de1971subroutine}:
-\begin{align}
-	B_{j,1} (x)   & \coloneqq \mathbbm{1}_{[k_j, k_{j+1})}                                   \\
-	B_{j,d+1} (x) & \coloneqq \frac{x-k_j}{k_{j+d} - k_j} B_{j,d} (x)                        \\
-	              & \quad+ \frac{k_{j+d+1} - x}{k_{j+d+1} - k_{i+1}} B_{j+1,d} \nonumber (x)
-\end{align}
-where \(\frac{x-k_j}{k_{j+d} - k_j}\) increases smoothly from zero to one as \(x\) goes from \(k_j\) to \(k_{j+d}\) and \(\frac{k_{j+d+1} - x}{k_{j+d+1} - k_{i+1}}\) decreases smoothly from one to zero as \(x\) goes from \(k_{i+1}\) to \(k_{j+d+1}\).
 %
 Xie \etal \cite{xie2004} fit hierarchical B-splines
 \begin{equation}
