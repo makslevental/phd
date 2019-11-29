@@ -443,7 +443,7 @@ One issue with optical flow methods is that they are very compute intensive; ite
 Splines offer an efficient alternative to estimating \(\mathbf{u}\) at every pixel.
 %
 
-Szeliski \etal  \cite{szeliski1997spline} represent the velocity field \(\mathbf{u}\) as a two-dimensional spline controlled by a smaller number of displacement estimates \(\hat{\mathbf{u}}\) at control points, which lie on a coarser grid (see figure~\ref{fig:bsplinegrid}):
+Szeliski \etal  \cite{szeliski1997spline} represent the velocity field \(\mathbf{u}\) as a two-dimensional spline\anote{spline} controlled by a smaller number of displacement estimates \(\hat{\mathbf{u}}\) at control points, which lie on a coarser grid (see figure~\ref{fig:bsplinegrid}):
 %
 \begin{equation}
 	\begin{bmatrix}
