@@ -227,19 +227,16 @@ A \newterm{spline} is a piecewise defined polynomial function. For example a sim
 where the \(n+1\) increasing \newterm{knots} \(k_0 < \cdots < k_n\) bracket \(n\) intervals over which the component polynomials are defined, and the \((d+1)\) polynomial coefficients \(P_{ij}\) define the spline (see figure~\ref{fig:cubicspline}) for \(x \in [k_j, k_{j+1})\) (\(\mathbbm{1}\) enforces this\anote{indicator}).
 %
 Splines need not be differentiable (nor even continuous) at the knots but can be specified with such continuity constraints (at the knots).
+
+The number of degrees of freedom (the dimension of the vector space\anote{vectorspace} of such splines) of a spline over \(n+1\) knots and of order \(d+1\) is the number of polynomial coefficients minus the number of continuity conditions.
 %
-The number of degrees of freedom of a spline over \(n+1\) knots and of order \(d+1\) (i.e., the dimension of the vector space\anote{vectorspace} of such splines) is the number of polynomial coefficients minus the number of continuity conditions.
-%
-For example if the spline is constrained to be maximally continuous (i.e., continuous and differentiable \(d-1\) times\anote{splinecontconstr}) then the spline has \(d+1\) polynomial coefficients for every one of the \(n\) knot intervals and \(d\) continuity constraints at every one of the \(n-1\) interior knots (continuity constraints cannot be specified at the boundary knots), which implies
-%
+For example if the spline is constrained to be maximally continuous (\(d-1\) times\anote{splinecontconstr}) then the spline has \(d+1\) polynomial coefficients for every one of the \(n\) knot intervals and \(d\) continuity constraints at every one of the \(n-1\) interior knots (continuity constraints cannot be specified at the boundary knots), which implies
 \[
     n(d+1) - (n-1)d = n+d
 \]
-%
-degrees of freedom. The spline construction naturally extends to dimensions greater than 1.
+degrees of freedom.
 
-A Basic-spline (B-spline) is a spline defined as a linear combination of a particular set of basis functions: the B-spline basis element \(B_{i, d+1}\) of order \(d+1\) (degree \(d\)) over knots \(k_i < \cdots < k_{i+d+1}\) is defined recursively according to the Cox-de Boor recursion formula \cite{de1971subroutine}:
-%
+A Basis-spline (B-spline) is a spline defined as a linear combination of a particular set of basis functions: the B-spline basis element \(B_{i, d+1}\) of order \(d+1\) (degree \(d\)) over knots \(k_i < \cdots < k_{i+d+1}\) is defined recursively according to the Cox-de Boor recursion formula \cite{de1971subroutine}:
 \begin{align}
     B_{j,1} (x)   & \coloneqq \mathbbm{1}_{[k_j, k_{j+1})}                         \\
     B_{j,d+1} (x) & \coloneqq \frac{x-k_j}{k_{j+d} - k_j} B_{j,d} (x)              \\
