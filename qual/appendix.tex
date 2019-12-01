@@ -12,7 +12,6 @@
 \newcommand*{\B}{\bm{B}}
 \newcommand*{\rr}{\bm{r}}
 \newcommand*{\Ef}{\textit{\textbf{E}} }
-
 \section{Appendix}\label{sec:appendix}
 \localtableofcontents
 
@@ -67,7 +66,7 @@ where \(\beta\) is separation constant.
 %
 The solution for \(T\) is straightforward
 \begin{equation}
-    T(t) = e^{-\iu \omega t} 
+    T(t) = e^{-\iu \omega t}
 \end{equation}
 %
 where \(\omega = \beta c\).
@@ -136,7 +135,7 @@ Rotate the \(\bm{k}\) coordinate system such that the \(k_3\)-axis and \(\bm{r}\
         \tdplotdrawarc[tdplot_rotated_coords]{(0,0,0)}{0.5}{0}%
         {\thetavec}{anchor=south west}{$\theta$}
     \end{tikzpicture}
-    \caption{Rotated/aligned coordinate system.}\label{fig:rotalign}
+    \caption{Rotated/aligned spherical coordinate system for computing the contour integral.}\label{fig:rotalign}
 \end{figure}
 %
 That implies
@@ -176,7 +175,7 @@ equation~\eqref{eqn:greensfn} is
 %
 Note that there are there are two singularities or \newterm{poles} in the integrand in eqn.~\eqref{eqn:greensfn}: the integrand goes to infinity as \(k\rightarrow +\beta\) or \(k\rightarrow -\beta\).
 %
-To perform the integral, despite the poles, we need to use complex integration and residue theorem\anote{cauchyresidue}: we perform a line integral (called a \newterm{contour integral}) in the \(k\)-complex plane such that its value along the real axis equals the integral in eqn.~\eqref{eqn:greenpole} and its value elsewhere is zero.
+To perform the integral, despite the poles, we need to use complex integration and the residue theorem\anote{cauchyresidue}: we perform a line integral (called a \newterm{contour integral}) in the \(k\)-complex plane such that its value along the real axis equals the integral in eqn.~\eqref{eqn:greenpole} and its value elsewhere is zero.
 %
 \begin{figure}
     \centering
@@ -194,21 +193,23 @@ To perform the integral, despite the poles, we need to use complex integration a
         \draw [help lines,->] (-4,0) -- (4,0) coordinate (xaxis);
         \draw [help lines,->] (0,-1) -- (0,4) coordinate (yaxis);
         \path [draw, line width=0.8pt, postaction=decorate]
-            (-3,0) -- (3,0) 
-            node [anchor=north west] {} arc (0:180:3) 
-            node [anchor=north west] {};
+        (-3,0) -- (3,0)
+        node [anchor=north west] {} arc (0:180:3)
+        node [anchor=north west] {};
         \node at (-2.6,-.4) {$C_1$};
 
         \node [below] at (xaxis) {$\operatorname{Re}\{k\}$};
         \node [left] at (yaxis) {$\operatorname{Im} \{k\}$};
-        
+
 
         \node [font=\scriptsize, anchor=north] at (1.5,0) {$+\beta$};
+        \node [] at (1.5,0) {$\times$};
         \node at (1.5,.7) {$\times$};
         \draw [dashed] (1.5,0) -- (1.5,.7);
         \node [font=\scriptsize] at (1.5,1) {$+\beta+\iu\epsilon$};
 
         \node [font=\scriptsize, anchor=south] at (-1.5,0) {$-\beta$};
+        \node [] at (-1.5,0) {$\times$};
         \node at (-1.5,-.7) {$\times$};
         \draw [dashed] (-1.5,0) -- (-1.5,-.7);
         \node [font=\scriptsize] at (-1.5,-1) {$-\beta-\iu\epsilon$};
@@ -216,44 +217,205 @@ To perform the integral, despite the poles, we need to use complex integration a
         \node at (3,1.8) {$C_2$};
         \draw [-stealth] (0,0) -- (1,2.85) node[midway, left] {$R$};
     \end{tikzpicture}
-    \caption{Contour \(C = C_1 + C_2\) for the Helmholtz Green's function contour integral with poles \(-\beta, +\beta\) and shifted poles \(-\beta -\iu \epsilon, +\beta + \iu \epsilon\).}\label{fig:helmcontour}
+    \caption{Contour \(C = C_1 \cup C_2\) for the Helmholtz Green's function contour integral with poles \(-\beta, +\beta\) and shifted poles \(-\beta -\iu \epsilon, +\beta + \iu \epsilon\).}\label{fig:helmcontour}
 \end{figure}
 
 A critical requirement of the residue theorem is that the poles are wholly contained in the contour.
 %
-To that end we perturb the poles \(-\beta,+\beta\) by a pure imaginary component \(+\iu \epsilon\) and then take the limit as \(\epsilon \rightarrow 0\).
+To that end we shift the poles \(-\beta,+\beta\) by a pure imaginary component \(+\iu \epsilon\) and then take the limit as \(\epsilon \rightarrow 0\).
 %
 Consider the contour \(C\) in figure~\ref{fig:helmcontour}.
 %
 It's composed of the portion \(C_1\) along \(\operatorname{Re} \{k\}\) and the semi-circle \(C_2\) in the positive \(\operatorname{Im} \{k\}\) half-plane.
 %
-If we take the limit as \(R \rightarrow \infty\) then the integral along \(C_1\) agrees with the integrand in eqn.~\eqref{eqn:greenpole} and by \newterm{Jordan's lemma}\anote{jordanlemma}, with \(g(k)=1/k^2+\beta^2\), the integral along \(C_2\) vanishes.
+If we take the limit as \(R \rightarrow \infty\) then the integral along \(C_1\) agrees with the integrand in eqn.~\eqref{eqn:greenpole} and by \newterm{Jordan's lemma}\anote{jordanlemma}, with 
+%
+\[
+    g(k)=\frac{1}{k^2 + \beta^2}
+\]
+%
+the integral along \(C_2\) vanishes.
 %
 Therefore
 \begin{align}
-    G(\bx, \bx') &= \lim_{\epsilon \rightarrow 0}  \frac{(2\pi)^2}{\abs{\bm{r}}} \operatorname {Res} (f, \beta+\iu \epsilon) \\
-    &= \frac{(2\pi)^2}{\abs{\bm{r}}} \lim_{\epsilon \rightarrow 0} \frac{\beta e^{\iu \beta \abs{\bm{r}}}}{ 2(\beta + \iu \epsilon) } \\
-    &= 2\pi^2\frac{e^{\iu \beta \abs{\bm{r}}}}{\abs{\bm{r}} }
+    G(\bx, \bx') & = \lim_{\epsilon \rightarrow 0}  \frac{(2\pi)^2}{\abs{\bm{r}}} \operatorname {Res} (f, \beta+\iu \epsilon)                       \\
+                 & = \frac{(2\pi)^2}{\abs{\bm{r}}} \lim_{\epsilon \rightarrow 0} \frac{\beta e^{\iu \beta \abs{\bm{r}}}}{ 2(\beta + \iu \epsilon) } \\
+                 & = A \frac{e^{\iu \beta \abs{\bm{r}}}}{\abs{\bm{r}} } \\ 
+                 & = A \frac{e^{\iu k r}}{r} \label{eqn:helmholtzsoln}
 \end{align}
 %
-Note we're off by some factors because our Fourier transform was missing components; the standard solution is 
+where \(A\) absorbs constant factors, \(r = \abs{\bm{r}}\), and \(k \equiv \beta\) to better align with conventional notation.
+%
+% \begin{equation}
+%     \frac{e^{\iu k \abs{\bx -\bx'}}}{4 \pi \abs{\bx - \bx'}}\label{eqn:helmholtzsoln}
+% \end{equation}
+% %
+%
+Finally, recalling eqn.~\eqref{eqn:sepvar}, we have the \newterm{mono-chromatic spherical wave} (due to the spherical symmetry, i.e., dependence on only \(r\) and a single frequency \(\omega\)) solution
 %
 \begin{equation}
-    \frac{e^{\iu k \abs{\bx -\bx'}}}{4 \pi \abs{\bx - \bx'}}
+    E(r, t) = A\frac{e^{\iu (k r - \omega t)}}{r}\label{eqn:sphericalwavesoln}
 \end{equation}
 %
-with \(k \equiv \beta\).
+
+\subsubsection{Kirchhoff-Helmholtz integral theorem}
+
+\begin{figure}
+    \includegraphics[width=\linewidth]{figures/appendix/huygens-fresnel.png}
+    \caption{Illustration of the Huygens-Fresnel principle. \(P_0\) and \(P\) are the light source and the receiver, respectively, \(r_0\) is the
+        radius of the wave front with surface \(S,S_1\) is the wave front at a later instant and \(\chi\) is the inclination angle at some point
+        \(Q\).}\label{fig:huygensfresnel}
+\end{figure}
+
+Let \(P_0\) be a point source emitting spherical waves and an arbitrary wave-front \(S\) with radius \(r_0\).
 %
-Finally, recalling eqn.~\eqref{eqn:sepvar}, and assumting we have that the \newterm{spherical wave} solution
+According to the \newterm{Huygens-Fresnel principle} each point on \(S\) is a secondary emitter.
+%
+Consider figure~\ref{fig:huygensfresnel}. Let \(S_1\) be the secondary wave-front (envelope of secondary emitters).
+%
+Then the field at a point \(P\) is the superposition of secondary waves that originate from the surface \(S\).
+%
+Kirchoff's derived Huygens-Fresnel by computing the field at point \(P\) in terms of the field
+and its derivatives at all points on an arbitrary surface \(S\) enclosing \(P\) (see figure~\ref{fig:kirchoff}).
+%
+\begin{figure}
+    \includegraphics[width=\linewidth]{figures/appendix/kirchoff.png}
+    \caption{Schematic for derivation of Kirchhoff-Helmholtz integral.}\label{fig:kirchoff}
+\end{figure}
+
+First we derive a general fact about fields; if we assume \(U, U'\) are continuously differentiable to second order on \(S\) (and on its boundary) and we have by \newterm{Green's theorem}\anote{greenstheorem}
+%
+\begin{equation*}
+    \int\limits_{v}\left(U \nabla^2 U' - U' \nabla^2 U \right)\,dV= - \int\limits_{S}\left(U \pdv{U'}{\bm{n}}- U'  \pdv{U}{\bm{n}}\right)\,\dif S
+\end{equation*}
+%
+where \(\pdv{}{\bm{n}}\) is the directional derivative of in the direction of the \textbf{inward}\footnote{We use inward rather than outward in order to handle a forthcoming nuance.} pointing normal \(\bm{n}\).
+%
+Since \(U'\) also satisfies eqn.~\eqref{eqn:helmholtz} we have that
 %
 \begin{equation}
-    E(r, t) = \frac{e^{\iu (k r - \omega t)}}{4 \pi r} 
+    \int\limits_{S}\left(U \pdv{U'}{\bm{n}} - U'  \pdv{U}{\bm{n}}\right)\,\dif S = 0
+    \label{eqn:greenssimple}
+\end{equation}
+
+Suppose now take our Green's function from eqn.~\eqref{eqn:helmholtzsoln}
+%
+\begin{equation}
+    U' = \frac{e^{\iu k s}}{s}
 \end{equation}
 %
-where \(r = \abs{\bx - \bx'}\).
+to be the field at a secondary emitter (\(s\) being the distance from \(P\) to the emitter as in figure~\ref{fig:huygensfresnel}).
+%
+Note that \(U'\) has a singularity at \(s = 0\) (i.e. at \(P\)); since an assumption of eqn.~\eqref{eqn:greenssimple} is \(U'\) continuous and differentiable in the entire volume \(v\) we must exclude \(P\) from the domain of integration.
+%
+We shall therefore surround \(P\) by a small sphere \(S'\) of radius \(\epsilon\), treat the integration on the left-hand side eqn.~\eqref{eqn:greenssimple} \textbf{over the volume between the exterior surface \(S\) and the interior surface \(S'\)}, and then take the limit as \(\epsilon \rightarrow 0\).
 
+Hence the integration on the right-hand side eqn.~\eqref{eqn:greenssimple}
+%
+\begin{equation}
+    \left\{ \int\limits_{S} + \int\limits_{S'} \right\} \left[U \pdv{}{\bm{n}} \frac{e^{\iu k s}}{s} - \frac{e^{\iu k s}}{s} \pdv{U}{\bm{n}}\right]\,\dif S = 0
+\end{equation}
+%
+Note that surface normal \(bm{n}\) points inwardly (into the volume) at both surfaces.
+%
+Therefore
+%
+\begin{multline}
+    \int\limits_{S} U \pdv{}{\bm{n}} \frac{e^{\iu k s}}{s} - \frac{e^{\iu k s}}{s} \pdv{U}{\bm{n}} \dif S = \\
+    - \int\limits_{S'} \left( U \frac{e^{\iu k s}}{s} \left( \iu k  - \frac{1}{s} \right) - \frac{e^{\iu k s}}{s} \pdv{U}{\bm{n}} \right) \dif S = \\
+    - \int\limits_{\Omega} \left( U \frac{e^{\iu k \epsilon}}{\epsilon} \left( \iu k  - \frac{1}{\epsilon} \right) - \frac{e^{\iu k \epsilon}}{\epsilon} \pdv{U}{\bm{n}} \right)\epsilon^2 \dif \Omega \label{eqn:solidangle}
+\end{multline}
+%
+where \(\dif \Omega\) is \newterm{solid angle}\anote{solidangle} and we have used the fact
+\begin{equation}
+    \pdv{}{\bm{n}} \frac{e^{\iu k s}}{s} = \bm{n}\cdot \nabla \left( \frac{e^{\iu k s}}{s} \right) = \bm{n} \cdot \hat{\bm{s}} \left( \pdv{}{s} \frac{e^{\iu k s}}{s}\right) =  \pdv{}{s} \frac{e^{\iu k s}}{s}
+\end{equation}
+since \(\bm{n} \cdot \hat{\bm{s}} = 1\) (since \(S'\) is a sphere).
+%
+Taking the limit of the right-hand side of eqn.~\eqref{eqn:solidangle} we see that terms proportional to \(\epsilon\) don't contribute (first and third) and therefore
+%
+\begin{align}
+    \int\limits_{S} \left( U \pdv{}{\bm{n}} \frac{e^{\iu k s}}{s} - \frac{e^{\iu k s}}{s} \pdv{U}{\bm{n}} \right) \dif S & = \lim_{\epsilon \rightarrow 0} \int\limits_{\Omega} U e^{\iu k \epsilon} \dif \Omega \\
+                                                                                                          & = 4 \pi U(P)
+\end{align}
+%
+since \(\lim_{\epsilon \rightarrow 0} e^{\iu k \epsilon} = 1\), the integration over \(\dif \Omega\) doesn't depend on \(\epsilon\).
+%
+Therefore the field \(U\) at point \(P\) is determined by the \newterm{Kirchhoff-Helmholtz integral theorem}
+%
+\begin{equation}
+    U(P) = \frac{1}{4 \pi}\int\limits_{S} \left( U \pdv{}{\bm{n}} \frac{e^{\iu k s}}{s} - \frac{e^{\iu k s}}{s} \pdv{U}{\bm{n}} \right) \dif S \label{eqn:kirchoffhelmintegral}
+\end{equation}
+%
+Note that the Kirchhoff-Helmholtz integral theorem determines \(U(P)\) as a function of the values of \(U\) and \(\partial U / \partial \bm{n}\) on the surface \(S\) alone.
 
+\subsubsection{Fresnel-Kirchhoff ’s diffraction}
 
+\begin{figure}
+    \centering
+    \newcommand*{\subfigwidth}{\linewidth}
+    \begin{subfigure}[b]{\subfigwidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/appendix/fresnel-kirchoff.png}
+        \caption{The surface \(S\) from consists of portions \(\mathcal{A}, \mathcal{B}, \mathcal{C}\).}\label{subfig:fresnelkirchoffsurf}
+    \end{subfigure}
+    \begin{subfigure}[b]{\subfigwidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/appendix/fresnelkirchoffsetup.png}
+        \caption{Definition of angles and directions. \textbf{r} and \textbf{s} point in the direction of increasing \textit{r}
+        and \textit{s}, respectively, and \textbf{n} is normal to the screen. \((n,s)\) and \((n,r)\) indicate the angles between the normal \(\bm{n}\) and \(\bm{s}, \bm{r}\) respectively.}\label{subfig:fresnelkirchoffangles}
+    \end{subfigure}
+    \caption{Illustrating the derivation of the Fresnel-Kirchhoff diffraction formula of propagation through an aperture.}\label{fig:fresnelkirchoff}
+\end{figure}
+
+We now apply eqn.~\eqref{eqn:kirchoffhelmintegral} to the typical case of waves propagating through an aperture in a screen (see figure~\ref{}).
+%
+We take as our surface \(S = \mathcal{A} \cup \mathcal{B} \cup \mathcal{C}\) where \(\mathcal{A}\) is the aperture itself, \(\mathcal{B}\) is the unilluminated side of the screen, and \(\mathcal{C}\) is a portion of a large sphere centered at \(P\).
+%
+The Kirchhoff-Helmholtz integral dictates that 
+%
+\begin{equation}
+    U(P) = \frac{1}{4 \pi} \left\{ \int\limits_{\mathcal{A}}  + \int\limits_{\mathcal{B}} + \int\limits_{\mathcal{C}}  \right\} \left[ U \pdv{}{\bm{n}} \frac{e^{\iu k s}}{s} - \frac{e^{\iu k s}}{s} \pdv{U}{\bm{n}} \right] \dif S
+\end{equation}
+%
+Note that a fortiori the field is \(\sim 0\) on \(\mathcal{B}\) because it is unilluminated.
+%
+Similarly we'd hope the field on \(\mathcal{C}\) is approximately zero as well, since we are free to choose \(R\) as large as we want.
+%
+Unfortunately this isn't exactly the case; while it is true that \(U, \partial U/ \partial \bm{n} \rightarrow 0\) as \(R \rightarrow \infty\) it's also the case that the area of \(S \rightarrow \infty\) and so we don't necessarily have that the integral on \(\mathcal{C}\) vanishes.
+%
+To assure this we need to further assume \newterm{Sommerfeld’s radiation condition}:
+%
+\begin{equation}
+    \lim_{r \rightarrow \infty} r \left( U(r) - \pdv{U}{\bm{n}} \right)  = 0
+\end{equation}
+%
+which assumes we are only dealing with \textit{outgoing} waves.
+%
+With this assumption included the integral on \(\mathcal{C}\) indeed vanishes.
+
+This leaves the field on \(\mathcal{A}\) alone.
+%
+Kirchoff assumed that the field on \(\mathcal{A}\) is the same as if the screen were absent, i.e. the field is determined by a spherical wave emanating from \(P_0\) (see eqn.~\eqref{eqn:helmholtzsoln}).
+%
+Therefore we have 
+%
+\begin{align}
+    U(P) &= \frac{1}{4 \pi}\int\limits_{S} \left( U \pdv{}{\bm{n}} \frac{e^{\iu k s}}{s} - \frac{e^{\iu k s}}{s} \pdv{U}{\bm{n}} \right) \dif S  \\ 
+    &= \frac{A}{4 \pi}\int\limits_{\mathcal{A}} \left( \frac{e^{\iu k r}}{r} \pdv{}{\bm{n}} \frac{e^{\iu k s}}{s} - \frac{e^{\iu k s}}{s} \left(\pdv{}{\bm{n}} \frac{e^{\iu k r}}{r}\right) \right) \dif S
+\end{align}
+%
+Assuming the wavelength of the field is much smaller than the distances involved, i.e. \(\lambda \ll r, s\) (and therefore \(k \gg 1/r, 1/s\)), we can approximate \(\iu k - 1/r \approx \iu k - 1/s \approx \iu k\).
+%
+Then the \newterm{Fresnel-Kirchhoff diffraction formula} reads
+\begin{align}
+    U(P) &= \frac{1}{4 \pi}\int\limits_{S} \left( U \pdv{}{\bm{n}} \frac{e^{\iu k s}}{s} - \frac{e^{\iu k s}}{s} \pdv{U}{\bm{n}} \right) \dif S  \\ 
+    &= \frac{\iu A}{2 \lambda}\int\limits_{\mathcal{A}}  \left( \frac{e^{\iu k (r+s)}}{r s} \left(\cos(\theta) - \cos(\phi) \right) \right) \dif S 
+\end{align}
+%
+where \(\theta = (n, s)\) the angle between \(\bm{n}\) and \(\bm{s}\) and similarly \(\phi = (n, r)\) (see figure~\ref{subfig:fresnelkirchoffangles}).
+
+\subsubsection{Fresnel’s Diffraction and Fraunhofer’s Diffraction}
 
 % \subsection{Automatic Differentiation}\label{subsubsec:autodiff}
 

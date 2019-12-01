@@ -263,13 +263,13 @@ Consider a contour in the complex plane that encloses poles \(a_j\).
 \newterm{Cauchy's residue theorem} dictates that for a \newterm{holomorphic} function \(f\)
 %
 \begin{equation*}
-	\oint _{C }f(z)\,dz=2\pi \iu\sum \operatorname {Res} (f,a_j)
+	\oint\limits_{C }f(z)\,dz=2\pi \iu\sum \operatorname {Res} (f,a_j)
 \end{equation*}
 %
 where \(\operatorname {Res} (f,a_{k})\) are the \newterm{residues} at the poles \(a_k\):
 \begin{equation*} 
 	\operatorname{Res}(f, a_j) 
-	= 
+	\coloneqq 
 	\frac{1}{(n-1)!}\lim_{a \rightarrow a_j}\bigg[\frac{d^{(n-1)}}{da^{(n-1)}}\bigg((a-a_j)^n\,f(a) \bigg) \bigg]
 \end{equation*}
 where \(n\) is the order of the pole.
@@ -285,6 +285,25 @@ f(z) = e^{i a z} g(z) , \quad z \in C_R
 \]
 with a positive parameter \(a\), then Jordan's lemma states the following upper bound for the contour integral:
 \[
-\left| \int_{C_R} f(z) \, dz \right| \le \frac{\pi}{a} M_R \quad \text{where} \quad M_R := \max_{\theta \in [0,\pi]} \left| g \left(R e^{i \theta}\right) \right| 
+\left| \int\limits_{C_R} f(z) \, dz \right| \le \frac{\pi}{a} M_R \quad \text{where} \quad M_R \coloneqq \max_{\theta \in [0,\pi]} \left| g \left(R e^{i \theta}\right) \right| 
+\]
+}
+\anotecontent{greenstheorem}{
+	Itself a special case of the \newterm{divergence theorem}, Green's theorem states that for \(\psi, \varphi\) both twice continuously differentiable on \(U \subset \mathbb{R}^3\)
+	\begin{equation*}
+		 \int\limits_{U}\left(\psi \,\nabla^2 \varphi -\varphi \,\nabla^2 \psi \right)\,dV=\oint\limits_{\partial U}\left(\psi {\partial \varphi  \over \partial \mathbf {n} }-\varphi {\partial \psi  \over \partial \mathbf {n} }\right)\,\dif S
+	\end{equation*}
+	where \(\pdv{}{\bm{n}}\) is the directional derivative of in the direction of the outward pointing normal \(\bm{n}\) to the surface element \(\dif S\), for example
+	\begin{equation*}
+		\pdv{\varphi}{\bm{n}}=\bm{n}\cdot \nabla \varphi
+	\end{equation*}
+}
+\anotecontent{solidangle}{The solid angle element is the angular component of the differential surface element
+\[
+	d\Omega =\sin \theta \dif\theta \dif\phi 	
+\]
+For example, for a surface integral over a sphere of radius \(r\) (in spherical coordinates)
+\[
+\int\limits_{dA} = \int\limits_{\Omega} r^2 d\Omega = r^2  \int \limits _{\phi =0}^{2\pi }\ \int \limits _{\theta =0}^{\pi }\sin \theta \dif \theta \dif \phi 
 \]
 }
