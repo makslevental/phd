@@ -208,17 +208,17 @@ Figuratively one can imagine stretching a rubber band such that it contains all 
 \anotecontent{xor}{Exclusive-Or \(\operatorname{XOR}(a,b)\) is a Boolean function (maps \(\{0,1\}\) to \(\{0,1\}\)) defined to be 1 when \(a \neq b\) and 0 otherwise.}
 \anotecontent{backprop}{Backprop itself is a particular instance of a general technique called automatic differentiation (AD). AD computes exact derivatives of functions in either \newterm{forward accumulation} or \newterm{reverse accumulation} \cite{linnainmaa1976taylor}. Backprop corresponds to reverse mode. In reverse mode the dependent variable \(y\) to be differentiated is fixed and the derivative is computed with respect to each sub-expression \(z_i\) recursively:
 	\begin{multline*}
-		{\frac  {\partial y}{\partial w}}={\frac  {\partial y}{\partial z_{1}}}{\frac  {\partial z_{1}}{\partial w}}=\left({\frac  {\partial y}{\partial z_{2}}}{\frac  {\partial z_{2}}{\partial z_{1}}}\right){\frac  {\partial z_{1}}{\partial w}}=\\\left(\left({\frac  {\partial y}{\partial z_{3}}}{\frac  {\partial z_{3}}{\partial z_{2}}}\right){\frac  {\partial z_{2}}{\partial z_{1}}}\right){\frac  {\partial z_{1}}{\partial w}}=\cdots 
+		{\frac  {\partial y}{\partial w}}={\frac  {\partial y}{\partial z_{1}}}{\frac  {\partial z_{1}}{\partial w}}=\left({\frac  {\partial y}{\partial z_{2}}}{\frac  {\partial z_{2}}{\partial z_{1}}}\right){\frac  {\partial z_{1}}{\partial w}}=\\\left(\left({\frac  {\partial y}{\partial z_{3}}}{\frac  {\partial z_{3}}{\partial z_{2}}}\right){\frac  {\partial z_{2}}{\partial z_{1}}}\right){\frac  {\partial z_{1}}{\partial w}}=\cdots
 	\end{multline*}
-See section~\ref{subsubsec:autodiff} for a more detailed explanation.
+	See section~\ref{subsubsec:autodiff} for a more detailed explanation.
 }
 \anotecontent{universapprox}{Given enough layers and neurons ANNs with nonlinear activations are able to represent functions of arbitrary complexity. Conversely, sans a nonlinear activation function, ANNs are unable to represent functions as simple as even \(\operatorname{XOR}\).}
 \anotecontent{learn}{To learn, in this context, means to approximate a function that effectively performs a task. For example in the case of an object recognition task, learning entails approximating a function that outputs high values when an object is recognized and low values otherwise.}
 \anotecontent{largeparams}{OpenAI’s Generative Pre-trained Transformer (GPT) \cite{radford2018improving} natural language processing (NLP) network has approximately 150 million parameters (and takes 8 GPU-months of non-stop training).}
 \anotecontent{kldiv}{The Kullback–Leibler divergence of two probability distributions \(P,Q\) with densities \(p, q\) is defined
-	\begin{equation*}
-		\operatorname{D}_{\text{KL}}(P\parallel Q)\coloneqq\int\limits _{-\infty }^{\infty }p(x)\log \left({\frac {p(x)}{q(x)}}\right)\,dx
-	\end{equation*}
+\begin{equation*}
+	\operatorname{D}_{\text{KL}}(P\parallel Q)\coloneqq\int\limits _{-\infty }^{\infty }p(x)\log \left({\frac {p(x)}{q(x)}}\right)\,dx
+\end{equation*}
 Note that \(\operatorname{D}_{\text{KL}}\) is not symmetric and therefore not a true distance measure. Fortunately it can be symmetrized:
 \begin{equation*}
 	\operatorname{JSD}(P\parallel Q)\coloneqq{\frac  {1}{2}}\operatorname{D}_{\text{KL}}\left(P\bigg\| {\frac  {1}{2}}(P+Q)\right)+{\frac  {1}{2}}\operatorname{D}_{\text{KL}}\left(Q\bigg\| {\frac  {1}{2}}(P+Q)\right)
@@ -226,11 +226,11 @@ Note that \(\operatorname{D}_{\text{KL}}\) is not symmetric and therefore not a 
 In this form it is called the Jensen–Shannon divergence and is a true distance measure between probability distributions.
 }
 \anotecontent{minimax}{Strictly speaking mini-max is a decision rule followed by each player of a game --- a decision rule that leads to minimizing the possible loss for a worst case (maximum loss) scenario.}
-\anotecontent{uniformconv}{A sequence of functions \(F_n\), \newterm{uniformly converges} to \(f\) on a bounded interval \(I\) if given some \(\varepsilon > 0\) there exists \(n\) such that 
-\[
-	\abs{ F_n( x ) - f ( x ) } < \varepsilon
-\]
-for all \(x \in I\). Note the order of the quantifiers: there should be \textbf{one} \(n\) that satisfies the constraint at a given precision \(\varepsilon\) for \textbf{all} \(x \in I\) simultaneously.
+\anotecontent{uniformconv}{A sequence of functions \(F_n\), \newterm{uniformly converges} to \(f\) on a bounded interval \(I\) if given some \(\varepsilon > 0\) there exists \(n\) such that
+	\[
+		\abs{ F_n( x ) - f ( x ) } < \varepsilon
+	\]
+	for all \(x \in I\). Note the order of the quantifiers: there should be \textbf{one} \(n\) that satisfies the constraint at a given precision \(\varepsilon\) for \textbf{all} \(x \in I\) simultaneously.
 }
 \anotecontent{annealing}{Learning rate annealing imposes a scheduled decay of the learning rate \(\alpha_i\) over time. The intuition being that initially, prior to identifying a minimum, one can afford to take optimistically large steps \(\Delta w_i\) in parameter space but over time one should become more conservative in order to hone in on an identified minimum. Typically the annealing schedule is such that the learning rate out starts out large and is reduced by an order of magnitude (i.e., a factor of 10) every \(M\) epochs (where \(M\) is a divisor of the total number of epochs that one will train for).}
 \anotecontent{gradclip}{Exploding gradients is the opposite of vanishing gradients: gradients become so large that weights become unstable. That is, weight updates become large and oscillate around a minimum. Gradient clipping constrains \(\pd{L}{w_i}\) to be within a narrow range around 0; Kim \etal constrain the gradient to be within \(\left[ -\frac{\theta}{\alpha_i}, \frac{\theta}{\alpha_i} \right]\) for some small \(\theta\).}
@@ -243,17 +243,48 @@ for all \(x \in I\). Note the order of the quantifiers: there should be \textbf{
 \anotecontent{rnn}{A Recurrent Neural Network (RNN) models time dependencies in sequences of data.}
 
 % appendix
-\anotecontent{diracdelta}{A generalized function is a function that can only be integrated against. Let 
-\begin{equation*}
-	\delta_\epsilon(x) \coloneqq \frac{1}{\epsilon \sqrt{\pi}}	e^{-x^2/\epsilon^2}
-\end{equation*}
-Then for any continuous \(\phi(x)\)
-\begin{equation*}
-	\lim_{\epsilon\rightarrow 0} \left[\int\limits_{-\infty}^{\infty} \phi(x)\delta_{\epsilon}(x-x_0) \right] = \lim_{\epsilon\rightarrow 0} \left[ \phi(x_0)\int\limits_{-\infty}^{\infty} \delta_{\epsilon}(x-x_0) \right] = \phi(x_0)
-\end{equation*}
-and hence \(\delta(x)\) is defined as the limit of this behavior
-\begin{equation*}
-	\int\limits_{-\infty}^{\infty} \phi(x)\delta(x-x_0) = \phi(x_0)
-\end{equation*}
+\anotecontent{diracdelta}{A generalized function is a function that can only be integrated against. Let
+	\begin{equation*}
+		\delta_\epsilon(x) \coloneqq \frac{1}{\epsilon \sqrt{\pi}}	e^{-x^2/\epsilon^2}
+	\end{equation*}
+	Then for any continuous \(\phi(x)\)
+	\begin{equation*}
+		\lim_{\epsilon\rightarrow 0} \left[\int\limits_{-\infty}^{\infty} \phi(x)\delta_{\epsilon}(x-x_0) \right] = \lim_{\epsilon\rightarrow 0} \left[ \phi(x_0)\int\limits_{-\infty}^{\infty} \delta_{\epsilon}(x-x_0) \right] = \phi(x_0)
+	\end{equation*}
+	and hence \(\delta(x)\) is defined as the limit of this behavior
+	\begin{equation*}
+		\int\limits_{-\infty}^{\infty} \phi(x)\delta(x-x_0) = \phi(x_0)
+	\end{equation*}
 }
 \anotecontent{boundvariable}{Function parameters are \newterm{bound variables}. The function definition \newterm{binds} the variable.}
+\anotecontent{greens}{A Green's function, \(G(x,x')\), of a linear differential operator \(\operatorname {L} =\operatorname {L} (x)\) acting on distributions over \(\mathbb {R} ^{n}\), at a point s, is any solution of \(\operatorname{L}G(x,x')=\delta (x-x')\) where \(\delta\) is the Dirac delta function. }
+\anotecontent{cauchyresidue}{
+Consider a contour in the complex plane that encloses poles \(a_j\).
+\newterm{Cauchy's residue theorem} dictates that for a \newterm{holomorphic} function \(f\)
+%
+\begin{equation*}
+	\oint _{C }f(z)\,dz=2\pi \iu\sum \operatorname {Res} (f,a_j)
+\end{equation*}
+%
+where \(\operatorname {Res} (f,a_{k})\) are the \newterm{residues} at the poles \(a_k\):
+\begin{equation*} 
+	\operatorname{Res}(f, a_j) 
+	= 
+	\frac{1}{(n-1)!}\lim_{a \rightarrow a_j}\bigg[\frac{d^{(n-1)}}{da^{(n-1)}}\bigg((a-a_j)^n\,f(a) \bigg) \bigg]
+\end{equation*}
+where \(n\) is the order of the pole.
+}
+\anotecontent{jordanlemma}{Consider a complex-valued, continuous function \(f\), defined on a semicircular contour
+\[
+C_R = \{R e^{i \theta} \mid \theta \in [0, \pi]\}
+\]
+of positive radius \(R\) lying in the upper half-plane, centered at the origin. If the function \(f\) is of the form
+
+\[
+f(z) = e^{i a z} g(z) , \quad z \in C_R
+\]
+with a positive parameter \(a\), then Jordan's lemma states the following upper bound for the contour integral:
+\[
+\left| \int_{C_R} f(z) \, dz \right| \le \frac{\pi}{a} M_R \quad \text{where} \quad M_R := \max_{\theta \in [0,\pi]} \left| g \left(R e^{i \theta}\right) \right| 
+\]
+}
