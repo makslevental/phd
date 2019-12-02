@@ -1,6 +1,4 @@
 %
-%TODO: work out diffraction circular aperture
-%
 %TODO: workout poisson noise
 %
 %TODO: workout conjugate gradients
@@ -15,10 +13,20 @@
 \section{Appendix}\label{sec:appendix}
 \localtableofcontents
 
-\subsection{Rayleigh Criterion}
+\subsection{Rayleigh Criterion}\label{subsec:rayleighcriterion}
+
+We derive Rayleigh's criterion for the minimum angular resolution \(R_{min}\) of a \(\lambda\)-mono-chromatic point source through a \(D\)-diameter circular aperture
+%
+\begin{equation}
+    R_{min} = 1.22 \frac{\lambda}{D} 
+\end{equation}
+%
+from first principles.
 
 \subsubsection{Wave Equation in a Vacuum}
 
+Note this section primarily follows \cite{eom2004electromagnetic}.
+%
 Starting with Maxwell's equations in a vacuum (in differential form) for the electric field \(\E(x,y,z, t)\) and the magnetic field \(\B(x,y,z, t)\):
 %
 \begin{align}
@@ -37,13 +45,15 @@ and with the identity
     \nabla \times \nabla \times \E = \nabla (\nabla\cdot \E) - \nabla^2 \E
 \end{equation}
 %
-we have the vector E-field \newterm{vector wave equation}:
+we have the vector \(\bm{E}\)-field \newterm{vector wave equation}:
 %
 \begin{equation}
     \nabla^2 \E = \frac{1}{c^2} \pdv[2]{\E}{t}
 \end{equation}
 %
-This decouples each components of the \newterm{\textbf{E}} field. We therefore arbitrarily choose the \(z\) component and solve the \newterm{scalar wave equation} for \(E \coloneqq E_z\)
+This decouples each components of the \(\bm{E}\) field. 
+%
+We therefore arbitrarily choose the \(z\) component \(E_z\) of \(\bm{E}\) and solve the \newterm{scalar wave equation} for \(E \coloneqq E_z\)
 %
 \begin{equation}
     \left(\nabla^2 - \frac{1}{c^2} \pdv[2]{}{t}\right) E = 0 \label{eqn:scalarwaveeqn}
@@ -56,28 +66,27 @@ We proceed by \newterm{separation of variables}:
     E(\bx, t) = U(\bx) T(t)\label{eqn:sepvar}
 \end{equation}
 %
-Then \(U\) obeys the \newterm{Helmholtz equation}
+The solution for \(T\) is straightforward
+%
+\begin{equation}
+    T(t) = e^{-\iu \omega t}
+\end{equation}
+%
+where \(\omega = \beta c\) and \(\beta\) is separation constant.
+%
+\(U\) obeys the \newterm{Helmholtz equation}
 %
 \begin{equation}
     (\nabla ^{2}+\beta^{2})U=0\label{eqn:helmholtz}
 \end{equation}
 %
-where \(\beta\) is separation constant.
-%
-The solution for \(T\) is straightforward
-\begin{equation}
-    T(t) = e^{-\iu \omega t}
-\end{equation}
-%
-where \(\omega = \beta c\).
-%
-For \(U\) we seek a \newterm{Green's function} \(G(\bx,\bx')\) for eqn.~\eqref{eqn:helmholtz}
+To solve for \(U\) we seek a \newterm{Green's function} \(G(\bx,\bx')\) of eqn.~\eqref{eqn:helmholtz}, i.e., \(G\) such that
 %
 \begin{equation}
     \nabla^2 G + \beta^2 G = -\delta(\bm{r})\label{eqn:helmgreen}
 \end{equation}
 %
-where \(\bm{r} = \bx - \bx'\).
+where \(-\delta(\bm{r})\) is the \newterm{Dirac delta}\anote{diracdelta} centered at \(\bx'\) and \(\bm{r} = \bx - \bx'\).
 %
 Substituting the Fourier transform \(\tilde{G}(\bm{k})\) of \(G\)
 %
@@ -110,7 +119,8 @@ and hence
     G(\bx, \bx') = \int\limits_{\mathbb{R}^3} \frac{e^{\iu \bm{k}\cdot \bm{r}}}{k^2-\beta^2}  \dif \bm{k}
 \end{equation}
 %
-Rotate the \(\bm{k}\) coordinate system such that the \(k_3\)-axis and \(\bm{r}\) are aligned and then transform to spherical coordinates (see figure~\ref{fig:rotalign}).
+To compute this inverse Fourier transform, first rotate the \(\bm{k}\) coordinate system such that the \(k_3\)-axis and \(\bm{r}\) are aligned and then transform to spherical coordinates (see figure~\ref{fig:rotalign}).
+%
 \begin{figure}
     \tdplotsetmaincoords{60}{110}
     %
@@ -135,7 +145,7 @@ Rotate the \(\bm{k}\) coordinate system such that the \(k_3\)-axis and \(\bm{r}\
         \tdplotdrawarc[tdplot_rotated_coords]{(0,0,0)}{0.5}{0}%
         {\thetavec}{anchor=south west}{$\theta$}
     \end{tikzpicture}
-    \caption{Rotated/aligned spherical coordinate system for computing the contour integral.}\label{fig:rotalign}
+    \caption{Rotated/aligned spherical coordinate system for computing the inverse Fourier transform of \(\tilde{G}\).}\label{fig:rotalign}
 \end{figure}
 %
 That implies
@@ -158,7 +168,7 @@ Then
     \frac{2\pi}{\iu \abs{\bm{r}}} \int\limits_{0}^{\infty}  \frac{e^{\iu k \abs{\bm{r}}} - e^{-\iu k \abs{\bm{r}}}}{(k - \beta)(k + \beta)} k \dif k \label{eqn:greensfn}
 \end{multline}
 %
-Since
+Hence, since
 %
 \begin{equation}
     \int\limits_{0}^{\infty}  \frac{e^{\iu k \abs{\bm{r}}}}{(k - \beta)(k + \beta)} k \dif k
@@ -166,14 +176,14 @@ Since
     \int\limits_{-\infty}^{0}  \frac{ - e^{-\iu k \abs{\bm{r}}}}{(k - \beta)(k + \beta)} k \dif k
 \end{equation}
 %
-equation~\eqref{eqn:greensfn} is
+equation~\eqref{eqn:greensfn} becomes
 %
 \begin{equation}
     G(\bx, \bx') =
     \frac{2\pi}{\iu \abs{\bm{r}}} \int\limits_{-\infty}^{\infty}  \frac{k e^{\iu k \abs{\bm{r}}}}{(k - \beta)(k + \beta)} \dif k \label{eqn:greenpole}
 \end{equation}
 %
-Note that there are there are two singularities or \newterm{poles} in the integrand in eqn.~\eqref{eqn:greensfn}: the integrand goes to infinity as \(k\rightarrow +\beta\) or \(k\rightarrow -\beta\).
+Note that there are there are two singularities or \newterm{poles} in the integrand in eqn.~\eqref{eqn:greensfn}: the integrand goes to \(\infty\) as \(k\rightarrow +\beta\) or \(k\rightarrow -\beta\).
 %
 To perform the integral, despite the poles, we need to use complex integration and the residue theorem\anote{cauchyresidue}: we perform a line integral (called a \newterm{contour integral}) in the \(k\)-complex plane such that its value along the real axis equals the integral in eqn.~\eqref{eqn:greenpole} and its value elsewhere is zero.
 %
@@ -222,7 +232,7 @@ To perform the integral, despite the poles, we need to use complex integration a
 
 A critical requirement of the residue theorem is that the poles are wholly contained in the contour.
 %
-To that end we shift the poles \(-\beta,+\beta\) by a pure imaginary component \(+\iu \epsilon\) and then take the limit as \(\epsilon \rightarrow 0\).
+To that end we shift the poles \(-\beta,+\beta\) by a pure imaginary component \(+\iu \epsilon\) and then ultimately take the limit of the result of the perturbed integral as \(\epsilon \rightarrow 0\).
 %
 Consider the contour \(C\) in figure~\ref{fig:helmcontour}.
 %
@@ -231,12 +241,13 @@ It's composed of the portion \(C_1\) along \(\operatorname{Re} \{k\}\) and the s
 If we take the limit as \(R \rightarrow \infty\) then the integral along \(C_1\) agrees with the integrand in eqn.~\eqref{eqn:greenpole} and by \newterm{Jordan's lemma}\anote{jordanlemma}, with 
 %
 \[
-    g(k)=\frac{1}{k^2 + \beta^2}
+    g(k)=\frac{1}{k^2 - \beta^2}
 \]
 %
 the integral along \(C_2\) vanishes.
 %
 Therefore
+%
 \begin{align}
     G(\bx, \bx') & = \lim_{\epsilon \rightarrow 0}  \frac{(2\pi)^2}{\abs{\bm{r}}} \operatorname {Res} (f, \beta+\iu \epsilon)                       \\
                  & = \frac{(2\pi)^2}{\abs{\bm{r}}} \lim_{\epsilon \rightarrow 0} \frac{\beta e^{\iu \beta \abs{\bm{r}}}}{ 2(\beta + \iu \epsilon) } \\
@@ -251,7 +262,7 @@ where \(A\) absorbs constant factors, \(r = \abs{\bm{r}}\), and \(k \equiv \beta
 % \end{equation}
 % %
 %
-Finally, recalling eqn.~\eqref{eqn:sepvar}, we have the \newterm{mono-chromatic spherical wave} (due to the spherical symmetry, i.e., dependence on only \(r\) and a single frequency \(\omega\)) solution
+Finally, recalling eqn.~\eqref{eqn:sepvar}, we have the \newterm{mono-chromatic spherical wave} solution\footnote{So named due to the spherical symmetry of the solution, i.e., dependence on only \(r\) and a single frequency \(\omega\)}:
 %
 \begin{equation}
     E(r, t) = A\frac{e^{\iu (k r - \omega t)}}{r}\label{eqn:sphericalwavesoln}
@@ -260,63 +271,65 @@ Finally, recalling eqn.~\eqref{eqn:sepvar}, we have the \newterm{mono-chromatic 
 
 \subsubsection{Kirchhoff-Helmholtz integral theorem}
 
-\begin{figure}
-    \includegraphics[width=\linewidth]{figures/appendix/huygens-fresnel.png}
+\begin{figure*}
+    \includegraphics[width=\textwidth]{figures/appendix/huygens-fresnel.png}
     \caption{Illustration of the Huygens-Fresnel principle. \(P_0\) and \(P\) are the light source and the receiver, respectively, \(r_0\) is the
         radius of the wave front with surface \(S,S_1\) is the wave front at a later instant and \(\chi\) is the inclination angle at some point
-        \(Q\).}\label{fig:huygensfresnel}
-\end{figure}
-
-Let \(P_0\) be a point source emitting spherical waves and an arbitrary wave-front \(S\) with radius \(r_0\).
+        \(Q\) \cite{Ivanov2016ElementsOD}.}\label{fig:huygensfresnel}
+\end{figure*}
+Note this section and the proceeding ones closely follows \cite{Ivanov2016ElementsOD}.
 %
-According to the \newterm{Huygens-Fresnel principle} each point on \(S\) is a secondary emitter.
+Let \(P_0\) be a point source emitting spherical waves and \(S\) an arbitrary spherical wave-front with radius \(r_0\).
 %
-Consider figure~\ref{fig:huygensfresnel}. Let \(S_1\) be the secondary wave-front (envelope of secondary emitters).
+According to the \newterm{Huygens-Fresnel principle} each point \(Q\) on \(S\) is a secondary emitter.
 %
-Then the field at a point \(P\) is the superposition of secondary waves that originate from the surface \(S\).
+Consider figure~\ref{fig:huygensfresnel} and let \(S_1\) be the secondary wave-front (envelope of secondary emitters).
 %
-Kirchoff's derived Huygens-Fresnel by computing the field at point \(P\) in terms of the field
-and its derivatives at all points on an arbitrary surface \(S\) enclosing \(P\) (see figure~\ref{fig:kirchoff}).
+Then the field at a distant point \(P\) is the superposition of secondary waves that originate from the surface \(S\).
+%
+Kirchoff's derived Huygens-Fresnel by computing the field at point \(P\) in terms of only the field
+and its derivatives at points on an arbitrary surface enclosing \(P\) (see figure~\ref{fig:kirchoff}) using an \textit{auxiliary function} \(U'\).
 %
 \begin{figure}
+    \centering 
     \includegraphics[width=\linewidth]{figures/appendix/kirchoff.png}
-    \caption{Schematic for derivation of Kirchhoff-Helmholtz integral.}\label{fig:kirchoff}
+    \caption{Schematic for derivation of Kirchhoff-Helmholtz integral \cite{Ivanov2016ElementsOD}.}\label{fig:kirchoff}
 \end{figure}
 
-First we derive a general fact about fields; if we assume \(U, U'\) are continuously differentiable to second order on \(S\) (and on its boundary) and we have by \newterm{Green's theorem}\anote{greenstheorem}
+First we derive a general fact about fields; if we assume two fields \(U, U'\) are continuously differentiable to second order on \(S\) (and on its interior) then we have by \newterm{Green's theorem}\anote{greenstheorem}
 %
-\begin{equation*}
-    \int\limits_{v}\left(U \nabla^2 U' - U' \nabla^2 U \right)\,dV= - \int\limits_{S}\left(U \pdv{U'}{\bm{n}}- U'  \pdv{U}{\bm{n}}\right)\,\dif S
-\end{equation*}
+\begin{multline}
+    \int\limits_{v}\left(U \nabla^2 U' - U' \nabla^2 U \right)\,dV = \\ - \int\limits_{S}\left(U \pdv{U'}{\bm{n}}- U'  \pdv{U}{\bm{n}}\right)\,\dif S\label{eqn:greensequal}
+\end{multline}
 %
-where \(\pdv{}{\bm{n}}\) is the directional derivative of in the direction of the \textbf{inward}\footnote{We use inward rather than outward in order to handle a forthcoming nuance.} pointing normal \(\bm{n}\).
+where \(\pdv{}{\bm{n}}\) is the directional derivative in the direction of the \textbf{inward}\footnote{We use inward rather than outward in order to handle a forthcoming nuance.} pointing normal \(\bm{n}\).
 %
-Since \(U'\) also satisfies eqn.~\eqref{eqn:helmholtz} we have that
+Then, since \(U, U'\) both satisfy eqn.~\eqref{eqn:helmholtz}, the left-hand side of eqn.~\eqref{eqn:greensequal} vanishes and we have that
 %
 \begin{equation}
     \int\limits_{S}\left(U \pdv{U'}{\bm{n}} - U'  \pdv{U}{\bm{n}}\right)\,\dif S = 0
     \label{eqn:greenssimple}
 \end{equation}
 
-Suppose now take our Green's function from eqn.~\eqref{eqn:helmholtzsoln}
+Suppose now that the auxiliary function \(U'\) is the Helmholtz Green's function (eqn.~\eqref{eqn:helmholtzsoln})
 %
 \begin{equation}
     U' = \frac{e^{\iu k s}}{s}
 \end{equation}
 %
-to be the field at a secondary emitter (\(s\) being the distance from \(P\) to the emitter as in figure~\ref{fig:huygensfresnel}).
+That is to say, to be the field at a secondary emitter on the wave-front\footnote{\(s\) being the distance from \(P\) to the emitter as in figure~\ref{fig:huygensfresnel}}.
 %
-Note that \(U'\) has a singularity at \(s = 0\) (i.e. at \(P\)); since an assumption of eqn.~\eqref{eqn:greenssimple} is \(U'\) continuous and differentiable in the entire volume \(v\) we must exclude \(P\) from the domain of integration.
+Note that \(U'\) has a singularity at \(s = 0\) (i.e. at \(P\)); since an assumption of eqn.~\eqref{eqn:greensequal} is that \(U'\) is continuous and differentiable in the entire volume \(v\), we must exclude \(P\) from the domain of integration.
 %
-We shall therefore surround \(P\) by a small sphere \(S'\) of radius \(\epsilon\), treat the integration on the left-hand side eqn.~\eqref{eqn:greenssimple} \textbf{over the volume between the exterior surface \(S\) and the interior surface \(S'\)}, and then take the limit as \(\epsilon \rightarrow 0\).
+We shall therefore surround \(P\) by a small sphere \(S'\) of radius \(\epsilon\), treat the integration on the left-hand side eqn.~\eqref{eqn:greensequal} as \textbf{over the volume between the exterior surface \(S\) and the interior surface \(S'\)}, and then take the limit as \(\epsilon \rightarrow 0\).
 
-Hence the integration on the right-hand side eqn.~\eqref{eqn:greenssimple}
+Hence the integration in eqn.~\eqref{eqn:greenssimple}
 %
 \begin{equation}
     \left\{ \int\limits_{S} + \int\limits_{S'} \right\} \left[U \pdv{}{\bm{n}} \frac{e^{\iu k s}}{s} - \frac{e^{\iu k s}}{s} \pdv{U}{\bm{n}}\right]\,\dif S = 0
 \end{equation}
 %
-Note that surface normal \(bm{n}\) points inwardly (into the volume) at both surfaces.
+Note that surface normal \(\bm{n}\) points inwardly (into the volume) at both surfaces.
 %
 Therefore
 %
@@ -326,10 +339,12 @@ Therefore
     - \int\limits_{\Omega} \left( U \frac{e^{\iu k \epsilon}}{\epsilon} \left( \iu k  - \frac{1}{\epsilon} \right) - \frac{e^{\iu k \epsilon}}{\epsilon} \pdv{U}{\bm{n}} \right)\epsilon^2 \dif \Omega \label{eqn:solidangle}
 \end{multline}
 %
-where \(\dif \Omega\) is \newterm{solid angle}\anote{solidangle} and we have used the fact
-\begin{equation}
-    \pdv{}{\bm{n}} \frac{e^{\iu k s}}{s} = \bm{n}\cdot \nabla \left( \frac{e^{\iu k s}}{s} \right) = \bm{n} \cdot \hat{\bm{s}} \left( \pdv{}{s} \frac{e^{\iu k s}}{s}\right) =  \pdv{}{s} \frac{e^{\iu k s}}{s}
-\end{equation}
+where \(\dif \Omega\) is differential \newterm{solid angle}\anote{solidangle} and we have used the fact
+%
+\begin{multline}
+    \pdv{}{\bm{n}} \frac{e^{\iu k s}}{s} = \bm{n}\cdot \nabla \left( \frac{e^{\iu k s}}{s} \right) = \\ \bm{n} \cdot \hat{\bm{s}} \left( \pdv{}{s} \frac{e^{\iu k s}}{s}\right) =  \pdv{}{s} \frac{e^{\iu k s}}{s}
+\end{multline}
+%
 since \(\bm{n} \cdot \hat{\bm{s}} = 1\) (since \(S'\) is a sphere).
 %
 Taking the limit of the right-hand side of eqn.~\eqref{eqn:solidangle} we see that terms proportional to \(\epsilon\) don't contribute (first and third) and therefore
@@ -339,7 +354,7 @@ Taking the limit of the right-hand side of eqn.~\eqref{eqn:solidangle} we see th
                                                                                                           & = 4 \pi U(P)
 \end{align}
 %
-since \(\lim_{\epsilon \rightarrow 0} e^{\iu k \epsilon} = 1\), the integration over \(\dif \Omega\) doesn't depend on \(\epsilon\).
+since \(\lim_{\epsilon \rightarrow 0} e^{\iu k \epsilon} = 1\) and the integration over \(\dif \Omega\) doesn't depend on \(\epsilon\).
 %
 Therefore the field \(U\) at point \(P\) is determined by the \newterm{Kirchhoff-Helmholtz integral theorem}
 %
@@ -349,7 +364,7 @@ Therefore the field \(U\) at point \(P\) is determined by the \newterm{Kirchhoff
 %
 Note that the Kirchhoff-Helmholtz integral theorem determines \(U(P)\) as a function of the values of \(U\) and \(\partial U / \partial \bm{n}\) on the surface \(S\) alone.
 
-\subsubsection{Fresnel-Kirchhoff ’s diffraction}
+\subsubsection{Fresnel-Kirchhoff diffraction}
 
 \begin{figure}
     \centering
@@ -357,18 +372,19 @@ Note that the Kirchhoff-Helmholtz integral theorem determines \(U(P)\) as a func
     \begin{subfigure}[b]{\subfigwidth}
         \centering
         \includegraphics[width=\linewidth]{figures/appendix/fresnel-kirchoff.png}
-        \caption{The surface \(S\) from consists of portions \(\mathcal{A}, \mathcal{B}, \mathcal{C}\).}\label{subfig:fresnelkirchoffsurf}
+        \caption{The surface \(S\) consists of portions \(\mathcal{A}, \mathcal{B}, \mathcal{C}\) \cite{Ivanov2016ElementsOD}.}\label{subfig:fresnelkirchoffsurf}
     \end{subfigure}
+    \vskip\baselineskip
     \begin{subfigure}[b]{\subfigwidth}
         \centering
         \includegraphics[width=\linewidth]{figures/appendix/fresnelkirchoffsetup.png}
         \caption{Definition of angles and directions. \textbf{r} and \textbf{s} point in the direction of increasing \textit{r}
-        and \textit{s}, respectively, and \textbf{n} is normal to the screen. \((n,s)\) and \((n,r)\) indicate the angles between the normal \(\bm{n}\) and \(\bm{s}, \bm{r}\) respectively.}\label{subfig:fresnelkirchoffangles}
+        and \textit{s}, respectively, and \textbf{n} is normal to the screen. \((n,s)\) and \((n,r)\) indicate the angles between the normal \(\bm{n}\) and \(\bm{s}, \bm{r}\) respectively \cite{Ivanov2016ElementsOD}.}\label{subfig:fresnelkirchoffangles}
     \end{subfigure}
     \caption{Illustrating the derivation of the Fresnel-Kirchhoff diffraction formula of propagation through an aperture.}\label{fig:fresnelkirchoff}
 \end{figure}
 
-We now apply eqn.~\eqref{eqn:kirchoffhelmintegral} to the typical case of waves propagating through an aperture in a screen (see figure~\ref{}).
+We now apply eqn.~\eqref{eqn:kirchoffhelmintegral} to the typical case of waves propagating through an aperture in a screen (see figure~\ref{subfig:fresnelkirchoffsurf}).
 %
 We take as our surface \(S = \mathcal{A} \cup \mathcal{B} \cup \mathcal{C}\) where \(\mathcal{A}\) is the aperture itself, \(\mathcal{B}\) is the unilluminated side of the screen, and \(\mathcal{C}\) is a portion of a large sphere centered at \(P\).
 %
@@ -378,25 +394,25 @@ The Kirchhoff-Helmholtz integral dictates that
     U(P) = \frac{1}{4 \pi} \left\{ \int\limits_{\mathcal{A}}  + \int\limits_{\mathcal{B}} + \int\limits_{\mathcal{C}}  \right\} \left[ U \pdv{}{\bm{n}} \frac{e^{\iu k s}}{s} - \frac{e^{\iu k s}}{s} \pdv{U}{\bm{n}} \right] \dif S
 \end{equation}
 %
-Note that a fortiori the field is \(\sim 0\) on \(\mathcal{B}\) because it is unilluminated.
+Note that a fortiori the field is \(\sim\,\)0 on \(\mathcal{B}\) because it is unilluminated.
 %
 Similarly we'd hope the field on \(\mathcal{C}\) is approximately zero as well, since we are free to choose \(R\) as large as we want.
 %
-Unfortunately this isn't exactly the case; while it is true that \(U, \partial U/ \partial \bm{n} \rightarrow 0\) as \(R \rightarrow \infty\) it's also the case that the area of \(S \rightarrow \infty\) and so we don't necessarily have that the integral on \(\mathcal{C}\) vanishes.
+Unfortunately, this isn't exactly the case; while it is true that both \(U, \partial U/ \partial \bm{n} \rightarrow 0\) as \(R \rightarrow \infty\) it's also the case that the area of \(S \rightarrow \infty\) and so we don't necessarily have that the integral on \(\mathcal{C}\) vanishes.
 %
 To assure this we need to further assume \newterm{Sommerfeld’s radiation condition}:
 %
 \begin{equation}
-    \lim_{r \rightarrow \infty} r \left( U(r) - \pdv{U}{\bm{n}} \right)  = 0
+    \lim_{R \rightarrow \infty} R \left( U(R) - \pdv{U}{\bm{n}} \right)  = 0
 \end{equation}
 %
 which assumes we are only dealing with \textit{outgoing} waves.
 %
 With this assumption included the integral on \(\mathcal{C}\) indeed vanishes.
 
-This leaves the field on \(\mathcal{A}\) alone.
+This leaves the field on \(\mathcal{A}\).
 %
-Kirchoff assumed that the field on \(\mathcal{A}\) is the same as if the screen were absent, i.e. the field is determined by a spherical wave emanating from \(P_0\) (see eqn.~\eqref{eqn:helmholtzsoln}).
+Kirchoff assumed that the field on \(\mathcal{A}\) is the same as if the screen were absent, i.e., the field is determined by a spherical wave emanating from \(P_0\) (see eqn.~\eqref{eqn:helmholtzsoln}).
 %
 Therefore we have 
 %
@@ -405,18 +421,195 @@ Therefore we have
     &= \frac{A}{4 \pi}\int\limits_{\mathcal{A}} \left( \frac{e^{\iu k r}}{r} \pdv{}{\bm{n}} \frac{e^{\iu k s}}{s} - \frac{e^{\iu k s}}{s} \left(\pdv{}{\bm{n}} \frac{e^{\iu k r}}{r}\right) \right) \dif S
 \end{align}
 %
-Assuming the wavelength of the field is much smaller than the distances involved, i.e. \(\lambda \ll r, s\) (and therefore \(k \gg 1/r, 1/s\)), we can approximate \(\iu k - 1/r \approx \iu k - 1/s \approx \iu k\).
+Assuming the wavelength of the field is much smaller than the distances involved (\(\lambda \ll r, s\) both and therefore \(k \gg 1/r, 1/s\) both), we can approximate 
+\[
+  \iu k - \frac{1}{r} \approx \iu k - \frac{1}{s} \approx \iu k  
+\]
 %
 Then the \newterm{Fresnel-Kirchhoff diffraction formula} reads
 \begin{align}
     U(P) &= \frac{1}{4 \pi}\int\limits_{S} \left( U \pdv{}{\bm{n}} \frac{e^{\iu k s}}{s} - \frac{e^{\iu k s}}{s} \pdv{U}{\bm{n}} \right) \dif S  \\ 
-    &= \frac{\iu A}{2 \lambda}\int\limits_{\mathcal{A}}  \left( \frac{e^{\iu k (r+s)}}{r s} \left(\cos(\theta) - \cos(\phi) \right) \right) \dif S 
+    &= \frac{\iu A}{2 \lambda}\int\limits_{\mathcal{A}}  \left( \frac{e^{\iu k (r+s)}}{r s} \left(\cos(n, s) - \cos(n, r) \right) \right) \dif S \label{eqn:fresnelkirchoff}
 \end{align}
 %
-where \(\theta = (n, s)\) the angle between \(\bm{n}\) and \(\bm{s}\) and similarly \(\phi = (n, r)\) (see figure~\ref{subfig:fresnelkirchoffangles}).
+where \((n, s)\) is the angle between \(\bm{n}\) and \(\bm{s}\) and similarly \((n, r)\) (see figure~\ref{subfig:fresnelkirchoffangles}).
 
-\subsubsection{Fresnel’s Diffraction and Fraunhofer’s Diffraction}
+\subsubsection{Fraunhofer Diffraction}
 
+\begin{figure}
+    \centering 
+    \includegraphics[width=\linewidth]{figures/appendix/plane-screen.png}
+    \caption{Diffraction at an aperture in a plane screen. We introduce Cartesian coordinates with origin \(O\), where the \(xy\)-plane
+    and the aperture plane coincide and positive \(z\) direction points into the half-space containing \(P\). An arbitrary point \(Q\) within
+    the aperture is specified by the coordinates \(\xi, \eta\) \cite{Ivanov2016ElementsOD}.}\label{fig:planescreen}
+\end{figure}
+
+We now make further assumptions in order to be able to evaluate eqn.~\eqref{eqn:fresnelkirchoff} analytically.
+%
+Assume that the dimensions of the opening are large compared to \(\lambda \) but are small compared to \(r,s\). 
+%
+That is to say, \(\lambda \ll a \ll r,s\) where \(a\) is the characteristic size of the aperture (radius or edge length).
+
+%
+The assumption \(a \ll r,s\) implies \(\cos(n, s) - \cos(n, r)\) varies very little over the aperture (see figure~\ref{fig:planescreen}) and hence
+\begin{equation}
+    \cos(n, s) - \cos(n, r) \approx  \cos(n, s') - \cos(n, r')
+\end{equation}
+%
+and similarly \(1/rs \approx 1/r's'\).
+%
+Hence
+%
+\begin{equation}
+    U(P) \approx \frac{\iu A}{2 \lambda} \frac{\left(\cos(n, s') - \cos(n, r') \right) }{r's'}\int\limits_{\mathcal{A}} e^{\iu k (r+s)} \dif S \label{eqn:fresnelapprox}
+\end{equation}
+
+The integral in eqn.~\eqref{eqn:fresnelapprox} is still only numerically computable and so we make further assumptions in order to approximate \(e^{\iu k (r+s)}\).
+%
+First, we introduce a Cartesian coordinate system with origin \(O\) in the aperture, with the \(xy\)-axes in the plane of the aperture.
+%
+We then choose the positive \(z\) direction to point into the half-space that contains the point \(P\) (see figure~\ref{fig:planescreen}).
+%
+Let \(P_0 = (x_0, y_0, z_0)\), \(P = (x,y,z)\), and an arbitrary point \(Q = (\xi, \eta)\) in the aperture plane.
+%
+Then
+%
+\begin{align}
+    r^2 &= (x_0-\xi)^2 + (y_0 - \eta)^2 + z_0^2 \\
+    s^2 &= (x-\xi)^2 + (y - \eta)^2 + z^2 \\
+    (r')^2 &= x_0^2 + y_0^2 + z_0^2 \\
+    (s')^2 &= x^2 +y^2 + z^2 
+\end{align}
+%
+and hence
+%
+\begin{align}
+    r^2 &=  (r')^2 - 2 (x_0 \xi + y_0 \eta) + \xi^2 + \eta^2 \\
+    s^2 &=  (s')^2 - 2 (x \xi + y\eta) + \xi^2 + \eta^2
+\end{align}
+%
+Taking into account the assumption \(a \ll r,s\), we can neglect the distance \(\xi^2 + \eta^2\) of \(Q\) from the origin:
+%
+\begin{align}
+    r^2 &=  (r')^2 - 2 (x_0 \xi + y_0 \eta) \\
+    s^2 &=  (s')^2 - 2 (x \xi + y\eta)
+\end{align}
+%
+Now expanding expanding \(r,s\) using the power series for \(\sqrt{1+x}\) and neglecting higher order terms owing to \(a^2/\lambda \ll r,s\)
+%
+\begin{align}
+    r &\approx r' - \frac{x_0 \xi + y_0 \eta}{r'} \\
+    s &\approx s' - \frac{x \xi + y \eta}{s'}
+\end{align}
+%
+Finally substituting \(r,s\) into eqn.~\eqref{eqn:fresnelapprox}
+% %
+% \begin{equation}
+%     U(P) \approx C \int\limits_{\mathcal{A}} \exp\left\{-\iu k \left( \frac{x_0 \xi + y_0 \eta}{r'} + \frac{x \xi + y \eta}{s'}\right)\right\} \dif \xi \dif \eta
+% \end{equation}
+% %
+%
+the \newterm{Fraunhofer’s diffraction integral} is defined
+%
+\begin{equation}
+    U(p,q) \coloneqq U(P) \approx C \int\limits_{\mathcal{A}} \exp\left\{\iu k (p \xi + q \eta ) \right\} \dif \xi \dif \eta \label{eqn:fraunhoderapprox}
+\end{equation}
+%
+where
+%   
+\begin{equation}
+    C = \frac{\iu A}{2 \lambda} \frac{\cos(n, s') - \cos(n, r')}{r's'} e^{\iu k (r' + s')}
+\end{equation}
+%
+and
+%
+\begin{equation}
+    p = \frac{x_0}{r'} + \frac{x}{s'} \quad q = \frac{y_0}{r'} + \frac{y}{s'} 
+\end{equation}
+%
+are the coordinates \(p,q\) of a point \(P\) in the diffraction pattern.
+
+Notice that eqn.~\eqref{eqn:fraunhoderapprox} can be rewritten as a Fourier transform of the characteristic function\footnote{\(M(\xi, \eta) = 1\) in \(\mathcal{A}\) and 0 otherwise} \(M(\xi, \eta)\) of the aperture:
+%
+\begin{equation}
+    U(p,q) \coloneqq U(P) \approx C \int M(\xi, \eta) \exp\left\{\iu k (p \xi + q \eta ) \right\} \dif \xi \dif \eta
+\end{equation}
+%
+Thus the diffraction pattern is the spatial Fourier transform of the aperture (called the \newterm{optical transfer function}).
+
+\subsubsection{Diffraction through a Circular Aperture}\label{subsubsec:circularaperture}
+
+\begin{figure}
+    \centering
+    \newcommand*{\subfigwidth}{\linewidth}
+    \begin{subfigure}[b]{\subfigwidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/appendix/circotf.png}
+        \caption{Modulation transfer function \(y= \left[ \frac{2J_1(x)}{x} \right]^2\) for a circular aperture \cite{Ivanov2016ElementsOD}.}\label{subfig:mtfcirc}
+    \end{subfigure}
+    \vskip\baselineskip
+    \begin{subfigure}[b]{\subfigwidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/appendix/circpattern.png}
+        \caption{Simulated Fraunhofer diffraction from a circular aperture \cite{Ivanov2016ElementsOD}.}\label{subfig:fraunhofcircpattern}
+    \end{subfigure}
+    \caption{Fraunhofer diffraction through a circular aperture.}\label{fig:fraunhofcirc}
+\end{figure}
+
+We now investigate Fraunhofer diffraction through a circular aperture.
+%
+Using polar coordinates \((\rho, \theta)\) to parameterize the aperture coordinates \((\xi, \eta)\) and \((R, \psi)\) to parameterize the diffraction pattern point \(P\) coordinates \((p, q)\)
+%
+\begin{align}
+    \rho \cos (\theta) = \xi &\quad \rho \sin(\theta) = \eta \\
+    R \cos (\psi) = p &\quad R \sin(\psi) = q
+\end{align}
+%
+Note that \(R\), called the \newterm{angular resolution}, represents maximum resolvable distance in the diffraction pattern.
+%
+We express the argument of the exponential in the integrand of eqn.~\eqref{eqn:fraunhoderapprox}
+%
+\begin{multline}
+    -\iu k (p \xi + q \eta) = -\iu k \rho (p \cos(\theta) + q \sin(\theta))  \\
+    = -\iu k \sqrt{p^2 + q^2}\left( \frac{p \cos(\theta)}{\sqrt{p^2+q^2}} + \frac{q \sin(\theta)}{\sqrt{p^2+q^2}}   \right)  \\ 
+    = -\iu k \rho R \left(\cos(\psi) \cos(\theta) + \sin(\psi)\sin(\theta) \right) \\
+    = -\iu k \rho R \cos(\theta -\psi)
+\end{multline}
+%
+The integral in eqn.~\eqref{eqn:fraunhoderapprox} then becomes 
+%
+\begin{equation}
+    U(R, \psi) \coloneqq C \int\limits_{0}^a \int\limits_{0}^{2\pi} e^{-\iu k \rho R \cos(\theta - \psi)} \rho \dif \rho \dif \theta
+\end{equation}
+%
+where \(a\) is the radius of the aperture.
+%
+Using \newterm{Bessel functions of the first kind} \(J_0, J_1\) we have 
+%
+\begin{align}
+    U(R) &\coloneqq 2 \pi C \int\limits_0^a J_0(k \rho R) \rho \dif \rho \\ 
+    & = \pi C a^2 \frac{2 J_1 (k a R)}{k a R}
+\end{align}
+%
+with intensity (see figure~\ref{subfig:mtfcirc})
+%
+\begin{equation}
+    I(R) \propto \abs{U(R)}^2 = I_0 \left[ \frac{2 J_1 (k a R)}{k a R} \right]^2\label{eqn:circintens}
+\end{equation}
+%
+where \(I_0\) is peak intensity (which happens to be the intensity at the central peak).
+
+Note that the central maximum of eqn.~\eqref{eqn:circintens} comprises 98\% of the transmitted power. 
+%
+Therefore the effect of a circular aperture is to disperse a point source into a large circular shape (see figure~\ref{subfig:fraunhofcircpattern}).
+%
+Note also that the first zero appears at \(k a R \approx 1.22\pi\) and so we recover Rayleigh's criterion as 
+%
+\begin{equation}
+    R_{min} \approx 1.22 \frac{\pi}{k a} = 1.22 \frac{\lambda\pi}{2\pi a} = 1.22 \frac{\lambda}{D} 
+\end{equation}
+%
+where \(D = 2a\) the diameter of the aperture.
 % \subsection{Automatic Differentiation}\label{subsubsec:autodiff}
 
 % Let
