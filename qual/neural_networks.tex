@@ -558,25 +558,24 @@ A spatial transformer \cite{jaderberg2015spatial} is an attention mechanism that
 Note that the transformation is conditional on the input, just as attention is conditional on the input.
 %
 The transformer operates on input \(U\) to produce output \(V\) in three phases, each of which is implemented by a module (see figure~\ref{fig:spacetransformer}): 
+%
 \begin{figure}[!htbp]
     \centering
     \includegraphics[width=.49\textwidth]{figures/neural_networks/space_transformer.png}
     \caption{Spatial Transformer \cite{jaderberg2015spatial}.}\label{fig:spacetransformer}
 \end{figure}
 %
-\begin{mdframed}
-    \begin{enumerate}
-        \item \textbf{Localization}: a regression network \(f_{\text{loc}}(\cdot)\) that regresses the transformation parameters \(\bm{\theta}\) that parameterize the transformation \(\mathcal{T}_{\bm{\theta}}\). For example the six parameters that define an affine transformation (see figure~\ref{fig:affinetransformation}) in homogeneous coordinates.
-        \item \textbf{Grid generation}: a sampling grid network, which generates the set of points where the input should be sampled to produce the transformed output (see figure~\ref{fig:paramsampling}). In practice it takes \(\bm{\theta}\) and the coordinate system as fixed parameters and generates a grid but in full generality this module can learn the correct coordinate representation.
-        \item \textbf{Sampler}: a sampling kernel \(K\) that controls sampling strength on the transformed \((n,m)\) grid:
-        \begin{equation*}
-            V(x,y) = \sum_n \sum_m U(n,m) K(x-m, y-n)
-        \end{equation*}
-        Note that the kernel only need be a differentiable function such as, for example, the bilinear kernel \begin{equation*}
-            K(i, j) \coloneqq \max(0, 1-\abs{i})\cdot \max(0, 1- \abs{j})
-        \end{equation*}
-    \end{enumerate}
-\end{mdframed}
+\begin{enumerate}
+    \item \textbf{Localization}: a regression network \(f_{\text{loc}}(\cdot)\) that regresses the transformation parameters \(\bm{\theta}\) that parameterize the transformation \(\mathcal{T}_{\bm{\theta}}\). For example the six parameters that define an affine transformation (see figure~\ref{fig:affinetransformation}) in homogeneous coordinates.
+    \item \textbf{Grid generation}: a sampling grid network, which generates the set of points where the input should be sampled to produce the transformed output (see figure~\ref{fig:paramsampling}). In practice it takes \(\bm{\theta}\) and the coordinate system as fixed parameters and generates a grid but in full generality this module can learn the correct coordinate representation.
+    \item \textbf{Sampler}: a sampling kernel \(K\) that controls sampling strength on the transformed \((n,m)\) grid:
+    \begin{equation*}
+        V(x,y) = \sum_n \sum_m U(n,m) K(x-m, y-n)
+    \end{equation*}
+    Note that the kernel only need be a differentiable function such as, for example, the bilinear kernel \begin{equation*}
+        K(i, j) \coloneqq \max(0, 1-\abs{i})\cdot \max(0, 1- \abs{j})
+    \end{equation*}
+\end{enumerate}
 %
 \begin{figure*}[!htbp]
     \centering
