@@ -563,6 +563,7 @@ The transformer operates on input \(U\) to produce output \(V\) in three phases,
     \includegraphics[width=.49\textwidth]{figures/neural_networks/space_transformer.png}
     \caption{Spatial Transformer \cite{jaderberg2015spatial}.}\label{fig:spacetransformer}
 \end{figure}
+%
 \begin{mdframed}
     \begin{enumerate}
         \item \textbf{Localization}: a regression network \(f_{\text{loc}}(\cdot)\) that regresses the transformation parameters \(\bm{\theta}\) that parameterize the transformation \(\mathcal{T}_{\bm{\theta}}\). For example the six parameters that define an affine transformation (see figure~\ref{fig:affinetransformation}) in homogeneous coordinates.
@@ -576,6 +577,7 @@ The transformer operates on input \(U\) to produce output \(V\) in three phases,
         \end{equation*}
     \end{enumerate}
 \end{mdframed}
+%
 \begin{figure*}[!htbp]
     \centering
     \begin{subfigure}[b]{.39\textwidth}
