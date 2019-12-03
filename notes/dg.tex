@@ -235,3 +235,32 @@ In general we can identify vector fields with parameterized column vectors
         a^1(p) \\ \vdots \\ a^n(p)
     \end{bmatrix}
 \end{equation}
+
+\subsection{Exterior Algebra}
+
+\(\operatorname{Hom}(V,W)\) is the vector space of all linear maps \(f \colon V \rightarrow W\). The \newterm{dual space} \(V^{\wedge}\) of \(V\) is defined
+\[
+    V^{\wedge} \coloneqq \operatorname{Hom}(V, \mathbb{R})
+\]
+i.e. all real-valued linear functions on \(V\). Elements of \(V^{\wedge}\) are called \newterm{covectors}.
+
+Assume \(V\) is finite dimensional. 
+%
+Let \(\alpha^i \colon V \rightarrow \mathbb{R}\) be the linear function that picks out the \(i\)th coordinate of a vector 
+\begin{align}
+    \alpha^i(X) &= \alpha^i \left(\sum_j a^j(p) \evalat[\bigg]{\pdv{}{x^j}}{p} \right) \\ 
+    &= \sum_j a^j(p) \alpha^i \left(\evalat[\bigg]{\pdv{}{x^j}}{p} \right) \\
+    &= \sum_j a^j(p) \delta_j^i \\
+    &= a^j(p)
+\end{align}
+%
+i.e. \(\alpha^i(X) = a^i(p)\).
+%
+Note that position of indices is important -- upper indices are for covectors.
+%
+Note also that
+\[
+    \alpha^i(e_j) = \delta_j^i    
+\]
+%
+Thus, the dual basis to \(\{e_i\}\) is the set of functions that project down to a coordinate \(a^i(p)\) (also I guess called the coordinate functions themselves?).
