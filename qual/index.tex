@@ -1,0 +1,53 @@
+\PassOptionsToPackage{intlimits}{amsmath}
+
+% \documentclass[journal]{IEEEtran}
+\documentclass[twocolumn]{article}
+\include{preamble}
+\input{footnotes.tex}
+\usepackage{fnbreak}
+\begin{document}
+\title{Super Resolution for Automated Target Recognition}
+\author{Maksim Levental}
+\maketitle
+
+\begin{abstract}
+	Super resolution is the process of producing high-resolution images from low-resolution images while preserving ground truth about the subject matter of the images and potentially inferring more such truth.
+	%
+	Algorithms that successfully carry out such a process are broadly useful in all circumstances where high-resolution imagery is either difficult or impossible to obtain.
+	%
+	In particular we look towards super resolving images collected using longwave infrared cameras since high resolution sensors for such cameras do not currently exist.
+	%
+	We present an exposition of motivations and concepts of super resolution in general, and current techniques, with a qualitative comparison of such techniques.
+	%
+	Finally we suggest directions for future research.
+\end{abstract}
+% \newpage
+\tableofcontents
+
+\input{introduction.tex}
+
+\newpage
+\input{background.tex}
+
+\newpage
+\input{registration.tex}
+
+\newpage
+\input{classical.tex}
+
+\newpage
+\input{neural_networks.tex}
+
+\newpage
+\input{conclusions.tex}
+
+\newpage
+\input{appendix.tex}
+
+\newpage
+\printbibliography
+
+\newpage
+\printindex
+
+\end{document}

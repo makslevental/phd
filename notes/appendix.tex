@@ -5,7 +5,7 @@
 
 \subsubsection{Linear Operator}\label{subsubsec:linearoperator}
 
-A map \(L \colon V \rightarrow W\) between vector spaces over a field \(K\) is a \newterm{linear operator} if 
+A map \(L \colon V \rightarrow W\) between vector spaces over a field \(K\) is a \newterm{linear operator} if
 %
 \begin{enumerate}
     \item \textbf{distributivity}: \(L(u+v) = L(u) + L(v)\)
@@ -52,10 +52,10 @@ It's the case that addition and multiplication of functions \textbf{induces addi
 
 \subsubsection{Module}
 
-If \(R\) is a communicative ring with identity, then a (left) \(R-\)\newterm{module} is an abelian group \(A\) with a scalar multiplication map 
+If \(R\) is a commutative ring with identity, then a (left) \(R-\)\newterm{module} is an abelian group \(A\) with a scalar multiplication map
 %
 \begin{equation}
-    \mu \colon R\times A \rightarrow A 
+    \mu \colon R\times A \rightarrow A
 \end{equation}
 %
 such that \(\mu\) is
@@ -69,3 +69,66 @@ such that \(\mu\) is
 If \(R\) is a field, then an \(R-\)module is a vector space over \(R\); in this sense modules generalize vector space to scalars from a ring rather than a field.
 
 Let \(A, A'\) be \(R-\)modules. An \newterm{\(R-\)module homomorphism} \(f\colon A \rightarrow A'\) is a map that preserves both addition and scalar multiplication.
+
+
+\subsection{Tensor Product}
+
+Let \(f\) be \(k\)-linear function and \(g\) be an \(\ell\)-linear function on a vector space \(V\). Then, their \newterm{tensor product} is the \((k+\ell)\)-linear function \(f\otimes g\)
+\begin{equation}
+    (f \otimes g) (v_1, \dots, v_{k+\ell}) \coloneqq f(v_1, \dots, v_k)g(v_{k+1}, \dots, v_{k+\ell})
+\end{equation}
+
+\begin{example}
+    (\newterm{Bilinear maps}) Let \(\{e_i\}\) be a basis for a vector space \(V\) and \(\{\alpha^j\}\) be the dual basis for \(V^\vee\). Also let \(\langle\,,\rangle\colon V \times V \rightarrow \R\) be a bilinear map on \(V\). Set \(g_{ij} = \langle e_i, e_j \rangle\in \R\). If
+    \begin{align}
+        v & = \sum v^i e_i \\
+        w & = \sum w^i e_i
+    \end{align}
+    then \(v^i = \alpha^i(v)\) and \(w^j = \alpha^j(w)\), where \(\alpha\) are the coordinate functions \(a^i, a^j\). By bilinearity, we can express \(\langle\,,\rangle\) in terms of the tensor product
+    \begin{equation}
+        \begin{split}
+            \langle v,w \rangle &= \sum_{ij} v^i w^j \langle e_i, e_j\rangle \\
+            &= \sum \alpha^i(v) \alpha^i(w) g_{ij} \\
+            &= \sum (\alpha^i \otimes \alpha^j)(v,w) \times g_{ij}
+        \end{split}
+    \end{equation}
+    Hence \(\langle\,,\rangle = \sum g_{ij}\, \alpha^i \otimes \alpha^j\)
+\end{example}
+
+\subsection{Wedge Product}
+
+Let \(f\) be \(k\)-linear function and \(g\) be an \(\ell\)-linear function on a vector space \(V\).
+If  \(f,g\) are alternating\anote{alternating} then we would like their product to be alternating as well: the \newterm{wedge product} or \newterm{exterior product} \(f \wedge g\)
+\begin{align}
+    f \wedge g & \coloneqq \frac{1}{k!l!}  A(f \otimes g) \\
+               & \coloneqq 
+               \begin{multlined}[t]
+                    \frac{1}{k!l!}  \sum_{\sigma \in S_{k+\ell}} (\operatorname{sgn}(\sigma)) f(v_{\sigma(1)}, \dots, v_{\sigma(k)}) \\ 
+                    g(v_{\sigma(k+1)}, \dots, v_{\sigma(k+\ell)})
+                \end{multlined}
+\end{align}
+where \(S_{k+\ell}\) is the \newterm{permutation group} on \(k+\ell\) elements.
+
+Note that the wedge product of three alternating functions \(f,g,h\) generalizes to 
+\begin{equation}
+    f \wedge g \wedge h = \frac{1}{k!\ell!m!} = A(f\otimes g \otimes h)
+\end{equation}
+and any number of alternating functions.
+
+\begin{proposition}
+    (\textit{Wedge product of 1-covectors}) If \(\{\alpha^i\}\) are linear functions on \(V\) and \(v_i \in V\) then 
+    \begin{equation}
+        \alpha^1 \wedge \cdots \wedge \alpha^k (v_1, \dots, v_k) = \det([\alpha^i(v_j)])
+    \end{equation}
+    where \([\alpha^i(v_j)]\) is the matrix where the \(i,j\)-entry is \(\alpha^i(v_j)\).
+\end{proposition}
+
+\begin{proof}
+    \begin{align}
+        &\begin{multlined}
+        \alpha^1 \wedge \cdots \wedge \alpha^k (v_1, \dots, v_k) = \\  A(\alpha^1 \wedge \cdots \wedge \alpha^k) (v_1, \dots, v_k)
+        \end{multlined} \\
+        &= \sum_{\sigma \in S_k} (\operatorname{sgn}(\sigma)) \alpha^1 (v_{\sigma(1)}) \wedge \cdots \wedge \alpha^k (v_{\sigma(k)}) \\ 
+        &= \det([\alpha^i(v_j)])
+    \end{align}
+\end{proof}
