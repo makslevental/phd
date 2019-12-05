@@ -237,9 +237,11 @@ In general we can identify vector fields with parameterized column vectors
 \end{equation}
 
 \subsection{Dual Space}
+
 \newcommand{\pdx}[1]{\partial_{x_{#1}}}
 \newcommand*{\vwedge}{V^\wedge }
 \newcommand*{\vx}{X = \sum a^i \partial_{x_i}}
+
 The \newterm{dual space} \(\vwedge\) of \(V\) is the set of all real-valued linear functions on \(V\) i.e. all \(f \colon V \rightarrow \R\).
 %
 Elements of \(\vwedge\) are called \newterm{covectors}.
@@ -253,6 +255,7 @@ Then \(\vx\) for all \(X \in T_p\).
 Let \(\alpha^i \colon V \rightarrow \mathbb{R}\) be the linear function that picks out the \(i\)th coordinate of a \textbf{vector}, i.e. \(\alpha^i(X) = a^i(p)\).
 %
 Note that 
+%
 \begin{align}
     \alpha^i(\partial_j) &= \alpha^i(1\cdot \partial_j) \\
     &= \begin{cases}
@@ -261,34 +264,52 @@ Note that
     \end{cases} \\
     &=\delta_j^i
 \end{align}
+%
 Note that position of indices is important -- upper indices are for covectors.
+%
 \begin{proposition}
     \(\{\alpha^i\}\) form a basis for \(\vwedge\).
 \end{proposition}
+%
 \begin{proof}
+    %
     We first prove that \(\{\alpha^i\}\) span \(\vwedge\). If \(f \in V^\wedge\) and \(\vx \in V\), then
+    %
     \begin{align}
         f(X) &= \sum a^i f(\pdx{i}) \\
         &= \sum \alpha^i(X) f(\pdx{i}) \\
         &= \sum f(\pdx{i}) \alpha^i (X)
     \end{align}
+    %
     which shows that any \(f\) can be expanded as a linear sum of \(\alpha^i\).
+    %
     To show linear independence, suppose \(\sum c_i \alpha^i = 0\) with at least one \(c_i\) non-zero. Applying this to an arbitrary \(\pdx{i}\) gives 
+    %
     \begin{equation}
         0 = \left(\sum_i c_i \alpha^i   \right)(\pdx{i}) = \sum_i c_i \alpha^i(\pdx{i}) = \sum_i c_i \delta_j^i = c_j
     \end{equation}
+    %
     which is a contradiction. Hence \(\alpha^i\) are linearly independent.
+    %
 \end{proof}
+%
 This basis \(\{\alpha^i\}\) for \(\vwedge\) is said to be \textit{dual} to the basis \(\{\pdx{i}\}\) for \(V\).
-
-
+%
 \begin{example}
-   (\newterm{Coordinate functions}) With respect to a basis \(\{\pdx{i}\}\) for \(V\), every \(X \in V\) can be written uniquely as a linear combination \(\vx\) with \(a^i \in \R\). Let \(\{\alpha^i\}\) be the dual basis (i.e. the basis for \(\vwedge\)). Then 
+    %
+   (\newterm{Coordinate functions}) With respect to a basis \(\{\pdx{i}\}\) for \(V\), every \(X \in V\) can be written uniquely as a linear combination \(\vx\) with \(a^i \in \R\). Let \(\{\alpha^i\}\) be the dual basis (i.e. the basis for \(\vwedge\)).
+   %
+   Then 
+   %
    \begin{align*}
         \alpha^i(X) &= \alpha^i \left( \sum_j a^j \pdx{j} \right) \\
         &= \sum_j a^j \alpha^i(\pdx{j})  \\ 
         &= \sum_j a^j \delta_j^i \\
         &= a^i
    \end{align*}
-   Thus, the dual basis \(\{\alpha^i\}\) to \(\{\pdx{i}\}\) is the set of coordinate functions. The sense here is that since tangent vectors are directional derivatives (i.e.\ operators on functions) and the dual space is a mapping from those operators to \(\R\), then a mapping from operators to scalars means hitting an operator with a function (or vice-versa). \textbf{And} the coordinate functions are constant with respect to each other coordinate (and hence partials wrt them are naturally zero).
+   %
+   Thus, the dual basis \(\{\alpha^i\}\) to \(\{\pdx{i}\}\) is the set of coordinate functions. 
+   %
+   The sense here is that since tangent vectors are directional derivatives (i.e.\ operators on functions) and the dual space is a mapping from those operators to \(\R\), then a mapping from operators to scalars means hitting an operator with a function (or vice-versa). \textbf{And} the coordinate functions are constant with respect to each other coordinate (and hence partials wrt them are naturally zero).
 \end{example}
+

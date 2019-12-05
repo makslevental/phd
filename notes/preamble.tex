@@ -10,10 +10,11 @@
 \usepackage[backend=biber, bibencoding=utf8, style=ieee, backref=true]{biblatex}
 \usepackage[hyperfootnotes=false,hyperindex=true]{hyperref}
 \usepackage[utf8]{inputenc}
-\usepackage{amsmath,amssymb,amsfonts,amsthm} % math
+\usepackage{amssymb,amsfonts,amsthm} % math
+\usepackage{mathtools} % coloneqq
+
 \usepackage{bm} % \bm 
 \usepackage{physics} % \pdv
-\usepackage{mathtools} % coloneqq
 \usepackage{imakeidx} % index
 \usepackage{etoc} % localtabelofcontents
 \usepackage{tikz}
@@ -58,7 +59,7 @@
 % other packages
 \usepackage{graphicx}
 \usepackage{enumitem}
-\usepackage{color}
+\usepackage{xcolor}
 \usepackage{hyperref}
 \hypersetup{
     colorlinks=true,
@@ -79,26 +80,83 @@
 \theoremstyle{definition}
 \newtheorem{example}{Example}[section]
 
-% define tags for math use..
-\theoremstyle{plain}% default
-\newtheorem{theorem}{Theorem}[section]
-\newtheorem{corollary}{Corollary}[theorem]
+% % define tags for math use..
+% \theoremstyle{plain}% default
+% \newtheorem{theorem}{Theorem}[section]
+% \newtheorem{corollary}{Corollary}[theorem]
+
+
+% \theoremstyle{remark}
+% \newtheorem*{rem}{Remark}
+% \newtheorem*{note}{Note}
+% \newtheorem{case}{Case}
+
+% % Gives begin{solution} same formating as \begin{proof}
+% \newenvironment{solution}
+%   {\begin{proof}[Solution]}
+%   {\end{proof}}
+
+\usepackage{mdframed}
+%--------------------------------
+% Redefinition of `\newmdtheoremenv` for accepting a starred version
+% \DeclareDocumentCommand\newmdtheoremenv{s O{} m o m o }{%
+% \IfBooleanTF{#1}{%
+%    \newtheorem*{#3}{#5}%
+%  }{%
+%  \ifboolexpr{ test {\IfNoValueTF {#4}} and test {\IfNoValueTF {#6}} }%
+%     {\newtheorem{#3}{#5}}{%
+%      \IfValueTF{#4}{\newtheorem{#3}[#4]{#5}}{}%
+%      \IfValueTF{#6}{\newtheorem{#3}{#5}[#6]}{}%
+%     }
+%   }%
+%   \BeforeBeginEnvironment{#3}{%
+%      \begin{mdframed}[#2]}%
+%   \AfterEndEnvironment{#3}{%
+%      \end{mdframed}}%
+% }
+%--------------------------------
+% theorem
+\mdfdefinestyle{theoremSty}{backgroundcolor=blue!10,skipabove=5pt,skipbelow=5pt}
+\mdfdefinestyle{propositionSty}{backgroundcolor=yellow!10,skipabove=5pt,skipbelow=5pt}
+\mdfdefinestyle{proofSty}{backgroundcolor=white,skipabove=5pt,skipbelow=5pt,hidealllines=true}
+\mdfdefinestyle{definitionSty}{backgroundcolor=green!10,skipabove=5pt,skipbelow=5pt}
+
+\newcounter{theoremCounter}[section]
+\numberwithin{theoremCounter}{section}
+
+\theoremstyle{theorem}
+\newmdtheoremenv[style=theoremSty]{theorem}[theoremCounter]{Theorem}
+
+% proposition
+\newcounter{propositionCounter}[section]
+\numberwithin{propositionCounter}{section}
+
+\theoremstyle{proposition}
+\newmdtheoremenv[style=propositionSty]{proposition}[propositionCounter]{Proposition}
+
+% proof
+% \newcounter{proofCounter}[section]
+% \numberwithin{proofCounter}{section}
+
+% \theoremstyle{definition}
+% \newmdtheoremenv[style=proofSty]{prf}{Proof}
+
+% definition
+\newcounter{definitionCounter}[section]
+\numberwithin{definitionCounter}{section}
 
 \theoremstyle{definition}
-\newtheorem{defn}{Definition}[section]
-\newtheorem{proposition}{Proposition}[defn]
-\newtheorem{exmp}{Example}[section]
+\newmdtheoremenv[style=definitionSty]{definition}[definitionCounter]{Definition}
 
-\theoremstyle{remark}
-\newtheorem*{rem}{Remark}
-\newtheorem*{note}{Note}
-\newtheorem{case}{Case}
 
-% Gives begin{solution} same formating as \begin{proof}
-\newenvironment{solution}
-  {\begin{proof}[Solution]}
-  {\end{proof}}
 
+\usepackage{tablefootnote} 
+\makeatletter 
+\AfterEndEnvironment{mdframed}{%
+ \tfn@tablefootnoteprintout% 
+ \gdef\tfn@fnt{0}% 
+}
+\makeatother 
 
 %running fraction with slash - requires math mode.
 \newcommand*\rfrac[2]{{}^{#1}\!/_{#2}}

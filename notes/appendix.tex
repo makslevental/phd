@@ -71,7 +71,7 @@ If \(R\) is a field, then an \(R-\)module is a vector space over \(R\); in this 
 Let \(A, A'\) be \(R-\)modules. An \newterm{\(R-\)module homomorphism} \(f\colon A \rightarrow A'\) is a map that preserves both addition and scalar multiplication.
 
 
-\subsection{Tensor Product}
+\subsubsection{Tensor Product}
 
 Let \(f\) be \(k\)-linear function and \(g\) be an \(\ell\)-linear function on a vector space \(V\). Then, their \newterm{tensor product} is the \((k+\ell)\)-linear function \(f\otimes g\)
 \begin{equation}
@@ -92,10 +92,10 @@ Let \(f\) be \(k\)-linear function and \(g\) be an \(\ell\)-linear function on a
             &= \sum (\alpha^i \otimes \alpha^j)(v,w) \times g_{ij}
         \end{split}
     \end{equation}
-    Hence \(\langle\,,\rangle = \sum g_{ij}\, \alpha^i \otimes \alpha^j\)
+    Hence \(\langle\,,\rangle = \sum g_{ij}\, \alpha^i \otimes \alpha^j\).
 \end{example}
 
-\subsection{Wedge Product}
+\subsubsection{Wedge Product}
 
 Let \(f\) be \(k\)-linear function and \(g\) be an \(\ell\)-linear function on a vector space \(V\).
 If  \(f,g\) are alternating\anote{alternating} then we would like their product to be alternating as well: the \newterm{wedge product} or \newterm{exterior product} \(f \wedge g\)
@@ -126,9 +126,72 @@ and any number of alternating functions.
 \begin{proof}
     \begin{align}
         &\begin{multlined}
-        \alpha^1 \wedge \cdots \wedge \alpha^k (v_1, \dots, v_k) = \\  A(\alpha^1 \wedge \cdots \wedge \alpha^k) (v_1, \dots, v_k)
+        \alpha^1 \wedge \cdots \wedge \alpha^k (v_1, \dots, v_k) = \\  
+        A(\alpha^1 \wedge \cdots \wedge \alpha^k) (v_1, \dots, v_k)
         \end{multlined} \\
         &= \sum_{\sigma \in S_k} (\operatorname{sgn}(\sigma)) \alpha^1 (v_{\sigma(1)}) \wedge \cdots \wedge \alpha^k (v_{\sigma(k)}) \\ 
         &= \det([\alpha^i(v_j)])
     \end{align}
 \end{proof}
+
+Let \(\{e_i\}\) be a basis for a vector space \(V\) and let \(\alpha_j\) be the dual basis for \(V^\vee\).
+%
+Define \newterm{multi-index notation}
+%
+\begin{equation}
+\begin{split}
+    I &\coloneqq (i_1, \dots, i_k)  \\
+    e_I &\coloneqq (e_{i_1}, \dots, e_{i_k})  \\
+    \alpha_I &\coloneqq \alpha^{i_1} \wedge \cdots \wedge \alpha^{i_k}
+\end{split}
+\end{equation}
+%
+A \(k\)-linear function on \(V\) is completely determined by its values on all \(k\)-tuples \(e_I\).
+%
+If \(f\) is alternating then you only need all increasing multi-indices \(1 \leq i_1 \leq \cdots \leq i_k \leq n\).
+
+
+
+\subsubsection{Graded Algebra}
+\newcommand{\gradedA}{A = \bigoplus_k A_k}
+
+\begin{definition}
+
+A \newterm{graded algebra} \(A\) over a field \(K\) is one that can be written as a \newterm{direct sum}\tablefootnote{The direct sum of two abelian groups \(A\) and \(B\) is another abelian group \(A\oplus B\) consisting of the ordered pairs \((a,b)\) where \(a\in A\) and \(b\in B\). (Confusingly this ordered pair is also called the cartesian product of the two groups.) To add ordered pairs, we define the sum \((a, b)\) + \((c, d)\) to be \((a + c, b + d)\); in other words addition is defined coordinate-wise. Note that \(A^2 \coloneqq A \oplus A\). A similar process can be used to form the direct sum of any two algebraic structures, such as rings, modules, and vector spaces.}
+\[
+     A=\bigoplus _{n\in \mathbb {N} _{0}}A_{n}=A_{0}\oplus A_{1}\oplus A_{2}\oplus \cdots 
+\]
+such that the multiplication map \(\mu\)
+\[
+    \mu \colon A_k \times A_\ell \rightarrow A_{k + \ell}    
+\]
+i.e. \(A_k\cdot A_\ell \subset A_{k+\ell}\). Elements of any factor \(A_n\) of the decomposition are called homogeneous elements of degree \(n\).
+\(\gradedA\) is said to \newterm{graded commutative} or \(anticommutative\) if for all \(a\in A_k, b\in A_\ell\)
+\[
+ab = (-1)^{k\ell} ba
+\]
+
+\end{definition}
+
+\begin{example}
+    The \newterm{polynomial algebra}\tablefootnote{The algebra of polynomials in two variables with coefficients and scalars in \(\R\) where addition is degree-coefficient wise and ``foil'' multiplication}
+    \(A=\R[x,y]\) is \newterm{graded by degree}; \(A_k\) consists of all homogeneous polynomials of total degree \(k\). It is a direct sum of \(A_{i}\) consisting of homogeneous polynomials of degree \(i\) e.g.
+    \[
+        \left( x \in A_1 \right)
+        \times  
+        \left( x+y \in A_1  \right) = 
+        \left( x^2+xy \in A_2 \right) 
+    \]
+\end{example}
+
+\begin{definition}
+    For a finite dimensional vector space \(V\) define 
+    \begin{equation}
+        \begin{split}
+            A_*(V) &\coloneqq \bigoplus_{k=0}^\infty A_k(V)  \\
+            &\;= \bigoplus_{k=0}^n A_k(V) \\
+        \end{split}
+    \end{equation}
+    where \(A_k(V)\) is the set of all \(k\)-linear covectors on \(V\).
+    With the wedge product as multiplication \(A_*\) becomes and anticommutative algebra called the \newterm{\textbf{exterior algebra}} or \newterm{\textbf{Grassmann algebra}} of covectors.
+\end{definition}
