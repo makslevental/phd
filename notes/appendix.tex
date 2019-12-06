@@ -78,7 +78,7 @@ Let \(f\) be \(k\)-linear function and \(g\) be an \(\ell\)-linear function on a
     (f \otimes g) (v_1, \dots, v_{k+\ell}) \coloneqq f(v_1, \dots, v_k)g(v_{k+1}, \dots, v_{k+\ell})
 \end{equation}
 
-\begin{example}
+\begin{example}{}{}
     (\newterm{Bilinear maps}) Let \(\{e_i\}\) be a basis for a vector space \(V\) and \(\{\alpha^j\}\) be the dual basis for \(V^\vee\). Also let \(\langle\,,\rangle\colon V \times V \rightarrow \R\) be a bilinear map on \(V\). Set \(g_{ij} = \langle e_i, e_j \rangle\in \R\). If
     \begin{align}
         v & = \sum v^i e_i \\
@@ -115,7 +115,7 @@ Note that the wedge product of three alternating functions \(f,g,h\) generalizes
 \end{equation}
 and any number of alternating functions.
 
-\begin{proposition}
+\begin{proposition}{}{}
     (\textit{Wedge product of 1-covectors}) If \(\{\alpha^i\}\) are linear functions on \(V\) and \(v_i \in V\) then 
     \begin{equation}
         \alpha^1 \wedge \cdots \wedge \alpha^k (v_1, \dots, v_k) = \det([\alpha^i(v_j)])
@@ -149,49 +149,72 @@ Define \newterm{multi-index notation}
 A \(k\)-linear function on \(V\) is completely determined by its values on all \(k\)-tuples \(e_I\).
 %
 If \(f\) is alternating then you only need all increasing multi-indices \(1 \leq i_1 \leq \cdots \leq i_k \leq n\).
-
+%
+\begin{lemma}{}{}
+   Let \(I, J\) be increasing multi-indices of length \(k\), then 
+   %
+   \begin{equation}
+        \alpha^I(e_J) = \delta_J^I \coloneqq \begin{cases}
+            1 \text{ for } I = J \\ 
+            0 \text{ for } I \neq J
+        \end{cases}
+   \end{equation}
+\end{lemma}
+%
+\begin{proposition}{}{}
+    The alternating \(k\)-linear functions \(\alpha^I\), \(I \coloneqq (i_1 < \cdots < i_k)\) form a basis for the space \(A^k(V)\) of alternating \(k\)-linear functions on \(V\).
+\end{proposition}
+%
+\begin{corollary}{}{}
+     If the vector space \(V\) has dimension \(n\), then the vector space \(A^k(V)\) of \(k\)-covectors on \(V\) has dimension \(n \choose k\).
+\end{corollary}
+%
+\begin{corollary}{}{}
+     If \(k > \dim(V)\), then \(A^k(V) = 0\).
+\end{corollary}
 
 
 \subsubsection{Graded Algebra}
-\newcommand{\gradedA}{A = \bigoplus_k A_k}
+\newcommand{\gradedA}{A = \bigoplus_k A^k}
 
-\begin{definition}
+\begin{definition}{}{}
 
 A \newterm{graded algebra} \(A\) over a field \(K\) is one that can be written as a \newterm{direct sum}\tablefootnote{The direct sum of two abelian groups \(A\) and \(B\) is another abelian group \(A\oplus B\) consisting of the ordered pairs \((a,b)\) where \(a\in A\) and \(b\in B\). (Confusingly this ordered pair is also called the cartesian product of the two groups.) To add ordered pairs, we define the sum \((a, b)\) + \((c, d)\) to be \((a + c, b + d)\); in other words addition is defined coordinate-wise. Note that \(A^2 \coloneqq A \oplus A\). A similar process can be used to form the direct sum of any two algebraic structures, such as rings, modules, and vector spaces.}
 \[
-     A=\bigoplus _{n\in \mathbb {N} _{0}}A_{n}=A_{0}\oplus A_{1}\oplus A_{2}\oplus \cdots 
+     A=\bigoplus _{n\in \mathbb {N} _{0}}A^{n}=A^{0}\oplus A^{1}\oplus A^{2}\oplus \cdots 
 \]
 such that the multiplication map \(\mu\)
 \[
-    \mu \colon A_k \times A_\ell \rightarrow A_{k + \ell}    
+    \mu \colon A^k \times A^\ell \rightarrow A^{k + \ell}    
 \]
-i.e. \(A_k\cdot A_\ell \subset A_{k+\ell}\). Elements of any factor \(A_n\) of the decomposition are called homogeneous elements of degree \(n\).
-\(\gradedA\) is said to \newterm{graded commutative} or \(anticommutative\) if for all \(a\in A_k, b\in A_\ell\)
+i.e. \(A^k\cdot A^\ell \subset A^{k+\ell}\). Elements of any factor \(A^n\) of the decomposition are called homogeneous elements of degree \(n\).
+\(\gradedA\) is said to \newterm{graded commutative} or \(anticommutative\) if for all \(a\in A^k, b\in A^\ell\)
 \[
 ab = (-1)^{k\ell} ba
 \]
 
 \end{definition}
 
-\begin{example}
+\begin{example}{}{}
     The \newterm{polynomial algebra}\tablefootnote{The algebra of polynomials in two variables with coefficients and scalars in \(\R\) where addition is degree-coefficient wise and ``foil'' multiplication}
-    \(A=\R[x,y]\) is \newterm{graded by degree}; \(A_k\) consists of all homogeneous polynomials of total degree \(k\). It is a direct sum of \(A_{i}\) consisting of homogeneous polynomials of degree \(i\) e.g.
+    \(A=\R[x,y]\) is \newterm{graded by degree}; \(A^k\) consists of all homogeneous polynomials of total degree \(k\). It is a direct sum of \(A^{i}\) consisting of homogeneous polynomials of degree \(i\) e.g.
     \[
-        \left( x \in A_1 \right)
+        \left( x \in A^1 \right)
         \times  
-        \left( x+y \in A_1  \right) = 
-        \left( x^2+xy \in A_2 \right) 
+        \left( x+y \in A^1  \right) = 
+        \left( x^2+xy \in A^2 \right) 
     \]
 \end{example}
 
-\begin{definition}
+\begin{definition}{}{}
     For a finite dimensional vector space \(V\) define 
     \begin{equation}
         \begin{split}
-            A_*(V) &\coloneqq \bigoplus_{k=0}^\infty A_k(V)  \\
-            &\;= \bigoplus_{k=0}^n A_k(V) \\
+            A^*(V) &\coloneqq \bigoplus_{k=0}^\infty A^k(V)  \\
+            &\;= \bigoplus_{k=0}^n A^k(V) \\
         \end{split}
     \end{equation}
-    where \(A_k(V)\) is the set of all \(k\)-linear covectors on \(V\).
-    With the wedge product as multiplication \(A_*\) becomes and anticommutative algebra called the \newterm{\textbf{exterior algebra}} or \newterm{\textbf{Grassmann algebra}} of covectors.
+    where \(A^k(V)\) is the set of all \(k\)-linear covectors on \(V\).
+    With the wedge product as multiplication \(A^*\) becomes and anticommutative algebra called the \newterm{\textbf{exterior algebra}} or \newterm{\textbf{Grassmann algebra}} of covectors.
 \end{definition}
+

@@ -174,7 +174,7 @@ Thus, there is a map
     \bm{v}                       & \mapsto D_{\bm{v}}
 \end{align*}
 %
-\begin{theorem}
+\begin{theorem}{}{}
     The linear map \(\phi\) is an isomorphism of vector spaces.
 \end{theorem}
 %
@@ -210,7 +210,7 @@ Note that both the coefficients \textbf{and} the partial derivatives are evaluat
 %
 Having said that, we often omit \(p\) in the specification of a vector field when it clear from context.
 %
-\begin{example}
+\begin{example}{}{}
     On \(\mathbb{R}^n - \{\bm{0}\}\), let \(p = (x,y)\). Then
     \begin{align*}
         X & = \frac{-y}{\sqrt{x^2+y^2}} \pdv{}{x} + \frac{x}{\sqrt{x^2+y^2}} \pdv{}{y} \\
@@ -229,8 +229,8 @@ See figure~\ref{fig:vectorfields}
 In general we can identify vector fields with parameterized column vectors
 %
 \begin{equation}
-    X = \sum_i a^i(p) \evalat[\bigg]{\pdv{}{x^i}}{p} 
-    \leftrightarrow 
+    X = \sum_i a^i(p) \evalat[\bigg]{\pdv{}{x^i}}{p}
+    \leftrightarrow
     \begin{bmatrix}
         a^1(p) \\ \vdots \\ a^n(p)
     \end{bmatrix}
@@ -254,20 +254,20 @@ Then \(\vx\) for all \(X \in T_p\).
 %
 Let \(\alpha^i \colon V \rightarrow \mathbb{R}\) be the linear function that picks out the \(i\)th coordinate of a \textbf{vector}, i.e. \(\alpha^i(X) = a^i(p)\).
 %
-Note that 
+Note that
 %
 \begin{align}
-    \alpha^i(\partial_j) &= \alpha^i(1\cdot \partial_j) \\
-    &= \begin{cases}
-         1 \text{ if } i = j \\
-         0 \text{ if } i \neq j
-    \end{cases} \\
-    &=\delta_j^i
+    \alpha^i(\partial_j) & = \alpha^i(1\cdot \partial_j) \\
+                         & = \begin{cases}
+        1 \text{ if } i = j \\
+        0 \text{ if } i \neq j
+    \end{cases}  \\
+                         & =\delta_j^i
 \end{align}
 %
 Note that position of indices is important -- upper indices are for covectors.
 %
-\begin{proposition}
+\begin{proposition}{}{}
     \(\{\alpha^i\}\) form a basis for \(\vwedge\).
 \end{proposition}
 %
@@ -276,14 +276,14 @@ Note that position of indices is important -- upper indices are for covectors.
     We first prove that \(\{\alpha^i\}\) span \(\vwedge\). If \(f \in V^\wedge\) and \(\vx \in V\), then
     %
     \begin{align}
-        f(X) &= \sum a^i f(\pdx{i}) \\
-        &= \sum \alpha^i(X) f(\pdx{i}) \\
-        &= \sum f(\pdx{i}) \alpha^i (X)
+        f(X) & = \sum a^i f(\pdx{i})          \\
+             & = \sum \alpha^i(X) f(\pdx{i})  \\
+             & = \sum f(\pdx{i}) \alpha^i (X)
     \end{align}
     %
     which shows that any \(f\) can be expanded as a linear sum of \(\alpha^i\).
     %
-    To show linear independence, suppose \(\sum c_i \alpha^i = 0\) with at least one \(c_i\) non-zero. Applying this to an arbitrary \(\pdx{i}\) gives 
+    To show linear independence, suppose \(\sum c_i \alpha^i = 0\) with at least one \(c_i\) non-zero. Applying this to an arbitrary \(\pdx{i}\) gives
     %
     \begin{equation}
         0 = \left(\sum_i c_i \alpha^i   \right)(\pdx{i}) = \sum_i c_i \alpha^i(\pdx{i}) = \sum_i c_i \delta_j^i = c_j
@@ -295,21 +295,281 @@ Note that position of indices is important -- upper indices are for covectors.
 %
 This basis \(\{\alpha^i\}\) for \(\vwedge\) is said to be \textit{dual} to the basis \(\{\pdx{i}\}\) for \(V\).
 %
-\begin{example}
+\begin{example}{Coordinate functions}{}
     %
-   (\newterm{Coordinate functions}) With respect to a basis \(\{\pdx{i}\}\) for \(V\), every \(X \in V\) can be written uniquely as a linear combination \(\vx\) with \(a^i \in \R\). Let \(\{\alpha^i\}\) be the dual basis (i.e. the basis for \(\vwedge\)).
-   %
-   Then 
-   %
-   \begin{align*}
-        \alpha^i(X) &= \alpha^i \left( \sum_j a^j \pdx{j} \right) \\
-        &= \sum_j a^j \alpha^i(\pdx{j})  \\ 
-        &= \sum_j a^j \delta_j^i \\
-        &= a^i
-   \end{align*}
-   %
-   Thus, the dual basis \(\{\alpha^i\}\) to \(\{\pdx{i}\}\) is the set of coordinate functions. 
-   %
-   The sense here is that since tangent vectors are directional derivatives (i.e.\ operators on functions) and the dual space is a mapping from those operators to \(\R\), then a mapping from operators to scalars means hitting an operator with a function (or vice-versa). \textbf{And} the coordinate functions are constant with respect to each other coordinate (and hence partials wrt them are naturally zero).
+    With respect to a basis \(\{\pdx{i}\}\) for \(V\), every \(X \in V\) can be written uniquely as a linear combination \(\vx\) with \(a^i \in \R\). Let \(\{\alpha^i\}\) be the dual basis (i.e. the basis for \(\vwedge\)).
+    %
+    Then
+    %
+    \begin{align*}
+        \alpha^i(X) & = \alpha^i \left( \sum_j a^j \pdx{j} \right) \\
+                    & = \sum_j a^j \alpha^i(\pdx{j})               \\
+                    & = \sum_j a^j \delta_j^i                      \\
+                    & = a^i
+    \end{align*}
+    %
+    Thus, the dual basis \(\{\alpha^i\}\) to \(\{\pdx{i}\}\) is the set of coordinate functions.
+    %
+    The sense here is that since tangent vectors are directional derivatives (i.e.\ operators on functions) and the dual space is a mapping from those operators to \(\R\), then a mapping from operators to scalars means hitting an operator with a function (or vice-versa). \textbf{And} the coordinate functions are constant with respect to each other coordinate (and hence partials wrt them are naturally zero).
 \end{example}
 
+\subsection{Differential Forms on \(\R^n\)}
+
+A differential \(k\)-form assigns a \(k\)-covector from the dual space at each point \(p\).
+%
+The wedge product (alternation of tensor product) of differential forms is defined pointwise (as the wedge product of multi-covectors).
+%
+Differential forms exist on an open set (why?) there is a notion of differentiation (called exterior derivative).
+%
+Exterior derivative is coordinate independent and intrinsic to a manifold; it is the abstraction of gradient, curl, divergence to arbitrary manifolds.
+%
+Differential forms extend Grassmann's exterior algebra (graded algebra of multi-covectors) from the tangent space at a point globally, i.e. to the entire manifold (how? bundles?).
+
+\subsubsection{Differential of a Function}
+
+\newcommand{\cotsp}[1]{T_p^*(\R^{#1})}
+\newcommand{\tsp}[1]{T_p(\R^{#1})}
+\newcommand{\w}{\omega}
+
+\begin{definition}{Cotangent Space}{}
+    The \newterm{cotangent space} to \(\R^n\) at \(p\), denoted \(\cotsp{n}\), is defined to be the dual space \((\tsp{n})^\vee\) of the tangent space \(\tsp{n}\).
+\end{definition}
+%
+Thus, an element of the cotangent space \(\cotsp{n}\) is a \textbf{covector of linear functional on tangent space}.
+%
+\begin{definition}{Differential 1-form}{}
+    A \newterm{covector field} or a \newterm{differential 1-form} on an open subset \(U\) of \(\R^n\) is a function \(\w\) that assigns at each point \(p\) in \(U\) a covector \(\w_p \in \cotsp{n}\)
+    %
+    \begin{splitenv}
+        \w \colon U &\rightarrow \bigcup_{p \in U} \cotsp{n} \\
+        p &\mapsto \w_p \in \cotsp{n}
+    \end{splitenv}
+    We call a differential 1-form a \newterm{1-form} for short.
+\end{definition}
+%
+\begin{definition}{Differential}{}
+    From any \(C^\infty\) function \(f\colon U \rightarrow \R\), we can construct the 1-form \(\dif f\), called the \newterm{differential} of \(f\), as follows: for \(p \in U\) and \(X_p \in T_p(U)\)
+    \begin{equation}
+        (\dif f)_p (X_p) \coloneqq X_p f
+    \end{equation}
+    In words the differential of \(f\) is the application of \(X_p\) to \(f\) or \textbf{the directional derivative of \(f\) in the direction of the tangent vector defined by the coefficients of \(X_p\)}.
+\end{definition}
+
+Let \(x^1, \dots, x^n\) be the standard coordinates on \(\R\), \(\{(\dif x^1)_p, \dots, (\dif x^n)_p\}\) their differentials defined
+\[
+    (\dif x^i)_p (X_p) \coloneqq (X_p)(x^i)
+\]
+%
+and
+%
+\[
+    \left\{\evalat[\bigg]{\pdv{}{x^1}}{p}, \dots,  \evalat[\bigg]{\pdv{}{x^n}}{p}  \right\}
+\]
+%
+be the standard basis for \(\tsp{n}\).
+%
+\begin{proposition}{}{dfbasis}
+    \(\{(\dif x^1)_p, \dots, (\dif x^n)_p\}\) is the basis for \(\cotsp{n}\) dual to the coordinate basis for \(\tsp{n}\).
+\end{proposition}
+%
+\begin{proof}
+    By definition,
+    \[
+        (\dif x^i)_p \left( \evalat[\bigg]{\pdv{}{x^j}}{p} \right) = \evalat[\bigg]{\pdv{x^i}{x^j}}{p} = \delta_j^i
+    \]
+\end{proof}
+
+If \(\w\) is a 1-form on \(U \in \R^n\) then by proposition~\eqref{prop:dfbasis}, at each point \(p \in U\)
+%
+\[
+    \w_p = \sum a_i(p)(dx^i)_p
+\]
+%
+Note the lower index on \(a_i(p)\) as opposed to the upper index on \(X_p = \sum a^i(p)\evalat[\big]{\partial_{x_i}}{p}\).
+%
+If \(x \coloneqq x^1,y\coloneqq x^2,z \coloneqq x^3\), then \(\dif x, \dif y, \dif z\).
+%
+\begin{proposition}{\(\dif f\) in terms of coordinates}{}
+    If \(f\colon U \rightarrow \R\), then
+    \begin{equation}
+        \dif f = \sum \pdv{f}{x^i}\dif x^i
+    \end{equation}
+\end{proposition}
+%
+\begin{proof}
+    \[(\dif f)_p = \sum a_i(p) (\dif x^i)_p\]
+    %
+    for some real numbers \(a_i(p)\) depending on \(p\). Thus
+    %
+    \begin{splitenv}
+        \dif f \left(\pdv{}{x^j} \right) &= \sum_i a_i \dif x^i \left(\pdv{}{x^j} \right) \\
+        &= \sum_i a_i \delta_j^i = a_j
+    \end{splitenv}
+    %
+    On the other hand, by the definition of the differential
+    %
+    \begin{equation}
+        \dif f =  \left(\pdv{}{x^j} \right) = \pdv{f}{x^j}
+    \end{equation}
+    %
+    Therefore
+    \begin{equation}
+        a_j = \pdv{f}{x^j}
+    \end{equation}
+    and hence
+    \[(\dif f)_p = \evalat[\bigg]{\pdv{f}{x^i}}{p} (\dif x^i)_p\]
+\end{proof}
+
+\subsubsection{Differential \(k\)-forms}
+
+\begin{definition}{Differential \(k\)-forms}{}
+    More generally, a \newterm{differential form \(\w\) of degree \(k\)} is a function that at each point assigns an alternating \(k\)-linear function on \(\tsp{n}\), i.e. \(\w_p \in A^k(\tsp{n})\).
+\end{definition}
+%
+A basis for \(A^k(\tsp{n})\) is
+\begin{equation}
+    (\dif x^I)_p \coloneqq (\dif x^{i_1})_p \wedge \cdots \wedge (\dif x^{i_k})_p
+\end{equation}
+%
+where \(1 \leq i_1 < \cdots < i_k \leq n \).
+%
+
+\textbf{What is the nuance here?}
+
+Therefore, at each point \(p \in U\), \(\w_p\) is a linear combination
+%
+\begin{splitenv}
+    \w_p = \sum_I a_I(p) (\dif x^I)_p \\ 1 \leq i_1 < \cdots < i_k \leq n
+\end{splitenv}
+%
+and a \(k\)-form \(\w\) on open \(U\) is a linear combination
+%
+\begin{equation}
+    \w = \sum_I a_I \dif x^I
+\end{equation}
+%
+with function coefficients \(a_I \colon U \rightarrow \R\).
+%
+We say that a \(k\)-form \(\w\) is \(C^\infty\) on \(U\) if all of the coefficients \(a_I\) are \(C^\infty\) functions on \(U\).
+%
+Denote \(\Omega^k(U)\) the vector space of \(k\)-forms on \(U\).
+%
+A 0-form on \(U\) assigns to each point \(p\) an element of \(A^0(\tsp{n}) \coloneqq \R\); thus, a 0-form on \(U\) is a constant function.
+%
+Note there are no nonzero differential forms of degree \(>n\) on \(U\) since if \(\deg \dif x^I > n\) then at least two of the component 1-forms of \(dx^I\) must be the same and therefore \(dx^I = 0\).
+
+\begin{definition}{Wedge product of forms}{}
+    The \newterm{wedge product of a \(k\)-form \(\w\) and \(\ell\)-form \(\tau\)} is defined pointwise
+    %
+    \begin{splitenv}
+        (\w \wedge \tau)_p &\coloneqq \w_p \wedge \tau_p \\
+        \w \wedge \tau &= \sum_{I,J}(a_I b_J) \dif x^I \wedge \dif x^J
+    \end{splitenv}
+    %
+    where \(I \cap J = \emptyset\).
+    %
+\end{definition}
+%
+Hence the wedge product is bilinear
+%
+\begin{equation}
+    \wedge \colon \Omega^k (U) \times \Omega^\ell \rightarrow \Omega^{k+\ell} (U)
+\end{equation}
+%
+The wedge product of forms is also anticommutative and associate (owing to the associativity and anticommutativity of the wedge product on multi-covectors) as therefore induces a graded algebra on \(\Omega(U) \coloneqq \bigoplus_k \Omega^k(U)\).
+
+\begin{example}{}{}
+    In the case of 
+    %
+    \[
+        \wedge \colon \Omega^0(U) \times \Omega^\ell(U) \rightarrow \Omega^\ell
+    \]
+    %
+    we have the pointwise multiplication of a \(C^\infty\) function and a \(C^\infty\) \(\ell\)-form 
+    %
+    \[
+        (f \wedge \w)_p = f(p) \wedge \w_p = f(p)\w_p
+    \]
+    %
+    Let \(x,y,z\) be the coordinates on \(\R^3\). Then, the 1-forms are
+    %
+    \[
+        f \dif x + g \dif y + h \dif z  
+    \]
+    %
+    the 2-forms are 
+    %
+    \[
+        f \dif y \wedge \dif z + g \dif x \wedge \dif z + h \dif x \wedge \dif y
+    \]
+    %
+    and the 3-forms are 
+    %
+    \[
+        f \dif x \wedge \dif y \wedge \dif z    
+    \]
+\end{example}
+
+\subsubsection{Differential Forms as Multilinear Functions on Vector Fields}
+
+If \(\w\) is a 1-form and \(X\) is a vector field then
+%
+\begin{splitenv}
+    \evalat[]{\w(X)}{p} &\coloneqq \w_p (X_p) \\ 
+    \w &\,= \sum a_i \dif x^i \quad X = \sum b^i \pdv{}{x^j} \\ 
+    \w(X) &\,= \left( \sum a_i \dif x^i \right) \left( \sum b^j \pdv{}{x^j}\right) \\ 
+    &\,= \sum a_i b^i
+\end{splitenv}
+
+\subsubsection{Exterior Derivative}
+
+\begin{definition}{Exterior Derivative}{}
+    The exterior derivative of a function \(f \in C^\infty(U)\) is defined to be its differential \(\dif f\)
+    %
+    \[
+        \dif f = \sum \pdv{f}{x^i} \dif x^i
+    \]
+    %
+    For \(k \geq 1\), if \(\w = \sum_I a_I \dif x^I\) is a \(k\)-form, then 
+    %
+    \begin{splitenv}
+        \dif \w &\coloneqq \sum_I \dif a_I \wedge \dif x^I \\ 
+        &\,= \sum_I \left( \sum_j \pdv{a_I}{x^j} \dif x^j \right) \wedge \dif x^I 
+    \end{splitenv}
+\end{definition}
+%
+\begin{example}{}{}
+   Let \(\w\) be the 1-form \(f \dif x + g \dif y\) on \(R^2\). Then 
+   \begin{align*}
+        \dif \omega &= \dif f \wedge \dif x + \dif g \wedge \dif y  \\ 
+        &\,= \begin{multlined}[t]
+        \left( \pdv{f}{x}\dif x + \pdv{f}{y}\dif y \right) \wedge \dif x \\ 
+        + \left( \pdv{g}{x}\dif x + \pdv{g}{y}\dif y \right) \wedge \dif y
+        \end{multlined} \\ 
+        &\,= \left(\pdv{g}{x} - \pdv{f}{y} \right)\dif x \wedge \dif y
+   \end{align*}
+   where we use that \(\dif x \wedge \dif y = - \dif y \wedge \dif x\) and \(\dif x \wedge \dif x = 0\).
+\end{example}
+
+\begin{definition}{Antiderivation}
+    %
+    Let \(A = \bigoplus_k A^k\) be a graded algebra over a field \(K\). An \newterm{antiderivation of the graded algebra} A is a \(k\)-linear map \(D \colon A \rightarrow A\) such that for \(a \in A^k, b \in A^\ell\)
+    %
+    \begin{equation}
+        D(ab) = (Da)b + (-1)^kaDb
+    \end{equation}
+    %
+    If there is an integer \(m\) such that \(D\) sends \(A^k\) to \(A^{k+m}\) for all \(k\), then the antiderivation is of \textit{degree m}.
+\end{definition}
+%
+\begin{proposition}{Properties of exterior differentiation}{exterioranti}
+    \begin{enumerate}
+        \item exterior differentiation is an antiderivation of degree 1:
+        \[\dif\, (\w \wedge \tau) = (\dif \w) \wedge \tau + (-1)^{\deg \omega} \omega \wedge \dif \tau\]   
+        \item \(\dif^2 = 0\)
+    \end{enumerate}
+\end{proposition}
+%
+\begin{proposition}{Characterization of the exterior derivative}{}
+    The properties of proposition~\eqref{prop:exterioranti} completely characterize exterior differentiation.
+\end{proposition}
