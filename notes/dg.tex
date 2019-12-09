@@ -837,9 +837,9 @@ Suppose \(\left( U,\phi \colon U \rightarrow \R^n \right)\) and \(\left( V,\psi 
     \]
     Therefore, since the transition functions are \(C^\infty\), the charts are \(C^\infty\) compatible and form an atlas on \(S^1\).
 \end{example}
-% \loadfig{circlatlas}
+\loadfig{circlatlas}
 
-Althought compatibility is reflexive and symmetric it is not transitive because we don't know anything about mutual intersections.
+Although compatibility is reflexive and symmetric it is not transitive because we don't know anything about mutual intersections.
 %
 On the otherhand 
 %
@@ -859,3 +859,70 @@ An atlas \(\mathfrak{M}\) on a topological manifold is said to be \newterm{maxim
     %
     A 1-dimensional manifold is called a \newterm{curve}, a 2-dimensional manifold is called a \newterm{surface}, and an \(n\)-dimensional manifold is called an \(n\)-manifold.
 \end{definition}
+
+In the context of manifolds, we denote the standard coordinates on \(\R^n\) by \(r^1, \dots, r^n\).
+%
+If \((U, \phi)\) is a chart of a manifold, we let \(x^i = r^i \circ \phi\) be the \(i\)th component of \(\phi\) and write \(\phi = (x^1, \dots, x^n)\).
+%
+Thus, \(x^i(p) \coloneqq (r^i \circ \phi)(p)\) is a point in \(\R^n\). 
+%
+The functions \(x^i\) are called the \newterm{local coordinates on U}.
+%
+Abusing notation, sometimes \((x^1, \dots, x^n)\) (sans \(p\)) stands for both the coordinates on \(U\) or for a point in \(\R^n\).
+
+\subsubsection{Examples of Smooth Manifolds}
+
+\begin{example}{Graph of a Smooth Function}{}
+    For a subset \(A \subset \R^n\) and a function \(f \colon A \rightarrow \R^m\) the \newterm{graph of f} is defined 
+    \[
+        \Gamma(f) = \{(x, f(x)) \in A \times \R^m\}
+    \]
+    If \(U\) is an open subset \(\R^n\) and \(f \colon U \rightarrow \R^n\) is \(C^\infty\), then the two maps
+    \begin{align*}
+        \phi \colon \Gamma(f) \rightarrow U \quad (x, f(x)) \mapsto x \\ 
+        (1, f) \colon \rightarrow \Gamma(f) \quad x \mapsto (x, f(x))
+    \end{align*}
+    constitute a homemorphism. Hence, \(\Gamma(f)\) has an atlas with a single \((\Gamma(f), \phi)\) and is therefore a \(C^\infty\) manifold.
+\end{example}
+
+\begin{example}{General Linear group}{}
+    Let \(\R^{m \times n}\) be the vector space of all \(m \times n\) matrices.
+    Since \(\R^{m \times n}\) is isomorphic to \(\R^{mn}\), we give it the topology of \(\R^{mn}\).
+    The \newterm{general linear group \(\operatorname{GL}(n, \R)\)} is defined 
+    \begin{splitenv}
+        \operatorname{GL}(n, \R) &\coloneqq \{A \in \R^{n\times n} | \det(A) \neq 0\}  \\ 
+        &\;= \operatorname{det}^{-1} (\R - \{0\})
+    \end{splitenv}
+    Since the determinant function \(\det \colon \R^{n\times n}\rightarrow \R\) is continuous, \(\operatorname{GL}(n, \R)\) is an open subset of \(\R^{n \times n}\cong \R^{n^2} \) is therefore a manifold.
+\end{example}
+
+\begin{example}{Unit circle in the \(xy\)-plane}
+    Take \(S^1\) as the unit circle in the real plane \(\R^2\) defined by \(x^2+y^2=1\).
+    We can cover \(S^1\) by four open sets: the upper and lower semicircles \(U_1, U_2\) and the left and right semicircles \(U_3, U_4\)
+    (see figure~\ref{fig:xychartsoncircle}).
+    On \(U_1, U_2\) the coordinate function \(x\) is a homeomorphism onto the open interval \((-1,1)\) on the \(x\)-axis.
+    Thus, \(\phi_i(x,y) \coloneqq x\). Similarly, on \(U_3, U_4\), \(y\) is a homeomorphism onto the open interval \((-1,1)\) on the \(y\)-axis, and so \(\phi_i(x,y) \coloneqq y\).
+    You can check that on \(U_i \cap U_j\), the transition function \(\phi_j \circ \phi_i^{-1}\) is \(C^\infty\). 
+    For example, on \(U_1 \cap U_3\)
+    \[
+        (\phi_3 \circ \phi_1^{-1})(x) = \phi_3 (x, \sqrt{1-x^2}) = \sqrt{1-x^2}
+    \]
+    while on \(U_2 \cap U_4\)
+    \[
+        (\phi_4 \circ \phi_2^{-1})(x) = \phi_4 (x, -\sqrt{1-x^2}) = -\sqrt{1-x^2}
+    \]
+    Thus, \(\{(U_i, \phi_i)\}_{i=1}^4\) is a \(C^\infty\) atlas on \(S^1\).
+\end{example}
+\loadfig{chartsoncirc}
+
+\begin{proposition}{An atlas for a product manifold}{}
+    If \(\{(U_i, \phi_i)\}\) and \(\{(V_i, \psi_i)\}\) are \(C^\infty\) atlases for the manifolds \(M,N\) of dimensions, respectively, then the collection 
+    \begin{equation}
+        \{ (U_i \times V_j, (\phi_i, \phi_j)) \colon U_i \times V_j \rightarrow \R^m \times \R^n \} 
+    \end{equation}
+    is a \(C^\infty\) atlas on \(M \times N\). Therefore \(M \times N\) is a \(C^\infty\) manifold of dimension \(m+n\).
+\end{proposition}
+
+There \(n\)-dimensional torus \(S^1 \times \cdots \times S^1\) is a manifold.
+
+\subsection{Smooths Maps on a Manifold}
