@@ -22,6 +22,7 @@
 \usetikzlibrary{
     decorations.markings % contour integral
 }
+\usepackage{tikz-cd} % commutative diagrams
 \usepackage{sepfootnotes}
 \newfootnotes{a}
 
@@ -130,12 +131,12 @@
 % \mdfdefinestyle{definitionSty}{backgroundcolor=green!10,skipabove=5pt,skipbelow=5pt}
 
 \usepackage[most]{tcolorbox}
-\newtcbtheorem[number within=section]{definition}{Definition}{colback=purple!5,colframe=blue!100!,fonttitle=\bfseries}{def}
-\newtcbtheorem[number within=section]{theorem}{Theorem}{colback=purple!5,colframe=blue!100!,fonttitle=\bfseries}{theo}
-\newtcbtheorem[number within=section]{lemma}{Lemma}{colback=purple!5,colframe=blue!100!,fonttitle=\bfseries}{lem}
-\newtcbtheorem[number within=section]{corollary}{Corollary}{colback=purple!5,colframe=blue!100!,fonttitle=\bfseries}{cor}
+\newtcbtheorem[number within=section]{definition}{Definition}{colback=green!10,fonttitle=\bfseries}{def}
+\newtcbtheorem[number within=section]{theorem}{Theorem}{colback=blue!10,fonttitle=\bfseries}{theo}
+\newtcbtheorem[number within=section]{lemma}{Lemma}{colback=yellow!10,fonttitle=\bfseries}{lem}
+\newtcbtheorem[number within=section]{corollary}{Corollary}{colback=yellow!10,fonttitle=\bfseries}{cor}
 % \newtcbtheorem[number within=section]{example}{Example}{colback=purple!5,colframe=blue!100!,fonttitle=\bfseries}{exa}
-\newtcbtheorem[number within=section]{proposition}{Proposition}{colback=purple!5,colframe=blue!100!,fonttitle=\bfseries}{prop}
+\newtcbtheorem[number within=section]{proposition}{Proposition}{colback=yellow!10,fonttitle=\bfseries}{prop}
 
 \usepackage{tablefootnote} 
 \makeatletter 
@@ -179,5 +180,7 @@
 }
 
 \newcommand{\irow}[1]{% inline row vector
-  \begin{smallmatrix}(#1)\end{smallmatrix}%
+  \begin{bmatrix}#1\end{bmatrix}%
 }
+
+\interfootnotelinepenalty=10000

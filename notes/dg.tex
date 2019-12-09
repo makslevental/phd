@@ -422,6 +422,9 @@ If \(x \coloneqq x^1,y\coloneqq x^2,z \coloneqq x^3\), then \(\dif x, \dif y, \d
 
 \subsubsection{Differential \(k\)-forms}
 
+\newcommand{\twoform}[2]{\dif #1 \wedge \dif #2}
+\newcommand{\threeform}[3]{\dif #1 \wedge \dif #2 \wedge \dif #3}
+
 \begin{definition}{Differential \(k\)-forms}{}
     More generally, a \newterm{differential form \(\w\) of degree \(k\)} is a function that at each point assigns an alternating \(k\)-linear function on \(\tsp{n}\), i.e. \(\w_p \in A^k(\tsp{n})\).
 \end{definition}
@@ -479,13 +482,13 @@ Hence the wedge product is bilinear
 The wedge product of forms is also anticommutative and associate (owing to the associativity and anticommutativity of the wedge product on multi-covectors) as therefore induces a graded algebra on \(\Omega(U) \coloneqq \bigoplus_k \Omega^k(U)\).
 
 \begin{example}{}{}
-    In the case of 
+    In the case of
     %
     \[
         \wedge \colon \Omega^0(U) \times \Omega^\ell(U) \rightarrow \Omega^\ell
     \]
     %
-    we have the pointwise multiplication of a \(C^\infty\) function and a \(C^\infty\) \(\ell\)-form 
+    we have the pointwise multiplication of a \(C^\infty\) function and a \(C^\infty\) \(\ell\)-form
     %
     \[
         (f \wedge \w)_p = f(p) \wedge \w_p = f(p)\w_p
@@ -494,19 +497,19 @@ The wedge product of forms is also anticommutative and associate (owing to the a
     Let \(x,y,z\) be the coordinates on \(\R^3\). Then, the 1-forms are
     %
     \[
-        f \dif x + g \dif y + h \dif z  
+        f \dif x + g \dif y + h \dif z
     \]
     %
-    the 2-forms are 
+    the 2-forms are
     %
     \[
         f \dif y \wedge \dif z + g \dif x \wedge \dif z + h \dif x \wedge \dif y
     \]
     %
-    and the 3-forms are 
+    and the 3-forms are
     %
     \[
-        f \dif x \wedge \dif y \wedge \dif z    
+        f \dif x \wedge \dif y \wedge \dif z
     \]
 \end{example}
 
@@ -515,9 +518,9 @@ The wedge product of forms is also anticommutative and associate (owing to the a
 If \(\w\) is a 1-form and \(X\) is a vector field then
 %
 \begin{splitenv}
-    \evalat[]{\w(X)}{p} &\coloneqq \w_p (X_p) \\ 
-    \w &\,= \sum a_i \dif x^i \quad X = \sum b^i \pdv{}{x^j} \\ 
-    \w(X) &\,= \left( \sum a_i \dif x^i \right) \left( \sum b^j \pdv{}{x^j}\right) \\ 
+    \evalat[]{\w(X)}{p} &\coloneqq \w_p (X_p) \\
+    \w &\,= \sum a_i \dif x^i \quad X = \sum b^i \pdv{}{x^j} \\
+    \w(X) &\,= \left( \sum a_i \dif x^i \right) \left( \sum b^j \pdv{}{x^j}\right) \\
     &\,= \sum a_i b^i
 \end{splitenv}
 
@@ -530,25 +533,25 @@ If \(\w\) is a 1-form and \(X\) is a vector field then
         \dif f = \sum \pdv{f}{x^i} \dif x^i
     \]
     %
-    For \(k \geq 1\), if \(\w = \sum_I a_I \dif x^I\) is a \(k\)-form, then 
+    For \(k \geq 1\), if \(\w = \sum_I a_I \dif x^I\) is a \(k\)-form, then
     %
     \begin{splitenv}
-        \dif \w &\coloneqq \sum_I \dif a_I \wedge \dif x^I \\ 
-        &\,= \sum_I \left( \sum_j \pdv{a_I}{x^j} \dif x^j \right) \wedge \dif x^I 
+        \dif \w &\coloneqq \sum_I \dif a_I \wedge \dif x^I \\
+        &\,= \sum_I \left( \sum_j \pdv{a_I}{x^j} \dif x^j \right) \wedge \dif x^I
     \end{splitenv}
 \end{definition}
 %
-\begin{example}{}{}
-   Let \(\w\) be the 1-form \(f \dif x + g \dif y\) on \(R^2\). Then 
-   \begin{align*}
-        \dif \omega &= \dif f \wedge \dif x + \dif g \wedge \dif y  \\ 
-        &\,= \begin{multlined}[t]
-        \left( \pdv{f}{x}\dif x + \pdv{f}{y}\dif y \right) \wedge \dif x \\ 
-        + \left( \pdv{g}{x}\dif x + \pdv{g}{y}\dif y \right) \wedge \dif y
-        \end{multlined} \\ 
-        &\,= \left(\pdv{g}{x} - \pdv{f}{y} \right)\dif x \wedge \dif y
-   \end{align*}
-   where we use that \(\dif x \wedge \dif y = - \dif y \wedge \dif x\) and \(\dif x \wedge \dif x = 0\).
+\begin{example}
+    Let \(\w\) be the 1-form \(f \dif x + g \dif y\) on \(R^2\). Then
+    \begin{align}
+        \dif \omega & = \dif f \wedge \dif x + \dif g \wedge \dif y                                              \\
+                    & \,= \begin{multlined}[t]
+            \left( \pdv{f}{x}\dif x + \pdv{f}{y}\dif y \right) \wedge \dif x \\
+            + \left( \pdv{g}{x}\dif x + \pdv{g}{y}\dif y \right) \wedge \dif y
+        \end{multlined}                                                             \\
+                    & \,= \left(\pdv{g}{x} - \pdv{f}{y} \right)\dif x \wedge \dif y \label{exa:exteriordif1form}
+    \end{align}
+    where we use that \(\dif x \wedge \dif y = - \dif y \wedge \dif x\) and \(\dif x \wedge \dif x = 0\).
 \end{example}
 
 \begin{definition}{Antiderivation}
@@ -565,7 +568,7 @@ If \(\w\) is a 1-form and \(X\) is a vector field then
 \begin{proposition}{Properties of exterior differentiation}{exterioranti}
     \begin{enumerate}
         \item exterior differentiation is an antiderivation of degree 1:
-        \[\dif\, (\w \wedge \tau) = (\dif \w) \wedge \tau + (-1)^{\deg \omega} \omega \wedge \dif \tau\]   
+              \[\dif\, (\w \wedge \tau) = (\dif \w) \wedge \tau + (-1)^{\deg \omega} \omega \wedge \dif \tau\]
         \item \(\dif^2 = 0\)
     \end{enumerate}
 \end{proposition}
@@ -573,3 +576,182 @@ If \(\w\) is a 1-form and \(X\) is a vector field then
 \begin{proposition}{Characterization of the exterior derivative}{}
     The properties of proposition~\eqref{prop:exterioranti} completely characterize exterior differentiation.
 \end{proposition}
+
+\subsubsection{Closed and Exact Forms}
+
+A \(k\)-form \(\w\) is a \newterm{closed form} if \(\dif \w = 0\).
+%
+\(\w\) is an \newterm{exact form} if there is a \(k-1\)-form \(\tau\) such that \(\w = \dif \tau\).
+%
+Since \(\dif (\dif \tau) = 0\), every exact form is closed.
+
+\begin{example}{A closed 1-form on the punctured plane}{}
+    Define \(\w\) on the manifold \(\R^2-\{\bm{0}\}\) by 
+    \[
+        \omega(x,y) = \frac{-y}{x^2+y^2}\dif x + \frac{x}{x^2+y^2}\dif y
+    \]
+    To show that \(\w\) is closed we take the exterior derivative using example~\eqref{exa:exteriordif1form}:
+    \begin{splitenv}
+        \dif \w &= \left( \frac{y^2-x^2}{\left(x^2+y^2\right)^2} - \frac{y^2-x^2}{\left(x^2+y^2\right)^2} \right) \dif x \wedge \dif y \\ 
+        &= 0
+    \end{splitenv}
+\end{example}
+
+\begin{definition}{Differential Complex}{}
+    A collection of vector spaces \(\{V^0, V^1, \dots\}\) with linear maps \(d_k \colon V^k \rightarrow V^{k+1}\) such that \(d_{k+1} \circ d_k = 0\) is called a \newterm{differential complex} or a \newterm{cochain complex}. For any open subset \(U \subset \R^3\), the exterior derivative makes the vector space \(\Omega^*(U)\) of \(C^\infty\) forms on \(U\) into a cochain complex, called the \newterm{de Rham complex of \(U\)}:
+    \[
+        0 \rightarrow \Omega^0(U) \xrightarrow{\text{ d }} \Omega^1(U) \xrightarrow{\text{ d }} \Omega^2(U) \xrightarrow{\text{ d }} \cdots
+    \]
+    The closed forms are the elements of the kernel of d and the exact forms are the elements of the image of d.
+\end{definition}
+
+\subsubsection{Applications to Vector Calculus}
+
+Recall the three operators grad, curl, div (\(\grad, \curl, \div\)) on scalar fields and vector fields (i.e. scalar valued functions and vector valued functions) over \(\R^3\):
+\begin{gather}
+    \begin{split}
+        \grad{f} &=
+        \begin{bmatrix}
+            \pdv{f}{x} \\
+            \pdv{f}{y} \\
+            \pdv{f}{z} \\
+        \end{bmatrix} \\
+        \curl{\begin{bmatrix}
+                P \\ Q \\ R
+            \end{bmatrix}} &=
+        \begin{bmatrix}
+            \pdv{}{x} \\
+            \pdv{}{y} \\
+            \pdv{}{z} \\
+        \end{bmatrix} \times
+        \begin{bmatrix}
+            P \\ Q \\ R
+        \end{bmatrix}
+        =
+        \begin{bmatrix}
+            \pdv{R}{y} - \pdv{Q}{z}                 \\
+            -\left( \pdv{R}{x} - \pdv{P}{z} \right) \\
+            \pdv{Q}{x} - \pdv{P}{y}                 \\
+        \end{bmatrix} \\
+        \div{\begin{bmatrix}
+                P \\ Q \\ R
+            \end{bmatrix}} &=
+        \begin{bmatrix}
+            \pdv{}{x} \\
+            \pdv{}{y} \\
+            \pdv{}{z} \\
+        \end{bmatrix} \cdot
+        \begin{bmatrix}
+            P \\ Q \\ R
+        \end{bmatrix}
+        =
+        \pdv{P}{x} + \pdv{Q}{y} + \pdv{R}{z}
+    \end{split}
+\end{gather}
+%
+Note we can identity 1-forms with vector fields:
+\[
+    P \dif x + Q \dif y + R \dif z \longleftrightarrow \begin{bmatrix}
+        P \\ Q \\ R
+    \end{bmatrix}
+\]
+%
+Similarly 2-forms on \(\R^3\)
+\[
+    P \twoform{x}{y}  + Q \twoform{z}{x} + R \twoform{x}{y} \longleftrightarrow \begin{bmatrix}
+        P \\ Q \\ R
+    \end{bmatrix}
+\]
+%
+and 3-forms on \(U\) can be identified with functions \(U\)
+%
+\[
+    f \threeform{x}{y}{z} \longleftrightarrow f
+\]
+%
+In terms of these identifications the exterior derivative of 0-form \(f\) is the 1-form \(\dif f\) or \(\grad{f}\):
+\[
+    \dif f = \pdv{f}{x} \dif x + \pdv{f}{y} \dif y  + \pdv{f}{z} \dif z \longleftrightarrow
+    \begin{bmatrix}
+        \pdv{f}{x} \\
+        \pdv{f}{y} \\
+        \pdv{f}{z} \\
+    \end{bmatrix} = \grad{f}
+\]
+%
+the exterior derivative of a vector field \(\irow{P\; Q\; R}^T\) (i.e. 1-form) is the 2-form \(\curl{\irow{P\; Q\; R}^T}\)
+%
+\begin{splitenv}
+    \dif \left( P\dif x + Q \dif y + R \dif z \right) = \\
+    + \left( \pdv{R}{y} - \pdv{Q}{z} \right) \twoform{y}{z} \\
+    - \left( \pdv{R}{x} - \pdv{P}{z} \right) \twoform{z}{x} \\
+    + \left( \pdv{Q}{x} - \pdv{P}{y} \right) \twoform{x}{y}  \\ \longleftrightarrow \\ \curl{\begin{bmatrix}
+            P \\ Q \\ R
+        \end{bmatrix}}
+\end{splitenv}
+%
+and the exterior derivative of a 2-form is
+%
+\begin{splitenv}
+    \dif \left( P \twoform{x}{y}  + Q \twoform{z}{x} + R \twoform{x}{y} \right) = \\
+    \left( \pdv{P}{x} \dif x + \pdv{Q}{y} \dif y  + \pdv{R}{z} \dif z \right) \threeform{x}{y}{z} \\
+    \longleftrightarrow \div{\begin{bmatrix}
+            P \\ Q \\ R
+        \end{bmatrix}}
+\end{splitenv}
+%
+Thus, the exterior derivatives on 0-forms (functions) is the grad operator, on 1-forms is the curl operator, and on 2-forms is the divergence operator.
+%
+\[
+    \begin{tikzcd}
+        \Omega^0(U) \arrow{r}{\dif} \arrow[swap]{d}{\cong} & \Omega^1(U) \arrow{r}{\dif} \arrow[swap]{d}{\cong} & \Omega^2(U) \arrow{r}{\dif} \arrow[swap]{d}{\cong} & \Omega^3(U) \arrow[swap]{d}{\cong}  \\
+        C^\infty(U) \arrow[swap]{r}{\grad} & \mathfrak{X}(U) \arrow[swap]{r}{\curl} & \mathfrak{X}(U) \arrow[swap]{r}{\div} & C^\infty(U)
+    \end{tikzcd}
+\]
+%
+where \(\mathfrak{X}(U)\) is the \newterm{Lie algebra} of \(C^\infty\) vector fields on \(U\).
+%
+\begin{proposition}{grad, curl, div properties}{}
+    \begin{enumerate}
+        \item\label{prop1} \( \curl{\grad{f}} = 0 \)
+        \item\label{prop2} \(\div(\curl{\irow{P \; Q \; R}^T}) = 0\)
+        \item\label{prop3} On \(\R^3\), a vector field \textbf{F} is the gradient of some scalar function iff \(\curl{\textbf{F}}=0\)
+    \end{enumerate}
+\end{proposition}
+%
+Properties~(\ref{prop1},\ref{prop2}) express that \(\operatorname{d}^2 = 0\)
+%
+Property~\eqref{prop3} expresses the fact that a 1-form on \(\R^3\) is exact iff it is closed; it need not be true on a region other than \(\R^3\).
+%
+It turns out that whether proposition~\eqref{prop3} is true depends on the topology of \(U\).
+%
+One measure of the failure of a closed \(k\)-form to be exact is the quotient vector space 
+%
+\begin{equation}
+    H^k(U) \coloneqq \frac{\{\text{closed \(k\)-forms on } U\}}{\{\text{exact \(k\)-forms on }U\}}
+\end{equation}
+%
+called the \(k\)th \newterm{de Rham cohomolgy} of U.
+%
+The generalization of proposition~\eqref{prop3} to any differential on \(\R^n\) is called the \newterm{Poincare lemma}: for \(k \geq 1\), every closed \(k\)-form on \(\R^n\) is exact.
+%
+This is equivalent to the vanishing of the \(k\)th de Rham cohomology \(H^k(\R^n)\) for \(k \geq 1\).
+
+\subsubsection{Convention on Subscripts and Superscripts}
+
+Vector fields \(e_1, e_2, \dots\)have subscripts and differential forms \(\w^1, \w^2, \dots\) have superscripts.
+%
+Coordinate functions \(x^1, x^2, \dots\), being 0-forms, have superscripts.
+%
+Their differentials \(\dif x^i\) should also. 
+%
+Coordinate vector fields \(\pdv{}{x^i}\) are considered to have subscripts because the index is in the denominator.
+%
+Coefficient functions have subscripts or subscripts depending on whether they're coefficients functions for vector fields or forms.
+%
+This allows for ``conservation of indices'': if \(X = \sum a^i \partial_{x^i}\) and \(\w = \sum b_j \dif x^j\) then 
+\[
+    \w(X) = \left( \sum b_j \dif x^j \right) \left( \sum a^i \pdv{}{x^i} \right) = \sum b_i a^i
+\]
+
+\subsection{Manifolds}
