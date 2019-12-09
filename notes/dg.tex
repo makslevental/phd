@@ -755,3 +755,107 @@ This allows for ``conservation of indices'': if \(X = \sum a^i \partial_{x^i}\) 
 \]
 
 \subsection{Manifolds}
+
+\begin{definition}{Locally Euclidean}{}
+    A topological space \(M\) is \newterm{locally Euclidean of dimension \(n\)} if for every \(p \in M\) there exists a neighborhood \(U\) such that there is a \newterm{homeomorphism}\tablefootnote{A homeomorphism is a continuous function between topological spaces that has a continuous inverse function.} \(\phi\) from \(U\) \textbf{onto} an opensubset of \(\R^n\). 
+    %
+    The pair \(\left( U,\phi \colon U \rightarrow \R^n \right)\) is called a \newterm{chart}, with \(U\) being the \newterm{coordinate neighborhood} and \(\phi\) the \newterm{coordinate system}.
+\end{definition}
+
+\begin{definition}{Topological Manifold}{}
+    A \newterm{topological manifold} is a \newterm{Hausdorff}\tablefootnote{A Hausdorff space, separated space space is a topological space where for any two distinct points there exists a neighbourhood of each which is disjoint from the neighbourhood of the other. }, \newterm{second countable}\tablefootnote{A topological space \(T\) is second-countable if there exists some countable collection ${\displaystyle {\mathcal {U}}=\{U_{i}\}_{i=1}^{\infty }}$ of open subsets of $T$ such that any open subset of $T$ can be written as a union of elements of some subfamily of ${\mathcal {U}}$.}, locally Euclidean space.
+\end{definition}
+
+\subsubsection{Compatible Charts}
+
+Suppose \(\left( U,\phi \colon U \rightarrow \R^n \right)\) and \(\left( V,\psi \colon V \rightarrow \R^n \right)\) are two charts of a topological manifold; since \(U \cap V\) is open and \(\phi\) is a homeomorphism onto an open subset, the image \(\phi(U \cap V)\) is also an open subset (similarly \(\psi(U \cap V)\)).
+
+\begin{definition}{Charts}{}
+    Two charts \(\left( U,\phi \colon U \rightarrow \R^n \right)\) and \(\left( V,\psi \colon V \rightarrow \R^n \right)\) of a topological manifold are \newterm{\(C^\infty\)-compatible} if the two composed maps
+    %
+    \begin{splitenv}
+        \phi \circ \psi^{-1}\colon \psi(U \cap V) \rightarrow \phi(U \cap V) \\ 
+        \psi \circ \phi^{-1}\colon \phi(U \cap V) \rightarrow \psi(U \cap V)
+    \end{splitenv}
+    %
+    See figure~\ref{fig:compatcoordcharts}.
+    %
+    These two maps \(\phi \circ \psi^{-1}\) and \(\psi \circ \phi^{-1}\) are called the \newterm{transition functions} between the charts;
+    \begin{splitenv}
+        \phi \circ \psi^{-1}\colon \R^n \rightarrow U \cap V \rightarrow \R^n \\
+        \psi \circ \phi^{-1}\colon \R^n \rightarrow U \cap V \rightarrow \R^n
+    \end{splitenv}
+\end{definition}
+% \loadfig{coordinatechart}
+\begin{definition}{Atlas}{}
+    A \(C^\infty\) \newterm{atlas} on a topological manifold \(M\) is a collection \(\mathfrak{U} \coloneqq \{(U_i, \phi_i)\}\) of pairwise \(C^\infty\)-compatible charts that \textit{cover} \(M\), i.e. such that \(M = \bigcup_i U_i\).
+\end{definition}
+\begin{example}{A \(C^\infty\) atlas on a circle}{}
+    The unit circle \(S^1\) in the complex plane \(\mathbb{C}\) maybe described as 
+    \[
+        \{e^\iu \in \C | 0 \leq t \leq 2\pi\}    
+    \]
+    Let \(U_1, U_2\) be 
+    \begin{splitenv}
+        U_1 &\coloneqq \{e^{\iu t} \in \C | -\pi < t < \pi\}    \\
+        U_2 &\coloneqq \{e^{\iu t} \in \C | 0 < t < 2\pi\}    
+    \end{splitenv}
+    and define 
+    \begin{splitenv}
+        \phi_1(e^{\iu t}) &= t \quad -\pi < t < \pi \\
+        \phi_2(e^{\iu t}) &= t \quad 0 < t < 2\pi \\
+    \end{splitenv}
+    See figure~\ref{fig:chartsoncircle}.
+    %
+    Both \(\phi_1, \phi_2\) are homemorphisms onto their respective images; thus, \(U_1, \phi_1\) and \(U_2, \phi_2\) are charts on \(S^1\).
+    %
+    The intersection \(U_1 \cap U_2\) consists of two disjoint connected components 
+    \begin{splitenv}
+        A &\coloneqq \{e^{\iu t} \in \C | -\pi < t < 0\}    \\
+        B &\coloneqq \{e^{\iu t} \in \C | 0 < t < \pi\}    
+    \end{splitenv}
+    with 
+    \begin{splitenv}
+        \phi_1(U_1 \cap U_2) &= \phi_1 (A \sqcup B) = \phi_1(A) \sqcup \phi_2(B) = (-\pi,0) \sqcup (0, \pi) \\ 
+        \phi_2(U_1 \cap U_2) &= \phi_1 (B \sqcup A) = \phi_1(B) \sqcup \phi_2(A) = (0, \pi)\sqcup(\pi, 2\pi)\\
+    \end{splitenv}
+    where \(\sqcup\) means disjoint union.
+    %
+    The transition function 
+    \[
+        \left( \phi_2 \circ \phi_1^{-1} \right)(t) = \begin{cases}
+            t+2\pi &\text{ for } t\in (-\pi, 0) \\ 
+            t &\text{ for } t\in (0, \pi) 
+        \end{cases}
+    \]
+    and similarly
+    \[
+        \left( \phi_1 \circ \phi_2^{-1} \right)(t) = \begin{cases}
+            t &\text{ for } t\in (0, \pi) \\ 
+            t-2\pi &\text{ for } t\in (\pi, 2\pi) 
+        \end{cases}
+    \]
+    Therefore, since the transition functions are \(C^\infty\), the charts are \(C^\infty\) compatible and form an atlas on \(S^1\).
+\end{example}
+% \loadfig{circlatlas}
+
+Althought compatibility is reflexive and symmetric it is not transitive because we don't know anything about mutual intersections.
+%
+On the otherhand 
+%
+\begin{lemma}{}{}
+    Let \(\{(U_i, \phi_i)\}\) be an atlas for a topological manifold. If two other charts (not in the atlas) \((V, \psi), (U, \phi)\) are both compatible with the atlas (i.e. with all charts in the atlas), then they are mutually compatible.
+\end{lemma}
+
+\subsubsection{Smooth Manifolds}
+
+An atlas \(\mathfrak{M}\) on a topological manifold is said to be \newterm{maximal} if it is not strictly contained in another atlas.
+\begin{definition}{Smooth Manifold}{}
+    A \newterm{smooth \(C^\infty\) manifold} is a topological manifold \(M\) together with a maximal atlas. 
+    %
+    The maximal atlas is called a \newterm{differentiable structure} on \(M\).
+    %
+    \(M\) is said to have dimension \(n\) if all of its connected components have dimension \(n\).
+    %
+    A 1-dimensional manifold is called a \newterm{curve}, a 2-dimensional manifold is called a \newterm{surface}, and an \(n\)-dimensional manifold is called an \(n\)-manifold.
+\end{definition}

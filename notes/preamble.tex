@@ -3,7 +3,7 @@
     \ExecuteMetaData[equations.tex]{eq#1}%
 }
 \newcommand{\loadfig}[1]{%
-    \ExecuteMetaData[figures.tex]{fig#1}%
+    \ExecuteMetaData[figures/figures.tex]{fig#1}%
 }
 \usepackage[margin=0.7in]{geometry}
 \usepackage[parfill]{parskip}
@@ -20,13 +20,19 @@
 \usepackage{etoc} % localtabelofcontents
 \usepackage{tikz}
 \usetikzlibrary{
-    decorations.markings % contour integral
+    decorations.markings, % contour integral
+    patterns,
+    positioning,
+    arrows
 }
 \usepackage{tikz-cd} % commutative diagrams
+\usepackage{pgfplots}
+\usepgfplotslibrary{patchplots}
+\pgfplotsset{compat=1.15}
+
 \usepackage{sepfootnotes}
 \newfootnotes{a}
 
-\usepackage{pgfplots}
 \usepackage{subcaption}
 \DeclareCaptionFormat{subfig}{#1#2#3}
 \DeclareCaptionSubType{figure}
@@ -171,6 +177,7 @@
 %shortcut to mathbb
 \newcommand{\N}{\mathbb{N}}
 \newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
 \newcommand{\I}{\mathbb{I}}
 % color highlighting
 \newcommand{\hilight}[1]{\colorbox{yellow}{#1}}
@@ -184,3 +191,6 @@
 }
 
 \interfootnotelinepenalty=10000
+
+
+\newcommand{\iu}{\mathrm{i}\mkern1mu}
