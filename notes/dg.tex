@@ -837,7 +837,7 @@ Suppose \(\left( U,\phi \colon U \rightarrow \R^n \right)\) and \(\left( V,\psi 
     \]
     Therefore, since the transition functions are \(C^\infty\), the charts are \(C^\infty\) compatible and form an atlas on \(S^1\).
 \end{example}
-\loadfig{circlatlas}
+% \loadfig{circlatlas}
 
 Although compatibility is reflexive and symmetric it is not transitive because we don't know anything about mutual intersections.
 %
@@ -913,7 +913,7 @@ Abusing notation, sometimes \((x^1, \dots, x^n)\) (sans \(p\)) stands for both t
     \]
     Thus, \(\{(U_i, \phi_i)\}_{i=1}^4\) is a \(C^\infty\) atlas on \(S^1\).
 \end{example}
-\loadfig{chartsoncirc}
+% \loadfig{chartsoncirc}
 
 \begin{proposition}{An atlas for a product manifold}{}
     If \(\{(U_i, \phi_i)\}\) and \(\{(V_i, \psi_i)\}\) are \(C^\infty\) atlases for the manifolds \(M,N\) of dimensions, respectively, then the collection 
@@ -925,4 +925,78 @@ Abusing notation, sometimes \((x^1, \dots, x^n)\) (sans \(p\)) stands for both t
 
 There \(n\)-dimensional torus \(S^1 \times \cdots \times S^1\) is a manifold.
 
-\subsection{Smooths Maps on a Manifold}
+\subsubsection{Smooths Maps on a Manifold}
+
+\begin{definition}{Smooth at a point to \(\R\)}{}
+    Let \(M\) be a smooth manifold of dimension \(n\). A function \(f\colon M \rightarrow \R\) is said to be \(C^\infty\) or \newterm{smooth a point p} in \(M\) if there is a chart \((U, \phi)\) containing \(p\) such that \(f \circ \phi^{-1}\), a function defined on the open subset \(\phi(U) \subset \R^n\), is \(C^\infty\) at \(\phi(p)\).
+    To summarize \(f\) is \(C^\infty\) if 
+    \[
+        f \circ \phi^{-1} \colon \phi(U) \rightarrow \R
+    \]
+
+    See figure~\ref{fig:smoothatapoint}.
+\end{definition}
+% \loadfig{smoothatapoint}
+\begin{definition}{Pullback}{}
+    Let \(F \colon N \rightarrow M\) be a map and \(h\) a function \(M\).
+    The \newterm{pullback} of \(h\) by \(F\), denoted \(F^*h\), is the composite function \(h \circ F\).
+\end{definition}
+
+Thus, a function \(f\) on \(M\) is \(C^\infty\) on a chart \((U, \phi)\) iff \((\phi^{-1})^* f \equiv f \circ \phi^{-1}\) is \(C^\infty\) on \(\phi(U)\).
+
+\begin{definition}{Smooth at a point}{}
+    Let \(M,N\) be manifolds of dimension \(m,n\). A continuous map \(F\colon N \rightarrow M\) is \(C^\infty\) at a point \(p \in N\) if there are charts \((V, \psi), (U, \phi)\) about \(F(p) \in M\) and \(p \in N\) such that \(\psi \circ F \psi \phi^{-1}\) is \(C^\infty\) at \(\phi(p)\).
+    To summarize \(F\) is \(C^\infty\) if 
+    \[
+        \psi \circ F \circ \phi^{-1} \colon \phi(F^{-1}(V) \cap U) \subset \R^n \rightarrow \R^m
+    \]
+    See figure~\ref{fig:smoothf}.
+\end{definition}
+
+% \loadfig{smoothf}
+
+\begin{proposition}{Composition of \(C^\infty\) maps}{}
+    If \(F \colon N \rightarrow M\) and \(G \colon M \rightarrow P\) are both \(C^\infty\) maps of manifolds, then the composite \(G \circ F \colon N \rightarrow P\) is \(C^\infty\).
+\end{proposition}
+
+\begin{definition}{Diffeomorphism}{}
+    A \newterm{diffeomorphism} of manifolds is a bjiective \(C^\infty\) map \(F \colon N \rightarrow M\) whose inverse \(F^{-1}\) is also \(C^\infty\).
+\end{definition}
+
+\begin{proposition}{}{}
+    If \((U, \phi)\) is a chart on a manifold \(M\) of dimension \(n\), then the coordinate map \(\phi \colon U \rightarrow \phi(U)\) is a diffeomorphism.
+\end{proposition}
+
+\begin{definition}{Lie group}{}
+    A \newterm{Lie group} is a \(C^\infty\) manifold \(G\) having a group structure such that the multiplication map 
+    \[
+        \mu \colon G \times G \rightarrow G
+    \]
+    and the inverse map 
+    \[
+        \iota \colon G \rightarrow G \quad \iota(x) \coloneqq x^{-1}
+    \]
+    are both \(C^\infty\).
+    Similarly, a \newterm{topological group} is a topological space having a group structure such that multiplication and inverse maps are both continuous.
+\end{definition}
+
+\begin{example}
+    Recall the definition of \(\operatorname{GL}(n, \R)\).
+    As an open subset of \(\R^{n \times n}\), it is a manifold.
+    Since the \((i,j)\)-entry of the product of two matrices \(A, B\) in \(\operatorname{GL}(n, \R)\)
+    \[
+        (AB)_{ij} = \sum_{k=1}^n a_{ik}b_{kj}
+    \]
+    is a polynomial in the coordinates of \(A\) and \(B\). 
+    Therefore matrix multiplication
+    \[
+        \mu \colon \operatorname{GL}(n, \R) \times \operatorname{GL}(n, \R) \rightarrow \operatorname{GL}(n, \R)
+    \]
+    is a \(C^\infty\) map.
+    Furthermore, by Cramer's rule
+    \[
+        (A^{-1})_{ij} = \frac{(-1)^{i+j}}{\det A} ((j,i)-\text{minor of }A)
+    \]  
+    which is a \(C^\infty\) function of the \(a_{ij}\)s provided \(\det A \neq 0\).
+    Therefore, \(\operatorname{GL}(n, \R)\) is a Lie group.
+\end{example}
