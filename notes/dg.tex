@@ -424,6 +424,7 @@ If \(x \coloneqq x^1,y\coloneqq x^2,z \coloneqq x^3\), then \(\dif x, \dif y, \d
 
 \newcommand{\twoform}[2]{\dif #1 \wedge \dif #2}
 \newcommand{\threeform}[3]{\dif #1 \wedge \dif #2 \wedge \dif #3}
+\newcommand{\cinf}{C^\infty}
 
 \begin{definition}{Differential \(k\)-forms}{}
     More generally, a \newterm{differential form \(\w\) of degree \(k\)} is a function that at each point assigns an alternating \(k\)-linear function on \(\tsp{n}\), i.e. \(\w_p \in A^k(\tsp{n})\).
@@ -868,6 +869,10 @@ Thus, \(x^i(p) \coloneqq (r^i \circ \phi)(p)\) is a point in \(\R^n\).
 %
 The functions \(x^i\) are called the \newterm{local coordinates on U}.
 %
+The sense here is that \(x^i\) tell you where you are on the manifold in a standardized way, given some intrinsic description of where you are on the manifold. 
+Think of how lat/lon tell you where you are on the globe given some intrinsic identification of where you are on the globe.
+This understanding gives sense to the words chart and atlas.
+%
 Abusing notation, sometimes \((x^1, \dots, x^n)\) (sans \(p\)) stands for both the coordinates on \(U\) or for a point in \(\R^n\).
 
 \subsubsection{Examples of Smooth Manifolds}
@@ -999,4 +1004,164 @@ Thus, a function \(f\) on \(M\) is \(C^\infty\) on a chart \((U, \phi)\) iff \((
     \]  
     which is a \(C^\infty\) function of the \(a_{ij}\)s provided \(\det A \neq 0\).
     Therefore, \(\operatorname{GL}(n, \R)\) is a Lie group.
+\end{example}
+
+\subsubsection{Partial Derivatives}
+
+Let \((U, \phi)\) be a chart and \(f\) a \(\cinf\) function on the manifold. 
+As a function into \(\R^n\), \(\phi\) has \(n\) components \(x^1, \dots, x^n\).
+Therefore, if \(r^1, \dots, r^n\) are the standard coordinates on \(\R^n\), then 
+\[
+    x^i = r^i \circ \phi    
+\]
+What this means is \(\phi\) maps to some point \((\phi^1(p), \dots, \phi^n(p))\) in \(R^n\). The projection to the \(i\)th standard coordinate on \(\R^n\) is \(r^i \circ \phi\), i.e. just pick out the component of \((\phi^1(p), \dots, \phi^n(p))\). This direct path from \(U\) to the \(i\)th standard coordinate of \(\R^n\) is called a local coordinate for \(U\) (since it's only valid in a small neighborhood of \(p\)). Then the collection \((x^1, \dots, x^n)\) are the local coordinates on \(U\) (but don't forget that the coordinates map from \(U \rightarrow \R^n\)).
+
+\begin{definition}{Partial derivative}{}
+    For \(p \in U\), we define the \newterm{partial derivative \( \frac{\partial f}{\partial x^i} \) of \(f\) with respect to \(x^i\) at \(p\)}
+    \begin{splitenv}
+        \evalat[\bigg]{\pdv{}{x^i}}{p} f &\coloneqq \evalat[\bigg]{\pdv{f}{x^i}}{p} \\
+        &\coloneqq \evalat[\bigg]{\pdv{(f \circ \phi^{-1})}{r^i}}{\phi(p)}  \\ 
+        &\coloneqq \evalat[\bigg]{\pdv{}{r^i}}{\phi(p)} (f \circ \phi^{-1})
+    \end{splitenv}
+    Thus, as functions on \(\phi(U)\) (and in terms of the local coordinates on \(U\))
+    \begin{equation}
+        \pdv{f}{x^i} \circ \phi^{-1} = \pdv{f \circ \phi^{-1}}{r^i}
+    \end{equation}
+    and therefore the partial derivative \(\partial f/ \partial x^i\) is \(\cinf\) on \(U\) because its pullback 
+    \[
+        (\phi^{-1})^* \pdv{f}{x^i} 
+    \]
+    is \(\cinf\).
+\end{definition}
+
+\begin{proposition}{Partial derivatives are dual}{}
+    Suppose \(U, x^1, \dots, x^n\) (with local coordinates \(x^1, \dots, x^n\)) is a chart on a manifold. Then \(\partial x^i / \partial x^j = \delta_j^i\).
+\end{proposition}
+
+\begin{proof}
+    At a point \(p \in U\), by the above definition of \(\evalat[\big]{\partial / \partial x^j}{p}\)
+    \begin{splitenv}
+        \evalat[\bigg]{\pdv{x^i}{x^j}}{p} &= \evalat[\bigg]{\pdv{x^i \circ \phi^{-1}}{r^j}}{\phi(p)} \\ 
+        &= \evalat[\bigg]{\pdv{(r^i \circ \phi \circ \phi^{-1})}{r^j}}{\phi(p)} \\ 
+        &= \evalat[\bigg]{\pdv{r^i}{r^j}}{\phi(p)} = \delta_j^i
+    \end{splitenv}
+\end{proof}
+
+\begin{definition}{Jacobian}{}
+    Let \(F \colon N \rightarrow M\) be a smooth map, and let \((U, \phi) \equiv (U, x^1, \dots, x^n)\) and \((V, \psi) \equiv (U, y^1, \dots, y^n)\) be charts on \(N, M\) respectively such that \(F(U) \subset V\).
+    Denote by 
+    \[
+        (F_i \coloneqq y^i \circ F \equiv r^i \circ \psi \circ F) \colon U \rightarrow \R   
+    \]
+    the \(i\)th component of \(F\) in the chart \(V, \psi\).
+    Then the matrix \(\left[ \pdv{F^i}{x^j} \right]\) is called the \newterm{Jacobian matrix of \(F\)} relative to the charts \(U, \phi\) and \((V, \psi)\).
+\end{definition}
+
+A diffeomorphism \(F \colon U \rightarrow F(U) \subset \R^n\) may be thought of as coordinate system on \(U\).
+We say that a \(\cinf\) map \(F \colon N \rightarrow M\) is \newterm{locally invertible} or a \newterm{local diffeomorphism} at \(p \in N\) if \(p\) has a neighborhood \(U\) on which \(F\) is a diffeomorphism.
+Given \(n\) smooth functions \(F^1, \dots, F^n\) in a neighborhood of \(p\) one would like to know whether they form a coordinate system.
+This is equivalent to whether \(F = (F^1, \dots, F^n)\) is a local diffeomorphism at \(p\).
+\begin{theorem}{Inverse function theorem \(\R^n\)}{}
+    Let \(F \colon W \rightarrow \R^n\) be a \(\cinf\) map defined on an open subset \(W \subset \R^n\).
+    For any point \(p \in W\), the map \(F\) is locally invertible iff the determinant of the Jacobian \[\det \left[ \evalat[\bigg]{\pdv{F^i}{r^j}}{p}   \right]\] is not zero.
+\end{theorem}
+\begin{theorem}{Inverse function theorem for manifolds}{}
+    Let \(F \colon N \rightarrow M\) be a \(\cinf\) map between manifolds of the same dimension, and \(p \in N\). 
+    Suppose for some charts \((U, \phi) = (U, x^1, \dots, x^n)\), \((V, \psi) = (U, y^1, \dots, y^n)\) about \(p\) and \(F(p)\) respectively and \(F(U) \subset V\).
+    Set \(F^i = y^i \circ F\). 
+    Then \(F\) is locally invertible at \(p\) iff 
+    \[\det \left[ \evalat[\bigg]{\pdv{F^i}{x^j}}{p}   \right]\] 
+    is not zero.
+\end{theorem}
+\begin{corollary}{}{}
+    Let \(N\) be a manifold of dimension \(n\). A set of smooth functions \(F^1, \dots, F^n\) defined on a coordinate neighborhood \(U, x^1, \dots, x^n\) of a point \(p \in N\) forms a coordinate system about \(p\) iff the Jacobian determinant 
+    \[\det \left[ \evalat[\bigg]{\pdv{F^i}{x^j}}{p}   \right]\] 
+    is not zero.
+\end{corollary}
+
+\subsection{Tangent Space}
+
+The tangent space to a manifold at a point is the vector space of derivations (germs/directional derivatives) at the point.
+A smooth map of manifolds induces a linear map, called its differential, of tangent spaces at corresponding points.
+In local coordinates, the differential is represented by the Jacobian.
+In this sense, the differential of a map is the generalization of the derivative between Euclidean spaces.
+
+A basic theme in manifold theory is linearization, according to which a manifold can be approximated by its tangent space and a smooth map can be approximated by the differential of that map.
+The differential further categorizes maps as either immersions or submersions (depending on whether the differential is injective or surjective).
+
+The collection of tangent spaces to a manifold can be given the structure of a \newterm{vector bundle}; it is thus called the \newterm{tangent bundle}.
+Vector fields, which manifest themselves in the physical world as velocity, force, electricity, and magnetism, maybe viewed as sections of the tangent bundle.
+
+\subsubsection{The Tangent Space at a Point}
+
+\begin{definition}{Tangent vector}{}
+    The germ of a \(\cinf\) function \(p \in M\) to be an equivalence class of \(\cinf\) functions defined in a neighborhood of \(p \in M\), with equivalence defined as agreement on a (possibly smaller) neighborhood of \(p\).
+    The set of germs of \(\cinf\) real-valued functions is denoted \(\cinf_p(M)\).
+    Addition and multiplication of functions induces a ring structure on \(\cinf_p(M)\); with scalar multiplication by real numbers \(\cinf_p(M)\) becomes an algebra over \(\R\).
+    A derivation at a point in \(M\) is a linear map \(D \colon \cinf_p(M) \rightarrow \R\) such that 
+    \[
+        D(fg) = (Df)g + f(p)Dg    
+    \]
+    A tangent vector at a point \(p\) is a derivation at \(p\).
+\end{definition}
+
+Given a coordinate neighborhood \((U, \phi) = (U, x^1, \dots, x^n)\) and \((r^1, \dots, r^n)\) the standard coordinates on \(\R^n\) and 
+\[
+    x^i = r^i \circ \phi \colon U \rightarrow \R    
+\]
+If \(f\) is a smooth function in a neighborhood of \(p\)
+\[
+    \evalat[\bigg]{\pdv{}{x^i}}{p} f = \evalat[\bigg]{\pdv{}{r^i}}{\phi(p)} (f \circ \phi^{-1})
+\]
+The partial derivatives satisfy the derivation property and therefore qualify as tangent vectors.
+
+\subsubsection{The Differential of a Map}
+
+Let \(F \colon N \rightarrow M\) be a \(\cinf\) map between two manifolds.
+At each point \(p \in N\), the map \(F\) induces a linear map of tangent spaces, called its \newterm{differential at \(p\)}
+\[
+    F_* \colon T_p N \rightarrow T_{F(p)}M
+\]
+defined as follows: if \(X_p \in T_p N\), then \(F_* (X_p)\) is the tangent vector in \(T_{F(p)}M\) according to 
+\[
+    (F_* (X_p))f = X_p (f \circ F)
+\]
+for \(f \in \cinf_{F(p)}(M)\) a germ (or representative of the germ).
+Vectors \newterm{pushforward} through \(F\).
+
+\begin{example}{Differential of a map between Euclidean spaces}{}
+    Suppose \(F \colon \R^n \rightarrow \R^m\) is smooth and \(p \in \R^n\).
+    Let \(x^1, \dots, x^n\) be coordinates on \(\R^n\) and \(y^1, \dots, y^m\) be coordinates on \(\R^m\).
+    Then 
+    \[
+        \left\{ \evalat[\bigg]{\pdv{}{x^1}}{p}, \dots,  \evalat[\bigg]{\pdv{}{x^n}}{p}\right\}    
+    \]
+    form a basis for the tangent space \(T_p(\R^n)\) and 
+    \[
+        \left\{ \evalat[\bigg]{\pdv{}{y^1}}{F(p)}, \dots,  \evalat[\bigg]{\pdv{}{y^m}}{F(p)}\right\}    
+    \]
+    form a basis for the tangent space \(T_{F(p)}(\R^m)\).
+    The linear map 
+    \[
+        F_* \colon T_p(\R^n) \rightarrow T_{F(p)}(\R^m)
+    \]
+    (the differential of \(F\)) is described by a matrix \(\left[ a_j^i \right]\) relative to these two bases:
+    \[
+        F_* \left( \evalat[\bigg]{\pdv{}{x^j}}{p} \right) = \sum_k a_j^k \evalat[\bigg]{\pdv{}{y^k}}{F(p)}    
+    \]
+    Let \(F^i = y^ \circ F\) be the \(i\)th component of \(F\); we can find \(a_j^i\) by evaluating the right-hand side and left-hand side on \(y^i\)
+    \begin{splitenv}
+        \text{RHS} &= \sum_k a_j^k \evalat[\bigg]{\pdv{}{y^k}}{F(p)} y^i = \sum_k a_j^k \delta_k^i = a_j^i \\       
+        \text{LHS} &=  F_* \left( \evalat[\bigg]{\pdv{}{x^j}}{p} \right) y^i = \evalat[\bigg]{\pdv{}{x^j}}{p} (y^i \circ F) = \evalat[\bigg]{\pdv{F^i}{x^j}}{p}
+    \end{splitenv}
+    where we've used the fact that \(F^i = y^i \circ F\).
+    Thus, \(F_*\) relative to the bases is the Jacobian
+    \[
+        \left[  \evalat[\bigg]{\pdv{F^i}{x^j}}{p}  \right]    
+    \]
+    and hence the differential generalizes the derivative of a map between Euclidean spaces (because in this instance the Jacobian is the derivative and in abstract manifolds we use the same \(F_*\)).
+    Note this means
+    \[
+        F_* \iff \text{Jacobian} \iff \text{differential} \iff \text{pushforward}
+    \] 
 \end{example}
