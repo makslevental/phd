@@ -2,90 +2,6 @@
 
 % \subsubsection{Pushforwards and Pullbacks}\label{subsubsec:diffgeo}
 
-% Define a diffeomorphism \(\phi\) such that
-% %
-% \begin{equation}
-%     \phi\colon (r, \theta) \mapsto (r \cos \theta, r \sin \theta)
-% \end{equation}
-% %
-% The Jacobian of \(\phi\)
-% %
-% \begin{equation}
-%     \operatorname{J}
-%     =
-%     \begin{bmatrix}
-%         \pdv{\phi_1}{r} & \pdv{\phi_1}{\theta} \\
-%         \pdv{\phi_2}{r} & \pdv{\phi_2}{\theta}
-%     \end{bmatrix}
-%     =
-%     \begin{bmatrix}
-%         \cos \theta & -r \sin \theta \\
-%         \sin \theta & r \cos \theta
-%     \end{bmatrix}
-% \end{equation}
-% %
-% Note that \(\det \operatorname{J} = r\) and so \(\phi\) is a diffeomorphism iff \(r \neq 0\).
-% %
-% Given a vector field
-% %
-% \begin{equation}
-%     v = a(r, \theta) \partial_r + b(r, \theta)\partial_\theta \coloneqq a(r, \theta) \pdv{}{r} + b(r, \theta)\pdv{}{\theta}
-% \end{equation}
-% %
-% we can compute the \newterm{pushforward} \(\phi_*\) wrt the \(\partial_x, \partial_y\) basis
-% \begin{equation}
-%     \phi_* (v)
-%     =
-%     \begin{bmatrix}
-%         \cos (\theta) & -r \sin (\theta) \\
-%         \sin (\theta) & r \cos (\theta)
-%     \end{bmatrix}
-%     \cdot
-%     \begin{pmatrix}
-%         a \\ b
-%     \end{pmatrix}
-%     =
-%     \begin{pmatrix}
-%         a \cos (\theta) - br \sin (\theta) \\
-%         a\sin (\theta) + br \cos (\theta)
-%     \end{pmatrix}
-% \end{equation}
-% Hence, explicitly
-% \begin{equation}
-%     \phi_* (v) = (a \cos (\theta) - br \sin (\theta))\partial_x + (a\sin (\theta) + br \cos (\theta))\partial_y
-% \end{equation}
-
-% Since \(\operatorname{J}\) is invertible we can investigate which vector fields map to \(\partial_x\)
-% %
-% \begin{equation}
-%     \phi_* v = \partial_x  \iff v = \phi_{*}^{-1} \partial_x
-% \end{equation}
-% %
-% Let \(v = a \partial_r + b \partial_\theta\).
-% %
-% Then
-% \begin{equation}
-%     v
-%     =
-%     \begin{bmatrix}
-%         \cos (\theta)            & \sin (\theta)           \\
-%         -\frac{\sin (\theta)}{r} & \frac{\cos (\theta)}{r} \\
-%     \end{bmatrix}
-%     \cdot
-%     \begin{pmatrix}
-%         1 \\ 0
-%     \end{pmatrix} \\
-%     =
-%     \begin{pmatrix}
-%         \cos(\theta) \\ -\frac{\sin (\theta)}{r}
-%     \end{pmatrix}
-% \end{equation}
-% However we need to write \(r, \theta\) in terms of \(x, y\)
-% \begin{equation}
-%      \phi_{*}^{-1} \partial_x = \frac{x}{\sqrt{x^2+y^2}}\partial_r + \frac{y}{x^2 + y^2} \partial_\theta
-% \end{equation}
-% %
-% \(\phi_{*}^{-1}\) is called the \newterm{pullback} \(\phi^*\) of the vector field \(\partial_x\) along \(\phi\).
 
 \section{Differential Geometry}\label{sec:dg}
 \localtableofcontents
@@ -587,13 +503,13 @@ A \(k\)-form \(\w\) is a \newterm{closed form} if \(\dif \w = 0\).
 Since \(\dif (\dif \tau) = 0\), every exact form is closed.
 
 \begin{example}{A closed 1-form on the punctured plane}{}
-    Define \(\w\) on the manifold \(\R^2-\{\bm{0}\}\) by 
+    Define \(\w\) on the manifold \(\R^2-\{\bm{0}\}\) by
     \[
         \omega(x,y) = \frac{-y}{x^2+y^2}\dif x + \frac{x}{x^2+y^2}\dif y
     \]
     To show that \(\w\) is closed we take the exterior derivative using example~\eqref{exa:exteriordif1form}:
     \begin{splitenv}
-        \dif \w &= \left( \frac{y^2-x^2}{\left(x^2+y^2\right)^2} - \frac{y^2-x^2}{\left(x^2+y^2\right)^2} \right) \dif x \wedge \dif y \\ 
+        \dif \w &= \left( \frac{y^2-x^2}{\left(x^2+y^2\right)^2} - \frac{y^2-x^2}{\left(x^2+y^2\right)^2} \right) \dif x \wedge \dif y \\
         &= 0
     \end{splitenv}
 \end{example}
@@ -726,7 +642,7 @@ Property~\eqref{prop3} expresses the fact that a 1-form on \(\R^3\) is exact iff
 %
 It turns out that whether proposition~\eqref{prop3} is true depends on the topology of \(U\).
 %
-One measure of the failure of a closed \(k\)-form to be exact is the quotient vector space 
+One measure of the failure of a closed \(k\)-form to be exact is the quotient vector space
 %
 \begin{equation}
     H^k(U) \coloneqq \frac{\{\text{closed \(k\)-forms on } U\}}{\{\text{exact \(k\)-forms on }U\}}
@@ -744,13 +660,13 @@ Vector fields \(e_1, e_2, \dots\)have subscripts and differential forms \(\w^1, 
 %
 Coordinate functions \(x^1, x^2, \dots\), being 0-forms, have superscripts.
 %
-Their differentials \(\dif x^i\) should also. 
+Their differentials \(\dif x^i\) should also.
 %
 Coordinate vector fields \(\pdv{}{x^i}\) are considered to have subscripts because the index is in the denominator.
 %
 Coefficient functions have subscripts or subscripts depending on whether they're coefficients functions for vector fields or forms.
 %
-This allows for ``conservation of indices'': if \(X = \sum a^i \partial_{x^i}\) and \(\w = \sum b_j \dif x^j\) then 
+This allows for ``conservation of indices'': if \(X = \sum a^i \partial_{x^i}\) and \(\w = \sum b_j \dif x^j\) then
 \[
     \w(X) = \left( \sum b_j \dif x^j \right) \left( \sum a^i \pdv{}{x^i} \right) = \sum b_i a^i
 \]
@@ -758,7 +674,7 @@ This allows for ``conservation of indices'': if \(X = \sum a^i \partial_{x^i}\) 
 \subsection{Manifolds}
 
 \begin{definition}{Locally Euclidean}{}
-    A topological space \(M\) is \newterm{locally Euclidean of dimension \(n\)} if for every \(p \in M\) there exists a neighborhood \(U\) such that there is a \newterm{homeomorphism}\tablefootnote{A homeomorphism is a continuous function between topological spaces that has a continuous inverse function.} \(\phi\) from \(U\) \textbf{onto} an opensubset of \(\R^n\). 
+    A topological space \(M\) is \newterm{locally Euclidean of dimension \(n\)} if for every \(p \in M\) there exists a neighborhood \(U\) such that there is a \newterm{homeomorphism}\tablefootnote{A homeomorphism is a continuous function between topological spaces that has a continuous inverse function.} \(\phi\) from \(U\) \textbf{onto} an opensubset of \(\R^n\).
     %
     The pair \(\left( U,\phi \colon U \rightarrow \R^n \right)\) is called a \newterm{chart}, with \(U\) being the \newterm{coordinate neighborhood} and \(\phi\) the \newterm{coordinate system}.
 \end{definition}
@@ -775,7 +691,7 @@ Suppose \(\left( U,\phi \colon U \rightarrow \R^n \right)\) and \(\left( V,\psi 
     Two charts \(\left( U,\phi \colon U \rightarrow \R^n \right)\) and \(\left( V,\psi \colon V \rightarrow \R^n \right)\) of a topological manifold are \newterm{\(C^\infty\)-compatible} if the two composed maps
     %
     \begin{splitenv}
-        \phi \circ \psi^{-1}\colon \psi(U \cap V) \rightarrow \phi(U \cap V) \\ 
+        \phi \circ \psi^{-1}\colon \psi(U \cap V) \rightarrow \phi(U \cap V) \\
         \psi \circ \phi^{-1}\colon \phi(U \cap V) \rightarrow \psi(U \cap V)
     \end{splitenv}
     %
@@ -792,16 +708,16 @@ Suppose \(\left( U,\phi \colon U \rightarrow \R^n \right)\) and \(\left( V,\psi 
     A \(C^\infty\) \newterm{atlas} on a topological manifold \(M\) is a collection \(\mathfrak{U} \coloneqq \{(U_i, \phi_i)\}\) of pairwise \(C^\infty\)-compatible charts that \textit{cover} \(M\), i.e. such that \(M = \bigcup_i U_i\).
 \end{definition}
 \begin{example}{A \(C^\infty\) atlas on a circle}{}
-    The unit circle \(S^1\) in the complex plane \(\mathbb{C}\) maybe described as 
+    The unit circle \(S^1\) in the complex plane \(\mathbb{C}\) maybe described as
     \[
-        \{e^\iu \in \C | 0 \leq t \leq 2\pi\}    
+        \{e^\iu \in \C | 0 \leq t \leq 2\pi\}
     \]
-    Let \(U_1, U_2\) be 
+    Let \(U_1, U_2\) be
     \begin{splitenv}
         U_1 &\coloneqq \{e^{\iu t} \in \C | -\pi < t < \pi\}    \\
-        U_2 &\coloneqq \{e^{\iu t} \in \C | 0 < t < 2\pi\}    
+        U_2 &\coloneqq \{e^{\iu t} \in \C | 0 < t < 2\pi\}
     \end{splitenv}
-    and define 
+    and define
     \begin{splitenv}
         \phi_1(e^{\iu t}) &= t \quad -\pi < t < \pi \\
         \phi_2(e^{\iu t}) &= t \quad 0 < t < 2\pi \\
@@ -810,30 +726,30 @@ Suppose \(\left( U,\phi \colon U \rightarrow \R^n \right)\) and \(\left( V,\psi 
     %
     Both \(\phi_1, \phi_2\) are homemorphisms onto their respective images; thus, \(U_1, \phi_1\) and \(U_2, \phi_2\) are charts on \(S^1\).
     %
-    The intersection \(U_1 \cap U_2\) consists of two disjoint connected components 
+    The intersection \(U_1 \cap U_2\) consists of two disjoint connected components
     \begin{splitenv}
         A &\coloneqq \{e^{\iu t} \in \C | -\pi < t < 0\}    \\
-        B &\coloneqq \{e^{\iu t} \in \C | 0 < t < \pi\}    
+        B &\coloneqq \{e^{\iu t} \in \C | 0 < t < \pi\}
     \end{splitenv}
-    with 
+    with
     \begin{splitenv}
-        \phi_1(U_1 \cap U_2) &= \phi_1 (A \sqcup B) = \phi_1(A) \sqcup \phi_2(B) = (-\pi,0) \sqcup (0, \pi) \\ 
+        \phi_1(U_1 \cap U_2) &= \phi_1 (A \sqcup B) = \phi_1(A) \sqcup \phi_2(B) = (-\pi,0) \sqcup (0, \pi) \\
         \phi_2(U_1 \cap U_2) &= \phi_1 (B \sqcup A) = \phi_1(B) \sqcup \phi_2(A) = (0, \pi)\sqcup(\pi, 2\pi)\\
     \end{splitenv}
     where \(\sqcup\) means disjoint union.
     %
-    The transition function 
+    The transition function
     \[
         \left( \phi_2 \circ \phi_1^{-1} \right)(t) = \begin{cases}
-            t+2\pi &\text{ for } t\in (-\pi, 0) \\ 
-            t &\text{ for } t\in (0, \pi) 
+            t+2\pi & \text{ for } t\in (-\pi, 0) \\
+            t      & \text{ for } t\in (0, \pi)
         \end{cases}
     \]
     and similarly
     \[
         \left( \phi_1 \circ \phi_2^{-1} \right)(t) = \begin{cases}
-            t &\text{ for } t\in (0, \pi) \\ 
-            t-2\pi &\text{ for } t\in (\pi, 2\pi) 
+            t      & \text{ for } t\in (0, \pi)    \\
+            t-2\pi & \text{ for } t\in (\pi, 2\pi)
         \end{cases}
     \]
     Therefore, since the transition functions are \(C^\infty\), the charts are \(C^\infty\) compatible and form an atlas on \(S^1\).
@@ -842,7 +758,7 @@ Suppose \(\left( U,\phi \colon U \rightarrow \R^n \right)\) and \(\left( V,\psi 
 
 Although compatibility is reflexive and symmetric it is not transitive because we don't know anything about mutual intersections.
 %
-On the otherhand 
+On the otherhand
 %
 \begin{lemma}{}{}
     Let \(\{(U_i, \phi_i)\}\) be an atlas for a topological manifold. If two other charts (not in the atlas) \((V, \psi), (U, \phi)\) are both compatible with the atlas (i.e. with all charts in the atlas), then they are mutually compatible.
@@ -852,7 +768,7 @@ On the otherhand
 
 An atlas \(\mathfrak{M}\) on a topological manifold is said to be \newterm{maximal} if it is not strictly contained in another atlas.
 \begin{definition}{Smooth Manifold}{}
-    A \newterm{smooth \(C^\infty\) manifold} is a topological manifold \(M\) together with a maximal atlas. 
+    A \newterm{smooth \(C^\infty\) manifold} is a topological manifold \(M\) together with a maximal atlas.
     %
     The maximal atlas is called a \newterm{differentiable structure} on \(M\).
     %
@@ -865,11 +781,11 @@ In the context of manifolds, we denote the standard coordinates on \(\R^n\) by \
 %
 If \((U, \phi)\) is a chart of a manifold, we let \(x^i = r^i \circ \phi\) be the \(i\)th component of \(\phi\) and write \(\phi = (x^1, \dots, x^n)\).
 %
-Thus, \(x^i(p) \coloneqq (r^i \circ \phi)(p)\) is a point in \(\R^n\). 
+Thus, \(x^i(p) \coloneqq (r^i \circ \phi)(p)\) is a point in \(\R^n\).
 %
 The functions \(x^i\) are called the \newterm{local coordinates on U}.
 %
-The sense here is that \(x^i\) tell you where you are on the manifold in a standardized way, given some intrinsic description of where you are on the manifold. 
+The sense here is that \(x^i\) tell you where you are on the manifold in a standardized way, given some intrinsic description of where you are on the manifold.
 Think of how lat/lon tell you where you are on the globe given some intrinsic identification of where you are on the globe.
 This understanding gives sense to the words chart and atlas.
 %
@@ -878,13 +794,13 @@ Abusing notation, sometimes \((x^1, \dots, x^n)\) (sans \(p\)) stands for both t
 \subsubsection{Examples of Smooth Manifolds}
 
 \begin{example}{Graph of a Smooth Function}{}
-    For a subset \(A \subset \R^n\) and a function \(f \colon A \rightarrow \R^m\) the \newterm{graph of f} is defined 
+    For a subset \(A \subset \R^n\) and a function \(f \colon A \rightarrow \R^m\) the \newterm{graph of f} is defined
     \[
         \Gamma(f) = \{(x, f(x)) \in A \times \R^m\}
     \]
     If \(U\) is an open subset \(\R^n\) and \(f \colon U \rightarrow \R^n\) is \(C^\infty\), then the two maps
     \begin{align*}
-        \phi \colon \Gamma(f) \rightarrow U \quad (x, f(x)) \mapsto x \\ 
+        \phi \colon \Gamma(f) \rightarrow U \quad (x, f(x)) \mapsto x \\
         (1, f) \colon \rightarrow \Gamma(f) \quad x \mapsto (x, f(x))
     \end{align*}
     constitute a homemorphism. Hence, \(\Gamma(f)\) has an atlas with a single \((\Gamma(f), \phi)\) and is therefore a \(C^\infty\) manifold.
@@ -893,9 +809,9 @@ Abusing notation, sometimes \((x^1, \dots, x^n)\) (sans \(p\)) stands for both t
 \begin{example}{General Linear group}{}
     Let \(\R^{m \times n}\) be the vector space of all \(m \times n\) matrices.
     Since \(\R^{m \times n}\) is isomorphic to \(\R^{mn}\), we give it the topology of \(\R^{mn}\).
-    The \newterm{general linear group \(\operatorname{GL}(n, \R)\)} is defined 
+    The \newterm{general linear group \(\operatorname{GL}(n, \R)\)} is defined
     \begin{splitenv}
-        \operatorname{GL}(n, \R) &\coloneqq \{A \in \R^{n\times n} | \det(A) \neq 0\}  \\ 
+        \operatorname{GL}(n, \R) &\coloneqq \{A \in \R^{n\times n} | \det(A) \neq 0\}  \\
         &\;= \operatorname{det}^{-1} (\R - \{0\})
     \end{splitenv}
     Since the determinant function \(\det \colon \R^{n\times n}\rightarrow \R\) is continuous, \(\operatorname{GL}(n, \R)\) is an open subset of \(\R^{n \times n}\cong \R^{n^2} \) is therefore a manifold.
@@ -907,7 +823,7 @@ Abusing notation, sometimes \((x^1, \dots, x^n)\) (sans \(p\)) stands for both t
     (see figure~\ref{fig:xychartsoncircle}).
     On \(U_1, U_2\) the coordinate function \(x\) is a homeomorphism onto the open interval \((-1,1)\) on the \(x\)-axis.
     Thus, \(\phi_i(x,y) \coloneqq x\). Similarly, on \(U_3, U_4\), \(y\) is a homeomorphism onto the open interval \((-1,1)\) on the \(y\)-axis, and so \(\phi_i(x,y) \coloneqq y\).
-    You can check that on \(U_i \cap U_j\), the transition function \(\phi_j \circ \phi_i^{-1}\) is \(C^\infty\). 
+    You can check that on \(U_i \cap U_j\), the transition function \(\phi_j \circ \phi_i^{-1}\) is \(C^\infty\).
     For example, on \(U_1 \cap U_3\)
     \[
         (\phi_3 \circ \phi_1^{-1})(x) = \phi_3 (x, \sqrt{1-x^2}) = \sqrt{1-x^2}
@@ -921,9 +837,9 @@ Abusing notation, sometimes \((x^1, \dots, x^n)\) (sans \(p\)) stands for both t
 % \loadfig{chartsoncirc}
 
 \begin{proposition}{An atlas for a product manifold}{}
-    If \(\{(U_i, \phi_i)\}\) and \(\{(V_i, \psi_i)\}\) are \(C^\infty\) atlases for the manifolds \(M,N\) of dimensions, respectively, then the collection 
+    If \(\{(U_i, \phi_i)\}\) and \(\{(V_i, \psi_i)\}\) are \(C^\infty\) atlases for the manifolds \(M,N\) of dimensions, respectively, then the collection
     \begin{equation}
-        \{ (U_i \times V_j, (\phi_i, \phi_j)) \colon U_i \times V_j \rightarrow \R^m \times \R^n \} 
+        \{ (U_i \times V_j, (\phi_i, \phi_j)) \colon U_i \times V_j \rightarrow \R^m \times \R^n \}
     \end{equation}
     is a \(C^\infty\) atlas on \(M \times N\). Therefore \(M \times N\) is a \(C^\infty\) manifold of dimension \(m+n\).
 \end{proposition}
@@ -934,7 +850,7 @@ There \(n\)-dimensional torus \(S^1 \times \cdots \times S^1\) is a manifold.
 
 \begin{definition}{Smooth at a point to \(\R\)}{}
     Let \(M\) be a smooth manifold of dimension \(n\). A function \(f\colon M \rightarrow \R\) is said to be \(C^\infty\) or \newterm{smooth a point p} in \(M\) if there is a chart \((U, \phi)\) containing \(p\) such that \(f \circ \phi^{-1}\), a function defined on the open subset \(\phi(U) \subset \R^n\), is \(C^\infty\) at \(\phi(p)\).
-    To summarize \(f\) is \(C^\infty\) if 
+    To summarize \(f\) is \(C^\infty\) if
     \[
         f \circ \phi^{-1} \colon \phi(U) \rightarrow \R
     \]
@@ -951,7 +867,7 @@ Thus, a function \(f\) on \(M\) is \(C^\infty\) on a chart \((U, \phi)\) iff \((
 
 \begin{definition}{Smooth at a point}{}
     Let \(M,N\) be manifolds of dimension \(m,n\). A continuous map \(F\colon N \rightarrow M\) is \(C^\infty\) at a point \(p \in N\) if there are charts \((V, \psi), (U, \phi)\) about \(F(p) \in M\) and \(p \in N\) such that \(\psi \circ F \psi \phi^{-1}\) is \(C^\infty\) at \(\phi(p)\).
-    To summarize \(F\) is \(C^\infty\) if 
+    To summarize \(F\) is \(C^\infty\) if
     \[
         \psi \circ F \circ \phi^{-1} \colon \phi(F^{-1}(V) \cap U) \subset \R^n \rightarrow \R^m
     \]
@@ -973,11 +889,11 @@ Thus, a function \(f\) on \(M\) is \(C^\infty\) on a chart \((U, \phi)\) iff \((
 \end{proposition}
 
 \begin{definition}{Lie group}{}
-    A \newterm{Lie group} is a \(C^\infty\) manifold \(G\) having a group structure such that the multiplication map 
+    A \newterm{Lie group} is a \(C^\infty\) manifold \(G\) having a group structure such that the multiplication map
     \[
         \mu \colon G \times G \rightarrow G
     \]
-    and the inverse map 
+    and the inverse map
     \[
         \iota \colon G \rightarrow G \quad \iota(x) \coloneqq x^{-1}
     \]
@@ -992,7 +908,7 @@ Thus, a function \(f\) on \(M\) is \(C^\infty\) on a chart \((U, \phi)\) iff \((
     \[
         (AB)_{ij} = \sum_{k=1}^n a_{ik}b_{kj}
     \]
-    is a polynomial in the coordinates of \(A\) and \(B\). 
+    is a polynomial in the coordinates of \(A\) and \(B\).
     Therefore matrix multiplication
     \[
         \mu \colon \operatorname{GL}(n, \R) \times \operatorname{GL}(n, \R) \rightarrow \operatorname{GL}(n, \R)
@@ -1001,18 +917,18 @@ Thus, a function \(f\) on \(M\) is \(C^\infty\) on a chart \((U, \phi)\) iff \((
     Furthermore, by Cramer's rule
     \[
         (A^{-1})_{ij} = \frac{(-1)^{i+j}}{\det A} ((j,i)-\text{minor of }A)
-    \]  
+    \]
     which is a \(C^\infty\) function of the \(a_{ij}\)s provided \(\det A \neq 0\).
     Therefore, \(\operatorname{GL}(n, \R)\) is a Lie group.
 \end{example}
 
 \subsubsection{Partial Derivatives}
 
-Let \((U, \phi)\) be a chart and \(f\) a \(\cinf\) function on the manifold. 
+Let \((U, \phi)\) be a chart and \(f\) a \(\cinf\) function on the manifold.
 As a function into \(\R^n\), \(\phi\) has \(n\) components \(x^1, \dots, x^n\).
-Therefore, if \(r^1, \dots, r^n\) are the standard coordinates on \(\R^n\), then 
+Therefore, if \(r^1, \dots, r^n\) are the standard coordinates on \(\R^n\), then
 \[
-    x^i = r^i \circ \phi    
+    x^i = r^i \circ \phi
 \]
 What this means is \(\phi\) maps to some point \((\phi^1(p), \dots, \phi^n(p))\) in \(R^n\). The projection to the \(i\)th standard coordinate on \(\R^n\) is \(r^i \circ \phi\), i.e. just pick out the component of \((\phi^1(p), \dots, \phi^n(p))\). This direct path from \(U\) to the \(i\)th standard coordinate of \(\R^n\) is called a local coordinate for \(U\) (since it's only valid in a small neighborhood of \(p\)). Then the collection \((x^1, \dots, x^n)\) are the local coordinates on \(U\) (but don't forget that the coordinates map from \(U \rightarrow \R^n\)).
 
@@ -1020,16 +936,16 @@ What this means is \(\phi\) maps to some point \((\phi^1(p), \dots, \phi^n(p))\)
     For \(p \in U\), we define the \newterm{partial derivative \( \frac{\partial f}{\partial x^i} \) of \(f\) with respect to \(x^i\) at \(p\)}
     \begin{splitenv}
         \evalat[\bigg]{\pdv{}{x^i}}{p} f &\coloneqq \evalat[\bigg]{\pdv{f}{x^i}}{p} \\
-        &\coloneqq \evalat[\bigg]{\pdv{(f \circ \phi^{-1})}{r^i}}{\phi(p)}  \\ 
+        &\coloneqq \evalat[\bigg]{\pdv{(f \circ \phi^{-1})}{r^i}}{\phi(p)}  \\
         &\coloneqq \evalat[\bigg]{\pdv{}{r^i}}{\phi(p)} (f \circ \phi^{-1})
     \end{splitenv}
     Thus, as functions on \(\phi(U)\) (and in terms of the local coordinates on \(U\))
     \begin{equation}
         \pdv{f}{x^i} \circ \phi^{-1} = \pdv{f \circ \phi^{-1}}{r^i}
     \end{equation}
-    and therefore the partial derivative \(\partial f/ \partial x^i\) is \(\cinf\) on \(U\) because its pullback 
+    and therefore the partial derivative \(\partial f/ \partial x^i\) is \(\cinf\) on \(U\) because its pullback
     \[
-        (\phi^{-1})^* \pdv{f}{x^i} 
+        (\phi^{-1})^* \pdv{f}{x^i}
     \]
     is \(\cinf\).
 \end{definition}
@@ -1041,17 +957,17 @@ What this means is \(\phi\) maps to some point \((\phi^1(p), \dots, \phi^n(p))\)
 \begin{proof}
     At a point \(p \in U\), by the above definition of \(\evalat[\big]{\partial / \partial x^j}{p}\)
     \begin{splitenv}
-        \evalat[\bigg]{\pdv{x^i}{x^j}}{p} &= \evalat[\bigg]{\pdv{x^i \circ \phi^{-1}}{r^j}}{\phi(p)} \\ 
-        &= \evalat[\bigg]{\pdv{(r^i \circ \phi \circ \phi^{-1})}{r^j}}{\phi(p)} \\ 
+        \evalat[\bigg]{\pdv{x^i}{x^j}}{p} &= \evalat[\bigg]{\pdv{x^i \circ \phi^{-1}}{r^j}}{\phi(p)} \\
+        &= \evalat[\bigg]{\pdv{(r^i \circ \phi \circ \phi^{-1})}{r^j}}{\phi(p)} \\
         &= \evalat[\bigg]{\pdv{r^i}{r^j}}{\phi(p)} = \delta_j^i
     \end{splitenv}
 \end{proof}
 
 \begin{definition}{Jacobian}{}
     Let \(F \colon N \rightarrow M\) be a smooth map, and let \((U, \phi) \equiv (U, x^1, \dots, x^n)\) and \((V, \psi) \equiv (U, y^1, \dots, y^n)\) be charts on \(N, M\) respectively such that \(F(U) \subset V\).
-    Denote by 
+    Denote by
     \[
-        (F_i \coloneqq y^i \circ F \equiv r^i \circ \psi \circ F) \colon U \rightarrow \R   
+        (F_i \coloneqq y^i \circ F \equiv r^i \circ \psi \circ F) \colon U \rightarrow \R
     \]
     the \(i\)th component of \(F\) in the chart \(V, \psi\).
     Then the matrix \(\left[ \pdv{F^i}{x^j} \right]\) is called the \newterm{Jacobian matrix of \(F\)} relative to the charts \(U, \phi\) and \((V, \psi)\).
@@ -1066,16 +982,16 @@ This is equivalent to whether \(F = (F^1, \dots, F^n)\) is a local diffeomorphis
     For any point \(p \in W\), the map \(F\) is locally invertible iff the determinant of the Jacobian \[\det \left[ \evalat[\bigg]{\pdv{F^i}{r^j}}{p}   \right]\] is not zero.
 \end{theorem}
 \begin{theorem}{Inverse function theorem for manifolds}{}
-    Let \(F \colon N \rightarrow M\) be a \(\cinf\) map between manifolds of the same dimension, and \(p \in N\). 
+    Let \(F \colon N \rightarrow M\) be a \(\cinf\) map between manifolds of the same dimension, and \(p \in N\).
     Suppose for some charts \((U, \phi) = (U, x^1, \dots, x^n)\), \((V, \psi) = (U, y^1, \dots, y^n)\) about \(p\) and \(F(p)\) respectively and \(F(U) \subset V\).
-    Set \(F^i = y^i \circ F\). 
-    Then \(F\) is locally invertible at \(p\) iff 
-    \[\det \left[ \evalat[\bigg]{\pdv{F^i}{x^j}}{p}   \right]\] 
+    Set \(F^i = y^i \circ F\).
+    Then \(F\) is locally invertible at \(p\) iff
+    \[\det \left[ \evalat[\bigg]{\pdv{F^i}{x^j}}{p}   \right]\]
     is not zero.
 \end{theorem}
 \begin{corollary}{}{}
-    Let \(N\) be a manifold of dimension \(n\). A set of smooth functions \(F^1, \dots, F^n\) defined on a coordinate neighborhood \(U, x^1, \dots, x^n\) of a point \(p \in N\) forms a coordinate system about \(p\) iff the Jacobian determinant 
-    \[\det \left[ \evalat[\bigg]{\pdv{F^i}{x^j}}{p}   \right]\] 
+    Let \(N\) be a manifold of dimension \(n\). A set of smooth functions \(F^1, \dots, F^n\) defined on a coordinate neighborhood \(U, x^1, \dots, x^n\) of a point \(p \in N\) forms a coordinate system about \(p\) iff the Jacobian determinant
+    \[\det \left[ \evalat[\bigg]{\pdv{F^i}{x^j}}{p}   \right]\]
     is not zero.
 \end{corollary}
 
@@ -1098,16 +1014,16 @@ Vector fields, which manifest themselves in the physical world as velocity, forc
     The germ of a \(\cinf\) function \(p \in M\) to be an equivalence class of \(\cinf\) functions defined in a neighborhood of \(p \in M\), with equivalence defined as agreement on a (possibly smaller) neighborhood of \(p\).
     The set of germs of \(\cinf\) real-valued functions is denoted \(\cinf_p(M)\).
     Addition and multiplication of functions induces a ring structure on \(\cinf_p(M)\); with scalar multiplication by real numbers \(\cinf_p(M)\) becomes an algebra over \(\R\).
-    A derivation at a point in \(M\) is a linear map \(D \colon \cinf_p(M) \rightarrow \R\) such that 
+    A derivation at a point in \(M\) is a linear map \(D \colon \cinf_p(M) \rightarrow \R\) such that
     \[
-        D(fg) = (Df)g + f(p)Dg    
+        D(fg) = (Df)g + f(p)Dg
     \]
     A tangent vector at a point \(p\) is a derivation at \(p\).
 \end{definition}
 
-Given a coordinate neighborhood \((U, \phi) = (U, x^1, \dots, x^n)\) and \((r^1, \dots, r^n)\) the standard coordinates on \(\R^n\) and 
+Given a coordinate neighborhood \((U, \phi) = (U, x^1, \dots, x^n)\) and \((r^1, \dots, r^n)\) the standard coordinates on \(\R^n\) and
 \[
-    x^i = r^i \circ \phi \colon U \rightarrow \R    
+    x^i = r^i \circ \phi \colon U \rightarrow \R
 \]
 If \(f\) is a smooth function in a neighborhood of \(p\)
 \[
@@ -1122,7 +1038,7 @@ At each point \(p \in N\), the map \(F\) induces a linear map of tangent spaces,
 \[
     F_* \colon T_p N \rightarrow T_{F(p)}M
 \]
-defined as follows: if \(X_p \in T_p N\), then \(F_* (X_p)\) is the tangent vector in \(T_{F(p)}M\) according to 
+defined as follows: if \(X_p \in T_p N\), then \(F_* (X_p)\) is the tangent vector in \(T_{F(p)}M\) according to
 \[
     (F_* (X_p))f = X_p (f \circ F)
 \]
@@ -1132,36 +1048,177 @@ Vectors \newterm{pushforward} through \(F\).
 \begin{example}{Differential of a map between Euclidean spaces}{}
     Suppose \(F \colon \R^n \rightarrow \R^m\) is smooth and \(p \in \R^n\).
     Let \(x^1, \dots, x^n\) be coordinates on \(\R^n\) and \(y^1, \dots, y^m\) be coordinates on \(\R^m\).
-    Then 
+    Then
     \[
-        \left\{ \evalat[\bigg]{\pdv{}{x^1}}{p}, \dots,  \evalat[\bigg]{\pdv{}{x^n}}{p}\right\}    
+        \left\{ \evalat[\bigg]{\pdv{}{x^1}}{p}, \dots,  \evalat[\bigg]{\pdv{}{x^n}}{p}\right\}
     \]
-    form a basis for the tangent space \(T_p(\R^n)\) and 
+    form a basis for the tangent space \(T_p(\R^n)\) and
     \[
-        \left\{ \evalat[\bigg]{\pdv{}{y^1}}{F(p)}, \dots,  \evalat[\bigg]{\pdv{}{y^m}}{F(p)}\right\}    
+        \left\{ \evalat[\bigg]{\pdv{}{y^1}}{F(p)}, \dots,  \evalat[\bigg]{\pdv{}{y^m}}{F(p)}\right\}
     \]
     form a basis for the tangent space \(T_{F(p)}(\R^m)\).
-    The linear map 
+    The linear map
     \[
         F_* \colon T_p(\R^n) \rightarrow T_{F(p)}(\R^m)
     \]
     (the differential of \(F\)) is described by a matrix \(\left[ a_j^i \right]\) relative to these two bases:
     \[
-        F_* \left( \evalat[\bigg]{\pdv{}{x^j}}{p} \right) = \sum_k a_j^k \evalat[\bigg]{\pdv{}{y^k}}{F(p)}    
+        F_* \left( \evalat[\bigg]{\pdv{}{x^j}}{p} \right) = \sum_k a_j^k \evalat[\bigg]{\pdv{}{y^k}}{F(p)}
     \]
     Let \(F^i = y^ \circ F\) be the \(i\)th component of \(F\); we can find \(a_j^i\) by evaluating the right-hand side and left-hand side on \(y^i\)
     \begin{splitenv}
-        \text{RHS} &= \sum_k a_j^k \evalat[\bigg]{\pdv{}{y^k}}{F(p)} y^i = \sum_k a_j^k \delta_k^i = a_j^i \\       
+        \text{RHS} &= \sum_k a_j^k \evalat[\bigg]{\pdv{}{y^k}}{F(p)} y^i = \sum_k a_j^k \delta_k^i = a_j^i \\
         \text{LHS} &=  F_* \left( \evalat[\bigg]{\pdv{}{x^j}}{p} \right) y^i = \evalat[\bigg]{\pdv{}{x^j}}{p} (y^i \circ F) = \evalat[\bigg]{\pdv{F^i}{x^j}}{p}
     \end{splitenv}
     where we've used the fact that \(F^i = y^i \circ F\).
     Thus, \(F_*\) relative to the bases is the Jacobian
     \[
-        \left[  \evalat[\bigg]{\pdv{F^i}{x^j}}{p}  \right]    
+        \left[  \evalat[\bigg]{\pdv{F^i}{x^j}}{p}  \right]
     \]
     and hence the differential generalizes the derivative of a map between Euclidean spaces (because in this instance the Jacobian is the derivative and in abstract manifolds we use the same \(F_*\)).
     Note this means
     \[
         F_* \iff \text{Jacobian} \iff \text{differential} \iff \text{pushforward}
-    \] 
+    \]
+\end{example}
+
+\begin{example}
+    Define a diffeomorphism \(F\) such that
+    \begin{equation}
+        F\colon (r, \theta) \mapsto (r \cos \theta, r \sin \theta)
+    \end{equation}
+    The Jacobian of \(F\)
+    \begin{equation}
+        \operatorname{J}
+        =
+        \begin{bmatrix}
+            \pdv{F_1}{r} & \pdv{F_1}{\theta} \\
+            \pdv{F_2}{r} & \pdv{F_2}{\theta}
+        \end{bmatrix}
+        =
+        \begin{bmatrix}
+            \cos \theta & -r \sin \theta \\
+            \sin \theta & r \cos \theta
+        \end{bmatrix}
+    \end{equation}
+    where \((r, \theta) \equiv (x_1, x_2)\) and
+    \[
+        (x, y) \equiv (y_1, y_2) \equiv (F_1, F_2) \equiv (r \cos \theta, r \sin \theta)    
+    \]
+    %
+    Note that \(\det \operatorname{J} = r\) and so \(F\) is a diffeomorphism iff \(r \neq 0\).
+    %
+    Given a vector field
+    %
+    \begin{equation}
+        X_p = a(r, \theta) \partial_r + b(r, \theta)\partial_\theta \coloneqq a(r, \theta) \pdv{}{r} + b(r, \theta)\pdv{}{\theta}
+    \end{equation}
+    %
+    we can compute the pushforward \(F_*\) wrt the \(\partial_x, \partial_y\) basis
+    \begin{equation}
+        F_* (X_p)
+        =
+        \begin{bmatrix}
+            \cos (\theta) & -r \sin (\theta) \\
+            \sin (\theta) & r \cos (\theta)
+        \end{bmatrix}
+        \cdot
+        \begin{pmatrix}
+            a \\ b
+        \end{pmatrix}
+        =
+        \begin{pmatrix}
+            a \cos (\theta) - br \sin (\theta) \\
+            a\sin (\theta) + br \cos (\theta)
+        \end{pmatrix}
+    \end{equation}
+    Hence, explicitly
+    \begin{equation}
+        F_* (X_p) = (a \cos (\theta) - br \sin (\theta))\partial_x + (a\sin (\theta) + br \cos (\theta))\partial_y
+    \end{equation}
+
+    Since \(\operatorname{J}\) is invertible we can investigate which vector fields map to \(\partial_x\)
+    %
+    \begin{equation}
+        F_* X_p = \partial_x  \iff X_p = F_{*}^{-1} \partial_x
+    \end{equation}
+    %
+    Let \(X_p = a \partial_r + b \partial_\theta\).
+    %
+    Then
+    \begin{equation}
+        X_p
+        =
+        \begin{bmatrix}
+            \cos (\theta)            & \sin (\theta)           \\
+            -\frac{\sin (\theta)}{r} & \frac{\cos (\theta)}{r} \\
+        \end{bmatrix}
+        \cdot
+        \begin{pmatrix}
+            1 \\ 0
+        \end{pmatrix} \\
+        =
+        \begin{pmatrix}
+            \cos(\theta) \\ -\frac{\sin (\theta)}{r}
+        \end{pmatrix}
+    \end{equation}
+    However we need to write \(r, \theta\) in terms of \(x, y\)
+    \begin{equation}
+        F_{*}^{-1} \partial_x = \frac{x}{\sqrt{x^2+y^2}}\partial_r + \frac{y}{x^2 + y^2} \partial_\theta
+    \end{equation}
+    %
+    \(F_{*}^{-1}\) is called the pullback \(F^*\) of the vector field \(\partial_x\) along \(F\).
+\end{example}
+
+Let \(F \colon N \rightarrow M\) and \(G \colon M \rightarrow P\) be smooth maps of manifolds, and \(p \in N\).
+The differentials of \(F\) at \(p\) and \(G\) at \(F(p)\) are linear maps 
+\[
+    T_p N \xrightarrow{F_{*,p}} T_{F(p)} M \xrightarrow{G_{*, F(p)}} T_{G(F(p))}P
+\]
+\begin{theorem}{Chain rule}{}
+    If \(F \colon N \rightarrow M\) and \(G \colon M \rightarrow P\) are smooth maps of and \(p \in N\), then 
+    \[
+        (G \circ F)_{*, p} = G_{*, F(p)} \circ F_{*,p}
+    \]
+\end{theorem}
+\begin{proof}
+    Let \(X_p \in T_p N\) and let \(f\) be \(\cinf\) at \(G(F(p)) \in P\).
+    Then 
+    \[
+        ((G \circ F)_* X_p) f = X_p (f \circ G \circ F)
+    \]
+    and 
+    \begin{splitenv}
+        ((G_* \circ F_*) X_p) f &= (G_* (F_* X_p)) f \\ 
+        &= (F_* X_p)(f \circ G) \\ 
+        &= X_p (f \circ G \circ F)
+    \end{splitenv}
+\end{proof}
+\begin{example}{Chain rule in Calculus notation}{}
+    Suppose \(w = G(x,y,z)\) is a \(\cinf\) function \(\R^3 \rightarrow \R\) and \((x,y,z) = F(t)\) is a \(\cinf\) function \(\R \rightarrow \R^3\).
+    Under composition
+    \[
+        w = (G \circ F)(t) = G(x(t), y(t), z(t))
+    \]
+    becomes a \(\cinf\) function \(\R \rightarrow \R\).
+    The differentials
+    \begin{splitenv}
+        F_* &= \begin{bmatrix}
+            \dv{x}{t} \\ \dv{y}{t} \\ \dv{z}{t}
+        \end{bmatrix} \\ 
+        G_* &= \begin{bmatrix}
+            \pdv{w}{x} \; \pdv{w}{y} \; \pdv{w}{z}
+        \end{bmatrix} \\ 
+        (G \circ F)_* &= \dv{w}{t}
+    \end{splitenv}
+    and since composition of linear maps is matrix multiplication 
+    \begin{splitenv}
+        (G \circ F)_* &= G_* \circ F_*  \\ 
+        &= \begin{bmatrix}
+            \pdv{w}{x} \; \pdv{w}{y} \; \pdv{w}{z}
+        \end{bmatrix} \cdot \begin{bmatrix}
+            \dv{x}{t} \\ \dv{y}{t} \\ \dv{z}{t}
+        \end{bmatrix} \\
+        &= \pdv{w}{x}\dv{x}{t} + \pdv{w}{y}\dv{y}{t} + \pdv{w}{z}\dv{z}{t}
+    \end{splitenv}
 \end{example}
