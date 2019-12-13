@@ -1103,7 +1103,7 @@ Vectors \newterm{pushforward} through \(F\).
     \end{equation}
     where \((r, \theta) \equiv (x_1, x_2)\) and
     \[
-        (x, y) \equiv (y_1, y_2) \equiv (F_1, F_2) \equiv (r \cos \theta, r \sin \theta)    
+        (x, y) \equiv (y_1, y_2) \equiv (F_1, F_2) \equiv (r \cos \theta, r \sin \theta)
     \]
     %
     Note that \(\det \operatorname{J} = r\) and so \(F\) is a diffeomorphism iff \(r \neq 0\).
@@ -1171,26 +1171,26 @@ Vectors \newterm{pushforward} through \(F\).
 \end{example}
 
 Let \(F \colon N \rightarrow M\) and \(G \colon M \rightarrow P\) be smooth maps of manifolds, and \(p \in N\).
-The differentials of \(F\) at \(p\) and \(G\) at \(F(p)\) are linear maps 
+The differentials of \(F\) at \(p\) and \(G\) at \(F(p)\) are linear maps
 \[
     T_p N \xrightarrow{F_{*,p}} T_{F(p)} M \xrightarrow{G_{*, F(p)}} T_{G(F(p))}P
 \]
 \begin{theorem}{Chain rule}{}
-    If \(F \colon N \rightarrow M\) and \(G \colon M \rightarrow P\) are smooth maps of and \(p \in N\), then 
+    If \(F \colon N \rightarrow M\) and \(G \colon M \rightarrow P\) are smooth maps of and \(p \in N\), then
     \[
         (G \circ F)_{*, p} = G_{*, F(p)} \circ F_{*,p}
     \]
 \end{theorem}
 \begin{proof}
     Let \(X_p \in T_p N\) and let \(f\) be \(\cinf\) at \(G(F(p)) \in P\).
-    Then 
+    Then
     \[
         ((G \circ F)_* X_p) f = X_p (f \circ G \circ F)
     \]
-    and 
+    and
     \begin{splitenv}
-        ((G_* \circ F_*) X_p) f &= (G_* (F_* X_p)) f \\ 
-        &= (F_* X_p)(f \circ G) \\ 
+        ((G_* \circ F_*) X_p) f &= (G_* (F_* X_p)) f \\
+        &= (F_* X_p)(f \circ G) \\
         &= X_p (f \circ G \circ F)
     \end{splitenv}
 \end{proof}
@@ -1205,15 +1205,15 @@ The differentials of \(F\) at \(p\) and \(G\) at \(F(p)\) are linear maps
     \begin{splitenv}
         F_* &= \begin{bmatrix}
             \dv{x}{t} \\ \dv{y}{t} \\ \dv{z}{t}
-        \end{bmatrix} \\ 
+        \end{bmatrix} \\
         G_* &= \begin{bmatrix}
             \pdv{w}{x} \; \pdv{w}{y} \; \pdv{w}{z}
-        \end{bmatrix} \\ 
+        \end{bmatrix} \\
         (G \circ F)_* &= \dv{w}{t}
     \end{splitenv}
-    and since composition of linear maps is matrix multiplication 
+    and since composition of linear maps is matrix multiplication
     \begin{splitenv}
-        (G \circ F)_* &= G_* \circ F_*  \\ 
+        (G \circ F)_* &= G_* \circ F_*  \\
         &= \begin{bmatrix}
             \pdv{w}{x} \; \pdv{w}{y} \; \pdv{w}{z}
         \end{bmatrix} \cdot \begin{bmatrix}
@@ -1221,4 +1221,299 @@ The differentials of \(F\) at \(p\) and \(G\) at \(F(p)\) are linear maps
         \end{bmatrix} \\
         &= \pdv{w}{x}\dv{x}{t} + \pdv{w}{y}\dv{y}{t} + \pdv{w}{z}\dv{z}{t}
     \end{splitenv}
+\end{example}
+
+\begin{proposition}{}{}
+    If \(F \colon N \rightarrow M\) is a diffeomorphism of manifolds then
+    \[
+        F_* \colon T_p N \rightarrow T_{F(p)} M
+    \]
+    is an isomorphism of vector spaces.
+\end{proposition}
+
+Recall \(r^i\) the standard coordinates on \(R^n\), \((U, \phi)\) a chart about \(p \in M\) (\(M\) dimension \(n\)), and \(x^i = r^i \circ \phi\).
+Since \(\phi\) is a diffeomorphism onto its image, the differential (pushforward) \(\phi*\) is a vector space isomorphism and
+
+\begin{proposition}{}{}
+    Let \((U, \phi) = (U, x^1, \dots, x^n)\). Then
+    \begin{equation}
+        \phi_* \left( \evalat[\bigg]{\pdv{}{x^i}}{p} \right) = \evalat[\bigg]{\pdv{}{r^i}}{\phi(p)}
+    \end{equation}
+\end{proposition}
+\begin{proposition}{}{}
+    Let \((U, \phi) = (U, x^1, \dots, x^n)\). Then \(T_p M\) has basis
+    \[
+        \left\{ \evalat[\bigg]{\pdv{}{x^1}}{p}, \dots, \evalat[\bigg]{\pdv{}{x^n}}{p} \right\}
+    \]
+\end{proposition}
+\begin{proposition}{Transition matrix for coordinate vectors}{}
+    Suppose \((U, \phi) = (U, x^1, \dots, x^n)\) and \((V, \psi) = (U, y^1, \dots, y^n)\).
+    Then
+    \[
+        \pdv{x^j} = \sum_{i=1}^n \pdv{y^i}{x^j}\pdv{y^i}
+    \]
+    on \(U \cap V\).
+\end{proposition}
+
+Given \(F \colon N \rightarrow M\) and \(G \colon M \rightarrow P\) are smooth maps of and \(p \in N, F(p) \in M\).
+We will find a local expression for the differential
+\[
+    F_{*,p} \colon T_p N \rightarrow T_{F(p)} M
+\]
+relative to the two charts.
+Using the local coordinate bases (induced by the charts) \(F_* \equiv F_{*,p}\), is completely determined by \(a_j^i\) such that
+\begin{equation}
+    F_* \left( \evalat[\bigg]{\pdv{x^j}}{p} \right) = \sum_{k=1}^m a_j^k \evalat[\bigg]{\pdv{y^k}}{F(p)}
+\end{equation}
+Applying \(y^i\), we find that
+\begin{splitenv}
+    a_j^i &= \left( \sum_{k=1}^m a_j^k \evalat[\bigg]{\pdv{y^k}}{F(p)} \right) y^i \\
+    &= F_* \left( \evalat[\bigg]{\pdv{x^j}}{p} \right) y^i \\
+    &= \evalat[\bigg]{\pdv{x^j}}{p} (y^i \circ F) \\
+    &= \evalat[\bigg]{\pdv{F^i}{x^j}}{p}
+\end{splitenv}
+We restate as a proposition
+\begin{proposition}{}{}
+    Given \(F \colon N \rightarrow M\) and \(G \colon M \rightarrow P\) are smooth maps of and \(p \in N, F(p) \in M\).
+    Relative to bases \(\evalat{\prt{}{x^j}}{p}\) for \(T_p N\) and \(\evalat{\prt{}{y^i}}{F(p)}\) for \(T_{F(p)} M\) the differential \(F_{*, p} \colon T_p \rightarrow T_{F(p)} M\) is represented by the matrix
+    \begin{equation}
+        \begin{bmatrix}
+            \evalat[\bigg]{\pdv{F^1}{x^1}}{p} & \cdots & \evalat[\bigg]{\pdv{F^1}{x^n}}{p} \\
+            \vdots                            & \ddots & \vdots                            \\
+            \evalat[\bigg]{\pdv{F^m}{x^1}}{p} & \cdots & \evalat[\bigg]{\pdv{F^m}{x^n}}{p}
+        \end{bmatrix}
+    \end{equation}
+\end{proposition}
+
+\subsubsection{Curves in a Manifold}
+
+A \newterm{smooth curve} is a smooth map \(c \colon (a,b) \rightarrow M\) with \(0 \in (a,b)\) and we say that \(c\) is a curve starting at \(p\) if \(c(0) = p\).
+The \newterm{velocity vector} \(c'(t_0)\) at time \(t_0\) is
+\[
+    c'(t_0) \coloneqq c_* \left( \evalat[\bigg]{\dv{t}}{t_0} \right) \in T_{c(t_0)}M
+\]
+\begin{proposition}{Velocity of a curve in local coordinates}{}
+    Let \(c \colon (a,b) \rightarrow M\) be a smooth curve and let \(U, x^1, \dots, x^n\) be a coordinate chart about \(c(t)\).
+    Write \(c^i = x^i \circ c\) for the \(i\)th component of \(c\) in the chart.
+    Then \(c'(t)\) is given by
+    \[
+        c'(t) = \sum_{i=1}^n \dot{c}^i(t) \evalat[\bigg]{\pdv{x^i}}{c(t)}
+    \]
+    where \(\dot{c}\) is the scalar deriviatve of the \(i\)th component.
+    Thus, relative to the basis \(\{\evalat{\prt{}{x^j}}{p}\}\) for \(T_{c(t)}M\), the velocity \(c'(t)\) is represented by the column vector
+    \[
+        \begin{bmatrix}
+            \dot{c}^1(t) \\
+            \vdots       \\
+            \dot{c}^n(t)
+        \end{bmatrix}
+    \]
+\end{proposition}
+Every smooth curve \(c\) at \(p\) in a manifold \(M\) gives rise to a tangent vector \(c'(0)\) in \(T_p M\).
+Conversely, one can show that every tangent vector \(X_p \in T_p M\) is the velocity vector of some curve at \(p\)
+\begin{proposition}{Existence of a curve with a given initial vector}{}
+    For any point \(p\) in a manifold \(M\) and any tangent vector \(X_p \in T_p M\), there are \(\varepsilon > 0\) and a smooth curve \((-\varepsilon, \varepsilon) \rightarrow M\) such that \(c(0) = p\) and \(c'(0) = X_p\).
+\end{proposition}
+\loadfig{curvevec}
+\begin{proof}
+    Let \((U, \phi) = (U, x^1, \dots, x^n)\) be a chart centered at \(p\) i.e. \(\phi(p) = \bm{0} \in \R^n\).
+    Suppose \(X_p = \sum a^i \evalat[\big]{\prt{}{x^i}}{p}\) and let \(r^1, \dots, r^n\) be the standard coordinates on \(\R^n\), with \(x^i = r^i \circ \phi\).
+    To find a curve \(c\) at \(p\) with \(c'(0)= X_p\), start with a curve \(\alpha \in \R^n\) with \(\alpha(0) = \bm{0}\) and \(\alpha'(0) = \sum a^i \evalat[\big]{\prt{}{r^i}}{\bm{0}}\).
+    We then map \(\alpha\) to \(M\) via \(\phi^{-1}\) (see figure~\ref{fig:curvevec}).
+    Let
+    \[
+        \alpha(t) \coloneqq (a^1 t, \dots, a^n t) \quad t \in (-\varepsilon, \varepsilon)
+    \]
+    with \(\varepsilon\) small enough such that \(\alpha(t) \in \phi(U)\).
+    Then define \(c = \phi^{-1} \circ \alpha \colon (-\varepsilon, \varepsilon) \rightarrow M\).
+    Then \(c(0) = \phi^{-1}(\alpha(0)) = \phi^{-1}(\bm{0}) = p\)
+    and
+    \begin{splitenv}
+        c'(0) &= (\phi^{-1})_* \alpha_* \left( \evalat[\bigg]{\dv{t}}{t=0} \right) \\
+        &= (\phi^{-1})_* \left( \sum_i a^i \evalat[\bigg]{\pdv{r^i}}{\bm{0}}  \right) \\
+        &= \sum_i a^i \evalat[\bigg]{\pdv{x^i}}{p} = X_p
+    \end{splitenv}
+\end{proof}
+This gives us a geometrical perspective on tangent vectors as directional derivatives
+\begin{proposition}{Directional Derivatives}{}
+    Suppose \(X_p\) is a tangent vector at a point \(p \in M\) and \(f \in C_p^\infty(M)\).
+    If \(c \in (-\varepsilon, \varepsilon) \rightarrow M\) is a smooth curve starting at \(p\) with \(c'(0) = X_p\), then
+    \[
+        X_p f = \evalat[\bigg]{\dv{t}}{0} (f \circ c)
+    \]
+\end{proposition}
+
+\newcommand{\gln}{\operatorname{GL}(n, \R)}
+
+\begin{proposition}{}{}
+    Let \(F \colon N \rightarrow M\) be a smooth map of manifolds, \(p \in N, X_p \in T_p N\).
+    If \(c\) is a smooth curve starting at \(p \in N\) with velocity \(X_p\) at \(p\),
+    \begin{equation}
+        F_{*, p} (X_p) = \evalat[\bigg]{\dv{t}}{0} (F \circ c)(t)
+    \end{equation}
+\end{proposition}
+\begin{example}{Differential of left multiplication}{}
+    If \(g \in \operatorname{GL}(n, \R)\), let \(\ell_g \colon \operatorname{GL}(n, \R) \rightarrow \operatorname{GL}(n, \R)\) be left multiplication by \(g\) i.e. \(\ell_g (B) = g B\).
+    Since \(\operatorname{GL}(n, \R) \subset \R^{n \times n}\) the tangent space \(T_g (\operatorname{GL}(n,\R))\) can be identified with \(\R^{n \times n}\).
+    We show that with this identification the differential at the identity
+    \[
+        (\ell_g)_{*, \iota} \colon T_\iota (\gln) \rightarrow T_g (\gln)
+    \]
+    is also left multiplication by \(g\).
+
+    Let \(X \in T_\iota (\gln) = \R^{n \times n}\).
+    To compute \((\ell_g)_{*,\iota} (X)\), choose a curve \(c(t) \in \gln\) with \(c(0) = \iota\) and \(c'(0) = X\).
+    Then \(\ell_g (c(t)) = g\cdot c(t)\) is simply matrix multiplication.
+    Then
+    \begin{splitenv}
+        (\ell_g)_{*, \iota} (X) &= \evalat[\bigg]{\dv{t}}{t=0} \ell_g(c(t)) \\
+        &= \evalat[\bigg]{\dv{t}}{t=0} g c(t) \\
+        &= g c'(0) = gX
+    \end{splitenv}
+\end{example}
+
+\subsection{Tangent Bundle}
+
+A \newterm{smooth vector bundle} over a smooth manifold \(M\) is a smooth varying family of vector spaces, parameterized by \(M\), that locally looks like a product (of the manifold (base space) and the tangent spaces (fibers)).
+The collection of tangent spaces to a manifold has the structure of a vector bundle, called the \newterm{tangent bundle}.
+A smooth map between manifolds induces, via its differential at each point, a bundle map of the corresponding tangent bundles.
+The tangent bundle is canonically associated to a manifold, hence invariants of the tangent bundle give rise to invariants of the manifold.
+For example \newterm{Chern-Weil theory of characteristic classes} uses differential geometry to construct invariants for vector bundles; applied to the tangent bundle, characteristic classes lead to numerical diffeomorphism invariants of a manifold called \newterm{characteristic numbers} (which generalize the \newterm{Euler characteristic}).
+A \newterm{section} of a vector bundle is a map that maps from each point of \(M\) into the \newterm{fiber} of the bundle over the point; both vector fields and differential forms on a manifold are sections of vector bundles.
+
+\subsubsection{Topology of the Tangent Bundle}
+
+Let \(M\) be a smooth manifold.
+Recall that at each point \(p \in M\), the tangent space \(T_p M\) is the vector space of all point-derivations of \(\cinf_p (M)\) (itself the algebra of germs of \(\cinf\) functions at \(p\)).
+The \newterm{tangent bundle} of \(M\) is the union of all the tangent spaces of \(M\)
+\[
+    TM \coloneqq \bigsqcup_{p \in M} T_p M
+\]
+There is a natural map (in the sense that it does not depend on choice of atlas or local coordinates) \(pi \colon TM \rightarrow M\) given by \(\pi(v) = p\) if \(v \in T_p M\).
+As a matter of notation, we sometimes write a tangent vector \(v \in T_p M\) as a pair \((p, v)\).
+
+As defined, \(TM\) is a set, with no topology or manifold structure.
+We make it into a smooth manifold and show that it is a \(\cinf\) vector bundle over \(M\).
+The first step is the topology.
+If \((U, \phi) = (U, x^1, \dots, x^n)\) is a coordinate chart on \(M\), let
+\[
+    TU \coloneqq \bigsqcup_{p \in U} T_p U = \bigsqcup_{p \in U} T_p M
+\]
+where we've the fact that the algebra \(\cinf_p (U)\) of germs of \(\cinf\) functions in \(U\) at \(p\) is the same as \(\cinf_p (M)\) (since germ equivalence classes are determined by agreement in a neighborhood of \(p\)) and therefore \(T_p U = T_p M\).
+At a point \(p \in U\) a tangent vector \(v \in T_p M\)
+\[
+    v = \sum_{i=1}^n c^i \evalat[\bigg]{\pdv{x^i}}{p}
+\]
+In this expression, \(c^i \equiv c^i(v)\) depend on \(v\) and so \textbf{therefore end up being functions on \(TU\)}.
+%Let 
+%\[ 
+%    \bar{x}^i \coloneqq x^i \circ \pi \colon TM \rightarrow \R
+%\]
+% and 
+Define \(\tilde{\phi} \colon TU \rightarrow \phi(U) \times \R^n\) by
+\begin{gather}
+    v \mapsto (x^1(p), \dots, x^n(p), c^1(v), \dots, c^n(v)) \\
+    \iff \\
+    \tilde{\phi}(v) = (\bar{x}^1 (v), \dots, \bar{x}^n(v), c^1(v), \dots, c^n (v)) \label{eqn:bundlechart}
+\end{gather}
+Then \(\bar{\phi}\) has an inverse (for a point \((x^1, \dots, x^n) = \phi(p)\))
+\[
+    \tilde{\phi}^{-1}(x^1(p), \dots, x^n(p), c^1(v), \dots, c^n(v)) = \sum c^i \evalat[\bigg]{\pdv{x^i}}{p}
+\]
+is therefore a bijection.
+Therefore we use topology of \(\phi(U) \times \R^n\) to induce a topology on \(TU\): a set \(A \subset TU\) is open iff \(\tilde{\phi}(A)\) is open in \(\phi(U) \times \R^n\) (where \(\phi(U) \times \R^n\) has the standard topology as an open subset of \(\R^{2n}\)).
+With this identification \(TU\) becomes homeomorphic to \(\phi(U) \times \R^n\).
+
+\subsubsection{Manifold Structure on the Tangent Bundle}
+
+Next we show that if \(\left\{ (U_i, \phi_i) \right\}\) is a \(\cinf\) atlas for \(M\), then \(\left\{  (TU_i, \tilde{\phi}_i) \right\}\) is a \(\cinf\) atlas for the tangent bundle \(TM\), where \(\tilde{\phi}_i\) is the map on \(TU_i\) induced by \(\phi_i\) as in~\eqref{eqn:bundlechart}.
+It's immediately clear that \(TM = \bigcup_i TU_i\); remains to check that on \(TU_i \cap TU_j\), \(\tilde{\phi}_i, \tilde{\phi}_j\) are \(\cinf\) compatible.
+
+Recall that if \((U, x^1, \dots, x^n), (V, y^1, \dots, y^n)\) are two charts on \(M\), then for any \(p \in U \cap V\) there are two bases and so any vector \(v \in T_p M\) has two representations
+\[
+    v = \sum_j a^j \evalat[\bigg]{\pdv{x^j}}{p} = \sum_i b^i \evalat[\bigg]{\pdv{y^i}}{p}
+\]
+Applying \(v\) to either of \(x^k, y^k\) we get that
+\begin{equation}
+    \begin{split}
+        a^k &= \sum_i b^i \pdv{x^k}{y^i}  \\
+        b^k &= \sum_j a^j \pdv{y^k}{x^j}
+    \end{split}\label{eqn:twobases}
+\end{equation}
+Returning to the atlas \(\left\{ (U_i, \phi_i) \right\}\) and let \(\phi_\alpha = (x^1, \dots, x^n)\),  \(\phi_\beta = (y^1, \dots, y^n)\). Then
+\[
+    \tilde{\phi}_\beta \circ \tilde{\phi}_\alpha^{-1} \colon \phi_\alpha(U_\alpha \cap U_\beta) \times \R^n \rightarrow  \phi_\beta(U_\alpha \cap U_\beta) \times \R^n
+\]
+is given by (with \(\phi_\alpha(p) = (x^1(p), \dots, x^n(p))\))
+\begin{splitenv}
+    (\phi_\alpha(p), a^1(v), \dots, a^n(v)) &\mapsto \left( p, \sum_j a^j \evalat[\bigg]{\pdv{x^j}}{p} \right) \\
+    &\mapsto ((\phi_\beta \circ \phi_\alpha^{-1})(\phi_\alpha(p)), b^1, \dots, b^n )
+\end{splitenv}
+where by~\eqref{eqn:twobases} and the Jacobian matrix of a transition map
+\begin{splitenv}
+    b^i &= \sum_j a^j \evalat[\bigg]{\pdv{y^i}{x^j}}{p}  \\ 
+    &= \sum_j a^j \evalat[\bigg]{\pdv{(\phi_\beta \circ \phi_\alpha^{-1})}{r^j}}{\phi_\alpha(p)}
+\end{splitenv}
+By definition \(\phi_\beta \circ \phi_\alpha^{-1}\) is \(\cinf\) and therefore \(\tilde{\phi}_\beta \circ \tilde{\phi}_\alpha^{-1}\) is \(\cinf\) and thefore \(TM\) is a \(\cinf\) manifold, with \(\left\{ (TU_\alpha, \tilde{\phi}_\alpha) \right\}\) as a \(\cinf\) atlas.
+
+\subsubsection{Vector Bundles}
+
+On the tangent bundle \(TM\) of a smooth manifold \(M\), the natural projection map \(\pi \colon TM \rightarrow M\)
+\[
+    \pi(p, v)= p     
+\]
+makes \(TM\) into a \(\cinf\) \newterm{vector bundle} over \(M\) which we now define. 
+Given any map \(\pi \colon E \rightarrow M\), where \(E\) is called the \newterm{total space} and \(M\)is called the \newterm{base space}, we call the inverse image \(\pi^{-1}(p) \coloneqq \pi^{-1}(\{p\})\) of a point \(p \in M\) the \newterm{fiber at \(p\)}.
+The fiber at \(p\) is often written \(E_p\).
+For any two maps 
+\begin{splitenv}
+    \pi &\colon E \rightarrow M  \\ 
+    \pi' &\colon E' \rightarrow M 
+\end{splitenv}
+with the same target space \(M\), a map \(\phi \colon E \rightarrow E'\) is said to be \newterm{fiber-preserving} if \(\phi(E_p) \subset E_{p}'\) for all \(p \in M\).
+\begin{example}{Fiber-preserving maps}{}
+    Given two maps \(\pi, \pi'\), the map \(\phi\) is fiber-preserving iff the diagram
+    \[
+        \begin{tikzcd}
+            E \arrow[swap]{rd}{\pi}\arrow{rr}{\phi} & & E' \arrow{ld}{\pi'} \\
+            & M &
+        \end{tikzcd}
+    \]
+    commutes.
+\end{example}
+
+\subsubsection{Smooth Sections}
+
+A \newterm{section} of a vector bundle \(\pi \colon E \rightarrow M\) is a map \(s \colon M \rightarrow E\) such that \(\pi \circ s = \mathbf{1}_M\).
+This just means that \(s\) maps \(p\) into the fiber \(E_p\) above \(p\) (see figure~\ref{fig:smoothsec}).
+% \loadfig{smoothsec}
+
+\begin{definition}{Vector field}{}
+    A \newterm{vector field \(X\) on a manifold \(M\)} is a function that assigns a tangent vector \(X_p \in T_p M\) to each point \(p \in M\). In terms of the tangent bundle, a vector field on \(M\) is simply a section of the tangent bundle \(\pi \colon TM \rightarrow M\) and the vector field is smooth if it is a smooth as a map from \(M\) to \(TM\).
+\end{definition}
+% \loadfig{tangentbundle}
+\begin{example}{}{}
+    The formula
+    \[
+        X_{(x,y)} = \frac{1}{\sqrt{x^2+y^2}} \left( -y \pdv{x} + x \pdv{y} \right)  = \frac{1}{\sqrt{x^2+y^2}} \begin{bmatrix}
+            -y \\ x
+        \end{bmatrix}    
+    \] 
+    See figure~\ref{fig:vecfield}.
+\end{example}
+% \loadfig{vecfield}
+
+\subsubsection{Smooth Frames}
+
+A \newterm{frame} for a vector bundle \(\pi \colon E \rightarrow M\) over an open set \(U\) is a collection of sections \(s_1, \dots, s_r\) of \(E\) over \(U\) such that at each point \(p \in U\), the elements \(s_1(p), dots, s_r(p)\) form a basis for the fiber \(E_p \coloneqq \pi^{-1}(p)\).
+A frame for the tangent bundle \(TM \rightarrow M\) over an open set \(U\) is simply called a \newterm{frame on \(U\)}.
+
+\begin{example}{}{}
+    The collection of vector fields \(\prt{}{x}, \prt{}{y}, \prt{}{z}\) is a smooth frame on \(\R^3\).
+\end{example}
+
+\begin{example}{}{}
+    Let \(M\) be a manifold and \(e_1, \dots, e_r\) be the standard basis for \(\R^n\).
+    Define \(\bar{e}_i \colon M \rightarrow M \times \R^r\) by \(\bar{e}_i (p) \coloneqq (p, e_i)\).
+    Then \(\bar{e}_1, \dots \bar{e}_r\) is a \(\cinf\) frame for the product bundle \(M \times \R^r \rightarrow M\).
 \end{example}

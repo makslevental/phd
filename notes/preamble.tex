@@ -3,7 +3,7 @@
     \ExecuteMetaData[equations.tex]{eq#1}%
 }
 \newcommand{\loadfig}[1]{%
-    \ExecuteMetaData[figures/figures.tex]{fig#1}%
+    \ExecuteMetaData[figures/figures.tex]{#1}%
 }
 \usepackage[margin=0.7in]{geometry}
 \usepackage[parfill]{parskip}
@@ -194,3 +194,4 @@
 
 
 \newcommand{\iu}{\mathrm{i}\mkern1mu}
+\newcommand{\prt}[2]{\partial #1 / \partial #2}
