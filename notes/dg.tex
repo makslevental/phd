@@ -2,7 +2,7 @@
 
 % \subsubsection{Pushforwards and Pullbacks}\label{subsubsec:diffgeo}
 
-
+\newcommand{\gln}{\operatorname{GL}(n, \R)}
 \section{Differential Geometry}\label{sec:dg}
 \localtableofcontents
 
@@ -809,12 +809,12 @@ Abusing notation, sometimes \((x^1, \dots, x^n)\) (sans \(p\)) stands for both t
 \begin{example}{General Linear group}{}
     Let \(\R^{m \times n}\) be the vector space of all \(m \times n\) matrices.
     Since \(\R^{m \times n}\) is isomorphic to \(\R^{mn}\), we give it the topology of \(\R^{mn}\).
-    The \newterm{general linear group \(\operatorname{GL}(n, \R)\)} is defined
+    The \newterm{general linear group \(\gln\)} is defined
     \begin{splitenv}
-        \operatorname{GL}(n, \R) &\coloneqq \{A \in \R^{n\times n} | \det(A) \neq 0\}  \\
+        \gln &\coloneqq \{A \in \R^{n\times n} | \det(A) \neq 0\}  \\
         &\;= \operatorname{det}^{-1} (\R - \{0\})
     \end{splitenv}
-    Since the determinant function \(\det \colon \R^{n\times n}\rightarrow \R\) is continuous, \(\operatorname{GL}(n, \R)\) is an open subset of \(\R^{n \times n}\cong \R^{n^2} \) is therefore a manifold.
+    Since the determinant function \(\det \colon \R^{n\times n}\rightarrow \R\) is continuous, \(\gln\) is an open subset of \(\R^{n \times n}\cong \R^{n^2} \) is therefore a manifold.
 \end{example}
 
 \begin{example}{Unit circle in the \(xy\)-plane}
@@ -902,16 +902,16 @@ Thus, a function \(f\) on \(M\) is \(C^\infty\) on a chart \((U, \phi)\) iff \((
 \end{definition}
 
 \begin{example}
-    Recall the definition of \(\operatorname{GL}(n, \R)\).
+    Recall the definition of \(\gln\).
     As an open subset of \(\R^{n \times n}\), it is a manifold.
-    Since the \((i,j)\)-entry of the product of two matrices \(A, B\) in \(\operatorname{GL}(n, \R)\)
+    Since the \((i,j)\)-entry of the product of two matrices \(A, B\) in \(\gln\)
     \[
         (AB)_{ij} = \sum_{k=1}^n a_{ik}b_{kj}
     \]
     is a polynomial in the coordinates of \(A\) and \(B\).
     Therefore matrix multiplication
     \[
-        \mu \colon \operatorname{GL}(n, \R) \times \operatorname{GL}(n, \R) \rightarrow \operatorname{GL}(n, \R)
+        \mu \colon \gln \times \gln \rightarrow \gln
     \]
     is a \(C^\infty\) map.
     Furthermore, by Cramer's rule
@@ -919,7 +919,7 @@ Thus, a function \(f\) on \(M\) is \(C^\infty\) on a chart \((U, \phi)\) iff \((
         (A^{-1})_{ij} = \frac{(-1)^{i+j}}{\det A} ((j,i)-\text{minor of }A)
     \]
     which is a \(C^\infty\) function of the \(a_{ij}\)s provided \(\det A \neq 0\).
-    Therefore, \(\operatorname{GL}(n, \R)\) is a Lie group.
+    Therefore, \(\gln\) is a Lie group.
 \end{example}
 
 \subsubsection{Partial Derivatives}
@@ -1343,8 +1343,6 @@ This gives us a geometrical perspective on tangent vectors as directional deriva
     \]
 \end{proposition}
 
-\newcommand{\gln}{\operatorname{GL}(n, \R)}
-
 \begin{proposition}{}{}
     Let \(F \colon N \rightarrow M\) be a smooth map of manifolds, \(p \in N, X_p \in T_p N\).
     If \(c\) is a smooth curve starting at \(p \in N\) with velocity \(X_p\) at \(p\),
@@ -1353,8 +1351,8 @@ This gives us a geometrical perspective on tangent vectors as directional deriva
     \end{equation}
 \end{proposition}
 \begin{example}{Differential of left multiplication}{}
-    If \(g \in \operatorname{GL}(n, \R)\), let \(\ell_g \colon \operatorname{GL}(n, \R) \rightarrow \operatorname{GL}(n, \R)\) be left multiplication by \(g\) i.e. \(\ell_g (B) = g B\).
-    Since \(\operatorname{GL}(n, \R) \subset \R^{n \times n}\) the tangent space \(T_g (\operatorname{GL}(n,\R))\) can be identified with \(\R^{n \times n}\).
+    If \(g \in \gln\), let \(\ell_g \colon \gln \rightarrow \gln\) be left multiplication by \(g\) i.e. \(\ell_g (B) = g B\).
+    Since \(\gln \subset \R^{n \times n}\) the tangent space \(T_g (\operatorname{GL}(n,\R))\) can be identified with \(\R^{n \times n}\).
     We show that with this identification the differential at the identity
     \[
         (\ell_g)_{*, \iota} \colon T_\iota (\gln) \rightarrow T_g (\gln)
@@ -1517,3 +1515,607 @@ A frame for the tangent bundle \(TM \rightarrow M\) over an open set \(U\) is si
     Define \(\bar{e}_i \colon M \rightarrow M \times \R^r\) by \(\bar{e}_i (p) \coloneqq (p, e_i)\).
     Then \(\bar{e}_1, \dots \bar{e}_r\) is a \(\cinf\) frame for the product bundle \(M \times \R^r \rightarrow M\).
 \end{example}
+
+\subsection{Bump Functions and Partitions of Unity}
+
+A partition of unity on a manifold is a collection of nonnegative functions that sum
+to 1.
+
+Usually one demands that the partition of unity should be \newterm{subordinate} to an open cover \(\{ U_\alpha \}_{\alpha \in A}\) i.e. the partition \(\{\rho_\alpha\}_{\alpha \in A}\) is indexed by the same set \(A\) and \(\rho_\alpha\) vanishes outside of \(U_\alpha\).
+
+The existence of a \(\cinf\) partition of unity is one of the most important technical tools in the theory of \(\cinf\) manifolds.
+It is the single feature that makes the behavior of \(\cinf\) manifolds so different from that of real-analytic or complex manifolds.
+A partition of unity is used two ways:
+\begin{enumerate}
+    \item to decompose a global object on a manifold into a locally finite sum of local objects on the open sets \(U_\alpha\) of an open cover. 
+    \item to patch together local objects on the open sets \(U_\alpha\) into a global object on the manifold.
+\end{enumerate}
+
+\subsubsection{\(\cinf\) Bump Functions}
+\newcommand{\supp}{\operatorname{supp}}
+
+The \newterm{support} of a real-valued function \(f\) on a manifold \(M\) is defined to be the closure in \(M\) of the subset on which \(f \neq 0\)
+\begin{equation}
+    \operatorname{supp} f = \operatorname{closure}\; \{ q \in M | f(q) \neq 0 \}
+\end{equation}
+Let \(q\) be a point in \(M\), and \(U\) a neighborhood of \(q\).
+A \newterm{bump function at \(q\) supported in \(U\)} we mean any continuous nonnegative function \(\rho\) on \(M\) that is 1 in a neighborhood of \(q\) with \(\supp\; \rho \subset U\).
+See figure~\ref{fig:bumpfunction}
+% \loadfig{bumpfunction}
+
+Define 
+\begin{align}
+    f(t) &= \begin{cases}
+        e^{-1/t} &\text{for } t > 0 \\  
+        0 &\text{for } t \leq 0 \\  
+    \end{cases} \\
+    g(t) &= \frac{f(t)}{f(t) + f(1-t)} \\ 
+    h(x) &= g \left( \frac{x-a^2}{b^2 -a^2} \right) \\ 
+    k(x) &= h(x^2) \\ 
+    \rho(x) &= 1 - k(x)
+\end{align}
+See figure~\ref{fig:bumpfunction2}.
+\loadfig{bumpfunction2}
+It is easy to extend the construction \(\rho(x)\) to a bump function from \(\R\) to \(R^n\): to get a \(\cinf\) bump function at \(\bm{0} \in \R^n\) that is 1 on the closed ball \(\bar{B}(\bm{0}, a)\) and has support in the closed ball \(\bar{B}(\bm{0}, b)\)
+\begin{equation}
+    \sigma(x) \coloneqq \rho(\abs{x}) = 1 - g \left( \abs{x} \frac{r^2 - a^2}{b^2 -a^2} \right)
+\end{equation}
+
+In general, a \(\cinf\) on an open subset \(U\) of a manifold cannot be extended to a \(\cinf\) function on \(M\); an example is the function \(\sec (x)\) on the open interval \((-\pi/2, \pi/2) \subset \R\).
+However, if we require that the global function on \(M\) agree with the given function only on some neighborhood of a point in \(U\), then a \(\cinf\) extension is possible.
+
+\begin{proposition}{\(\cinf\) extension of a function}{}
+    Suppose \(f\) is a \(\cinf\) function defined on a neighborhood \(U\) of a point \(p\) in a manifold \(M\).
+    Then there is a \(\cinf\) function \(\tilde{f}\) on \(M\) that agrees with \(f\) in some possibly smaller neighborhood of \(p\).
+\end{proposition}
+\begin{proof}
+    Choose a \(\cinf\) bump function \(\rho \colon M \rightarrow \R\) supported in \(U\) that is identically 1 in a neighborhood \(V\) of \(p\).
+    Define 
+    \[
+        \tilde{f}(q) = \begin{cases}
+            \rho(q)f(q) & \text{for } q \in U \\ 
+            0 & \text{for } q \notin U
+        \end{cases}
+    \]
+    As the product of two \(\cinf\) functions on \(U\), \(\tilde{f}\) is \(\cinf\) on \(U\).
+    If \(q \notin U\), then \(q \notin \supp \rho\), and so there is an open set containing \(q\) on which \(\tilde{f}\) is 0, since \(\supp \rho\) is closed.
+    Therefore, \(\tilde{f}\) is also \(\cinf\) at every point \(q \notin U\).
+    Finally, since \(\rho = 1\) on \(V\), the function \(\tilde{f}\) agrees with \(f\) on \(V\).
+\end{proof}
+
+\subsubsection{Partitions of Unity}
+ If \(\{U_i\}_{i \in I}\) is a finite open cover of \(M\), a \newterm{\(\cinf\) partition of unity subordinate to \(\{U_i\}_{i \in I}\)} is a collection of nonnegative \(\cinf\) functions \(\{\rho_i \colon M \rightarrow \R\}_{i \in I}\) such that \(\supp \rho_i \subset U_i\) and 
+ \[
+    \sum_i \rho_i =    1
+ \]
+ When the index set \(I\) is an infinite set, for the sum to make sense, we impose and additional \newterm{local finiteness} condition: a collection \(\{A_i\}\) of subsets of a topological space \(S\) is said to be \newterm{locally finite} if every point \(q \in S\) has a neighborhood that meets only finitely many of the sets \(A_i\). In particular, every \(q \in S\) is contained in only finitely many of the \(A_i\).
+
+ \begin{example}{An open cover that is not locally finite}{}
+    Let \(U_{r,n}\) be the open interval \(\left( r - \frac{1}{n}, r + \frac{1}{n} \right)\).
+    The open cover \(\{ U_{r,n} | r \in \mathbb{Q}, n \in \mathbb{Z}^+ \}\) of \(\R\) is not locally finite.
+ \end{example}
+ \begin{definition}{\(\cinf\) partition of unity}{}
+    A \newterm{\(\cinf\) partition of unity on a manifold} is a collection of nonnegative \(\cinf\) functions \(\{\rho_i \colon M \rightarrow \R\}_{i \in I}\) such that 
+    \begin{enumerate}
+        \item the collection of supports is locally finite
+        \item \(\sum \rho_i = 1\)
+    \end{enumerate}
+ \end{definition}
+
+ Suppose \(\{f_i\}\) is a collection of \(\cinf\) functions on a manifold \(M\) such that the collection of its supports is locally finite.
+ Then every point \(q \in M\) has a neighborhood \(W_q\) that intersects \(\supp f_i\) for only finitely many \(i\). 
+ Thus, on \(W_q\) the sum \(\sum_i f_i\) is a finite sum.
+ This shows that \(f = \sum _i f_i\) is well defined and \(\cinf\) on the manifold \(M\).
+ Such a sum is called a locally finite sum.
+
+ \begin{theorem}{Existence of a \(\cinf\) partition of unity}{}
+    Let \(\{U_i\}\) be an open cover of a manifold \(M\).
+    Then 
+    \begin{enumerate}
+        \item there is a \(\cinf\) partition of unity \(\{ \phi_k \}_{k=1}^\infty\) having compact support such that for each \(k, \supp \phi_k \subset U_i\) for some \(i\).
+        \item if we do not require compact support, then there is a \(\cinf\) partition of unity \(\{ \rho_i \}\) subordinate to \( \{ U_i \} \).
+    \end{enumerate}
+ \end{theorem}
+
+ \subsection{Vector Fields}
+
+ A vector field \(X\) on a manifold \(M\) is the assignment of a tangent vector \(X_p \in T_p M\) to each point \(p \in M\) (a section of the tangent bundle \(TM\) of M).
+ Every smooth vector field may be viewed locally as the velocity vector field of a fluid flow; the path traced out by a point under this flow is called an \newterm{integral curve} of the vector field.
+ \textbf{Integral curves are curves whose velocity vector field is the restriction of the manifold's vector field, to the curve}; finding an equation of an integral curve is equivalent to solving a system of first-order ODEs.
+ The set \(\mathfrak{X}(M)\) of all \(\cinf\) vector fields on a manifold \(M\) has the structure of a vector space; the \newterm{Lie Bracket} \([\;,\;]\) makes it into a \newterm{Lie algebra}.
+
+ \subsubsection{Integral Curves}
+
+\begin{definition}{Integral Curves}{}
+    Let \(X\) be a \(\cinf\) vector field on a manifold \(M\), and \(p \in M\). 
+    An \newterm{integral curve} \(c \colon (a,b) \rightarrow M\) such that \(c'(t) = X_{c(t)}\) for all \(t \in (a,b)\).
+    To show the dependence of an integral curve on its initial point \(p\), we write \(c_t(p)\).
+\end{definition}
+
+\begin{example}{}{}
+    Recall the vector field \(X_{(x,y)} = \langle -y,x \rangle\) on \(\R^2\).
+    The condition for \(c(t) = (x(t), y(t))\) to be an integral curve is \(c'(t) = X_{c(t)}\) or 
+    \[
+        \begin{bmatrix}
+            \dot{x}(t) \\ \dot{y}(t)
+        \end{bmatrix} = \begin{bmatrix}
+            -y(t) \\ x(t)
+        \end{bmatrix}   
+    \]
+    Hence we need to solve the system of first-order ODEs 
+    \begin{splitenv}
+        \dot{x} &= -y \\ 
+        \dot{y} &= x
+    \end{splitenv}
+    with initial condition \((x(0), y(0)) = (1,0)\).
+    Making substitutions we get 
+    \[
+        \ddot{x} = -x
+    \]
+    which has the solution 
+    \[
+        x = A \cos t + B \sin t    
+    \]
+    and therefore 
+    \[
+        y = -\dot{x} = A \sin t - B \cos t
+    \]
+    The initial condition forces \(A=1,B=0\) and hence \(c(t) = (\cos t, \sin t)\), which parameterizes the unit circle.
+    More generally, if the initial point of the integral curve, corresponding to \(t = 0\), is \(p = (x_0, y_0)\), then 
+    \[
+        A = x_0 \quad B = -y_0    
+    \]
+    and 
+    \begin{splitenv}
+        x &= x_0 \cos t - y_0 \sin t \\ 
+        y &= x_0 \sin t + y_0 \cos t
+    \end{splitenv}
+    which can be written in matrix notation 
+    \begin{splitenv}
+        c(t) &= \begin{bmatrix}
+            x(t) \\ y(t)
+        \end{bmatrix} \\ 
+        & = 
+        \begin{bmatrix}
+            \cos t & - \sin t \\ 
+            \sin t & \cos t
+        \end{bmatrix} \begin{bmatrix}
+            x_0 \\ y_0
+        \end{bmatrix} \\
+        &= 
+        \begin{bmatrix}
+            \cos t & - \sin t \\ 
+            \sin t & \cos t
+        \end{bmatrix} p
+    \end{splitenv}
+    This show that the integral curve of \(X\) starting at point \(p\) can be obtained by rotating point \(p\) counterclockwise about the origin through an angle \(t\).
+    Note that 
+    \[
+        c_s(c_t(p)) = c_{s+t} (p)   
+    \]
+    and also that for each \(t \in \R\), \(c_t \colon \R^2 \rightarrow \R^2\) is a diffeomorphism with inverse \(c_{-t}\).
+    Let \(operatorname{Diff}(M)\) be the group of diffeomorphisms of a manifold \(M\) to itself, with the group operation being composition.
+    A homomorphism \(c \colon \R \rightarrow \operatorname{Diff}(M)\) is called a \newterm{one-parameter group of diffeomorphisms} of \(M\).
+    \textbf{In this example the integral curves of the vector field \(X_{(x,y)} = \langle -y,x \rangle\) on \(\R^2\) give rise to a one-parameter group of diffeomorphisms of \(R^2\)}.
+\end{example}
+
+\subsubsection{Local Flows}
+
+In general, if \(X\) is a smooth vector field on a manifold \(M\), to find an integral curve \(c(t)\) of \(X\) starting at \(p\), we first choose a coordinate chart \((U, \phi) = (U, x^1, \dots, x^n)\) about \(p\).
+In terms of the local coordinates 
+\[
+    X_{c(t)} = \sum a^i(c(t)) \evalat[\bigg]{\pdv{x^i}}{c(t)}
+\]
+or 
+\[
+    c'(t) = \sum \dot{c}^i (t) \evalat[\bigg]{\pdv{x^i}}{c(t)}    
+\]
+where \(c^i(t) = x^i \circ c(t)\) is the \(i\)th component of \(c(t)\) in the chart \((U, \phi)\).
+The condition \(c'(t) = X_{c(t)}\) is equivalent to 
+\[
+    \dot{c}^i (t) = a^i(c(t))
+\]
+This is a system of ODEs; by \newterm{Picard–Lindelöf theorem} such a system has a unique solution in the following sense 
+\begin{theorem}{}{}
+    Let \(V\) be an open subset of \(\R^n\), \(p_0 \in V\), and \(f \colon V \rightarrow \R^n\) a \(\cinf\) function. 
+    Then the differential equation 
+    \[
+        \dv{y}{t} = f(y)   \quad y(0) = p_0
+    \]
+    has a unique \(\cinf\) solution \(y \colon (a(p_0), b(p_0)) \rightarrow V\).
+\end{theorem}
+
+Suppose \(s,t\) in the interval \((-\varepsilon, \varepsilon)\) are such that both \(F_t(F_s(q))\) and \(F_{t+s}(q)\) are defined.
+Then both \(F_t(F_s(q))\) and \(F_{t+s}(q)\), as functions of \(t\), are integral curves of \(X\) with initial point \(F_s(q)\).
+By uniqueness of the integral curve starting at a point 
+\[
+    F_t(F_s(q)) = F_{t+s}(q)   
+\]
+The map \(F\) is called a \newterm{local flow generated by the vector field \(X\)}.
+For each \(q \in U\), the function \(F_t(q)\) of \(t\) is called a \newterm{flow line} of the local flow.
+See figure~\ref{fig:localflow}.
+% \loadfig{localflow}
+Each flow line is an integral curve of \(X\); if a local flow \(F\) defined on \(\R \times M\), then it is called a \newterm{global flow} (every smooth vector field has a local flow, but not necessarily a global flow).
+A vector field having a global flow is called a \newterm{complete vector field}.
+If \(F\) is a global flow, then for every \(t \in \R\)
+\[
+    F_t \circ F_{-t} = F_{-t} \circ F_t = F_0 = \bm{1}_M
+\]
+so \(F_t \colon M \rightarrow M\) is a diffeomorphism.
+Thus, a global flow on \(M\) gives rise to a one-parameter group of diffeomorphisms on \(M\).
+
+\begin{definition}{Local Flow}{}
+    A \newterm{local flow} about a point \(p\) in an open set \(U\) of a manifold is a \(\cinf\) function 
+    \[
+         F \colon   (-\varepsilon, \varepsilon) \times W \rightarrow U
+    \]
+    where \(\varepsilon > 0\) and \(W\) is a neighborhood of \(p\) and \(W \subset U\), such that writing \(F_t(q)\coloneqq F(t,q)\), we have 
+    \begin{enumerate}
+        \item \(F_0(q) = q\) for all \(q \in W\)
+        \item \(F_t(F_s(q)) = F_{t+s}(q)\) whenever both sides are defined
+    \end{enumerate}
+\end{definition}
+
+If \(F_t(q)\) is a local flow of the vector field \(X\) on \(U\), then 
+\begin{splitenv}
+    F(0, q) &= q \\ 
+    \evalat[\bigg]{\pdv{F}{t}}{0,q} &= X_{F(0,q)} \\ 
+    &= X_q
+\end{splitenv}
+Thus, one can recover the vector field from its flow.
+\begin{example}{}{}
+    The function \(F \colon \R \times \R^2 \rightarrow \R^2\) 
+    \[
+        F \left( t, \begin{bmatrix}
+            x \\ y
+        \end{bmatrix} \right) =         \begin{bmatrix}
+            \cos t & - \sin t \\ 
+            \sin t & \cos t
+        \end{bmatrix} \begin{bmatrix}
+            x \\ y
+        \end{bmatrix}    
+    \]
+    is the global flow on \(\R^2\) generated by the vector field 
+    \begin{splitenv}
+        X_{(x,y)} &= \evalat[\bigg]{\pdv{F(t,(x,y))}{t}}{t=0} \\ 
+        &= \begin{bmatrix}
+            \cos t & - \sin t \\ 
+            \sin t & \cos t
+        \end{bmatrix} \evalat[\bigg]{\begin{bmatrix}
+            x \\ y
+        \end{bmatrix} }{t=0} \\ 
+        &= \begin{bmatrix}
+            0 & -1  \\ 
+            1 & 0
+        \end{bmatrix} \begin{bmatrix}
+            x \\ y
+        \end{bmatrix} = \begin{bmatrix}
+            -y \\ x
+        \end{bmatrix} \\ 
+        &= -y \pdv{x} + x \pdv{y}
+    \end{splitenv}
+\end{example}
+
+\subsubsection{The Lie Bracket}
+
+Suppose \(X,Y\) are smooth vector fields on an open subset \(U\) of a manifold \(M\).
+We view \(X,Y\) as derivations on the set of \(\cinf\) functions.
+For a \(\cinf\) function \(f\) on \(U\), the function \(Yf\) is \(\cinf\) on \(U\), and the function \((XY)f \coloneqq X(Yf)\) is also \(\cinf\) on \(U\).
+Moreover, because \(X,Y\) are both \(\R\)-linear maps from \(\cinf(U)\) to \(\cinf(U)\), the map \(XY \colon \cinf(U) \rightarrow \cinf(U)\) is \(\R\)-linear.
+However, \(XY\) does not satisfy the derivation property: if \(f,g \in \cinf(U)\), then 
+\begin{splitenv}
+    XY(fg) &= X \left( (Yf)g + f Y g \right)  \\ 
+    &= (XYf)g + (Yf)(Xg) + (Xf)(Yg) + f(XYg)
+\end{splitenv}
+Looking more closely we see that the two extra terms \((Yf)(Xg)\) and \((Xf)(Yg)\) that make \(XY\) not a derivation, are symmetric in \(X,Y\).
+Thus is we compute \(YX(fg)\) and subtract it from \(XY(fg)\), the extra terms will disappear, and \(XY-YX\) will be a derivation of \(\cinf(U)\).
+\begin{definition}{Lie Bracket}{}
+    Given two smooth vector fields \(X,Y\) on \(U\) and with \(p \in U\), we define their \newterm{Lie Bracket} \(\left[X,Y\right]\) at \(p\)
+    \begin{equation}
+        \left[X,Y\right]_p f = (X_p Y - Y_p X)f
+    \end{equation}
+    for any germ \(f\) of a \(\cinf\) function at \(p\).
+\end{definition}
+By the same calculation as above, but now evaluated at \(p\), it is easy to check that \([X,Y]_p\) is a derivation of \(\cinf_p (U)\) and is therefore a tangent vector at \(p\).
+As \(p\) varies over \(U\), \([X,Y]\) becomes a vector field on \(U\).
+\begin{proposition}{}
+    If \(X,Y\) are smooth vector fields on \(M\), then the vector field \([X,Y]\) is also smooth on \(M\).
+\end{proposition}
+From this, we see that the Lie bracket provides a product operation on the vector space \(\mathfrak{X}(M)\) of all smooth vector fields on \(M\).
+Clearly
+\[
+    [Y,X] = -[X,Y]    
+\]
+\begin{example}{Jacobi identity}{}
+    The \newterm{Jacobi identity} holds for the Lie bracket 
+    \[\sum_{\text{cyclic}} \left[ X, [Y,Z] \right] = 0\]
+    where 
+    \[
+        \sum_{\text{cyclic}} \left[ X, [Y,Z] \right] = [X, [Y,Z]] + [Y, [Z,X]] + [Z,[X,Y]]
+    \]
+\end{example}
+\begin{definition}{Lie Algebra}{}
+    Let \(K\) be a field. 
+    A \newterm{Lie algebra} over \(K\) is a vector space \(V\) over \(K\) together with a product
+    \[
+        [\;, \;]  \rightarrow V \times V \rightarrow V
+    \]
+    called the \newterm{bracket}, satisfying the following properties: for all \(a,b \in K\) and \(X,Y,Z \in V\)
+    \begin{enumerate}
+        \item \textbf{bilinearity}: \begin{splitenv}
+            [aX + bY, Z] &= a [X,Z] + b [Y,Z] \\ 
+            [Z, aX + bY] &= a [Z,X] + b[Z,Y]
+        \end{splitenv}
+        \item \textbf{anticommutativity}: \[[Y,X] = -[X,Y]\]
+        \item \textbf{Jacobi identity}: \[\sum_{\text{cyclic}} \left[ X, [Y,Z] \right] = 0\]
+    \end{enumerate}
+\end{definition}
+
+\begin{example}{Abelian Lie algebra}{}
+    On any vector space \(V\), define \([X,Y]=0\) for all \(X,Y \in V\). With this bracket, \(V\) becomes a Lie algebra, called an \newterm{abelian Lie algebra}.
+\end{example}
+\textbf{An abelian Lie algebra is trivially associative, but in general the bracket of a
+Lie algebra need not be associative. So despite its name, a Lie algebra is in general
+not an algebra.}
+
+\begin{example}{}{}
+    If \(M\) is a manifold, then the vector space \(\mathfrak{X}(M)\) of \(\cinf\) vector fields on \(M\) is a real Lie algebra with the Lie bracket \([,]\) as the bracket.
+\end{example}
+
+\begin{example}{}{}
+    Let \(K^{n \times n}\) be the vector space of all \(n \times n\) matrices over a field \(K\).
+    Define
+    \[
+        [X,Y] = XY - YX    
+    \]
+    where \(XY\) is the matrix product of \(X\) and \(Y\).
+    With this bracket, \(K^{n \times n}\) becomes a Lie algebra.
+    More generally, if \(A\) is any algebra over a field \(K\), then the product 
+    \[
+        [x,y] = xy - yx    
+    \]
+    for \(x,y \in A\) makes \(A\) into a Lie algebra over \(K\).
+\end{example}
+\begin{definition}{derivation}{}
+    A \newterm{derivation of a Lie algebra \(V\)} over a field \(K\) is a \(K\)-linear map \(D \colon V \rightarrow V\) satisfying the product rule 
+    \[
+        D[Y,Z] = [DY, Z] + [Y, DZ]
+    \]
+    for \(Y,Z in V\).
+\end{definition}
+\begin{example}{}{}
+    Let \(V\) be a Lie algebra over a field \(K\). For each \(X \in V\), define 
+    \[
+        \operatorname{ad}_X (Y) = [X,Y]    
+    \]
+\end{example}
+
+\subsubsection{Pushforward of Vector Fields}
+
+Let \(F \colon N \rightarrow M\) be a smooth map of manifolds and let \(F_* \colon T_p N \rightarrow T_{F(p)}M\) be its differential at a point \(p\) in \(N\).
+If \(X_p \in T_p N\), we call \(F_* (X_p)\) the \newterm{pushforward} of the vector \(X_p\) at \(p\).
+This notion doesn't extend in general to vector fields, since it \(X\) is a vector field on \(N\) and 
+\[
+    z = F(p) = F(q)    
+\]
+for two distinct points \(p,q \in N\), then \(X_p\) and \(X_q\) are both pushed forward to tangent vectors \(X_z \in T_z M\), but there is no reason why \(F_* (X_p)\) and \(F_*(X_q)\) should be equal.
+
+\subsection{Lie Groups and Lie Algebras}
+
+A \newterm{Lie group} is a manifold that is also a group such that the group operations are smooth.
+A Lie group is a homogeneous space in the sense that left translation by a group element \(g\) is a diffeomorphism of the group onto itself that maps the identity element to itself.
+Therefore, locally the group looks the same around any point in the group.
+To study the local structure of a Lie group, it is enough to examine a neighborhood of the identity element.
+The tangent space at the identity of a Lie group \(G\) turns out to have a canonical bracket operation \([\;,\;]\) that makes it into a Lie algebra.
+The tangent space \(T_e G\) with the bracket is called the \newterm{Lie algebra} of the Lie group \(G\).
+The Lie algebra of a Lie group encodes within it much information about the group.
+
+The matrix exponential gives rise to curves in a matrix group with a given initial vector.
+It is useful in computing the differential of a map on a matrix group.
+
+\subsubsection{Lie Group}
+
+\begin{definition}{Lie group}{}
+    A \newterm{Lie group} is a \(\cinf\) manifold \(G\) that is also a group such that the two group operations, multiplication
+    \[
+        \mu \colon G \times G \rightarrow G \quad \mu(a,b) \coloneqq ab   
+    \]
+    and inverse 
+    \[
+        \iota \colon G \rightarrow G \quad \iota(a) = a^{-1}   
+    \]
+    are \(\cinf\).
+    For \(a \in G\), denote by 
+    \begin{splitenv}
+        \ell_a \colon G \rightarrow G \\ 
+        \ell_a(x) = \mu(a,x) = ax 
+    \end{splitenv}
+    the operation of \newterm{left multiplication by \(a\)} and similarly by \(r_a\) the operation of \newterm{right multiplication by \(a\)}.
+    We also call these operations \newterm{left and right translations}.
+\end{definition}
+
+\begin{example}{Left multiplication}{}
+    For an element \(a \in G\), prove that the left multiplication/translation \(\ell_a \colon G \rightarrow G\) is a diffeomorphism.
+\end{example}
+\begin{definition}{Lie group homomorphism}{}
+    A map \(F \colon H \rightarrow G\) between two Lie groups \(H, G\) is a \newterm{Lie group homomorphism} if it is a \(\cinf\) map and a group homomorphism.
+    The group homomorphism condition means that for all  \(h,x \in H\)
+    \[
+        F(hx) = F(h)F(x)    
+    \]
+    or rewritten 
+    \[
+        F \circ \ell_h = \ell_{F(h)} \circ F
+    \]
+    for all \(h \in H\).
+    Note that a group homomorphism always maps the identity to the identity.
+\end{definition}
+
+\begin{definition}{Orthogonal group}{}
+    Recall that the orthogonal group \(\operatorname{O}(n)\) is the subgroup of \(\gln\) consisting of all matrices \(A\) satisfying \(A^T A = I\).
+    Thus, \(\operatorname{O}(n)\) is the inverse image of \(I\) under the map \(f(A) = A^T A\).
+\end{definition}
+
+\subsubsection{Matrix Exponential}
+
+Recall computing the pushforward using a smooth curve 
+\[
+    F_{*,p} (X_p) = \evalat[\bigg]{\dv{t}}{0} (F \circ c)(t)    
+\]
+
+To compute the differential of a map on a subgroup of \(\operatorname{GL}(n ,\R)\), we need a curve of nonsingular matrices.
+Because the matrix exponential is always nonsingular, it is uniquely suited for this purpose.
+\begin{definition}{Norm}{}
+    A \newterm{norm} on a vector \(V\) is a real-valued \(\abs{\cdot}\colon V \rightarrow \R\) satisfying the following three properties for all \(r \in \R, v,w \in V\)
+    \begin{enumerate}
+        \item \textbf{positive-definiteness}: \(\abs{v} \geq 0\) with equality iff \(v = 0\)
+        \item \textbf{positive homogeneity}: \(\abs{rv} = \abs{r}\abs{v}\)
+        \item \textbf{subadditivity}: \(\abs{v+w} \leq \abs{v} + \abs{w}\)
+    \end{enumerate}
+    A vector space \(V\) with a norm is called a \newterm{normed vector space}.
+    For example, the vector space \(\R^{n \times n} \cong \R^{n^2}\) with the norm 
+    \[
+        \abs{X} = \sqrt{\sum_{ij} x_{ij}^2}  
+    \]
+\end{definition}
+\begin{definition}{Matrix exponential}{}
+    The \newterm{matrix exponential} \(e^X\) of a matrix \(X \in \R^{n\times n}\) is defined 
+    \[
+        e^X = I + X + \frac{1}{2!}X^2 + \frac{1}{3!}X^3 + \cdots    
+    \]
+    If \(A, B\) commute then 
+    \[
+        e^A e^B = e^{A+B}    
+    \]
+\end{definition}
+\begin{proposition}{}{}
+    For \(X \in \R^{n \times n}\)
+    \[
+        \dv{t} e^{tX} = X e^{tX} = e^{tX} X    
+    \]
+\end{proposition}
+
+\subsubsection{Trace of a Matrix}
+
+\begin{definition}{Trace of a Matrix}{}
+    For a \(n \times n\) matrix \(X\)
+    \[
+        \operatorname{tr}(X) = \sum_{i=1}^n x_ii    
+    \]
+    i.e. the sum of the diagonal elements.
+\end{definition}
+\begin{lemma}{}{}
+    \begin{enumerate}
+        \item For any two matrices \(X,Y \in \R^{n \times n}\) \[
+            \operatorname{tr}(XY) = \operatorname{tr}(YX)    
+        \]
+        \item For \(X \in \R^{n \times n}\) and \(A \in \gln\) \[
+            \operatorname{tr}(AXA^{-1}) = \operatorname{X}    
+        \]
+    \end{enumerate}
+\end{lemma}
+\begin{proposition}{}{}
+    The trace of a matrix, real or complex, is equal to the sum of its complex \newterm{eigenvalues} 
+\end{proposition}
+\begin{proof}
+    Suppose \(X\) has complex eigenvalues \(\lambda_1, \dots, \lambda_n\).
+    Then there exists a nonsingular matrix \(A \in \operatorname{GL}(n, \C)\) such that 
+    \[
+        AXA^{-1} = \begin{bmatrix}
+            \lambda_1 & & * \\ 
+            & \ddots & \\
+            0 & & \lambda_n
+        \end{bmatrix}
+    \]
+    and then 
+    \[
+        \operatorname{tr}(X) = \operatorname{tr} (AXA^{-1}) = \sum_i \lambda_i
+    \]
+\end{proof}
+\begin{proposition}{}{}
+    For any \(X \in \R^{n \times n}\) 
+    \[
+        \det (e^X) = e^{\operatorname{tr}(X)}   
+    \]
+\end{proposition}
+\begin{proof}
+    Case 1: Assume that \(X\) is upper triangular 
+    \[
+        X = \begin{bmatrix}
+            \lambda_1 & & * \\ 
+            & \ddots & \\
+            0 & & \lambda_n
+        \end{bmatrix}
+    \]
+    Then 
+    \begin{splitenv}
+         e^X &= \sum \frac{1}{k!}X^k \\
+         &= \sum \frac{1}{k!} \begin{bmatrix}
+            \lambda_1^k & & * \\ 
+            & \ddots & \\
+            0 & & \lambda_n^k
+        \end{bmatrix} \\ 
+        &= \begin{bmatrix}
+            e^{\lambda_1} & & * \\ 
+            & \ddots & \\
+            0 & & e^{\lambda_n}
+        \end{bmatrix}
+    \end{splitenv}
+    and hence \[\det e^X = \prod e^{\lambda_i} = e^{\sum \lambda_i} = e^{\operatorname{tr}X}\].
+    Case 2: Given a general matrix \(X\), with eigenvalues \(\lambda_1, \dots, \lambda_n\), we can find a nonsingular matrix \(A\) such that 
+    \[
+        AXA^{-1} = \begin{bmatrix}
+            \lambda_1 & & * \\ 
+            & \ddots & \\
+            0 & & \lambda_n
+        \end{bmatrix}
+    \]
+    an upper triangular matrix. 
+    Then 
+    \begin{splitenv}
+        e^{AXA^{-1}} &= I + AXA^{-1} + \frac{1}{2!} (AXA^{-1})^2 + \frac{1}{3!}(AXA^{-1})^3 + \cdots \\ 
+        &= I + AXA^{-1} + A \left( \frac{1}{2!} X^2 \right) A^{-1} + A \left( \frac{1}{3!} X^3 \right) A^{-1} + \cdots \\ 
+        &= A e^X A^{-1}
+    \end{splitenv}
+    and hence 
+    \begin{splitenv}
+        \det e^X &= \det (A e^X A^{-1}) \\ 
+        &= \det e^{A X A^{-1}}  \\ 
+        &= e^{\operatorname{tr}(AXA^{-1})} \\ 
+        &= e^{\operatorname{tr}X}
+    \end{splitenv}
+\end{proof}
+It follows that the matrix exponential \(e^X\) is always nonsingular, because \(\det(e^X) = e^{\tr X} \neq 0\).
+This is one reason why the matrix exponential is so useful, for it allows us to write down explicitly a curve in \(\gln\) with a given initial point and a given initial velocity.
+For example \(c(t) = e^{tX} \colon \R \rightarrow \gln\) is a curve in \(\gln\) with initial point \(I\) and initial velocity \(X\), since 
+\[
+    c(0) = e^{0 X} = e^0 = I    
+\]
+and 
+\[
+    c'(0) = \evalat[\bigg]{\dv{t} e^{tX}}{t=0} = \evalat[\bigg]{X e^{tX}}{t=0} = X
+\]
+Similarly, \(c(t) = A e^{tX}\) is a curve in \(\gln\) with initial point \(A\) and initial velocity \(AX\).
+
+\subsubsection{The Differential of \(\det\) at the identity}
+
+Let \(\det \colon \gln \rightarrow \R\) be the determinant map.
+The tangent space \(T_I \gln\) at the identity matrix \(I\) is the vector space \(\R^{n \times n}\) and the tangent space \(T_1 \R\) to \(\R\) at 1 is \(\R\). 
+So 
+\[
+    \operatorname{det}_{*, I} \colon \R^{n \times n} \rightarrow \R
+\]
+\begin{proposition}{}{}
+    For any \(X \in \R^{n \times n}\) it is the case that \(\det_{*,I}(X) = \tr X\)
+\end{proposition}
+\begin{proof}
+    We use a a curve at \(I\) to compute the differential. 
+    As a curve \(c(t)\) with \(c(0)=I\) and \(c'(0) = X\), choose the matrix exponential \(c(t)=e^{tX}\).
+    Then 
+    \begin{splitenv}
+        \operatorname{det}_{*,I}(X) &= \evalat[\bigg]{\dv{t} \det (e^{tX})}{t=0} \\ 
+        &= \evalat[\bigg]{\dv{t} e^{t \tr X}}{t=0} \\
+        &= \evalat[\bigg]{(\tr X) e^{t \tr X}}{t=0} \\
+        &= \tr X
+    \end{splitenv}
+\end{proof}
