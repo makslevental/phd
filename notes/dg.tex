@@ -2325,3 +2325,71 @@ Then the differentials \(\dif x^1, \dots, \dif x^n\) are 1-forms on U.
 \end{proposition}
 
 \subsubsection{The Cotangent Bundle}
+
+The \newterm{cotangent bundle} \(T^* M\) of a manifold \(M\) is the union of the cotangent spaces at all points of \(M\)
+\[
+    T^* M \coloneqq \bigcup_{p \in M} T_p^* M
+\]
+There is a natural map \(\pi \colon T^* M \rightarrow M\) given by \(\pi(\alpha) = p\) if \(\alpha \in T_p^* M\).
+Properly speaking, the \newterm{cotangent bundle} of a manifold \(M\) is the triple \((T^* M, M, \phi)\), while \(T^* M\) is the \newterm{total space} and \(M\) is the \newterm{base space} of the cotangent bundle, but by abuse of language it is customary to call \(T^* M\) the cotangent bundle of \(M\).
+In terms of the cotangent bundle, a 1-form on \(M\) is simply a section of the cotangent bundle \(T^* M\) i.e. it is a map \(\w \colon M \rightarrow T^*M\) such that \(\pi \circ \w = 1_M\)
+
+\begin{example}{Liouville form on the cotangent bundle}{}
+    If a manifold \(M\) has dimension \(n\), then the total space \(T^* M\) of its cotangent bundle \(\pi \colon T^* M \rightarrow M\) is a manifold of dimension \(2n\) (chart and coefficients). 
+    Remarkably, on \(T^* M\) there is a 1-form \(\lambda\), called the \newterm{Liouville form}, or \newterm{Poincare form}, defined independently of charts as follows.
+    A point in \(T^* M\) is a covector \(\w_p \in T_p^* M\) at some point \(p \in M\).
+    If \(X_{\w_p}\) is a tangent vector to \(T^* M\) at \(\w_p\), then the pushforward \(\pi_* (X_{\w_p})\) is a tangent vector to \(M\) at \(p\).
+    Therefore, one can pair up \(\w_p\) and \(\pi_* (X_{\w_p})\) to obtain a real number \(\w_p (\pi_* (X_{\w_p}))\)
+    \[
+        \lambda_{\w_p} (X_{\w_p}) = \w_p (\pi_* (X_{\w_p}))
+    \]
+    The cotangent bundle and the Liouville form on it play an important role in classical mathematics.
+\end{example}
+
+\subsubsection{Pullback of 1-Forms}
+
+If \(F \colon N \rightarrow M\) is a \(\cinf\) map of manifolds, then at each point \(p \in N\) the differential
+\[
+    F_{*,p} \colon T_p N \rightarrow T_{F(p)} M
+\]
+is a linear map that pushes forward vectors at \(p\) from \(N\) to \(M\).
+The \newterm{codifferential} i.e. the dual of the differential
+\[
+    F^* \coloneqq (F_{*,p})^\vee \colon T_{F(p)}^* M \rightarrow T_p^* N   
+\]
+pulls back a covector at \(F(p)\) from \(M\) to \(N\).
+By the definition of the dual, if \(\w_{F(p)} \in T_{F(p)}^* M\) is a covector at \(F(p)\) and \(X_p \in T_p N\) then 
+\[
+    F^* (\w_{F(p)}) (X_p) = \w_{F(p)} (F_{*,p} X_p)  
+\]
+We call \(F^* (\w_{F(p)})\) is the \newterm{pullback} of the covector \(\w_{F(p)}\) by \(F\).
+
+Unlike vector fields, which in general cannot be pushed forward under a \(\cinf\) map, every covector field can be pulled back by a \(\cinf\) map.
+If \(\w\) is a 1-form on \(M\), its \newterm{pullback \(F^* \w\)} is the 1-form on \(N\) defined pointwise by 
+\[
+    (F^* \w)_p \coloneqq F^* (\w_{F(p)})    
+\]
+This means that 
+\[
+    (F^* \w)_p (X_p) = \w_{F(p)} (F_* (X_p))
+\]
+i.e. pushforward the vector to \(M\) and then apply \(\w\) to it.
+\begin{proposition}{Pullback rules}
+    Let \(F \colon N \rightarrow M\) be a \(\cinf\) map of manifolds.
+    For any \(g,h \in \cinf(M)\), \(\w ,\tau \in \Omega^1(M)\)
+    \begin{enumerate}
+        \item \(F^* (\dif h) = \dif (F^* h)\)
+        \item \(F^*(\w + \tau) = F^* \w + F^* \tau\)
+        \item \(F^* (g \w) = (F^* g) (F^* \w)\)
+    \end{enumerate}
+\end{proposition}
+\begin{example}{Liouville form on the cotangent bundle}{}
+    Let \(M\) be a manifold.
+    In terms of the pullback, the Liouville form \(\lambda\) on the cotangent bundle \(T^* M\) can be expressed as 
+    \[
+        \lambda_{\w_p} = \pi^* (\w_p)    
+    \]
+\end{example}
+
+\subsubsection{Differential \(k\)-forms}
+
