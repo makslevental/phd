@@ -3,6 +3,7 @@
 % \subsubsection{Pushforwards and Pullbacks}\label{subsubsec:diffgeo}
 
 \newcommand{\gln}{\operatorname{GL}(n, \R)}
+\newcommand{\Rnn}{\R^{n \times n}}
 \section{Differential Geometry}\label{sec:dg}
 \localtableofcontents
 
@@ -814,7 +815,7 @@ Abusing notation, sometimes \((x^1, \dots, x^n)\) (sans \(p\)) stands for both t
         \gln &\coloneqq \{A \in \R^{n\times n} | \det(A) \neq 0\}  \\
         &\;= \operatorname{det}^{-1} (\R - \{0\})
     \end{splitenv}
-    Since the determinant function \(\det \colon \R^{n\times n}\rightarrow \R\) is continuous, \(\gln\) is an open subset of \(\R^{n \times n}\cong \R^{n^2} \) is therefore a manifold.
+    Since the determinant function \(\det \colon \R^{n\times n}\rightarrow \R\) is continuous, \(\gln\) is an open subset of \(\Rnn\cong \R^{n^2} \) is therefore a manifold.
 \end{example}
 
 \begin{example}{Unit circle in the \(xy\)-plane}
@@ -903,7 +904,7 @@ Thus, a function \(f\) on \(M\) is \(C^\infty\) on a chart \((U, \phi)\) iff \((
 
 \begin{example}
     Recall the definition of \(\gln\).
-    As an open subset of \(\R^{n \times n}\), it is a manifold.
+    As an open subset of \(\Rnn\), it is a manifold.
     Since the \((i,j)\)-entry of the product of two matrices \(A, B\) in \(\gln\)
     \[
         (AB)_{ij} = \sum_{k=1}^n a_{ik}b_{kj}
@@ -1314,7 +1315,7 @@ Conversely, one can show that every tangent vector \(X_p \in T_p M\) is the velo
 \begin{proposition}{Existence of a curve with a given initial vector}{}
     For any point \(p\) in a manifold \(M\) and any tangent vector \(X_p \in T_p M\), there are \(\varepsilon > 0\) and a smooth curve \((-\varepsilon, \varepsilon) \rightarrow M\) such that \(c(0) = p\) and \(c'(0) = X_p\).
 \end{proposition}
-\loadfig{curvevec}
+% \loadfig{curvevec}
 \begin{proof}
     Let \((U, \phi) = (U, x^1, \dots, x^n)\) be a chart centered at \(p\) i.e. \(\phi(p) = \bm{0} \in \R^n\).
     Suppose \(X_p = \sum a^i \evalat[\big]{\prt{}{x^i}}{p}\) and let \(r^1, \dots, r^n\) be the standard coordinates on \(\R^n\), with \(x^i = r^i \circ \phi\).
@@ -1352,14 +1353,14 @@ This gives us a geometrical perspective on tangent vectors as directional deriva
 \end{proposition}
 \begin{example}{Differential of left multiplication}{}
     If \(g \in \gln\), let \(\ell_g \colon \gln \rightarrow \gln\) be left multiplication by \(g\) i.e. \(\ell_g (B) = g B\).
-    Since \(\gln \subset \R^{n \times n}\) the tangent space \(T_g (\operatorname{GL}(n,\R))\) can be identified with \(\R^{n \times n}\).
+    Since \(\gln \subset \Rnn\) the tangent space \(T_g (\operatorname{GL}(n,\R))\) can be identified with \(\Rnn\).
     We show that with this identification the differential at the identity
     \[
         (\ell_g)_{*, \iota} \colon T_\iota (\gln) \rightarrow T_g (\gln)
     \]
     is also left multiplication by \(g\).
 
-    Let \(X \in T_\iota (\gln) = \R^{n \times n}\).
+    Let \(X \in T_\iota (\gln) = \Rnn\).
     To compute \((\ell_g)_{*,\iota} (X)\), choose a curve \(c(t) \in \gln\) with \(c(0) = \iota\) and \(c'(0) = X\).
     Then \(\ell_g (c(t)) = g\cdot c(t)\) is simply matrix multiplication.
     Then
@@ -1555,7 +1556,7 @@ Define
     \rho(x) &= 1 - k(x)
 \end{align}
 See figure~\ref{fig:bumpfunction2}.
-\loadfig{bumpfunction2}
+% \loadfig{bumpfunction2}
 It is easy to extend the construction \(\rho(x)\) to a bump function from \(\R\) to \(R^n\): to get a \(\cinf\) bump function at \(\bm{0} \in \R^n\) that is 1 on the closed ball \(\bar{B}(\bm{0}, a)\) and has support in the closed ball \(\bar{B}(\bm{0}, b)\)
 \begin{equation}
     \sigma(x) \coloneqq \rho(\abs{x}) = 1 - g \left( \abs{x} \frac{r^2 - a^2}{b^2 -a^2} \right)
@@ -1973,7 +1974,7 @@ Because the matrix exponential is always nonsingular, it is uniquely suited for 
         \item \textbf{subadditivity}: \(\abs{v+w} \leq \abs{v} + \abs{w}\)
     \end{enumerate}
     A vector space \(V\) with a norm is called a \newterm{normed vector space}.
-    For example, the vector space \(\R^{n \times n} \cong \R^{n^2}\) with the norm 
+    For example, the vector space \(\Rnn \cong \R^{n^2}\) with the norm 
     \[
         \abs{X} = \sqrt{\sum_{ij} x_{ij}^2}  
     \]
@@ -1989,7 +1990,7 @@ Because the matrix exponential is always nonsingular, it is uniquely suited for 
     \]
 \end{definition}
 \begin{proposition}{}{}
-    For \(X \in \R^{n \times n}\)
+    For \(X \in \Rnn\)
     \[
         \dv{t} e^{tX} = X e^{tX} = e^{tX} X    
     \]
@@ -2006,10 +2007,10 @@ Because the matrix exponential is always nonsingular, it is uniquely suited for 
 \end{definition}
 \begin{lemma}{}{}
     \begin{enumerate}
-        \item For any two matrices \(X,Y \in \R^{n \times n}\) \[
+        \item For any two matrices \(X,Y \in \Rnn\) \[
             \operatorname{tr}(XY) = \operatorname{tr}(YX)    
         \]
-        \item For \(X \in \R^{n \times n}\) and \(A \in \gln\) \[
+        \item For \(X \in \Rnn\) and \(A \in \gln\) \[
             \operatorname{tr}(AXA^{-1}) = \operatorname{X}    
         \]
     \end{enumerate}
@@ -2033,7 +2034,7 @@ Because the matrix exponential is always nonsingular, it is uniquely suited for 
     \]
 \end{proof}
 \begin{proposition}{}{}
-    For any \(X \in \R^{n \times n}\) 
+    For any \(X \in \Rnn\) 
     \[
         \det (e^X) = e^{\operatorname{tr}(X)}   
     \]
@@ -2100,13 +2101,13 @@ Similarly, \(c(t) = A e^{tX}\) is a curve in \(\gln\) with initial point \(A\) a
 \subsubsection{The Differential of \(\det\) at the identity}
 
 Let \(\det \colon \gln \rightarrow \R\) be the determinant map.
-The tangent space \(T_I \gln\) at the identity matrix \(I\) is the vector space \(\R^{n \times n}\) and the tangent space \(T_1 \R\) to \(\R\) at 1 is \(\R\). 
+The tangent space \(T_I \gln\) at the identity matrix \(I\) is the vector space \(\Rnn\) and the tangent space \(T_1 \R\) to \(\R\) at 1 is \(\R\). 
 So 
 \[
-    \operatorname{det}_{*, I} \colon \R^{n \times n} \rightarrow \R
+    \operatorname{det}_{*, I} \colon \Rnn \rightarrow \R
 \]
 \begin{proposition}{}{}
-    For any \(X \in \R^{n \times n}\) it is the case that \(\det_{*,I}(X) = \tr X\)
+    For any \(X \in \Rnn\) it is the case that \(\det_{*,I}(X) = \tr X\)
 \end{proposition}
 \begin{proof}
     We use a a curve at \(I\) to compute the differential. 
@@ -2119,3 +2120,208 @@ So
         &= \tr X
     \end{splitenv}
 \end{proof}
+
+\subsubsection{Tangent Space at the identity of a Lie Group}
+
+Left translation \(\ell_g \colon G \rightarrow G\) by an element \(g \in G\) is a diffeomorphism with inverse \(\ell_{g^{-1}}\).
+This diffeomorphism takes the identity \(e\) to \(g\) and induces and isomorphism on tangent spaces 
+\[
+(\ell_g)_* \coloneqq (\ell_g)_{*,g} \colon T_e G \rightarrow T_g G
+\]
+Thus, if we can describe the tangent space at the identity, then pushing forward we can describe the tangent space at any point in \(G\).
+
+\begin{example}{Tangent space to \(\gln\) at \(I\)}{}
+    The tangent space at any point \(g \in \gln\) is \(\Rnn\).
+    The isomorphism 
+    \[
+        (\ell_g)_* \colon T_I(\gln) \rightarrow T_g (\gln)
+    \]
+    is also identified as left multiplication by \(g\):
+    \[
+        g \colon X \mapsto gX    
+    \]
+    for \(X \in G\).
+\end{example}
+\newcommand{\sln}{\operatorname{SL}(n, \R)}
+\begin{example}{Tangent space to \(\sln\)}
+    We begin by finding a condition that a tangent vector \(X \in T_I (\sln)\) must satisfy.
+    Using the curve velocity version of the tangent vector there is a curve \(c \colon (-\varepsilon, \varepsilon) \rightarrow \sln\) with \(c(0) = I\) and \(c'(0) = X\).
+    Being in \(\sln\), this curve satisfies 
+    \[
+        \det c(t) = 1    
+    \]
+    for all \(t \ in (-\varepsilon, \varepsilon)\).
+    Differentiating both sides and evaluating at \(t=0\)
+    \begin{splitenv}
+        \evalat[\bigg]{\dv{t} \det c(t)}{t=0} &= (\det \circ\, c)_* \left( \evalat[\bigg]{\dv{t}}{t=0} \right) \\ 
+        &= \operatorname{det}_{*,I} \left( c_* \evalat[\bigg]{\dv{t}}{t=0} \right) \\ 
+        &= \operatorname{det}_{*,I} \left(c'(0)\right) \\ 
+        &= \operatorname{det}_{*,I} (X) \\ 
+        &= \tr X
+    \end{splitenv}
+    Thus,
+    \[
+        \tr X = \evalat[\bigg]{\dv{t} 1}{t=0}   = 0
+    \]
+    and so the tangent space \(T_I (\sln)\) is contained in the subspace \(V\) of \(\Rnn\) defined by 
+    \[
+        V = \{ X \in \Rnn | \tr X = 0 \}    
+    \]
+    Since \(\dim V = n^2-1 = \dim T_I \sln\), the two spaces must be equal.
+\end{example}
+\begin{example}{The tangent space to \(\operatorname{O}(n)\) at \(I\)}{}
+    Let \(X\) be a tangent vector to the orthogonal group \(\operatorname{O}(n)\) at the identity \(I\).
+    Choose a curve \(c(t) \in \operatorname{O}(n)\) such that \(c(0) = I, c'(0) = X\).
+    Since \(c(t) \in \operatorname{O}(n)\)
+    \[
+        c(t)^T c(t) = I    
+    \]
+    Differentiating both sides 
+    \[
+        c'(t)^T c(t) + c(t)^T c'(t) = 0    
+    \]
+    Evaluating at \(t = 0\) we get 
+    \[
+        X^T + X = 0    
+    \]
+    Thus, \(X\) is skew-symmetric.
+    Let \(K_n\) be the space of all \(n \times n\) real skew-symmetric matrices; the diagonal entries of such matrices are all 0 and entries below the diagonal are determined by those above the diagonal.
+    Therefore 
+    \[
+        \dim K_n = \frac{n^2 -\text{\# diagonal entries}}{2} = \frac{1}{2}(n^2-n)    
+    \]
+    Therefore 
+    \[
+        T_I (\operatorname{O}(n)) \subset K_n
+    \]
+    By an earlier computation 
+    \[\dim T_I (\operatorname{O}(n)) = \dim \operatorname{O}(n) = \frac{n^2-n}{2}\]
+    and therefore \(T_I (\operatorname{O}(n)) = K_n\)
+\end{example}
+
+\subsubsection{Left-Invariant Vector Fields on a Lie Group}
+
+We say that the vector field \(X\) is \newterm{left-invariant} if 
+\[
+    \left(\ell_{g} \right)_* X = X
+\]
+for every \(g \in G\); this means that for any \(h \in G\)
+\[
+    \left(\ell_{g} \right)_* (X_h) = X_{gh}    
+\]
+i.e. the vector \(X_h\) (anchored at \(h\)) pushes forward (under the left-multiplication by \(g\) map \(\ell_g\)) to \(X_{gh}\).
+
+A left-invariant vector field \(X\) is completely determined by its value \(X_e\) at the identity, since 
+\[
+    X_g = (\ell_g)_* (X_e)    
+\]
+Conversely, given a tangent vector \(A \in T_e (G)\) we can define a vector field \(\tilde{A}\) on \(G\)
+\[
+    \tilde{A}_g \coloneqq (\ell_g)_*
+\]
+So defined \(\tilde{A}\) is left-invariant
+\begin{splitenv}
+    (\ell_g)_* (\tilde{A}_h) &= (\ell_g)_* (\ell_h)_* A \\ 
+    &= (\ell_g \circ \ell_h)_* A \\ 
+    &= (\ell_{gh})_* A \\
+    &= \tilde{A}_{gh}
+\end{splitenv}
+
+\(\tilde{A}\) is called the \newterm{left-invariant vector field on \(G\) generated by \(A \in T_e G\)}.
+Let \(L(G)\) be the vector space of all left-invariant vector frields \(G\).
+Then there is a one-to-one correspondence
+\begin{splitenv}
+    T_e (G) &\leftrightarrow L(G)  \\
+    X_e &\mapsfrom X  \\
+    A &\mapsto \tilde{A} 
+\end{splitenv}
+
+\begin{example}{Left-invariant vector fields on \(\gln\)}{}
+    Since \(\gln\) is an open subset of \(\Rnn\), at any \(g \in \gln\) there is a canonical identification of the tangent space \(T_g (\gln)\) with \(\Rnn\), under which a tangent vector corresponds to an \(n \times n\) matrix 
+    \[
+        \sum a_{ij} \evalat[\bigg]{\pdv{}{x_{ij}}}{g} \leftrightarrow [a_{ij}]   
+    \]
+    We use the same letter \(B\) for the tangent vector and the matrix.
+    Let 
+    \[
+        \sum b_{ij} \evalat[\bigg]{\pdv{}{x_{ij}}}{I} \in T_I (\gln)
+    \]
+    and let \(\tilde{B}\) be the left-invariant vector field on \(\gln\) generated by \(B\).
+    Then 
+    \[
+        \tilde{B}_g = (\ell_g)_* B \leftrightarrow gB    
+    \]
+    and 
+    \begin{splitenv}
+        \tilde{B}_g &= \sum_{i,j} (gB)_{ij} \evalat[\bigg]{\pdv{}{x_{ij}}}{g}  \\ 
+        &= \sum_{i,j} \left( \sum_k g_{ik}b_{kj} \right) \evalat[\bigg]{\pdv{}{x_{ij}}}{g}
+    \end{splitenv}
+\end{example}
+\begin{proposition}{}{}
+    If \(X,Y\) are left-invariant vector fields on \(G\), then so is \([X,Y]\).
+\end{proposition}
+
+\subsubsection{The Lie Algebra of a Lie Group}
+
+The isomorphism \(\phi \colon T_e G \cong L(G)\) (the set of left-invariant vector spaces on \(G\)) enables us to define a Lie bracket on \(T_e G\) and to push forward left-invariant vector fields under a Lie group homomorphism.
+We beging with the Lie bracket on \(T_e G\). 
+Given \(A,B \in T_e G\), we first map them via \(\phi\) to the left-invariant vector fields \(\tilde{A}, \tilde{B}\), take the Lie bracket 
+\[
+    [\tilde{A}, \tilde{B}] = \tilde{A}\tilde{B} - \tilde{B}\tilde{A}
+\]
+and then map it back to \(T_e G\) via \(\phi^{-1}\).
+Thus, the definition of the Lie bracket \([A,B] \in T_e G\) should be 
+\[
+    [A,B] = [\tilde{A}, \tilde{B}]_e
+\]
+\begin{proposition}{}{}
+    If \(A,B \in T_e G\) and \(\tilde{A}, \tilde{B}\) are the left-invariant vector fields they generate, then 
+    \[
+        [\tilde{A}, \tilde{B}] = [A,B]^{\sim}
+    \]
+\end{proposition}
+
+With the Lie bracket \([\;,\;]\), the tangent space \(T_e G\) becomes a Lie algebra, called the \newterm{Lie algebra of the Lie group \(G\)}.
+As a Lie algebra, \(T_e G\) is usually denoted \(\mathfrak{g}\).
+
+\subsection{Differential Forms}
+
+Differential forms plays a crucial role in manifold theory.
+First and foremost, they are intrinsic objects associated to any manifold, and so can be used to construct diffeomorphism invariants.
+Differential forms have a richer algebraic structure; due to the existence of the wedge product, a grading, and the exterior derivative, the set of smooth forms on a manifold is both a graded algebra and a differential complex.
+Such an algebraic structure is called a \newterm{differential graded algebra}.
+Moreover, the differential copmlex of smooth forms on a manifold can be pulled back under a smooth map, making the complex \newterm{contravariant functor} called the \newterm{de Rham complex} of the manifold.
+We will eventually construct the de Rham cohomology of a manifold of a manifold from the de Rham complex.
+
+\subsubsection{Differential 1-Forms}
+
+Let \(M\) be a smooth manifold and \(p \in M\).
+The \newterm{cotangent space} of \(M\) at \(p\), denoted by \(T_p^* M\), is defined to be the dual space of the tangent space \(T_p M\)
+\[
+    T_p^* M = (T_p M)^{\vee} = \operatorname{Hom}(T_p M, \R)   
+\]
+An element of the cotangent space \(T_p^* M\) is called a \newterm{covector} at \(p\).
+Thus, a covector \(\w_p \colon T_p M \rightarrow \R\)
+A \newterm{covector field}, a \newterm{differential 1-form} is a function \(\w\) that assigns to each point \(p \in M\) a covector \(\w_p\) at p.
+
+\begin{definition}{Differential}{}
+    If \(f\) is a \(\cinf\) real-valued function on a manifold \(M\), its \newterm{differential} is defined to be the 1-form \(\dif f\) on \(M\) such that for any \(p \in M\) and \(X_p \in T_p M\)
+    \[
+        (\dif f)_p (X_p) = X_p f
+    \]  
+\end{definition}
+
+\subsubsection{Local Expression for a Differential 1-Form}
+
+Let \((U, \phi) = (U, x^1, \dots, x^n)\) be a coordinate chart on \(M\).
+Then the differentials \(\dif x^1, \dots, \dif x^n\) are 1-forms on U.
+
+\begin{proposition}{}{}
+    At each point \(p \in U\), the covectors \(\dif x^1, \dots, \dif x^n\) form a basis for the cotangent space \(T_p^* M\), dual to the basis 
+    \[
+        \pdv{x^1}, \dots, \pdv{x^n}    
+    \]
+    of the tangent space \(T_p M\).
+\end{proposition}
+
+\subsubsection{The Cotangent Bundle}
