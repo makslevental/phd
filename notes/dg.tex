@@ -2393,3 +2393,155 @@ i.e. pushforward the vector to \(M\) and then apply \(\w\) to it.
 
 \subsubsection{Differential \(k\)-forms}
 
+We now generalize from 1-forms on a manifold to \(k\)-forms. 
+In parallel with the construction of the tangent and cotangent bundles on a manifold, we construct the \(k\)th exterior power \(\bigwedge^k T^* M\) of the cotangent bundle; a differential \(k\)-form is seen as a section of this bundle.
+The pullback and the wedge product of differential forms are defined pointwise.
+
+Recall that a \newterm{\(k\)-tensor} on a vector space \(V\) is a \(k\)-linear function
+\[
+    f \colon \underbrace{ V \times \cdots \times V}_k \rightarrow \R    
+\]
+\(f\) is alternating if for any permutation \(\sigma \in S_k\)
+\[
+    f \left( v_{\sigma(1)}, \dots, v_{\sigma(k)} \right) = (\operatorname{sgn}(\sigma)) f (v_1, \dots, v_k)   
+\]
+An alternating \(k\)-tensor on \(V\) is also called a \newterm{\(k\)-covector} on \(V\).
+
+\begin{definition}{\(A_k(V)\)}{}
+    For any vector space \(V\), denote by \(A_k(V)\) the vector space of alternating \(k\)-tensors on \(V\). 
+    Another common notation is \(\bigwedge^k (V^\vee)\), where \(V^\vee\) is the dual space to \(V\).
+    Thus, 
+    \begin{splitenv}
+        \bigwedge^0 (V^\vee) &\equiv A_0 (V) = \R \\ 
+        \bigwedge^1 (V^\vee) &\equiv A_1 (V) = V^\vee \\ 
+        \bigwedge^2 (V^\vee) &\equiv A_2 (V) = V^\vee 
+    \end{splitenv}
+    where we use the fact that all 1-tensors are alternating and so \(A_1(V)\equiv V^\vee\).
+    In fact, there is a purely algebraic construction \(\bigwedge^k (V^\vee)\), called the \newterm{exterior power} of the vector space \(V\), with the property that \(\bigwedge^k (V^\vee) \cong A_k(V)\) but we take this for granted.
+\end{definition}
+
+\(A_k()\) is a \newterm{functor}; applying it to \(T_p M\) we get the vector space \(A_k(T_p M)\), usually denoted \(\bigwedge^k (T_p^* M)\), the space of all alternating \(k\)-tensors on the tangent space \(T_p M\).
+A \newterm{\(k\)-covector field} on \(M\) is a function \(\w\) that assigns at each point \(p \in M\) a \(k\)-covector \(\w_p \in \bigwedge^k (T_p^* M)\).
+A \(k\)-covector field is also called a \newterm{differential \(k\)-form}, \newterm{differential form of degree \(k\)}, or simply a \newterm{\(k\)-form}.
+A \newterm{top form} on a manifold is a differential form whose degree is the dimension of the manifold.
+
+If \(\w \in \bigwedge^k(T_p^* M)\) on a manifold \(M\) and \(X_1, \dots, X_k \) are vector fields on \(M\), then \(\w(X_1, \dots, X_k)\) is the function on \(M\) defined 
+\[
+    (\w (X_1, \dots, X_k))(p) \coloneqq \w_p ((X_1)_p, \dots, (X_k)_p)   
+\]
+\begin{proposition}{Multilinearity of a form over functions}{}
+    Let \(\w\) be a \(k\)-form on a manifold \(M\). For any vector fields \(X_1, \dots, X_k\) and any function \(h\) on M
+    \[
+        \w(X_1, \dots, h X_i, \dots, X_k) = h \w (X_1, \dots, X_i, \dots, X_k)   
+    \]
+\end{proposition}
+\begin{example}{}{}
+    Let \((U, x^1, \dots, x^n)\) be a coordinate chart on a manifold.
+    At each point \(p \in U\), a basis for the tangent space \(T_p U\) is 
+    \[
+        \evalat[\bigg]{\pdv{x^1}}{p}, \dots, \evalat[\bigg]{\pdv{x^n}}{p}
+    \]
+    A dual basis for the cotangent space is \(T_p^* U\) is 
+    \[
+       (\dif x^1)_p, \dots, (\dif x^n)_p
+    \]
+    and a basis for \(\bigwedge^k (T_p^* U)\) is 
+    \[
+        (\dif x^{i_1})_p \wedge \dots \wedge (\dif x^{i_k})_p     
+    \]
+    If \(\w\) is a \(k\)-form on \(\R^n\), then at each point \(p \in \R^n\), \(\w_p\) is a linear combination 
+    \[
+        \w_p = \sum a_{i_1 \cdots i_k}(p) (\dif x^{i_1})_p \wedge \dots \wedge (\dif x^{i_k})_p   
+    \]
+    Omitting the point \(p\) we write 
+    \[
+        \w_p = \sum a_{i_1 \cdots i_k} \dif x^{i_1} \wedge \dots \wedge \dif x^{i_k}
+    \]
+    \textbf{where \(a_{i_1 \cdots i_k}\) are functions on \(U\) because they vary with the point \(p\)}.
+    To simplify the notation, let 
+    \[
+        \mathcal{J}_{k,n} \coloneqq \left\{ I = (i_1, \dots, i_k) | 1 \leq i_1 < \cdots < i_k \leq n \right\}
+    \]
+    be the set of all strictly ascending multi-indices between 1 and \(n\) of length \(k\). 
+    Then 
+    \[
+        \w \equiv \sum_{I\in \mathcal{J}_{k,n}} a_I \dif x^I    
+    \]
+    where 
+    \[
+        \dif x^I \coloneqq \dif x^{i_1} \wedge \cdots \wedge \dif x^{i_k}    
+    \]
+\end{example}
+
+Note that for \(U\) and \(I,J \in \mathcal{J}_{k,n}\)
+\[
+    \dif x^I (\partial_J) = \delta_J^I \coloneqq \begin{cases}
+        1 & \text{for } I = J \\  
+        0 & \text{for } I \neq J 
+    \end{cases}
+\]
+where 
+\[
+    \partial_J \coloneqq \left( \pdv{x^{j_1}}, \dots, \pdv{x^{j_k}} \right)
+\]
+\begin{proposition}{A wedge of differentials in local coordinates}{}
+    Let \(U, x^1, \dots, x^n\)  be a chart on a manifold and \(f^1, \dots, f^k\) be smooth functions on \(U\).
+    Then 
+    \[
+        \dif f^1 \wedge \cdots \wedge \dif f^k = \sum_{I \in \mathcal{J}_{k,n}} \pdv{(f^1, \dots, f^k)}{(x^{i_1}, \dots, x^{i_k})} \dif x^{i_1} \wedge \dots \wedge \dif x^{i_k}  
+    \]
+    where 
+    \[
+        \pdv{(f^1, \dots, f^k)}{(x^{i_1}, \dots, x^{i_k})} \coloneqq \det \left[ \pdv{f^i}{x^{i_j}} \right]  
+    \]
+\end{proposition}
+\begin{corollary}{Transition differential}{}
+    \[
+    \dif y^I = \sum_{J} \pdv{(y^{i_1}, \dots, y^{i_k})}{(x^{j_1}, \dots, x^{j_k})} \dif x^J
+    \]
+    In particular 
+    \begin{enumerate}
+        \item \[
+            \dif f = sum \pdv{f}{x^i} \dif x^i    
+        \]
+        \item \[
+            \dif f^1 \wedge \cdots \wedge \dif f^n = \det \left[  \pdv{f^j}{x^i} \right] \dif x^1 \wedge \dots \wedge \dif x^n
+        \]
+    \end{enumerate}
+\end{corollary}
+
+\subsubsection{The Bundle Point of View}
+
+Let \(M\) be a manifold of dimension \(n\).
+Then 
+\[
+    \bigwedge^k (T^* M) \coloneqq \bigcup_{p \in U} \bigwedge^k (T_p^* M) = \bigcup_{p \in M} A_k(T_p M)
+\]
+where \(A_k (T_p M)\) is the vector space of alternating \(k\)-tensors.
+\(\bigwedge^k (T^* M)\) is called the \newterm{\(k\)-th exterior power} of the cotangent bundle; there is a projection map \(\pi \colon \bigwedge^k (T^* M) \rightarrow M\) given by 
+\[
+    \pi(\alpha) = p    
+\]
+if \(\alpha \in \bigwedge^k (T_p^*M)\).
+
+If \(U, \phi\) is a coordinate chart on \(M\), then there is a \textbf{bijection}
+\begin{splitenv}
+    \bigwedge^k (T^*U) \coloneqq \bigcup_{p \in U} \bigwedge^k (T_p^* U) &\cong \phi(U) \times \R^{n \choose k} \\ 
+    \alpha \in \bigwedge^k (T_p^* U) &\mapsto (\phi(p), c_I (\alpha))
+\end{splitenv}
+where \(\alpha = \sum c_I (\alpha) \dif x^I \in \bigwedge^k (T_p^* U)\).
+This bijection induces a topology and differentiable structure on \(\bigwedge^k (T^* M)\).
+This structure then turns the projection map 
+\[
+    \pi \colon \bigwedge^k (T^* M)  \rightarrow M
+\]
+into a \(\cinf\) vector bundle of rank \(n \choose k\) and a differential \(k\)-form into, simply, a section of this bundle.
+
+Note that if \(E \rightarrow M\) is a \(\cinf\) vector bundle, then the vector space of \(\cinf\) sections of \(E\) is denoted \(\Gamma(E)\) or \(\Gamma(M,E)\).
+The vector spaces of all \(\cinf\) \(k\)-forms on \(M\) is usually denoted by \(\Omega^k(M)\).
+Thus,
+\[
+    \Omega^k(M) \equiv \Gamma(\bigwedge^k (T^* M)) \equiv \Gamma(M, \bigwedge^k (T^* M))   
+\]
+
+\subsubsection{Pullback of \(k\)-forms}
