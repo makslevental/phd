@@ -4,7 +4,7 @@
 
 \newcommand{\gln}{\operatorname{GL}(n, \R)}
 \newcommand{\Rnn}{\R^{n \times n}}
-\section{Differential Geometry}\label{sec:dg}
+\section{Smooth Manifolds}\label{sec:dg}
 \localtableofcontents
 
 \subsection{Directional Derivative}
@@ -2545,3 +2545,399 @@ Thus,
 \]
 
 \subsubsection{Pullback of \(k\)-forms}
+
+For a \(\cinf\) 0-form on \(M\) under a \(\cinf\) map \(F \colon N \rightarrow M\) (i.e. a \(\cinf\) function \(f \colon M \rightarrow \R\)) the pullback \(F^* f\) is simpliy the composition
+\[
+    F^* f = f \circ F \in \Omega^0 (N)    
+\]
+Generalizing to \(k\)-forms, we first recall the pullback of \(k\)-covectors: a linear map \(L \colon V \rightarrow W\) of vector spaces induces a pullback map \(L^* \colon A_k(W) \rightarrow A_k(V)\) by 
+\[
+    (L^* \alpha) (v_1, \dots, v_k) = \alpha(L(v_1), \dots, L(v_k))   
+\]
+for \(\alpha \in A_k (W)\) and \(v_1, \dots, v_k \in V\).
+Now suppose \(F \colon N \rightarrow M\); at each point the differential (pushforward)
+\[
+    F_{*,p} \colon T_p N \rightarrow T_{F(p)} M
+\]
+is a linear map of tangent spaces and so there is a corresponding pullback map on \(k\)-forms:
+\[
+    (F_{*,p})^* \colon A_k(T_{F(p)}M) \rightarrow A_k (T_p N)
+\]
+Thus, if \(\w_{F(p)}\) is a \(k\)-form at \(F(p)\) in M, then its \newterm{pullback} \(F^*(\w_{F(p)})\) is the \(k\)-form 
+\[
+    (F^*(\w_{F(p)}))(v_1, \dots, v_k) \coloneqq \w_{F(p)} (F_{*,p}v_1, \dots, F_{*,p}v_k)
+\]
+for \(v_i \in T_p N\).
+\begin{proposition}{Linearity of the pullback}{}
+    Let \(F \colon N \rightarrow M\) be a \(\cinf\) map. 
+    If \(\w, \tau\) are \(k\)-forms on \(M\) and \(a\) is a real number, then 
+    \begin{enumerate}
+        \item \(F^* (\w + \tau) = F^* \w + F^* \tau \) \\ 
+        \item \(F^* (a \w) = a F^* \w \)
+    \end{enumerate}
+\end{proposition}
+
+\subsubsection{The Wedge Product}
+
+If \(\alpha, \beta\) are alternating tensors of degree \(k, \ell\) on a vector space \(V\), then their wedge product \(\alpha \wedge \beta\) is the alternating \((k+\ell)\)-tensor on \(V\) defined 
+\begin{multline}
+    (\alpha \wedge \beta)(v_1, \dots, v_{k+\ell}) = \\ \sum \operatorname{sgn}(\sigma) \alpha(v_{\sigma(1)}, \dots, v_{\sigma(k)})\beta(v_{\sigma(k+1)}, \dots, v_{\sigma(k+\ell)})   
+\end{multline}
+where \(v_i \in V\) and \(\sigma\) runs over all \((k, \ell)\)-shuffles of \(1, \dots, k+\ell\).
+For example if \(\alpha, \beta\) are 1-covectors, then 
+\[
+    (\alpha \wedge \beta)(v_1, v_2) = \alpha(v_1)\beta(v_2) - \alpha(v_2)\beta(v_1)   
+\]
+For a \(k\)-form \(\w\) and an \(\ell\)-form \(\tau\) on \(M\) define their \newterm{wedge product} \(\w \wedge \tau\) to be the \(k+\ell\)-form on \(M\)
+\[
+    (\w \wedge \tau)_p \coloneqq \w_p \wedge \tau_p
+\]
+
+\begin{proposition}{Pullback of a wedge product}{}
+    If \(F \colon N \rightarrow M\) is a \(\cinf\) map of manifolds and \(\w, \tau\) are differential forms on \(M\), then 
+    \[
+        F^* (\w \wedge \tau) = F^* \w \wedge F^* \tau   
+    \]
+\end{proposition}
+\begin{definition}{Differential Graded Algebra}{}
+    Define the vector space \(\Omega^* (M)\) of \(\cinf\) differential forms on a manifold \(M\) of dimension \(n\) to be the direct sum 
+    \[
+        \Omega^*(M) \coloneqq \bigoplus_{k=0}^n \Omega^k (M)     
+    \]
+    which means that each element in \(\Omega^* (M)\) is uniquely a sum \(\sum_{k=0}^n \w_k\), where \(\w_k \in \Omega^k (M)\).
+    With the wedge product on forms, \(\Omega^* (M)\) becomes a graded algebra, the grading being the degree of differential forms.
+\end{definition}
+
+\subsection{The Exterior Derivative}
+
+Recall that an \newterm{antiderivation} on a graded algebra \(A = \bigoplus_{k=0}^\infty A^k\) is an \(\R\)-linear map \(D \colon A \rightarrow A\) such that 
+\[
+    D(\w \cdot \tau) = (D \w) \cdot \tau + (-1)^k \w \cdot (D\tau)    
+\]
+where \(\w \in A^k\) and \(\tau \in A^\ell\).
+In the graded algebra \(A\) is called a \newterm{homogeneous element} of degree \(k\) if only comes from \(A^k\).
+An \newterm{antiderivation of degree \(m\)} is such that 
+\[
+    \deg D\w = \deg \w + m   
+\]
+On the graded algebra \(\Omega^* (M)\) there is a uniquely and intrinsically defined antiderivation called the \newterm{exterior derivative}, the application of which is called \newterm{exterior differentiation}
+\begin{definition}{Exterior derivative}{}
+    An \newterm{exterior derivative} on a manifold \(M\) is an \(\R\)-linear map
+    \[
+        D \colon \Omega^*(M)    \rightarrow \Omega^*(M)
+    \]
+    such that 
+    \begin{enumerate}
+        \item \(D\) is an antiderivation of degree 1
+        \item \(D \circ D = 0\)
+        \item if \(f\) is a \(\cinf\) function and \(X\) a \(\cinf\) vector field on \(M\), then 
+        \[ (Df)(X) = Xf \]
+    \end{enumerate}
+    Condition 3 says that on 0-forms an exterior derivatives agrees with the differential \(\dif f\).
+\end{definition}
+
+\subsubsection{Exterior Derivative on a Coordinate Chart}
+
+Let \(U, x^1, \dots, x^n\) be a coordinate chart on a manifold \(M\).
+Then for any \(k\)-form \(\w\) on \(U\), the exterior derivative \(D\) is 
+\begin{splitenv}
+    D\w &= \sum_I (D a_I) \wedge \dif x^I + \sum_I a_I (D \dif x^I) \\ 
+    &= \sum_I (D a_I) \wedge \dif x^I \\ 
+    &= \sum_I \sum_j \pdv{a_I}{x^j} \dif x^j \wedge \dif x^I
+\end{splitenv}
+Like the derivative of a function on \(\R^n\), an antiderivation \(D\) on \(\Omega^* (M)\) has the property that for a \(k\)-form \(\w\), the value of \(D\w\) at a point \(p\) depends only on the values of \(\w\) in a neighborhood of \(p\). 
+To make this precise we define \newterm{local operators}.
+
+An \newterm{endomorphism} of a vector space \(W\) is often called an \newterm{operator} on \(W\).
+For example if \(W = \cinf(\R)\) is the vector space of \(\cinf\) functions on \(\R\), then the derivative \(\dv{x}\) is an operator on \(W\):
+\[
+    \dv{x} f(x) = f'(x)
+\]
+The derivative has the property that the value of \(f'(x)\) at a point \(p\) depends only on the values of \(f\) in a small neighborhood of \(p\); i.e. if \(f = g\) on an open set \(U \subset \R\), then \(f' = g'\) on \(U\). 
+In this sense the derivative is a \newterm{local operator} on \(\cinf(\R)\).
+
+\begin{definition}{Local operator}{}
+    An operator \(D \colon \Omega^*(M) \rightarrow \Omega^* (M)\) is said to be \textit{local} if for all \(k \geq 0\), whenever a \(k\)-form \(\w \in \Omega^k(M)\) restricts to 0 on an open set \(U\) in \(M\), then \(D\w \equiv 0\) on \(U\).
+    Equivalently \(D\) is local if for all \(k \geq 0 \), whenever two \(k\)-forms \(\w, \tau \in \Omega^k(M)\) agree on an open set \(U\), then \(D \w \equiv D \tau\) on \(U\).
+\end{definition}
+\begin{example}{Integral operator}{}
+    Define the integral operator 
+    \[
+        I \colon \cinf ([a,b]) \rightarrow \cinf ([a,b])
+    \] 
+    by 
+    \[
+        I(f) \coloneqq \int\limits_a^b f(t) \dif t   
+    \]
+    \(I\) is not a local operator, since the value of \(I(f)\) at any point \(p\) depends on the values of \(f\) over the entire interval \([a,b]\).
+\end{example}
+
+\begin{proposition}{}{}
+    Any antiderivation \(D\) on \(\Omega^*(M)\) is a local operator.
+\end{proposition}
+\begin{proof}
+    Suppose \(\w \in \Omega^k(M)\) and \(\w \equiv 0\) on an open subset \(U\).
+    It suffices to prove that \((D\w)_p = 0\).
+    Choose a \(\cinf\) bump function \(f\) at \(p\) supported in \(U\).
+    In particular, \(f \equiv 1\) in a neighborhood of \(p \in U\).
+    Then \(f \w \equiv 0\) on \(M\) (since \(q \in U\), then \(\w_q \equiv 0\) and if \(q \notin U\) then \(f(q) = 0\)).
+    Applying the antiderivation property of \(D\) to \(f\w\)
+    \[
+        0 = D(0) = D(f\w) = (Df) \wedge \w + (-1)^0 f \wedge (D \w)    
+    \]
+    Evaluating the right-hand side at \(p\), noting that \(\w_p =0\) and \(f(p) =1\), gives \(0 = (D\w)_p\).
+\end{proof}
+
+\subsubsection{Existence of an Exterior Derivative on a Manifold}
+
+Define on a chart \(U, x^1, \dots, x^n\)
+\[
+    \dif_U \w = \sum \dif a_I \wedge \dif x^I    
+\]
+Then define 
+\[
+    (\dif \w)_p \coloneqq (\dif_U \w)_p   
+\]
+and we can prove that \((\dif \w)_p\) is independent of the chart (using transition functions).
+As \(p\) varies over all points of \(M\), this defines an operator 
+\[
+    \dif \colon \Omega^* (M)    \rightarrow \Omega^* (M)
+\]
+
+\subsubsection{Exterior Differentiation Under a Pullback}
+
+The pullback of differential forms commutes with the exterior derivative.
+This fact, and the preservation of the wedge product by the pullback, is a cornerstone of a calculations involving the pullback.
+
+\begin{proposition}{Commutation of the pullback with \(\dif\)}{}
+    Let \(F \colon N \rightarrow M\) be a smooth map of manifolds.
+    If \(\w \in \Omega^k(M)\), then \(\dif F^* \w = F^* \dif \w\).
+\end{proposition}
+\begin{corollary}{}{}
+    If \(U\) is an open subset of a manifold \(M\) and \(\w \in \Omega^k(M)\), then
+    \[
+        \evalat[\big]{\dif \w}{U} = \dif \left( \evalat[\big]{\w}{U} \right)
+    \]
+\end{corollary}
+\begin{example}{}{}
+    Let \(U\) be the open set \((0, \infty) \times (0 , 2 \pi)\) in the \((r, \theta)\)-plane \(\R^2\).
+    Define \(F \colon U \subset \R^2 \rightarrow \R^2\) by 
+    \[
+        F(r, \theta) = (r \cos \theta, r \sin \theta)    
+    \]
+    If \((x,y)\) are the standard coordinates on the target \(\R^2\), compute the pullback \(F^* (\dif x \wedge \dif y)\):
+    \begin{splitenv}
+        F^* &= \dif F^* x \\ 
+        &= \dif (x \circ F)  \\ 
+        &= \dif (r \cos \theta) \\ 
+        &= (\cos \theta) \dif r - r \sin \theta \dif \theta
+    \end{splitenv}
+    and similarly 
+    \[
+        F^* \dif y = (\sin \theta) \dif r + r \cos \theta \dif \theta
+    \]
+    Then since the pullback commutes with the wedge product 
+    \begin{splitenv}
+        F^* (\dif x \wedge \dif y) &= (F^* \dif x) \wedge (F^* \dif y) \\ 
+        &= \left[ (\cos \theta) \dif r - r \sin \theta \dif \theta \right] \wedge \left[ (\sin \theta) \dif r + r \cos \theta \dif \theta \right] \\ 
+        &= \left( r \cos^2 \theta + r \sin^2 \theta \right) \dif r \wedge \dif \theta \\ 
+        &= r \dif r \wedge \dif \theta
+    \end{splitenv}
+\end{example}
+
+\begin{proposition}{}{}
+    If \(F \colon N \rightarrow M\) is a \(\cinf\) map of manifolds and \(\w\) is a \(\cinf\) \(k\)-form on \(M\), then \(F^* \w\) is a \(\cinf\) \(k\)-form on \(N\).
+\end{proposition}
+
+In summary, if \(F \colon N \rightarrow M\) is a \(\cinf\) map of manifolds, then the pullback map \(F^* \colon \Omega^*(M) \rightarrow \Omega^*(N)\) is a \newterm{morphism of differential graded algebras}, i.e. a degree-preserving algebra homomorphism that commutes with the differential.
+
+\subsection{The Lie Derivative and Interior Multiplication}
+
+\subsubsection{The Lie Derivative of a Vector Field}
+
+The problem with generalizing the derivative 
+\[
+    f'(p) = \lim_{t \rightarrow 0} \frac{f(p+t) - f(p)}{t}
+\]
+to the derivative of a vector field \(Y\) on a manifold \(M\) is that at two nearby points \(p,q\) the tangent vectors \(Y_p, Y_q\) are in different vector spaces \(T_p M, T_q M\) (and so it is not possible to compare them by subtracting one from the other).
+\textbf{One way to get around this difficulty is to use the local flow of another vector field \(X\) to transport \(Y_q\) to the tangent space \(T_p M\) at \(p\)}.
+This leads to the definition of the \newterm{Lie derivative of a vector field}.
+
+Recall that for any smooth vector field \(X\) on \(M\) and point \(p \in M\), there is a neighborhood \(U\) of \(p\) on which the vector field has a \newterm{local flow} (integrate the ODE in the neighborhood); 
+\[
+    \phi \colon (-\varepsilon, \varepsilon) \times U \rightarrow M     
+\]
+such that \(\phi_t (q) \coloneqq \phi(t,q)\).
+Then 
+\begin{splitenv}
+    \pdv{t} \phi_t (q) &= X_{\phi_t(q)} \\ 
+    \phi_0(q) &= q
+\end{splitenv}
+In other words, for each \(q \in U\), the curve \(\phi_t(q)\) is an integral curve of \(X\) with initial point \(q\).
+The local flow satisfies the property 
+\[
+    \phi_s \circ \phi_t = \phi_{s+t}    
+\]
+Consequently, for each \(t\) the map \(\phi_t \colon U \rightarrow \phi_t (U)\) is a diffeomorphism onto its image, with a \(\cinf\) inverse \(\phi_{-t}\):
+\begin{splitenv}
+    \phi_{-t} \circ \phi_t &= \phi_0 = 1 \\ 
+    \phi_t \circ \phi_{-t} &= phi_0 = 1
+\end{splitenv}
+
+Let \(Y\) be a \(\cinf\) vector field on \(M\).
+To compare the values of \(Y\) at \(\phi_t(q)\) and at \(p\), we use the diffeomorphism 
+\[
+    \phi_{-t} \colon \phi_t(U) \rightarrow U
+\]
+to push \(Y_{\phi_t(p)}\) back to \(T_p M\).
+\loadfig{liederivative}
+\begin{definition}{Lie derivative}{}
+    For \(X,Y \in \mathfrak{X}(M)\) (vector space of vector fields on \(M\)) and \(p \in M\), let 
+    \[
+        \phi \colon (-\varepsilon, \varepsilon) \times U \rightarrow M  
+    \]
+    be a local flow of \(X\) on a neighborhood \(U\) of \(p\).
+    Define the \newterm{Lie derivative \(\mathcal{L}_X Y\) of \(Y\)} with respect to \(X\) at \(p\) to be the vector 
+    \begin{splitenv}
+        (\mathcal{L}_X Y)_p &\coloneqq \lim_{t \rightarrow 0} \frac{(\phi_{-t})_*(Y_{\phi_t(p)}) - Y_p}{t} \\ 
+        & = \lim_{t \rightarrow 0} \frac{((\phi_{-t})_* Y)_p - Y_p}{t} \\
+        &= \evalat[\bigg]{\dv{t}}{t=0} ((\phi_{-t})_* Y)_p
+    \end{splitenv}
+    where \((\phi_{-t})_*(Y_{\phi_t(p)})\) is the pushforward of \(Y_{\phi_t(p)}\) by \(\phi_{-t}\) i.e. transport \(Y_{\phi_t(p)}\) back to \(p\) by \(\phi_{-t}\).
+    See figure~\ref{fig:liederivative}.
+\end{definition}
+In this definition the limit is taken in the finite dimensional vector space \(T_p M\).
+For the derivative to exist, it suffices that \(\{ (\phi_{-t})_* Y \}\)) be a smooth family of vector fields on \(M\).
+
+Let \(\phi_t^i\) \(\phi^i\) be the \(i\)th components of \(\phi_t\) and \(\phi\) respectively.
+Then 
+\[
+    \phi_t^i (p) = \phi^i (t,p) = (x^i \circ \phi) (t,p)
+\]
+Relative to the frame
+\[
+    \left\{ \pdv{}{x^j} \right\}    
+\]
+the differential \(\phi_{*,t}\) at \(p\) is represented by the Jacobian matrix 
+\[
+    \left[ \evalat[\bigg]{\pdv{\phi_t^i}{x^j}}{p} \right] = \left[ \evalat[\bigg]{\pdv{\phi^i}{x^j}}{t,p} \right]
+\]
+This means that 
+\[
+    \phi_{t, *} \left( \evalat[\bigg]{\pdv{}{x^j}}{p}  \right) = \sum_i \evalat[\bigg]{\pdv{\phi^i}{x^j}}{t,p} \evalat[\bigg]{\pdv{}{x^i}}{\phi_t(p)}  
+\]
+Thus, if \(Y = \sum b^j \prt{}{x^j}\), then 
+\begin{splitenv}
+    (\phi_{-t})_* \left( Y_{\phi_t(p)}  \right) &= \sum_j b^j \phi_t(p) (\phi_{-t})_*  \left( \evalat[\bigg]{\pdv{}{x^j}}{\phi_t(p)}  \right) \\ 
+    &= \sum_{i,j} b^j \phi_t(p) \evalat[\bigg]{\pdv{\phi^i}{x^j}}{-t, p} \evalat[\bigg]{\pdv{}{x^i}}{p}
+\end{splitenv}
+When \(X,Y\) are \(\cinf\) vector fields on \(M\), both \(\phi^i, b^j\) are \(\cinf\) functions.
+The above shows that \( \{ (\phi_{-t})_* Y \} \) is a smooth family of vector fields on \(M\).
+It follows that the Lie derivative \(\mathcal{L}_X Y\) exists and is given in local coordinates by 
+\begin{splitenv}
+    (\mathcal{L}_X Y)_p &= \evalat[\bigg]{\dv{t}}{t=0} (\phi_{-t})_* \left( Y_{\phi_t(p)} \right) \\
+    &= \sum_{i,j} \evalat[\bigg]{\pdv{t}}{t=0} \left( b^j(\phi_t(p)) \evalat[\bigg]{\pdv{\phi^i}{x^j}}{-t,p} \right) \evalat[\bigg]{\pdv{x^i}}{p}
+\end{splitenv}
+but in fact the Lie derivative of a vector field is nothing new:
+\begin{proposition}{}{}
+    If \(X,Y\) are \(\cinf\) vector fields on a manifold \(M\), then the Lie derivative \(\mathcal{L}_X Y\) coincides with the Lie bracket \([X,Y]\).
+\end{proposition}
+
+\subsubsection{The Lie Derivative of a Differential Form}
+
+Let \(X\) be a smooth vector field and \(\w\) a smooth \(k\)-form on a manifold \(M\).
+Fix a point \(p \in M\) and let \(\phi_t \colon U \rightarrow M\) be a flow generated by \(X\) in a neighborhood \(U\) of \(p\).
+The Lie derivative of a differential form is similar to that of the Lie derivative of a vector field.
+The difference is, instead of pushing a vector at \(\phi_t(p)\) to \(p\) via \((\phi_{-t})_*\), we now pull \(\w_{\phi_t(p)}\) back to \(p\) via \(\phi_t^*\).
+
+\begin{definition}{Lie derivative of a differential form}{}
+    For \(X\) a smooth vector field and \(\w\) a smooth \(k\)-form on a manifold \(M\), the \newterm{Lie derivative \(\mathcal{L}_X \w\)} at \(p \in M\) is
+    \begin{splitenv}
+        (\mathcal{L}_X \w)_p &\coloneqq \lim_{t\rightarrow 0} \frac{\phi_t^* (\w_{\phi_t(p)}) -\w_p}{t} \\ 
+        &= \lim_{t\rightarrow 0} \frac{(\phi_t^* \w)_p -\w_p}{t} \\ 
+        &= \evalat[\bigg]{\dv{t}}{t=0} (\phi_t^* \w)_p 
+    \end{splitenv}
+\end{definition}
+\begin{proposition}{}{}
+    If \(f\) is a \(\cinf\) function and \(X\) a \(\cinf\) vector field on \(M\), then \(\mathcal{L}_X f = X f\).
+\end{proposition}
+
+\subsubsection{Interior Multpilication}
+
+\begin{definition}{Interior Multiplication/Contraction}{}
+    If \(\beta\) is a \(k\)-covector on a vector space \(V\) and \(v \in V\), for \(k \geq 2\)
+    the \newterm{interior multiplication} or \newterm{contraction} of \(\beta\) with \(v\) is the \(k-1\)-covector \(\iota_v \beta\) defined by 
+    \[
+        (\iota_v \beta) (v_2, \dots, v_k) = \beta(v, v_2, \dots, v_k)  
+    \]
+    i.e. plug \(v\) into the first \(\beta\) slot.
+\end{definition}
+\begin{proposition}{}{}
+    For 1-covectors \(\alpha^1, \dots, \alpha^k\) on a vector space \(V\) and \(v \in V\)
+    \begin{multline}
+        \iota_v (\alpha^1 \wedge \cdots \wedge \alpha^k) = \\ \sum_{i=1}^k (-1)^{i-1} \alpha^i (v) \alpha^1 \wedge \cdots \wedge \widehat{\alpha^i} \wedge \cdots \wedge \alpha^k  
+    \end{multline}
+    where \(\widehat{\alpha^i}\) means that \(\alpha^i\) is omitted from the wedge product.
+\end{proposition}
+\begin{proposition}{}{}
+    For \(v \in V\), let 
+    \[
+        \iota_v \colon \bigwedge^* (V^\vee) \rightarrow \bigwedge^{*-1} (V^\vee)
+    \]
+    be interior multiplication by \(v\).
+    Then
+    \begin{enumerate}
+        \item \(\iota_v \circ \iota_v = 0\)
+        \item for \(\beta \in \bigwedge^k (V^\vee)\) and \(\gamma \in \bigwedge^\ell (V^\vee)\)
+        \[
+            \iota_v (\beta \wedge \gamma) = (\iota_v \beta) \wedge \gamma + (-1)^k \beta \wedge \iota_v \gamma    
+        \]
+    \end{enumerate}
+    In other words, \(\iota_v\) is an antiderivation of degree -1 whose square is zero.
+\end{proposition}
+
+Let \(\mathcal{F}\) be the ring \(\cinf(M)\) of \(\cinf\) functions on the manifold \(M\).
+Because \(\iota_v \w\) is a point operator --- that is, it's value at \(p\) depends only on \(X_p\) and \(\w_p\) --- it is \(\mathcal{F}\)-linear in either argument. 
+This means that \(\iota_X \w\) is additive in each argument and moreover, for \(f \in \mathcal{F}\)
+\begin{enumerate}
+    \item \(\iota_{f X} \w = f \iota_X \w\)  
+    \item \(\iota_X (f \w) = f \iota_X \w\)
+\end{enumerate}
+
+\subsubsection{Properties of the Lie Derivative}
+
+\begin{theorem}{}{}
+    \begin{enumerate}
+        \item The Lie derivative \(\mathcal{L}_X \colon \Omega^*(M) \rightarrow \Omega^*(M)\) is a derivation.
+        \item The Lie derivative commutes with the exterior derivative \(\dif\).
+        \item \textbf{Cartan homotopy formula}: \(\mathcal{L}_X = \dif \circ \iota_X + \iota_X \circ \dif\).
+        \item \textbf{``Product'' formula}: For \(\w \in \Omega^k(M)\) and \(Y_1, \dots, Y_k \in \mathfrak{X}(M)\) 
+        \begin{multline}
+            \mathcal{L}_X(\w (Y_1, \dots, Y_k)) = (\mathcal{L}_X \w)(Y_1, \dots, Y_k) \\ 
+            + \sum_{i=1}^k \w(Y_1, \dots, \mathcal{L}_X Y_i, \dots, Y_k)  
+        \end{multline}
+    \end{enumerate}
+\end{theorem}
+\begin{theorem}{Global formula for the Lie derivative}{}
+    For a smooth \(k\)-form \(\w\) and smooth vector fields \(X,Y_1, \dots, Y_k\) on a manifold \(M\)
+    \begin{multline}
+        \mathcal{L}_X(Y_1, \dots, Y_k) = X(\w(Y_1, \dots, Y_k)) \\ 
+        -  \sum_{i=1}^k \w(Y_1, \dots, [X,Y_i], \dots, Y_k)  
+    \end{multline}
+\end{theorem}
+\begin{proposition}{}{}
+    If \(\w\) is a \(\cinf\) 1-form and \(X,Y\) are \(\cinf\) vector fields on a manifold \(M\), then 
+    \[
+        (\dif \w)(X,Y) = X \w(X) - \w ([X,Y])
+    \]
+\end{proposition}
+\begin{theorem}{Global formula for the exterior derivative}{}
+    Assume \(k \geq 1\). 
+    For a smooth \(k\)-form \(\w\) and smooth vector fields \(Y_0, Y_1, \dots, Y_k\) on a manifold \(M\)
+    \begin{multline*}
+        (\dif \w)(Y_0, \dots, Y_k) = \sum_{i=0}^k (-1)^i Y_i \w(Y_0, \dots, \widehat{Y_i}, \dots, Y_k) \\ 
+        + \sum_{0 \leq i < j \leq k} (-1)^{i+j} \w([Y_i, Y_j], Y_0, \dots, \widehat{Y_i}, \dots, \widehat{Y_j}, \dots, Y_k)
+    \end{multline*}
+\end{theorem}
+
+\subsection{Integration}
