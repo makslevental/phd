@@ -3134,3 +3134,38 @@ For example, unless otherwise specified, \(\R^n\) is oriented by \(\dif x^1 \wed
 \end{definition}
 
 \subsection{Manifolds with Boundary}
+
+If \(M\) is a manifold with boundary, the its boundary \(\partial M\) turns out to be a manifold of dimension one less and \textbf{without boundary}. 
+Moreover, an orientation on \(M\) induces an orientation on \(\partial M\); the choice of the induced orientation on \(\partial M\) is a matter of convention, guided by the desire to make Stokes' theorem sign-free. 
+Of the ways to describe the boundary orientation, two standout for their simplicity
+\begin{enumerate}
+    \item contraction of an orientation form on \(M\) with an outward-pointing vector field on \(\partial M\)
+    \item "outward vector first"
+\end{enumerate}
+
+\begin{definition}{Closed upper half-space}{}
+    Define the \newterm{closed upper half-space}
+    \[
+        \mathcal{H} \coloneqq \left\{ (x^1, \dots, x^n) \in \R^n | x^n \geq 0 \right\}
+    \]
+    with the subspace topology inherited from \(\R^n\). 
+    The points such that \(x^n >0 \), denoted \((\mathcal{H}^n)^\circ\), are called \newterm{interior points} and the points such that \(x^n = 0\), denoted \(\partial \mathcal{H}^n\), are called \newterm{boundary points}.
+\end{definition}
+\newcommand{\HH}{\mathcal{H}}
+In \(\HH^n\) one may distinguish between open subsets that intersect the boundary and open subsets that do not intersect the boundary.
+Both are still considerd open sets (clopen?).
+\begin{definition}{}{}
+    A topological space is \newterm{locally \(\HH^n\)} if every point \(p \in M\) has a neighborhood \(U\) homeomorphic to an open subset of \(\HH^n\).
+\end{definition}
+\begin{definition}{Topological \(n\)-manifold with boundary}{}
+    A topological \(n\)-manifold with boundary is second countable\tablefootnote{A topological space \(T\) is second-countable if there exists some countable collection \({\displaystyle {\mathcal {U}}=\{U_{i}\}_{i=1}^{\infty }}\) of open subsets of \(T\) such that any open subset of \(T\) can be written as a union of elements of some subfamily of \({\mathcal {U}}\).}, Hausdorff\tablefootnote{A Hausdorff space, separated space or \(T_2\) space is a topological space where for any two distinct points there exists a neighbourhood of each which is disjoint from the neighbourhood of the other.} topological space that is locally \(\HH^n\).
+\end{definition}
+
+Let \(M\) be a topological \(n\)-manifold with boundary.
+For \(n \geq 2\), a chart \(U, \phi\) encodes 
+\[
+    \phi \colon U \rightarrow \phi(U) \subset \HH^n   
+\]
+A \(\cinf\) \newterm{manifold with boundary} is a topological manifold with boundary together with a maximal atlas.
+
+A point \(p \in M\) is called an \newterm{interior point} if in some chart \((U, \phi)\), the point \(\phi(p)\) is an interior point of \(\HH^n\).
