@@ -2940,13 +2940,197 @@ This means that \(\iota_X \w\) is additive in each argument and moreover, for \(
     \end{multline*}
 \end{theorem}
 
-\subsection{Integration}
+\subsection{Orientation}
 
 On a manifold one integrates not functions but differential forms. 
 For simplicity we will discuss integration of smooth forms over a submanifold.
 For integration over a manifold to be well defined, the manifold needs to be oriented.
 
-\subsubsection{Orientations}
-
 An orientation of a finite-dimensional real vector space is simply an equivalence class of ordered bases, two ordered bases being equivalent if and only if their change of basis matrix has positive determinant. 
 By its alternating nature, a multicovector of top degree turns out to represent perfectly an orientation of a vector space.
+
+An orientation on a manifold is a choice of an orientation for each tangent space (satisfying a continuity condition).
+An orientation on \(n\)-manifold can also be given by an equivalence class of \(\cinf\) nowhere-vanishing \(n\)-forms, two such forms being equivalent iff one is a multiple of the other by a positive function.
+Finally, a third way to represent an orientation on a manifold is through an \newterm{oriented atlas}, an atlas in which any two overlapping charts are related by a transition function with everywhere positive Jacobian determinant.
+
+\subsubsection{Orientations of a Vector Space}
+
+On \(\R^3\) is either right-handed or left-handed.
+For any two ordered bases \((u_1, u_2)\) and \((v_1, v_2)\) for \(\R^2\), there is a unique nonsingular \(2 \times 2\) matrix \(A = \left[ a_j^i \right]\) such that 
+\[
+    u_j = \sum_{i=1}^2  a_j^i  v_i    
+\]
+called the \newterm{change-of-basis matrix} from \((v_1, v_2)\) to \((u_1, u_2)\).
+In matrix notation
+\[
+    [u_1 u_2] = [v_1 v_2] A    
+\]
+Two ordered bases are \newterm{equivalent} if the change-of-basis \(A\) has positive determinant; this partitions ordered bases into two equivalence classes and each class is called an \newterm{orientation}.
+
+\subsubsection{Orientations and \(n\)-covectors}
+
+Instead of using an ordered basis, we can also use an \(n\)-covector to specify orientation of an \(n\)-dimensional vector space \(V\).
+This approach is based on the fact that the space \(\bigwedge^n (V^\vee)\) of \(n\)-covectors on \(V\) is one-dimensional.
+\begin{lemma}{}{}
+    Let \(u_1, \dots, u_n\) and \(v_1, \dots, v_n\) be vectors in a vector space \(V\).
+    Suppose 
+    \[
+        u_j = \sum_{i=1}^n v_i a_j^i    
+    \]
+    If \(\beta\) is an \(n\)-covector on \(V\), then 
+    \[
+        \beta(u_1, \dots, u_n) = (\det A) \beta(v_1, \dots, v_n)   
+    \]
+\end{lemma}
+\begin{corollary}{}{}
+    If \(u_1, \dots, u_n\) and \(v_1, \dots, v_n\) are ordered bases of a vector space \(V\), then 
+    \begin{splitenv}
+        \operatorname{sgn}\left( \beta(u_1, \dots, u_n) \right)  &= \operatorname{sgn} \left( \beta(v_1, \dots, v_n) \right) \\ 
+        & \iff \det A > 0 \\ 
+        & \iff u_1, \dots, u_n \text{ and } v_1, \dots, v_n \\
+        &\text{ are equivalent ordered bases}
+    \end{splitenv}
+\end{corollary}
+
+We say that \(\beta\) determines or specifies the orientation \((v_1, \dots, v_n)\) if \(\beta(v_1, \dots, v_n) > 0\).
+By the corollary this is well-defined (independent of basis equivalence class representative).
+Moreover, \(\beta, \beta'\) determine the same orientation iff \(\beta = a \beta'\) for some positive real number \(a\).
+To that end we define the equivalence relation
+\[
+    \beta \sim \beta' \iff \beta = a \beta' \quad a >0    
+\]
+Thus, an orientation on \(V\) can be given by an equivalence class of \textbf{nonzero} \(n\)-covectors on \(V\).
+A linear isomorphism \(\bigwedge^n (V^\vee) \cong \R\) identifies the set of nonzero \(n\)-covectors on \(V\) with \(\R - \{0\}\), which has two connected components.
+Two nonzero \(n\)-covectors \(\beta, \beta'\) on \(V\) are in the same component iff \(\beta = a \beta'\) for some real number \(a > 0\).
+Thus, each connected component of \(\bigwedge^n (V^\vee) - \{0\}\) determines an orientation of \(V\).
+
+\begin{example}{}{}
+    Let 
+    \[
+        \left\{ \evalat[\bigg]{\pdv{}{x}}{p}, \dots, \evalat[\bigg]{\pdv{}{y}}{p} \right\}    
+    \] 
+    be the standard basis for the tangent space \(T_p \R^2\) and \((\dif x)_p, (\dif y)_p\) its dual basis. 
+    Then \((\dif x \wedge \dif y)_p\) determines the counterclockwise orientation on \(T_p \R^2\).
+\end{example}
+
+\subsubsection{Orientations on a Manifold}
+
+To orient a manifold, we orient the tangent space at each point in a coherent way (so that the orientation doesn't change abruptly anywhere).
+Recall that a \newterm{frame} is \(n\)-tuple \(X_1, \dots, X_n\) of possibly discontinuous vector fields on \(U\) such that at every point in \(U\), the \(n\)-tuple \(X_{1,p}, \dots, X_{n,p}\) of vectors is an ordered basis for the tangent space \(T_p M\).
+A \newterm{global frame} is a frame defined on the entire manifold, while a \newterm{local frame} is defined only on some neighborhood of \(p\).
+We introduce an equivalence relation on frames on \(U\):
+\begin{splitenv}
+    (X_1, \dots, X_n) &\sim (Y_1, \dots Y_n) \\ 
+    & \iff \\ 
+    (X_{1,p}, \dots, X_{n,p}) &\sim (Y_{1,p}, \dots Y_{n,p})
+\end{splitenv}
+i.e. if 
+\[
+    Y_j = \sum_i a_j^i(p) X_i    
+\]
+then the two frames \((X_1, \dots, X_n)\) and \((Y_1, \dots Y_n)\) are in the same equivalence class iff \(A\) has positive determinant at every point in \(U\).
+A \newterm{pointwise orientation} assigns to each point an orientation \(\mu_p\) of the tangent space \(T_p M\).
+In terms of frames, a pointwise orientation is an equivalence class of (possibly) discontinuous frames on \(M\).
+A pointwise orientation is said to be \newterm{continuous} at \(p\) if \(p\) has a neighborhood \(U\) on which \(\mu\) is represented by a continuous frame.
+\(\mu\) is \newterm{continuous} if it is continuous at each point.
+Note that a continuous pointwise orientation need not be represented by a continuous global frame; it suffices that it be locally representable by a continuous local frame.
+A continuous pointwise orientation on \(M\) is called an \newterm{orientation} on \(M\).
+A manifold is said to be \newterm{orientable} if it has an orientation; a manifold together with an orientation is said to be \newterm{oriented}.
+
+\begin{example}{}{}
+    \(\R^n\) is orientable with orientation given by continuous global frame 
+    \[
+        \left[ \pdv{}{r^1}, \dots, \pdv{}{r^n} \right]    
+    \]
+\end{example}
+\begin{example}{The open M{\"o}bius band}{}
+    Let \(R\) be the rectange 
+    \[
+        R \coloneqq \{ (x,y)\in \R^2 | 0 \leq x \leq 1, -1 < y < 1 \}    
+    \]
+    The \newterm{open M{\"o}bius band} \(M\) is the quotient of \(R\) by the equivalence relation 
+    \[
+        (0, y) \sim (1, -y)
+    \]
+    See figure~\ref{subfig:mobius}.
+    The interior of \(R\) is the open rectange
+    \[
+        R \coloneqq \{ (x,y)\in \R^2 | 0 < x < 1, -1 < y < 1 \}    
+    \]
+    Suppose the M{\"o}bius band is orientable; an orientation on \(M\) restricts to an orientation on \(U\).
+    First assume the orientation on \(U\) to be given by \((e_1, e_2)\).
+    By continuity the orientations at points \((0, 0)\) and \((1,0)\) are also \((e_1, e_2)\).
+    But under the quotient the ordered basis \((e_1, e_2)\) at \((1,0)\) maps to \((e_1, -e_2)\) at \((0,0)\).
+    Thus, this contradiction proves that the M{\"o}bius band is not orientable.
+\end{example}
+% \loadfig{mobius}
+\begin{proposition}{}{}
+    A connected, orientable manifold \(M\) has exactly two orientations.
+\end{proposition}
+
+\subsubsection{Orienations and Differential Forms}
+
+In practice it is easier to manipulate the nowhere-vanishing top forms that specify a pointwise orientation.
+We show that the continuity condition on a pointwise orientations translates to a \(\cinf\) condition on nowhere-vanishing top forms.
+
+\begin{lemma}{}{}
+    A pointwise orientation \(\left[(X_1, \dots, X_n)\right]\) on a manifold \(M\) is continuous iff each point \(p \ in M\) has a coordinate neighborhood \(U, x^1, \dots, x^n\) on which the function 
+    \[
+        (\dif x^1 \wedge \cdots \wedge \dif x^n)(X_1, \dots, X_n) > 0   
+    \]
+\end{lemma}
+\begin{theorem}{ }{}
+    A manifold \(M\) of dimension \(n\) is orientable iff there exists a \(\cinf\) nowhere-vanishing \(n\)-form on \(M\).
+\end{theorem}
+
+If \(\w, \w'\) are two nowhere-vanishing \(\cinf\) \(n\)-forms on a manifold \(M\) of dimension \(n\), then \(\w = f \w'\) for some nowhere-vanishing function \(f\).
+Locally, on a chart \((U, x^1, \dots, x^n)\),
+\begin{splitenv}
+    \w &= h(p) \dif x^1 \wedge \cdots \wedge \dif x^n  \\
+    \w' &= g(p) \dif x^1 \wedge \cdots \wedge \dif x^n  \\
+\end{splitenv}
+where \(h,g\) are \(\cinf\) nowhere-vanishing functions on \(U\).
+Therefore \(f = h/g\) is also a \(\cinf\) nowhere-vanishing function on \(U\).
+Since \(U\) is an arbitrary chart, \(f\) is \(\cinf\) and nowhere-vanishing on all of \(M\).
+On a \newterm{connected} manifold, such a function is either everywhere positive or everywhere negative (since it never crosses 0).
+In this the nowhere-vanishing \(\cinf\) \(n\)-forms on a connected orientable manifold are partitioned into two equivalence classes by the equivalence relation 
+\[
+    \w \sim \w' \iff \w = f \w' \quad f > 0    
+\]  
+
+To each orientation \(\mu = \left[ (X_1, \dots, X_n) \right]\) on a connected orientable manifold, we associate the equivalence class of a \(\cinf\) nowhere-vanishing \(n\)-form \(\w\) such that \(\w(X_1, \dots, X_n) > 0\). 
+If \(\mu \mapsto [\w]\), then \(-\mu \mapsto [-\w]\). 
+This sets up a 1-1 correspondence between orientations on \(M\) and equivalence classes of \(\cinf\) nowhere-vanishing \(n\)-forms.
+If \(\w\) is such that \(\w(X_1, \dots, X_n)>0\), we say that \(\w\) determines or specifies the orientation \(\left[ (X_1, \dots, X_n) \right]\) and we call \(\w\) an \newterm{orientation form} on \(M\).
+An oriented manifold can be described by a pair \(M, [\w]\), where \([\w]\) is the equivalence class of an orientation form. 
+For example, unless otherwise specified, \(\R^n\) is oriented by \(\dif x^1 \wedge \cdots \wedge \dif x^n\).
+
+\begin{definition}
+    A diffeomorphism 
+    \[
+        F \colon (N, [\w_N]) \rightarrow (M, [\w_M]) 
+    \]
+    of oriented manifolds is said to be \newterm{orientation-preserving} if \([F^* \w_M] = [\w_N]\); it is \newterm{orientation-reversing} if \([F^* \w_M] = [-\w_N]\).
+\end{definition}
+\begin{proposition}{}{}
+    Let \(U, V\) be open subsets of \(\R^n\), both with the standard orientation inherited from \(\R^n\). A diffeomorphism \(F \colon U \rightarrow V\) is orientation preserving iff the Jacobian determinant is everywhere positive on \(U\).
+\end{proposition}
+
+\subsubsection{Orientations and Atlases}
+
+\begin{definition}{}{}
+    An atlas on \(M\) is said to be oriented if for any two overlapping charts \((U, x^1, \dots, x^n)\) and \((V, y^1, \dots, y^n)\) of the atlas, the Jacobian determinant is everywhere positive on \(U \cap V\).
+\end{definition}
+\begin{theorem}{}{}
+    A manifold \(M\) is orientable iff it has an oriented atlas.
+\end{theorem}
+\begin{definition}{}{}
+    Two oriented atlases \(\{ (U_\alpha, \phi_\alpha) \}\) and \(\{ (V_\beta, \psi_\beta) \}\) on a manifold \(M\) are said to be equivalent if the transition functions 
+    \[
+        \phi_\alpha \circ \psi_\beta^{-1} \colon \psi_\beta (U_\alpha \cap V_\beta) \rightarrow \phi_\alpha (U_\alpha \cap V_\beta)
+    \]
+    have positive Jacobian determinant for all \(\alpha, \beta\).
+    This induces an equivalence relation on the set of oriented atlases.
+\end{definition}
+
+\subsection{Manifolds with Boundary}
