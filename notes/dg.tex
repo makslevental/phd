@@ -3169,3 +3169,110 @@ For \(n \geq 2\), a chart \(U, \phi\) encodes
 A \(\cinf\) \newterm{manifold with boundary} is a topological manifold with boundary together with a maximal atlas.
 
 A point \(p \in M\) is called an \newterm{interior point} if in some chart \((U, \phi)\), the point \(\phi(p)\) is an interior point of \(\HH^n\).
+Similarly, \(p\) is a \newterm{boundary point} of \(M\), denoted \(\partial M\) if \(\phi(p)\) is a boundary point of \(\HH^n\)
+
+% \newcommand{\norm}[1]{\lVert #1 \rVert}
+
+\begin{example}{Topological boundary versus manifold boundary}{}
+    Let \(A\) be the open unit disk in \(\R^2\)
+    \[
+        A \coloneqq \{ x \in \R^2 | \norm{x} < 1 \}    
+    \]
+    Then its topological boundary \(\operatorname{bd}(A)\) is the unit circle, while its manifold boundary \(\partial A\) is the empty set.
+    On the otherhand if \(B\) is the closed unit disk in \(\R^2\)
+    \[
+        A \coloneqq \{ x \in \R^2 | \norm{x} \leq 1 \}    
+    \]
+    then its topological boundary and its manifold boundary coincide.
+\end{example}
+\begin{example}{Topological interior versus manifold interior}{}
+    Let \(S\) be the upper half-plane \(\HH^2\) and let \(D\) be the subset 
+    \[
+        D \coloneqq \{ (x,y) \in \HH^2 | y \leq 1 \}    
+    \]
+    Then 
+    \[
+        \operatorname{int}(D) = \{(x,y) \in \HH^2 | 0 \leq y < 1\}   
+    \]
+    containing the \(x\)-axis, while the manifold interior of \(D\) is the set 
+    \[
+        D^\circ = \{ (x,y) \in \HH^2 \| 0 < y < 1 \}    
+    \]
+\end{example}
+
+To indicate the dependence of the topological interior of a set \(A\) on its ambient space \(S\), we might denote it by \(\operatorname{int}_S (A)\) instead of \(\operatorname{int}(A)\).
+Then, in the previous exapmle, the topological interior \(\operatorname{int}_{\HH^2}(D)\) of \(D \subset \HH^2\) is as above, but the topological interior \(\operatorname{int}_{\R^2}\) of \(D \subset \R^2\) coincides with \(D^\circ\).
+
+\subsubsection{The Boundary of a Manifold with Boundary}
+
+Let \(M\) be a manifold of dimension \(n\) with boundary \(\partial M\). 
+If \((U, \phi)\) is a chart on \(M\), we denote by 
+\[
+    \phi' \coloneqq \evalat[\big]{\phi}{U \cap \partial M}
+\]
+the restriction of the coordinate map \(\phi\) to the boundary.
+Since \(\phi\) maps boundary points to boundary points 
+\[
+    \phi' \colon U \cap \partial M \rightarrow \partial \HH^n = \R^{n-1}    
+\]
+Moreover, if \((U, \phi)\) and \((V, \psi)\) are two charts on \(M\), then 
+\[
+    \psi' \circ (\phi')^{-1} \colon \phi'(U \cap V \cap \partial M) \rightarrow \psi'(U \cap V \cap \partial M)   
+\]
+is \(\cinf\).
+Thus, an atlas \(\{ (U_\alpha, \phi_\alpha) \}\) for \(M\) induces on atlas 
+\[
+    \{ (U_\alpha \cap \partial M, \evalat[\big]{\phi_\alpha}{U_\alpha \cap \partial M}) \}
+\]  
+for \(\partial M\), making \(\partial M\) into a manifold of dimension \(n-1\) without boundary.
+
+\subsubsection{Outward-Pointing Vector Fields}
+
+Let \(M\) be a manifold with boundary and \(p \in \partial M\). 
+We say that a tangent vector \(X_p \in T_p (M)\) is \newterm{inward-pointing} if \(X_p \in T_p (\partial M)\) \textbf{and} there is a positive real number \(\varepsilon\) and a curve \(c \colon [0, \varepsilon) \rightarrow M\) such that \(c(0)=p, c((0, \varepsilon)) \subset M^\circ\), and \(c'(0) = X_p\).
+A vector \(X_p \in T_p (M)\) is \newterm{outward-pointing} if \(-X_p\) is inward-pointing.
+For example, on \(\HH^2\) and for \(p\) on the \(x\)-axis, the vector \(\evalat[\big]{\prt{}{y}}{p}\) is inward-pointing and the vector \(-\evalat[\big]{\prt{}{y}}{p}\) is outward-pointing.
+
+A \newterm{vector field along \(\partial M\)} is a function \(X\) that assigns to each point \(p \in \partial M\) a vector \(X_p\) in the tangent space \(T_p M\) (as opposed to \(T_p (\partial M)\)).
+In a coordinate neighborhood \((U, x^1, \dots, x^n)\) of \(p \in M\), such a vector field \(X\) can be written as a linear combination
+\[
+    X_q = \sum_i a^i(q) \evalat[\bigg]{\pdv{}{x^i}}{q} \quad q \in \partial M    
+\]
+In terms of local coordinates, a vector \(X_p\) is outward-pointing iff \(a^i(p) < 0\).
+
+\begin{proposition}{}{}
+    On a manifold \(M\) with boundary \(\partial M\), there is a smooth outward-pointing vector field along \(\partial M\).
+\end{proposition}
+
+\subsubsection{Boundary Orientation}
+
+\begin{proposition}{}{}
+    Let \(M\) be an oriented \(n\)-manifold with boundary.
+    If \(\w\) is an orientation form on \(M\) and \(X\) is a smooth outward-pointing vector field on \(\partial M\), then \(\iota_X \w\) is a smooth nowhere-vanishing \((n-1)\)-form on \(\partial M\).
+    Hence, \(\partial M\) is orientable.
+\end{proposition}
+
+We define the \newterm{boundary orientation on \(\partial M\)} to be the orientation with orientation form \(\iota_X \w\).
+
+\begin{proposition}{``outward vector first"}{}
+    Suppose \(M\) is an oriented \(n\)-manifold with boundary.
+    Let \(p \in \partial M\) and let \(X_p\) be an outward-pointing vector in \(T_p M\).
+    An ordered basis \((v_1, \dots, v_{n-1})\) for \(T_p (\partial M)\) represents the boundary orientation 
+    at \(p\) iff the ordered basis \((X_p, v_1, \dots, v_{n-1})\) for \(T_p M\) represents the orientation on \(M\) at \(p\).
+\end{proposition}
+This rule is summarized as ``outward vector first''.
+
+\begin{example}{The boundary orientation on \(\partial \HH^n\)}{}
+    An orientation form for the standard orientation on \(\HH^n\)  is 
+    \[
+        \w = \dif x^1 \wedge \cdots \wedge \dif x^n    
+    \]
+    A smooth outward-pointing vector field on \(\partial \HH^n\) is \(-\prt{}{x^n}\).
+    By definition, an orientation form for the boundary orientation on \(\partial \HH^n\) is given by the contraction 
+    \begin{splitenv}
+        \iota_{-\prt{}{x^n}} \w  &=  -\iota_{\prt{}{x^n}} (\dif x^1 \wedge \cdots \wedge \dif x^n) \\
+        &=  -(-1)^{n-1} \dif x^1 \wedge \cdots \wedge \dif x^{n-1} \wedge \iota_{\prt{}{x^n}}(\dif x^n) \\ 
+        &= (-1)^n \dif x^1 \wedge \cdots \wedge \dif x^{n-1}
+    \end{splitenv}
+    Thus, the boundary orientation on \(\partial\HH^2\), given by \(\dif x^1\), is the usual orientation of the real line \(\R\), and the boundary orientation on \(\partial\HH^3\), given by \(-\dif x^1 \wedge \dif x^2\), is the clockwise orientation in the \((x_1, x_2)\)-plane \(\R^2\)
+\end{example}
