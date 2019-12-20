@@ -3407,3 +3407,119 @@ Our approach to integration over a general manifold has several distinguishing f
     \item On a manifold of dimension \(n\), one can integrate only \(n\)-forms 
     \item The \(n\)-forms must have compact support
 \end{enumerate}
+
+Let \(M\) be an oriented manifold of dimension \(n\), with an oriented atlas \(\{ U_\alpha, \phi_\alpha \}\) giving the orientation of \(M\).
+Denote by \(\Omega_c^k (M)\) the vector space of \(\cinf\) \(k\)-forms with compact support on \(M\).
+Suppose \(\{ (U, \phi) \}\) is a chart in the atlas.
+If \(\w \in \Omega_c^k (M)\) is an \(n\)-form with compact support on \(U\), then because \(\phi \colon U \rightarrow \phi(U)\) is a diffeomorphism, \((\phi^{-1})^* \w\) is an \(n\)-form is an with compact support on the open subset \(\phi(U) \subset \R^n\).
+We define the integral of \(\w\) on \(U\) to be 
+\[
+    \int_U \coloneqq \int_{\phi(U)} (\phi^{-1})^* \w   
+\]
+If \((U, \psi)\) is another chart in the oriented atlas with the same \(U\), then \(\phi \circ \psi^{-1} \colon \psi^{-1} \rightarrow \phi(U)\) is an orientation-preserving diffeomorphism, and so 
+\begin{splitenv}
+    \int_{\phi(U)} (\phi^{-1})^* \w &= \int_{\psi(U)} (\phi \circ \psi^{-1})^* (\phi^{-1})^* \w \\ 
+    & = \int_{\psi(U)} (\psi^{-1})^* \w   
+\end{splitenv}
+Thus, the integral \(\int_U \w\) on a chart \(U\) of the atlas is well defined, independent of the choice of coordinates on \(U\).
+By the linearity of the integral on \(\R^n\), if \(\w, \tau \in \Omega_c^n (U)\), then 
+\[
+    \int_U \w + \tau = \int_U \w + \int_U \tau
+\]
+
+Let \(\Omega_c^n (M)\) and choose a partition of unity \(\{ \rho_\alpha \}\) subordinate to the open cover \(\{ U_\alpha \}\).
+Because \(\w\) has compact support and a partition has locally finite supports, all except finitely many \(\rho_\alpha \w\) are identitically zero.
+Therefore
+\[
+    \w = \sum_\alpha \rho_\alpha \w    
+\]
+is a finite sum.
+Then since 
+\[
+    \operatorname{supp}(\rho_\alpha \w) \subset \operatorname{supp}(\rho_\alpha) \subset \operatorname{supp}(\w)
+\]
+\(\operatorname{supp}(\rho_\alpha \w)\) is a closed subset of the compact set \(\operatorname{supp}(\w)\).
+Hence, \(\operatorname{supp}(\rho_\alpha \w)\) is compact.
+Since \(\rho_\alpha \w\) is an \(n\)-form with compact support in chart \(U_\alpha\), its integral
+\[
+    \int_{U_\alpha} \rho_\alpha \w   
+\]
+is defined.
+Therefore, we can define the integral of \(\w\) over \(M\) to be the finite sum 
+\[
+    \int_M \w \coloneqq \sum_\alpha \int_{U_\alpha} \rho_\alpha \w
+\]
+\begin{proposition}{}{}
+    Let \(\w\) be an \(n\)-form with compact support on an oriented manifold \(M\) of dimension \(n\).
+    If \(-M\) denotes the same manifold but with the opposite orientation, then 
+    \[
+        \int_{-M} \w = - \int_M \w
+    \]
+    Thus, reversing the orientation of \(M\) reverses the sign of an integral over \(M\).
+\end{proposition}
+Using partition functions to extends naturally to oriented manifolds with boundary but it's not practical for actual computation.
+To calculate explicitly integrals over an oriented \(n\)-manifold \(M\), it is best to consider integrals over a parameterized set.
+\begin{definition}{Parameterized set}{}
+    A \newterm{parameterized set} in an oriented \(n\)-manifold \(M\) is
+    \begin{enumerate}
+        \item a subset \(A\)
+        \item a \(\cinf\) map \(F \colon D \rightarrow M\) from a compact domain of integration to \(M\) such that \(A = F(D)\)
+        \item \(F\) restricts to an orientation-preserving diffeomorphism from \(\operatorname{int}(D) \rightarrow F(\operatorname{int}(D))\)
+    \end{enumerate}
+    Note that by smooth invariance of domain for manifolds, \(F(\operatorname{int}(D))\) is an open subset of \(M\).
+    The \(\cinf\) map \(F \colon D \rightarrow A\) is called a \newterm{parameterization} of \(A\).
+\end{definition}
+
+If \(A\) is a parameterized set in \(M\) with parameterization \(F\) and \(\w\) is a \(\cinf\) \(n\)-form on \(M\), not necessarily with compact support, then we define 
+\[
+    \int_A \w \coloneqq \int_D F^* \w    
+\]
+\begin{example}{Integral over a sphere}{}
+    In spherical coordinates, \(\rho\) is the distance \(\sqrt{x^2 + y^2 + z^2}\) of the point \((x,y,z) \in \R^3\) to the origin. 
+    \(\phi\) is the angle that the vector \(\langle x,y,z \rangle\) makes with the positive \(z\)-axis, and \(\theta\) is the angle that the vector \(\langle x,y \rangle\) in the \((x,y)\)-plane makes with the positive \(x\)-axis.
+    See figure~\ref{subfig:sphericalcoordinates}.
+    Let \(\w\) be the 2-form on the unit sphere \(S^2\) in \(\R^3\) given by
+    \[
+        \w \coloneqq \begin{cases}
+            \frac{\dif y \wedge \dif z}{x} & \text{for } x \neq 0 \\     
+            \frac{\dif z \wedge \dif x}{y} & \text{for } y \neq 0 \\     
+            \frac{\dif x \wedge \dif y}{z} & \text{for } z \neq 0 \\     
+        \end{cases}    
+    \]
+    Calculating \(\int_{S^2} \w\): in Riemannian geometry, it is shown that \(\w\) is the area form of the sphere \(S^2\) with respect to the Euclidean metric. Therefore, the integral is the surface area of the sphere.
+    The sphere \(S^2\) has a parameterization by spherical coordinates (see figure~\ref{subfig:paramspherical})
+    \[
+        F(\phi, \theta) \coloneqq (\sin \phi \cos \theta, \sin \phi \sin \theta, \cos \phi)
+    \]
+    on 
+    \[
+        D = \{ (\phi, \theta) \in \R^2 | 0 \leq \phi \leq \pi, 0 \leq \theta \leq 2 \pi \}    
+    \]
+    Since 
+    \begin{splitenv}
+        F^* x &= \sin \phi\, \cos \theta \\ 
+        F^* y &= \sin \phi\, \sin \theta \\ 
+        F^* z &= \cos \phi \\ 
+    \end{splitenv}
+    we have 
+    \[
+        F^* \dif y = \dif F^* y = \cos \phi \sin \theta \dif \phi + \sin \phi \cos \theta \dif \theta    
+    \]
+    and
+    \[
+        F^* \dif z = -\sin \phi \dif \phi    
+    \]
+    so for \(x \neq 0\)
+    \[
+        F^* \w = \frac{F^* \dif y \wedge F^* \dif z}{F^* x} = (\sin \phi) \dif \phi \wedge \dif \theta   
+    \]
+    For \(y \neq 0\) and \(z \neq 0\), similar calculations show that \(F^* \w\) is given by the same formula.
+    Therefore, \(F^* \w = \sin \phi \dif \phi \wedge \dif \theta\) everywhere on \(D\), and 
+    \begin{splitenv}
+        \int_{S^2} \w &= \int_D F^* \w \\ 
+        &= \int\limits_0^{2\pi} \int\limits_0^\pi \sin \phi \dif \phi \dif \theta \\
+        &= 2\pi \left[- \cos \phi \right]_0^\pi \\ 
+        &= 4 \pi
+    \end{splitenv}
+\end{example}
+\loadfig{sphericalcoordinates}
