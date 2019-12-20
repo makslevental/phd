@@ -3169,3 +3169,133 @@ For \(n \geq 2\), a chart \(U, \phi\) encodes
 A \(\cinf\) \newterm{manifold with boundary} is a topological manifold with boundary together with a maximal atlas.
 
 A point \(p \in M\) is called an \newterm{interior point} if in some chart \((U, \phi)\), the point \(\phi(p)\) is an interior point of \(\HH^n\).
+
+\subsection{Integration on Manifolds}
+
+The integral of an \(n\)-form with compact support in an open set of \(\R^n\) is defined to be the Riemann integral of the corresponding (corresponding to what???) function.
+Using a partition of unity, we define the integral of an \(n\)-form with compact support on a manifold by writing the form as a sum of forms each with compact support in a coordinate chart.
+We then prove the general Stokes theorem for an oriented manifold and show how it generalizes the fundamental theorem for line integrals as well as Green's theorem from calculus.
+
+\subsubsection{The Riemann Integral of a Function on \(\R^n\)}
+
+\begin{definition}{Volume}{}
+    The \newterm{volume} \(\operatorname{vol}(R)\) of the close rectangle 
+    \[
+        R = [a^1, b^1] \times \cdots \times [a^n, b^n]
+    \]
+    is defined 
+    \[
+        \operatorname{vol}(R) \coloneqq \prod_{i=1}^n (b^i - a^i)
+    \]
+\end{definition}
+\begin{definition}{extension of \(f\) by zero}{}
+    If \(f \colon \R^n \rightarrow \R\), then the \newterm{extension of \(f\) by zero} is the function \(\tilde{f} \colon \R^n \rightarrow \R\) such that 
+    \[
+        \tilde{f}(x) \coloneqq \begin{cases}
+            f(x) & \text{for } x\in A \\  
+            0 & \text{for } x\notin A 
+        \end{cases}    
+    \]
+\end{definition}
+Suppose \(f \colon A \rightarrow \R\) is a bounded function on a bounded set \(A\) in \(\R^n\).
+Enclose \(A\) in a closed rectange \(R\) and define the Riemann integral of \(f\) over \(A\) to be 
+\[
+    \int\limits_A  f(x) \dif x^1 \cdots \dif x^n \coloneqq \int\limits_R \tilde{f}(x)  \dif x^1 \cdots \dif x^n
+\]
+if the right-hand side exists. 
+In this way we can deal with the integral of a bounded function whose domain is an arbitrary bounded set in \(\R^n\).
+The volume \(\operatorname{vol}(A)\) of a subset \(A \subset \R^n\) is defined to be
+\[
+    \operatorname{vol}(A) \coloneqq \int\limits_A  1 \dif x^1 \cdots \dif x^n 
+\]
+if the integral exists.
+This concept generalizes the volume of a closed rectangle defined earlier.
+
+\subsubsection{Integrability Conditions}
+
+\begin{definition}{Measure zero}
+    A set \(A \subset \R^n\) is said to have \newterm{measure zero} if for every \(\varepsilon > 0\), there is countable cover \(\{ R_i \}_{i=1}^\infty\) of \(A\) by closed rectangles \(R_i\) such that \(\sum_i \operatorname{vol}(R_i) <\epsilon\).
+\end{definition}
+\begin{theorem}{Lebesgue's theorem}{}
+    A bounded function \(f \colon A \rightarrow \R\) on a bounded subset \(A \subset \R^n\) is Riemann integrable iff of discontinuities of the extended function \(\tilde{f}\) has measure zero.
+\end{theorem}
+\begin{proposition}{}{}
+    If a continuous \(f \colon A \rightarrow \R\) defined on an open subset \(U\) of \(\R^n\) has compact support, then \(f\) is Riemann integrable.
+\end{proposition}
+\begin{example}{}{}
+    The continuous function 
+    \[f(x) = \tan(\pi x/2) \colon (-1,1) \rightarrow \R\]
+    is defined on an open subset of finite length in \(\R\), but is not bounded.
+    The support of \(f\) is not compact. 
+    Thus, \(f\) does not satisfy the hypotheses of Lebesgue's theorem (and incidentally it is not Riemann integrable).
+\end{example}
+\begin{definition}{Domain of integration}{}
+    A subset \(A \subset \R^n\)  is called a \newterm{domain of integration} if it is bounded and its topological boundary is a set of measure zero.
+\end{definition}
+Examples of domains of integration include triangles, rectangles, and circular disks.
+\begin{proposition}{}{}
+    Every bounded continuous function defined on a domain of integration is Riemann integrable on that domain. 
+\end{proposition}
+
+\subsubsection{The integral of an \(n\)-Form on \(\R^n\)}
+
+Once a set of coordinates has been fixed on \(\R^n\), \(n\)-forms can be identified with functions on \(\R^n\) since every \(n\)-form can be written 
+\[
+    \w = f(x) \dif x^1 \wedge \cdots \wedge \dif x^n    
+\]
+\begin{definition}{}{}
+    Let \(\w = f(x) \dif x^1 \wedge \cdots \wedge \dif x^n\)  be a \(\cinf\) \(n\)-form on an open subset \(U \subset \R^n\), with standard coordinates \(x^1, \dots, x^n\).
+    Its \newterm{integral} over a subset \(A \subset U\) is defined to be the Riemann integral of \(f(x)\):
+    \[
+        \int\limits_A \w = \int\limits_A f(x) \dif x^1 \wedge \cdots \wedge \dif x^n \coloneqq \int\limits_A f(x) \dif x^1 \cdots \dif x^n
+    \]
+\end{definition}
+The integral 
+\[  
+    \int_A \w
+\]
+transforms under a change of variables according to the following.
+Let \(T \colon V \rightarrow U\) and \(y^1, \dots, y^n\) be the standard coordinates on \(V\).
+Then 
+\[
+    T^i \coloneqq x^i \circ T = T^*(x^i)    
+\]
+be the \(i\)th component of \(T\). 
+Assume \(U,V\) are both connected and write 
+\begin{splitenv}
+     x &= (x^1, \dots, x^n)\\ 
+     y &= (y^1, \dots, y^n)\\ 
+\end{splitenv}
+and denote by \(J(T)\) the Jacobian matrix \([\prt{T^i}{y^j}]\).
+Then by transformation of top forms under a coordinate transformation (Corollary 18.4 in Tu)
+\[
+    \dif T^1 \wedge \cdots \wedge \dif T^n = \det (J(T)) \dif T^1 \wedge \cdots \wedge \dif T^n
+\]
+Hence 
+\begin{splitenv}
+    \int_V T^* \w &= \int_V (T^* f) (T^* \dif x^1) \wedge \cdots \wedge (T^* \dif x^n) \quad \text{(Proposition 18.11)}\\ 
+    &= \int_V (f \circ T) \dif T^1 \wedge \cdots \wedge \dif T^n \quad \text{because }T^* \dif = \dif T^* \\ 
+    &= \int_V (f \circ T) \det (J(T)) \dif y^1 \wedge \cdots \wedge \dif y^n \\ 
+    &= \int_V (f \circ T) \det (J(T)) \dif y^1 \cdots \dif y^n 
+\end{splitenv}
+On the other hand, change of variable from calc gives 
+\[
+    \int_U \w = \int_U f  \dif x^1 \cdots \dif x^n  = \int_V (f \circ T) \abs{\det (J(T))}  \dif y^1 \cdots \dif y^n 
+\]
+Note the absolute value; these two formulae differ by the sign of \(\det J(T)\).
+Hence 
+\[
+    \int_V T^* \w = \pm \int_U \w    
+\]
+depending on whether \(\det J(T)\) is positive or negative.
+A diffeomorphism \(T\) is orientation preserving iff its Jacobian determinant is everywhere positive on the domain. 
+This shows that integrating a differential form is not invariant under all diffeomorphisms, but only under orientation-preserving diffeomorphisms.
+
+\subsubsection{Integral of a Differential Form over a Manifold}
+
+Our approach to integration over a general manifold has several distinguishing features
+\begin{enumerate}
+    \item The manifold must be oriented 
+    \item On a manifold of dimension \(n\), one can integrate only \(n\)-forms 
+    \item The \(n\)-forms must have compact support
+\end{enumerate}
