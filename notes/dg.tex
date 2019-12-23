@@ -3522,4 +3522,367 @@ If \(A\) is a parameterized set in \(M\) with parameterization \(F\) and \(\w\) 
         &= 4 \pi
     \end{splitenv}
 \end{example}
-\loadfig{sphericalcoordinates}
+% \loadfig{sphericalcoordinates}
+
+\subsubsection{Stokes' theorem}
+
+Let \(M\) be an oriented manifold of dimension \(n\) with boundary.
+We give its boundary \(\partial M\) the boundary orientation and let \(i \colon \partial M \hookrightarrow M \) be the inclusion map. 
+If \(\w\) is an \((n-1)\)-form on \(M\) we write 
+\[
+    \int_{\partial M} \w \equiv \int_{\partial M } i^* \w    
+\]
+
+Note that an \(n-1\)-form on \(M\) can't be integrated (because \(M\)) has dimension \(n\) but it can be integrated on \(\partial M\) (because it has dimension \(n-1\)).
+
+\begin{definition}{Stokes' Theorem}
+    For any smooth \((n-1)\)-form \(\w\) with compact support on the oriented \(n\)-dimensional manifold \(M\)
+    \[
+        \int_M \dif \w = \int_{\partial M} i^* \w = \int_{\partial M} \w
+    \]
+\end{definition}
+Note that \(\dif \w\) is an \(n\)-form.
+\begin{proof}
+    Choose an atlas \(\{ (U_\alpha, \phi_\alpha) \}\) for \(M\) in which each \(U_\alpha\) is diffeomorphic to either \(\R^n\) or \(\HH^n\) via an orientation-preserving diffeomorphism.
+    Let \(\{ \rho_\alpha \}\) be a \(\cinf\) partition of unity subordinate to \(\{ U_\alpha \}\).
+    Note that the \((n-1)\)-form \(\rho_\alpha\) has compact support on \(U_\alpha\).
+    Suppose Stokes' theorem holds for \(\R^n\) and \(\HH^n\).
+    Then it holds for all \(U_\alpha\) (since they're diffeomorphic to \(\R^n\) or \(\HH^n\)).
+    Also note that \((\partial M) \cap U_\alpha = \partial U_\alpha\).
+    Therefore
+    \begin{splitenv}
+        \int_{\partial M} \w &= \int_{\partial M } \sum_{\alpha} \rho_\alpha \w \quad \left( \sum_{\alpha} \rho_\alpha = 1 \right)\\ 
+        &= \sum_{\alpha} \int_{\partial M }  \rho_\alpha \w \quad \text{the sum is finite}\\ 
+        &= \sum_{\alpha} \int_{\partial U_\alpha }  \rho_\alpha \w \quad \text{support of $\rho_\alpha \w$ is in $U_\alpha$}\\ 
+        &= \sum_{\alpha} \int_{U_\alpha}  \dif\, (\rho_\alpha \w) \quad \text{Stokes' for $U_\alpha$}\\ 
+        &= \sum_{\alpha} \int_{M}  \dif\, (\rho_\alpha \w) \quad \text{support $\dif\, (\rho_\alpha \w)$ is in $U_\alpha$}\\ 
+        &=  \int_{M}  \dif\, \left(\sum_{\alpha}\rho_\alpha \w\right) \quad \text{sum is finite}\\ 
+        &=  \int_{M}  \dif\w
+    \end{splitenv}
+    Thus, it suffices to prove Stokes' for \(\R^n\) and \(\HH^n\). We give the proof for \(\HH^2\).
+    Let \(x,y\) be the coordinates on \(\HH^2\).
+    Then the standard orientation is given by \(\dif x \wedge \dif y\), and the boundary orientation is given by \[
+        \iota_{-\prt{}{y}} \dif x \wedge \dif y = \dif x    
+    \]
+    Define 
+    \[
+        \w = f(x,y) \dif x + g(x,y) \dif y    
+    \]
+    for \(\cinf\) functions \(f,g\) with compact support in \(\HH^2\).
+    Since the supports of \(f,g\) are compact we may choose a real number \(a > 0\) such that the supports are contained in the interior of the square 
+    \[
+        [-a, a] \times [0, a]
+    \]
+    Then 
+    \[
+        \dif \w = \left( \pdv{g}{x} - \pdv{f}{y} \right) \dif x \wedge \dif y    
+    \]
+    and 
+    \begin{splitenv}
+        \int_{\HH^2} \dif \w &= \int_{\HH^2} \pdv{g}{x} \dif x \dif y - \int_{\HH^2} \pdv{f}{y} \dif x \dif y\\ 
+        &= \int_0^a \int_{-a}^a \pdv{g}{x} \dif x \dif y - \int_0^a \int_{-a}^a  \pdv{f}{y} \dif x \dif y\\ 
+    \end{splitenv}
+    Note that 
+    \[
+        \int_{-a}^a \pdv{g}{x} \dif x = g(x,y)|_{x=-a}^{x=a} = 0
+    \]
+    because the support of \(g\) lies in the interior of \([-a, a] \times [0, a]\).
+    Similarly
+    \[
+        \int_{0}^a \pdv{f}{y} \dif y = f(x,y)|_{y=0}^{a} = -f(x,0)
+    \]
+    because \(f(x,a) = 0\).
+    Thus we have 
+    \[
+        \int_{\HH^2} \dif \w = \int_{-a}^a f(x,0) \dif x
+    \]
+    On the other hand, \(\partial \HH^2\) is the \(x\)-axis and so \(\dif y = 0\) on \(\partial \HH^2\).
+    It follows therefore that \(\w = f(x,0)\dif x\) when restricted to \(\partial \HH^2\) and so 
+    \[
+        \int_{\partial \HH^2} \w = \int_{-a}^{a} f(x,0) \dif x   
+    \]
+    and this proves \newterm{Stokes' theorem} for the upper half-plane.
+\end{proof}
+
+\subsection{De Rham Cohomology}
+
+By Stokes' theorem, the surface integral of a smooth vector field \(\bm{F}\) over an oriented surface \(S\) with boundary \(C\) in \(\R^3\) can be evaluated as an integral over the curve \(C\) if \(\bm{F}\) is the curl of another vector field.
+It is thus of interest to know whether a vector field in \(\R^3\) is the gradient of a function or is the curl of another vector field. 
+By the correspondence between vector fields and differential forms, this translates into whether a differential form \(\w\) on \(\R^3\) is exact. 
+Of course, a necessary condition is that the form \(\w\) is closed. 
+\textbf{It turns out that whether every closed form on a manifold is exact depends on the topology of the manifold}. 
+For example, on \(\R^2\) every closed \(k\)-form is exact for \(k > 0\), but on the punctured plane \(\R^2 - \{(0,0)\}\) there are closed 1-forms that are not exact.
+The extent to which closed forms are not exact is measure by the \newterm{de Rham cohomology}.
+
+Recall the 1-1 correspondence between vector fields and forms:
+\begin{splitenv}
+    \bm{F} = \langle P, Q \rangle &\leftrightarrow \w = P \dif x + Q \dif y \\  
+    \grad{f} = \langle f_x , f_y \rangle &\leftrightarrow \dif f = f_x \dif x + f_y \dif y \\ 
+    \curl{\bm{F}} = 0 &\leftrightarrow (Q_x - P_y) \dif x \wedge \dif y = 0
+\end{splitenv}
+In terms of differential forms the question above becomes: if the 1-form \(\w = P \dif x + Q \dif y\) is closed on \(U\), is it exact?
+A closed form is one whose exterior derivative is 0, and an exact form is the exterior derivative of another form (no potential terms hanging around).
+Note that since the boundary of a boundary is 0, every exact form is closed \(\dif (\dif \w) = 0\) (in general not every exact form is closed).
+Let \(Z^k(M)\) be the vector space of all closed \(\dif \w = 0\) forms and \(B^k(M)\) the vector space of all \(\tau = \dif \w\) exact forms on the manifold \(M\).
+Because every exact form is closed \(B^k (M)\subset Z^k(M)\).
+The quotient vector space 
+\[
+    H^k(M) \coloneqq \frac{Z^k(M)}{B^k(M)}    
+\]
+measures the extent to which closed \(k\)-forms fail to be exact, and is called the \newterm{de Rham cohomology of \(M\) in degree \(k\)}.
+The equivalence class of a closed form \(\w\) is called its \newterm{cohomology class} and denoted \([\w]\).
+Two closed forms in \(H^k(M)\) are considered the same if they differ by an exact form, i.e. 
+\begin{splitenv}
+    \w' \sim \w \iff \w' - \w &\in B^k(M)    \\ 
+    \w' - \w &= \dif \tau
+\end{splitenv}
+and are called \newterm{cohomologous}.
+\begin{proposition}{}{}
+    If the manifold \(M\) has \(r\) connected components, then its de Rham cohomology in degree 0 \(H^(M) = \R^r\). 
+    An element of \(H^0(M)\) is specified by an ordered \(r\)-tuple of real numbers, each real number representing a constant function onf a connected component of \(M\).
+\end{proposition}
+\begin{proof}
+     Since there are no nonzero exact 0-forms (they'd have to be the exterior derivative of a -1 form)
+     \[
+        H^0(M) = Z^0(M) = \{ \text{closed 0-form} \}    
+     \]
+     Suppose \(f\) is a closed \(0\)-form on \(M\); i.e. \(f\) is a \(\cinf\) function on \(M\) such that \(\dif f = 0\).
+     On any chart \(U, x^1, \dots, x^n\)
+     \[
+        \dif f = \sum \pdv{f}{x^i}\dif x^j    
+     \]
+     Thus, \(\dif f = 0\) iff all the partials are zero on \(U\). 
+     This in turn is equivalent to \(f\) being locally constant on \(U\).
+     Hence , the closed 0-forms on \(M\) are locally constant functions \(M\).
+     Such a function must be constant on each connected component of \(M\).
+     If \(M\) has \(r\) connected components, then a locally constant function can be specified as an \(r\)-tuple.
+     Thus, 
+     \[
+        Z^0(M) = \R^r
+     \]
+\end{proof}
+\begin{proposition}{}{}
+    On a manifold \(M\)  of dimension \(n\), the de Rham cohomology \(H^k(M)\) vanishes for \(k > n\).
+\end{proposition}
+\begin{proof}
+    At any point \(p \in M\) , the tangent space \(T_p M\) is a vector space of dimension \(n\).
+    If \(\w\) is a \(k\)-form on \(M\), then \(\w_p \ in A_k(T_p M)\), the space of alternating \(k\)-linear functions on \(T_p M\).
+    But if \(k > n\) then \(A_k(T_p M) =0\).
+    Hence, for \(k > n\), the only \(k\)-form on \(M\) is the zero form. 
+\end{proof}
+
+\begin{definition}{Immersion and Submersion}{}
+    A \(\cinf\) map \(F \colon N \rightarrow M\) is said to be an \newterm{immersion at \(p \in N\)} if its differential 
+    \[
+        F_{*,p} \colon T_p N \rightarrow T_{F(p)} M  
+    \]
+    is injective (i.e. on the tangent space).
+    Conversely \(F\) is called a \newterm{submersion at \(p\)} if \(F_{*,p}\) is surjective.
+\end{definition}
+
+\begin{definition}{Embedding}{}
+    A \(\cinf\) map \(f \colon N \rightarrow M\) is called an \newterm{embedding} if 
+    \begin{enumerate}
+        \item it is one to one and an immersion
+        \item the image \(f(N)\) with the subspace topology is homeomorphic to \(N\) under \(f\).
+    \end{enumerate}
+\end{definition}
+
+\begin{definition}{Immersed submanifold}{}
+    A \newterm{submanifold} is the image of any one-to-one immersion with the topology and differentiable structure inherited from \(f\).
+    Another name is \newterm{immersed submanifold}.
+\end{definition}
+
+\begin{proposition}{}{}
+    Let \(S \subset M\) be an immersed submanifold and \(i \colon S \hookrightarrow M\) the inclusion map and \(\w\) a 1-form on \(M\). 
+    Then \(i^* \w = \w |_S\).
+\end{proposition}
+\begin{proof}
+    For \(p \in S, v \in T_p S\) 
+    \[
+        (i^* \w)_p (v) = \w_{i(p)} (i_* v)
+    \]
+    where we use the definition of pullbacks to apply \(\w\) \textbf{at \(i(p)\)} to the vector that's the pushforward of \(v\) under \(i\).
+    Then 
+    \[
+        \w_{i(p)} (i_* v) = \w_p (v)
+    \]
+    since both \(i\) and \(i_*\) are inclusions. 
+    And finally 
+    \[
+        \w_p (v) = (\w |_S)_p (v)    
+    \]
+    by definition of the restriction of \(\w\) to \(S\).
+\end{proof}
+
+\begin{example}{A 1-form on the circle}{}
+    The velocity vector field of the unit circle parameterized by 
+    \[
+        c(t) = (x,y) = (\cos t, \sin t) \in \R^2
+    \]
+    is 
+    \[
+        c'(t) = (-\sin t, \cos t) = (-y, x)  
+    \]
+    Thus,
+    \[
+        X_{(x,y)} = -y \pdv{}{x} + x \pdv{}{y}    
+    \]
+    is a \(\cinf\) vector field on the unit circle \(S^1\).
+    What this means is if \(x,y\) are standard coordinates on \(\R^2\) and 
+    \[
+        i \colon S^1 \hookrightarrow \R^2    
+    \]
+    is the inclusion map, then at a point \(p \in (x,y) \in S^1\), one has the pushforward
+    \[
+        i_* X_p = -y \pdv{}{x} + x \pdv{}{y} \in T_p \R^2     
+    \]
+    We find a 1-form \(\w = a \dif x + b \dif y \in T_p^* S^1\) such that \(\w(X) \equiv 1\); here \(\w\) is viewed as a restriction to \(S^1\) of the 1-form on \(\R^2\):
+    \begin{splitenv}
+        \w(X) &= (a \dif x + b \dif y) \left( -y \pdv{}{x} + x \pdv{}{y} \right) \\
+        &= 1
+    \end{splitenv}
+    Since \(x^2 + y^2 = 1\) on \(S^1\), \(a=-y, b=x\) is a solution.
+    So \(\w = -y \dif x + x \dif x\) is such a 1-form.
+    Note that since \(\w(X) \equiv 1\), it is nowhere-vanishing on the circle.
+\end{example}
+\begin{example}{Pullback of a 1-form}{}
+    Let \(h \colon \R \rightarrow S^1 \subset \R^2\) be 
+    \[
+        h(t) = (x,y) = (\cos t, \sin t)    
+    \]
+    We compute the pullback of \(\w = -y \dif x + x \dif y \in T_p^* \R^2\) to \(S^1\), i.e. \(h^* \w\).
+    \begin{splitenv}
+        h^* (-y \dif x + x \dif y ) &= - (h^* y) \dif (h^* x) + (h^* x) \dif (h^* y) \\ 
+        &= -(\sin t) \dif (\cos t) + (\cos t) \dif (\sin t) \\ 
+        &= \sin^2 t \dif t + \cos^ t \dif t \\ 
+        &= \dif t
+    \end{splitenv}
+\end{example}
+
+\begin{proposition}{}{}
+    For \(k = 0,1\), under the pullback map
+    \[
+        h^* \colon \Omega^*(S^1) \rightarrow \Omega^*(\R)
+    \]
+    smooth \(k\)-forms on \(S^1\) are identified with smooth \(2\pi\)-periodic \(k\)-forms on \(\R\).
+\end{proposition}
+
+\begin{example}{De Rham cohomology of a circle}{}
+    Let \(S^1\) be the unit circle in the \(xy\)-plane.
+    Because \(S^1\) is connected \(H^0 (S^1) = \R\), and because \(S^1\) is one-dimensional \(H^k(S^1) = 0\) for \(k \geq 2\) (all higher dimensional forms are 0); it remains to compute \(H^1(S^1)\).
+
+    Let \(h(t) \coloneqq (\cos t, \sin t)\) and \(i \colon [0, 2\pi] \rightarrow \R\) be the (an?) inclusion map; restricting the domain of \(h\) to \([0,2\pi]\) gives a parameterization
+    \[
+        F \coloneqq h \circ i \colon [0,2\pi] \rightarrow S^1    
+    \]
+    With the above examples in mind 
+    \[
+        F^*\w = i^* (h^* \w) = i^* \dif t = \dif t   
+    \]
+    and thus 
+    \begin{splitenv}
+        \int\limits_{S^1} \w &= \int\limits_{F([0, 2\pi])} \w \\
+        &= \int\limits_{[0,2\pi]} F^* \w \\ 
+        &= \int_0^{2\pi} \dif t \\ 
+        &= 2 \pi
+    \end{splitenv}
+    Since the circle has dimension 1, all 1-forms on \(S^1\) are closed (again since higher dimensional forms are 0): 
+    \[
+      \Omega^1 (S^1) = Z^1 (S^1)
+    \]
+    Integration of 1-forms on \(S^1\) defines a linear map 
+    \begin{splitenv}
+        \phi \colon Z^1(S^1) = \Omega^1(S^1) &\rightarrow \R \\
+        \phi(\alpha) &= \int\limits_{S^1}\alpha
+    \end{splitenv}
+    Note that because \(\phi(\w) = 2\pi \neq 0\), the linear map is onto (just pick \(a \in \R\) and then \(\phi((a/2\pi)\cdot\w) = a\)).
+    By Stokes' theorem exact 1-forms on \(S^1\) are in \(\ker{\phi}\): exact 1-forms (\(\alpha = \dif \tau\) for some 0-form \(\tau\)) on \(S^1\) are the exterior derivatives of 0-forms on the bounardy of \(S^1\) 
+    \[
+        \int_{S^1} \alpha \equiv \int_{S^1} \dif \tau = \int_{\partial S^1} \tau     
+    \]
+    by Stokes.
+    But the boundary of \(S^1\) is empty so 
+    \[
+        \int_{S^1} \alpha = \int_{\partial S^1} \tau = \int_{\emptyset} \tau = 0   
+    \]
+
+    Conversely, we will show that all 1-forms in \(\ker{\phi}\) are exact and therefore establish an isomorphism \(H^1(S^1) \cong \R\).
+    Suppose \(\alpha = f \w\) is a smooth 1-form on \(S^1\) such that \(\phi(\alpha) = 0\) and let \(\bar{f} \coloneqq h^* f = f \circ h \in \Omega^0(\R)\) be the restriction of \(f\) to the circle. 
+    Then \(\bar{f}\) is \(2\pi\)-periodic and 
+    \begin{splitenv}
+        0 &= \int_{S^1} \alpha \\ 
+        &= \int\limits_{F([0,2\pi])} \alpha \\ 
+        &= \int\limits_{[0,2\pi]} F^* \alpha \\ 
+        &= \int\limits_{[0,2\pi]} (F^*f) (F^* \w) \\ 
+        &=\int\limits_{[0,2\pi]} ((i^* h^* f)(t)) \dif t \\  
+        &= \int_0^{2\pi} \bar{f}(t) \dif t
+    \end{splitenv}
+    \begin{lemma}{}{}
+        \(\bar{f} \dif t = \dif\bar{g}\) for some \(2\pi\)-periodic \(\bar{g}\) on \(\R\).
+    \end{lemma}
+    \begin{proof}
+       Define
+       \[
+            \bar{g} = \int_0^t \bar{f}(u)\dif u
+       \]
+       Since \(\int_0^{2\pi}\bar{f}(u)\dif u = 0\) and \(\bar{f}\) is \(2\pi\)-periodic 
+       \begin{splitenv}
+            \bar{g}(t+2\pi) &= \int_0^{2\pi}\bar{f}(u)\dif u +\int_{2\pi}^{t+2\pi}\bar{f}(u)\dif u \\
+            &= 0 +\int_{2\pi}^{t+2\pi}\bar{f}(u)\dif u \\
+            &=\int_{0}^{t}\bar{f}(u)\dif u \\
+            &= \bar{g}(t)
+       \end{splitenv}
+       Hence, \(\bar{g}\) is also \(2\pi\)-periodic on \(\R\) and 
+       \[
+            \dif g = \bar{g}'(t) \dif t = \bar{f}(t) \dif t 
+       \]
+    \end{proof}
+    Let \(\bar{g}\) be of the lemma and by the immediately preceding proposition \(\bar{g} = h^* g\) for some \(g\) on \(S^1\).
+    It follows that 
+    \[
+        \dif \bar{g} = \dif (h^* g) = h^* (\dif g)  
+    \]
+    On the other hand
+    \[
+        \bar{f}(t) \dif t = (h^* f)(h^* \w) = h^* (f \w) = h^* \alpha
+    \]
+    and since \(h^* \Omega^1(S^1) \rightarrow \Omega^1(\R)\) is injective \(\alpha = \dif g\).
+    This proves that the \(\ker{\phi}\) consists of exact forms.
+    Therefore \(\phi\) induces an isomorphism 
+    \[
+        H^1(S^1) = \frac{Z^1(S^1)}{B^1(S^1)} \cong \R   
+    \]
+\end{example}
+
+\subsubsection{Diffeomorphism Invariance}
+
+For any smooth map \(F \colon N \rightarrow M\) of manifolds, there is a \newterm{pullback map} \(F^* \colon \Omega^* \rightarrow \Omega^*(N)\) of differential forms.
+Moreover, the pullback commutes with the exterior derivatives (proposition 19.5 in Tu's book).
+\begin{lemma}{}{}
+    \(F^*\) sends closed forms to closed forms, and sends exact forms to exact forms.
+\end{lemma}
+It follows that \(F^*\) induces a linear map of quotient spaces 
+\begin{splitenv}
+    F^{\#} \colon \frac{Z^k(M)}{B^k(M)} &\rightarrow \frac{Z^k(N)}{B^k(N)} \\
+    F^{\#}([\w]) &= [F^*(\w)]
+\end{splitenv}
+This is a map in cohomology 
+\[
+    F^{\#} \colon H^k(M)\rightarrow H^k(N)
+\]
+called the \newterm{pullback map in cohomology}.
+
+Note that the \newterm{functorial properties} of \(F^*\) on forms yields the same functorial properties for \(F^{\#}\):
+\begin{enumerate}
+    \item If \(1_M\) is the identity map then \(1_M^{\#} \colon H^k(M) \rightarrow H^k(M)\) is also the identity map. 
+    \item If \(F \colon N \rightarrow M\) and \(G \colon M\rightarrow P\) are smooth maps, then 
+    \[
+        (G \circ F)^{\#} = F^{\#} \circ G^{\#}    
+    \]
+\end{enumerate}
+It follows from 1,2 that \((H^k(), F^{\#})\) is a \newterm{contravariant functior} from the \newterm{category} of \(\cinf\) manifolds and \(\cinf\) maps to the category of vectors spaces and linear maps. 
+By proposition 10.3 of Tu's book, if \(F\) is a diffeomorphism then \(F^{\#}\) is an isomorphism of vector spaces.
+The usual notation for \(F^{\#}\) is just the same \(F^*\).
+
+\subsubsection{The Ring structure on de Rham Cohomology}
