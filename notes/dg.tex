@@ -3886,3 +3886,89 @@ By proposition 10.3 of Tu's book, if \(F\) is a diffeomorphism then \(F^{\#}\) i
 The usual notation for \(F^{\#}\) is just the same \(F^*\).
 
 \subsubsection{The Ring structure on de Rham Cohomology}
+
+The wedge product on a manifold \(M\) gives the vector space \(\Omega^* (M)\) a product structure. 
+This product structure induces a product structure in cohomology: if \([\w] \in H^k(M)\) and \([\tau] \in H^\ell(M)\), define 
+\[
+    [\w] \wedge [\tau] \coloneqq [\w \wedge \tau] \in H^{k +\ell}(M)
+\]
+For the product to be well defined, we need to check that three things 
+\begin{enumerate}
+    \item \(\w \wedge \tau\) is a closed form 
+    \item \([\w \wedge \tau]\) is independent of the choice of representative for \([\tau]\). In other words, if \(\tau\) is replaced by a cohomologous form \(\tau' = \tau + \dif \sigma\), then in the equation 
+    \[
+        \w \wedge \tau' = \w \wedge \tau + \w \wedge \dif \sigma    
+    \]
+    we need to show that \(\w \wedge \dif \sigma\) is exact.
+    \item \([\w \wedge \tau]\) is independent of the choice of representative for \([\w]\).
+\end{enumerate}
+
+These all follow from the antiderivation property of \(\dif\).
+For example, in 1, since \(\w, \tau\) are both closed 
+\begin{splitenv}
+    \dif (\w \wedge \tau) &= (\dif \w) \wedge \tau + (-1)^k (\w \wedge \dif \tau)  \\ 
+    &= 0 \wedge \tau + (-1)^k (\w \wedge 0) \\    
+    &= 0
+\end{splitenv}
+and in 2 
+\begin{splitenv}
+    \dif (\w \wedge \sigma) &= (\dif \w) \wedge \sigma + (-1)^k (\w \wedge \dif \sigma) \\ 
+    &= (-1)^k (\w \wedge \dif \sigma)
+\end{splitenv}
+which shows that \(\w \wedge \dif \sigma\) is exact.
+
+If \(M\) is a manifold of dimension \(n\), we set 
+\[
+    H^* (M) \coloneqq \bigoplus_{k=0}^n H^k(M)   
+\]
+which means that \(\alpha \in H^* (M)\) is uniquely a finite sum of cohomology class in \(H^k(M)\) for various \(k\)s:
+\[
+    \alpha = \alpha_0 + \cdots + \alpha_n \quad \alpha_k \in H^k(M)    
+\]
+Elements of \(H^* (M)\) can be added and multiplied in the same one would add or multiply polynomials, except here multiplication is the wedge product. 
+Under addition and multiplication, \(H^* (M)\) satisfies all the properties of a \newterm{ring}, called the \newterm{cohomology ring of \(M\)}.
+The ring \(H^* (M)\) has a natural grading by the degree of a closed form.
+Recall that a ring \(A\) is graded if it can be written as a direct sum 
+\[
+    A = \bigoplus_{k=0}^\infty A^k    
+\]
+such that the ring multiplication 
+\[
+    \times \colon A^k \times A^\ell \mapsto A^{k + \ell}    
+\]
+A graded ring is said to \newterm{anticommutative} if for all \(a \in A^k\) and \(b \in A^\ell\)
+\[
+    a \cdot b = (-1)^{k \ell} b \cdot a    
+\]
+In this terminology, \(H^*(M)\) is an anticommutative graded ring. 
+\textbf{Since \(H^* (M)\) is also a real vector space, it is in fact an anticommutative graded algebra over \(\R\)}.
+
+Suppose \(F \colon N \rightarrow M\) is a \(\cinf\) map of manifolds. 
+Because \(F^*(\w \wedge \tau) = F^*\w \wedge F^* \tau\), the linear map \(F^* \colon H^*(M) \rightarrow H^*(N)\) is a \newterm{ring homomorphism}.
+
+To sum up, de Rham cohomology gives a contravariant functor from the category of \(\cinf\) manifolds to the category of anticommutative graded rings. 
+If \(M,N\) are diffeomorphic, then \(H^*(M), H^*(N)\) are isomorphic as anticommutative graded rings; in this way the de Rham cohomology becomes a powerful diffeomorphism invariant of \(\cinf\) manifolds.
+
+\subsubsection{The Long Exact Sequence in Cohomlolgy}
+
+A \newterm{cochain complex \(\mathcal{C}\)} is a collection of vector spaces \(\{C^k\}_{k \in \mathbb{Z}}\) together with a sequence of linear maps 
+\begin{splitenv}
+    \dif_k \colon C^k &\rightarrow C^{k+1} \\
+    \cdots \rightarrow C^{-1} \xrightarrow{\dif^{-1}} C^0 &\xrightarrow{\dif^0} C^1 \xrightarrow{\dif^1} C^2 \xrightarrow{\dif^2} \cdots
+\end{splitenv}
+such that 
+\[
+    \dif_k \circ \dif_{k-1} = 0    
+\]
+for all \(k\).
+We will call the collection of linear maps \(\{\dif_k\}\) the \newterm{differential of the cochain complex}.
+
+The vector space \(\Omega^*(M)\) of differential forms on a manifold \(M\) together with the exterior derivative \(\dif\) is a cochain complex, the \newterm{de Rham complex of \(M\)}:
+\begin{splitenv}
+    0 \rightarrow \Omega^0(M) \xrightarrow{\dif} \Omega^1(M) &\xrightarrow{\dif} \Omega^2(M) \xrightarrow{\dif} \cdots \\ 
+    \dif \circ \dif &= 0
+\end{splitenv}
+It turns out that many of the results on the de Rham cohomology of a manifold depend not on the topological properties of the manifold, but on the algebraic properties of the de Rham complex.
+To better understand de Rham cohomology, it is useful to isolate algebraic properties; we investigate the properties of a cochain complex that constitute the beginning of a subject known as \newterm{homologica algebra}.
+
+\subsubsection{Exact Sequences}
