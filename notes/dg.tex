@@ -3972,3 +3972,21 @@ It turns out that many of the results on the de Rham cohomology of a manifold de
 To better understand de Rham cohomology, it is useful to isolate algebraic properties; we investigate the properties of a cochain complex that constitute the beginning of a subject known as \newterm{homologica algebra}.
 
 \subsubsection{Exact Sequences}
+
+\begin{definition}
+    A sequence of homomorphisms of vector spaces 
+    \[
+        A \xrightarrow{f} B \xrightarrow{g} C
+    \] 
+    is said to be \newterm{exact at \(B\)} if \(\operatorname{im}f = \ker g\).
+    A sequence of homomorphisms 
+    \[
+        A^0 \xrightarrow{f_0} A^1 \xrightarrow{f_1} A^2 \xrightarrow{f_2} \cdots \xrightarrow{f_{n-1}} A^n    
+    \] 
+    that is exact at every term except the first and last is said to be an \newterm{exact sequence}.
+    A five-term sequence of the form 
+    \[
+        0 \rightarrow A \rightarrow B \rightarrow C \rightarrow 0    
+    \]
+    is said to be \newterm{short exact}.
+\end{definition}
